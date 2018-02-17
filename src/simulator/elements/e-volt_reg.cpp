@@ -58,11 +58,13 @@ void eVoltReg::setVChanged()
     
     if     ( outVolt > m_voltPos ) outVolt = m_voltPos;
     else if( outVolt < m_voltNeg ) outVolt = m_voltNeg;
-    //qDebug()<< outVolt <<m_lastOut;
-
-    if( fabs(outVolt-m_lastOut)<m_accuracy ) return;
+    //qDebug()<< inVolt<< outVolt <<m_lastOut;
     
-    m_lastOut = outVolt;
+    double outRealVolt = m_ePin[1]->getVolt();
+
+    if( fabs(outRealVolt-m_lastOut)<m_accuracy ) return;
+    
+    m_lastOut = outRealVolt;
     
     double current = (inVolt-outVolt)/m_resist;
     m_ePin[0]->stampCurrent( current );
