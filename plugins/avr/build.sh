@@ -3,9 +3,7 @@
 source ../../version
 
 BUILD_DIR=$PWD
-cd ../../dependencies 
-./build-simavr-$_ARCH
-
+#./build-simavr-$_ARCH
 
 cd $BUILD_DIR
 

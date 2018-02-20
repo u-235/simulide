@@ -1,3 +1,22 @@
+ ###########################################################################
+ #   Copyright (C) 2012   by santiago González                             #
+ #   santigoro@gmail.com                                                   #
+ #                                                                         #
+ #   This program is free software; you can redistribute it and/or modify  #
+ #   it under the terms of the GNU General Public License as published by  #
+ #   the Free Software Foundation; either version 3 of the License, or     #
+ #   (at your option) any later version.                                   #
+ #                                                                         #
+ #   This program is distributed in the hope that it will be useful,       #
+ #   but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+ #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+ #   GNU General Public License for more details.                          #
+ #                                                                         #
+ #   You should have received a copy of the GNU General Public License     #
+ #   along with this program; if not, see <http://www.gnu.org/licenses/>.  #
+ #                                                                         #
+ ###########################################################################
+
 TEMPLATE = lib
 
 CONFIG += plugin
@@ -47,7 +66,6 @@ CONFIG(debug, debug|release) {
 OBJECTS_DIR *= $$OUT_PWD/release
 MOC_DIR     *= $$OBJECTS_DIR
 INCLUDEPATH += $$OBJECTS_DIR
-#mkpath( build_$$_ARCH$$_BITS/release )
 
 INCLUDEPATH +=  ../../src \
                 ../../src/gui \
@@ -59,6 +77,7 @@ INCLUDEPATH +=  ../../src \
                 ../../src/gui/terminalwidget \
                 ../../src/gui/QPropertyEditor \
                 ../../src/gui/componentselector \
+                ../../src/gui/filebrowser \
                 ../../src/simulator \
                 ../../src/simulator/elements \
                 ../../src/simulator/elements/processors \
@@ -66,8 +85,6 @@ INCLUDEPATH +=  ../../src \
                 $${TARGET_PREFIX}/include
                 
 DESTDIR = $$TARGET_PREFIX/lib/simulide/plugins
-
-QMAKE_LFLAGS += "-L../../dependencies/build-$$_ARCH$$_BITS/lib"
 
 QMAKE_CFLAGS_SHLIB += -fpic
 QMAKE_CFLAGS_DEBUG += -O0
@@ -77,6 +94,13 @@ QMAKE_CXXFLAGS_RELEASE -= -O
 QMAKE_CXXFLAGS_RELEASE -= -O1
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS_RELEASE *= -O3
+QMAKE_CXXFLAGS += -Wno-unused-parameter
+QMAKE_CXXFLAGS += -Wno-missing-field-initializers
+QMAKE_CFLAGS += -Wno-unused-parameter
+QMAKE_CFLAGS += -Wno-missing-field-initializers
+QMAKE_CFLAGS += -Wno-implicit-function-declaration
+QMAKE_CFLAGS += -Wno-int-conversion
+QMAKE_CFLAGS += -Wno-sign-compare
 
 ComSpec=$$(ComSpec)
 
