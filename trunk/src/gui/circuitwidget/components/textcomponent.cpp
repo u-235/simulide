@@ -74,6 +74,7 @@ void TextComponent::updateGeometry(int, int, int)
 
 void TextComponent::setMargin( int margin )
 {
+    if( margin < 2 ) margin = 2;
     m_margin = margin;
     updateGeometry( 0, 0, 0 );
 }
