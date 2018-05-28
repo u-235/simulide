@@ -38,8 +38,6 @@ class PICComponent : public McuComponent
  static LibraryItem * libraryItem();
 
         int getRamValue( int address );
-        
-        virtual void setFreq( int freq );
 
     private:
         void attachPins();

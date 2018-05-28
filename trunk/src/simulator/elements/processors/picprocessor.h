@@ -61,6 +61,8 @@ class PicProcessor : public BaseProcessor
  
         virtual int  validate( int address );
         
+        int m_cpi;
+        
         pic_processor* m_pPicProcessor;
 
         bool m_DoneGpsimInit;
