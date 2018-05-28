@@ -122,7 +122,7 @@ void eBJT::setVChanged()
     {
         if(( m_Efollow == false)&( fabs(voltE) > 1e-3 ))
         {
-            if(( fabs(m_voltE) > 1e-3 )&( m_voltE != voltE )){m_Efollow = true;}
+            if(( fabs(m_voltE) > 1e-3 )&( m_voltE != voltE )){ m_Efollow = true; }
             m_voltE = voltE;
         }
         double satK = 0;
@@ -138,13 +138,16 @@ void eBJT::setVChanged()
         currentCE -= currentCE*satK;
         if( m_Efollow ) currentCE /= 2;
         
-        //qDebug()<<"m_baseCurr"<<m_baseCurr<<"    currentCE"<<currentCE<<"     maxCurrCE"<<maxCurrCE<<"     voltBE"<<voltBE;
-        if( currentCE > maxCurrCE ) 
+        //qDebug()<<"m_baseCurr"<<m_baseCurr<<"    currentCE"<<currentCE<<"     maxCurrCE"<<maxCurrCE<<"     voltBE"<<voltBE <<"    m_Efollow"<<m_Efollow;
+
+        if(( currentCE > maxCurrCE ) & ( m_Efollow == false) )
         {
             m_resist = voltCE/currentCE;
             eResistor::stamp();
         }
         current = maxCurrCE-currentCE;
+        if( current < 0 ) current = 0;
+
     }
     if( m_PNP ) current = -current;
 
