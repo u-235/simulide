@@ -75,9 +75,15 @@ bool PicProcessor::loadFirmware( QString fileN )
 
     if( !m_pPicProcessor )
     {
-        ProcessorConstructor *pc = ProcessorConstructorList::GetList()->findByType(device.constData());
-        Processor* p = pc->ConstructProcessor(device.constData());
-        m_pPicProcessor = dynamic_cast<pic_processor*>( p );
+        gpsimObject* psn = globalSymbolTable().find( device.constData() );
+
+        if( psn ) m_pPicProcessor = dynamic_cast<pic_processor*>( psn );
+        else
+        {
+            ProcessorConstructor *pc = ProcessorConstructorList::GetList()->findByType(device.constData());
+            Processor* p = pc->ConstructProcessor(device.constData());
+            m_pPicProcessor = dynamic_cast<pic_processor*>( p );
+        }
         
         if( !m_pPicProcessor )
         {
@@ -95,7 +101,25 @@ bool PicProcessor::loadFirmware( QString fileN )
         QMessageBox::warning( 0, tr("Unkown Error:"),  tr("Could not Load: \"%1\"").arg(m_symbolFile) );
         return false;
     }
-    qDebug() << "PicProcessor::loadFirmware      Device: " << m_pPicProcessor->name().c_str();
+    m_cpi = m_pPicProcessor->get_ClockCycles_per_Instruction();
+    
+    qDebug() << "\nPicProcessor::loadFirmware      Device: " << m_pPicProcessor->name().c_str();
+    
+    qDebug() << "    frequency=" << m_pPicProcessor->get_frequency();
+    qDebug() << "    Cycles_per_Instruction=" << m_cpi;
+    qDebug() << "    OSCperiod=" << m_pPicProcessor->get_OSCperiod();
+    qDebug() << "    instruction period=" << m_pPicProcessor->get_InstPeriod();
+    qDebug() << "    internal OSC=" << (m_pPicProcessor->get_int_osc() ? "true" : "false");
+    qDebug() << "    use PLLx4=" << (m_pPicProcessor->get_pplx4_osc() ? "true" : "false");
+    
+    QString tmr1Freq = m_device + ".tmr1_freq";
+    device = tmr1Freq.toLocal8Bit();
+    gpsimObject *tmr1 = globalSymbolTable().find( device.constData() );
+    Float *tmr1FreqVal = dynamic_cast<Float*>( tmr1 );
+    if (tmr1FreqVal) {
+        qDebug() << "    tmr1_freq=" << tmr1FreqVal->getVal();
+    }
+    
 
     m_lastTrmtBit = 0; // for usart
     
@@ -122,7 +146,13 @@ bool PicProcessor::loadFirmware( QString fileN )
 void PicProcessor::step()                 // Run 1 step 
 {
     if( !m_loadStatus ) return;
-    for( int k=0; k<m_mcuStepsPT; k++ ) m_pPicProcessor->step_cycle();
+    
+    int cycles = m_mcuStepsPT/m_cpi;
+
+    for( int k=0; k<cycles; k++ ) 
+    {
+        m_pPicProcessor->step_cycle();
+    }
 
     if( m_usartTerm ) readUsart();
 }
@@ -134,6 +164,9 @@ int PicProcessor::pc() { return m_pPicProcessor->pc->get_value(); }
 void PicProcessor::reset()
 {
     if( !m_loadStatus ) return;
+    
+    m_pPicProcessor->setBreakOnReset(false);
+
     m_pPicProcessor->reset( POR_RESET ); // POR_RESET  MCLR_RESET EXIT_RESET
 }
 

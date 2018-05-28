@@ -93,15 +93,6 @@ void PICComponent::addPin( QString id, QString type, QString label, int pos, int
     m_pinList.append( new PICComponentPin( this, id, type, label, pos, xpos, ypos, angle ) );
 }
 
-void PICComponent::setFreq( int freq )
-{ 
-    if     ( freq < 0  ) freq = 0;
-    else if( freq > 100 ) freq = 100;
-    
-    Simulator::self()->setMcuClock( freq/4 );
-    m_freq = freq; 
-}
-
 #include "moc_piccomponent.cpp"
 
 
