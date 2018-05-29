@@ -137,6 +137,34 @@ void CircuitView::keyReleaseEvent( QKeyEvent *event )
     QGraphicsView::keyReleaseEvent( event );
 }
 
+void CircuitView::mousePressEvent( QMouseEvent *event )
+{
+    if( event->button() == Qt::MidButton )
+    {
+        setDragMode( QGraphicsView::ScrollHandDrag );
+        
+        QMouseEvent eve( QEvent::MouseButtonPress, event->pos(), 
+        Qt::LeftButton, Qt::LeftButton, Qt::NoModifier   );
+
+        QGraphicsView::mousePressEvent( &eve );
+    }
+    QGraphicsView::mousePressEvent( event );
+}
+
+void CircuitView::mouseReleaseEvent(QMouseEvent *event )
+{
+    if( event->button() == Qt::MidButton )
+    {
+        setDragMode( QGraphicsView::RubberBandDrag );
+        
+        QMouseEvent eve( QEvent::MouseButtonRelease, event->pos(), 
+        Qt::LeftButton, Qt::LeftButton, Qt::NoModifier   );
+
+        QGraphicsView::mouseReleaseEvent( &eve );
+    }
+    QGraphicsView::mouseReleaseEvent( event );
+}
+
 void CircuitView::contextMenuEvent(QContextMenuEvent* event)
 {
     QGraphicsView::contextMenuEvent( event );
