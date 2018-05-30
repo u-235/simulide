@@ -150,6 +150,10 @@ void Circuit::saveState()
     circuitToDom();
     m_undoStack.append( new QDomDocument() );
     m_undoStack.last()->setContent( m_domDoc.toString() );
+    
+    QString title = MainWindow::self()->windowTitle();
+    if (!title.endsWith('*'))
+        MainWindow::self()->setWindowTitle(title+'*');
 }
 
 /*void Circuit::setChanged()
@@ -556,9 +560,6 @@ void Circuit::listToDom( QDomDocument* doc, QList<Component*>* complist )
             root.appendChild(pin);
         }
     }
-    QString title = MainWindow::self()->windowTitle();
-    if (!title.endsWith('*'))
-        MainWindow::self()->setWindowTitle(title+'*');
 }
 
 void Circuit::circuitToDom()
