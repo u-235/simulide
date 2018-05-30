@@ -70,6 +70,7 @@ class MAINMODULE_EXPORT Hd44780 : public Component, public eElement
         QImage m_fontImg;                  //Characters image
 
         int m_DDram[80];                   //80 DDRAM
+        int m_CGram[64];                   //64 CGRAM
         
         int m_rows;
         int m_cols;
@@ -95,6 +96,7 @@ class MAINMODULE_EXPORT Hd44780 : public Component, public eElement
         int m_blinkStep;
         
         bool m_lastClock;
+        bool m_writeDDRAM;
 
         //Inputs
         Pin* m_pinRS;
