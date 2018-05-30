@@ -35,6 +35,8 @@ MainWindow::MainWindow()
     m_pSelf   = this;
     m_circuit = 0l;
     m_version = "SimulIDE-"+QString(APP_VERSION);
+    
+    this->setWindowTitle(m_version);
 
     QString userAddonPath = SIMUAPI_AppPath::self()->RWDataFolder().absoluteFilePath("addons");
 
@@ -46,13 +48,22 @@ MainWindow::MainWindow()
     readSettings();
     
     loadPlugins();
-
-    this->setWindowTitle(m_version);
 }
 MainWindow::~MainWindow(){ }
 
-void MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow::closeEvent( QCloseEvent *event )
 {
+    if( windowTitle().endsWith('*') )
+    {
+        const QMessageBox::StandardButton ret
+        = QMessageBox::warning(this, tr("Application"),
+                               tr("Circuit has been modified.\n"
+                                  "Do you want to save your changes?"),
+                               QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+                               
+        if(ret == QMessageBox::Save ) m_circuit->saveCirc();
+        else if(ret == QMessageBox::Cancel ) { event->ignore(); return; }
+    }
     CircuitWidget::self()->newCircuit();
     writeSettings();
     event->accept();

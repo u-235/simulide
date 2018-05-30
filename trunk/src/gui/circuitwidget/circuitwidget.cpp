@@ -66,6 +66,8 @@ CircuitWidget::CircuitWidget( QWidget *parent  )
     QString appPath = QCoreApplication::applicationDirPath();
     
     if( m_lastCircDir.isEmpty() )  m_lastCircDir = appPath + "/examples/Arduino/Voltimeter/voltimeter.simu";
+    
+    newCircuit();
 }
 CircuitWidget::~CircuitWidget() { }
 
@@ -132,8 +134,8 @@ void CircuitWidget::newCircuit()
     
     clear();
     m_curCirc = "";
-    
-    MainWindow::self()->setTitle("New Circuit*");
+
+    MainWindow::self()->setTitle("New Circuit");
     MainWindow::self()->settings()->setValue( "lastCircDir", m_lastCircDir );
 }
 
