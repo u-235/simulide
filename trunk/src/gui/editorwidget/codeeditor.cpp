@@ -31,9 +31,17 @@
 #include "mcucomponent.h"
 #include "simuapi_apppath.h"
 
+bool  CodeEditor::m_showSpaces = false;
+bool  CodeEditor::m_spaceTabs  = false;
+int   CodeEditor::m_fontSize = 9;
+int   CodeEditor::m_tabSize = 4;
+QFont CodeEditor::m_font;
+
 CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTable ) 
         : QPlainTextEdit( parent )
 {
+    setObjectName( "Editor" );
+    
     m_outPane   = outPane;
     m_ramTable  = ramTable;
     m_lNumArea  = new LineNumberArea( this );
@@ -47,35 +55,17 @@ CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTab
     m_isCompiled= false;
     m_debugging = false;
     
-    int fontSize = 9;
-    int tabSize  = 4;
-/*    QStringList lines = fileToStringList( SIMUAPI_AppPath::self()->availableDataFilePath("codeeditor/config"), //m_appPath+"/data/codeeditor/config"
-                "CodeEditor::CodeEditor" );
-
+    m_font.setFamily("Monospace");
+    m_font.setFixedPitch( true );
+    m_font.setPointSize( m_fontSize );
+    setFont( m_font );
     
-    foreach( QString line, lines )  // Get path to gcbasic executable
-    {
-        if( line.startsWith("#") ) continue;
-        
-        if( line.contains("font_Size:") )
-            fontSize = line.remove("font_Size:").remove(" ").toInt();
-            
-        if( line.contains("tabSize:") )
-            tabSize = line.remove("tabSize:").remove(" ").toInt();
-    }*/
-    QFont font;
-    font.setFamily("Monospace");
-    font.setFixedPitch(true);
-    font.setPointSize( fontSize );
-    setFont(font);
-    
-    int fontWidth = QFontMetrics(font).averageCharWidth();
-    setTabStopWidth( tabSize * fontWidth );
+    setTabSize( m_tabSize );
     
     QPalette p = palette();
-    p.setColor(QPalette::Base, QColor( 255, 255, 245) );
-    p.setColor(QPalette::Text, QColor( 0, 0, 0));
-    setPalette(p);
+    p.setColor( QPalette::Base, QColor( 255, 255, 245) );
+    p.setColor( QPalette::Text, QColor( 0, 0, 0) );
+    setPalette( p );
 
     setupDebugTimer();
 
@@ -552,6 +542,81 @@ void CodeEditor::lineNumberAreaPaintEvent( QPaintEvent *event )
         top = bottom;
         ++blockNumber;
     }
+}
+
+void CodeEditor::focusInEvent( QFocusEvent* event)
+{
+    QPropertyEditorWidget::self()->setObject( this );
+    if( m_debugger ) QPropertyEditorWidget::self()->addObject( m_debugger );
+    QPlainTextEdit::focusInEvent( event );
+}
+
+int CodeEditor::fontSize()
+{
+    return m_fontSize;
+}
+void CodeEditor::setFontSize( int size )
+{
+    m_fontSize = size;
+    m_font.setPointSize( size );
+    setFont( m_font );
+    setTabSize( m_tabSize );
+}
+
+int CodeEditor::tabSize()
+{
+    return m_tabSize;
+}
+void CodeEditor::setTabSize( int size )
+{
+    m_tabSize = size;
+    setTabStopWidth( m_tabSize*m_fontSize*2/3 );
+}
+
+bool CodeEditor::showSpaces()
+{
+    return m_showSpaces;
+}
+void CodeEditor::setShowSpaces( bool on )
+{
+    m_showSpaces = on;
+    
+    QTextOption option =  document()->defaultTextOption();
+    
+    if( on ) option.setFlags(option.flags() | QTextOption::ShowTabsAndSpaces);
+    else     option.setFlags(option.flags() & ~QTextOption::ShowTabsAndSpaces);
+    
+    //option.setFlags(option.flags() | QTextOption::AddSpaceForLineAndParagraphSeparators);*/
+    document()->setDefaultTextOption(option);
+}
+
+bool CodeEditor::spaceTabs()
+{
+    return m_spaceTabs;
+}
+void CodeEditor::setSpaceTabs( bool on )
+{
+    m_spaceTabs = on;
+}
+
+void CodeEditor::keyPressEvent( QKeyEvent* event )
+{
+    if( event->key() == Qt::Key_Plus && (event->modifiers() & Qt::ControlModifier) )
+    {
+        setFontSize( m_fontSize+1 );
+    }
+    else if( event->key() == Qt::Key_Minus && (event->modifiers() & Qt::ControlModifier) )
+    {
+        setFontSize( m_fontSize-1 );
+    }
+    else if( m_spaceTabs && (event->key() == Qt::Key_Tab)  )
+    {
+        QString spaces;
+        for( int i=0; i<m_tabSize; i++) spaces += " ";
+
+        insertPlainText( spaces );
+    }
+    else QPlainTextEdit::keyPressEvent( event );
 }
 
 

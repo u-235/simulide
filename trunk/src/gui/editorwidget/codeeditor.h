@@ -38,10 +38,27 @@ class LineNumberArea;
 class CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
+    //Q_PROPERTY( bool   centerOnScroll   READ centerOnScroll    WRITE setCenterOnScroll  DESIGNABLE true USER true )
+    Q_PROPERTY( int  Font_Size   READ fontSize    WRITE setFontSize   DESIGNABLE true USER true )
+    Q_PROPERTY( int  Tab_Size    READ tabSize     WRITE setTabSize    DESIGNABLE true USER true )
+    Q_PROPERTY( bool Spaces_Tabs READ spaceTabs   WRITE setSpaceTabs  DESIGNABLE true USER true )
+    Q_PROPERTY( bool Show_Spaces READ showSpaces  WRITE setShowSpaces DESIGNABLE true USER true )
 
     public:
         CodeEditor( QWidget *parent, OutPanelText *outPane, RamTable *ramTable );
         ~CodeEditor();
+        
+        int fontSize();
+        void setFontSize( int size );
+        
+        int tabSize();
+        void setTabSize( int size );
+        
+        bool showSpaces();
+        void setShowSpaces( bool on );
+        
+        bool spaceTabs();
+        void setSpaceTabs( bool on );
 
         void setFile(const QString &filePath);
         QString getFilePath();
@@ -74,6 +91,8 @@ class CodeEditor : public QPlainTextEdit
 
     protected:
         void resizeEvent(QResizeEvent *event);
+        void focusInEvent( QFocusEvent* );
+        void keyPressEvent( QKeyEvent* event );
 
     private slots:
         void updateLineNumberAreaWidth(int newBlockCount);
@@ -116,6 +135,12 @@ class CodeEditor : public QPlainTextEdit
         QTimer m_timer;
         int m_timerTick;
         int m_stepsPT;
+        
+ static bool  m_showSpaces;
+ static bool  m_spaceTabs;
+ static int   m_fontSize;
+ static int   m_tabSize;
+ static QFont m_font;
 };
 
 
@@ -140,3 +165,4 @@ class LineNumberArea : public QWidget
 };
 
 #endif
+
