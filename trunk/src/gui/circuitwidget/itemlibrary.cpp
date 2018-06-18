@@ -36,6 +36,7 @@
 #include "dectobcd.h"
 #include "demux.h"
 #include "diode.h"
+#include "ellipse.h"
 #include "flipflopd.h"
 #include "flipflopjk.h"
 #include "fulladder.h"
@@ -53,6 +54,7 @@
 #include "latchd.h"
 #include "led.h"
 #include "ledbar.h"
+#include "line.h"
 #include "logicinput.h"
 #include "mosfet.h"
 #include "mux.h"
@@ -65,6 +67,7 @@
 #include "potentiometer.h"
 #include "push.h"
 #include "rail.h"
+#include "rectangle.h"
 #include "relay-spst.h"
 #include "resistor.h"
 #include "resistordip.h"
@@ -169,6 +172,9 @@ void ItemLibrary::loadItems()
     addItem( SubCircuit::libraryItem() );
     // Other
     addItem( TextComponent::libraryItem() );
+    addItem( Rectangle::libraryItem() );
+    addItem( Ellipse::libraryItem() );
+    addItem( Line::libraryItem() );
 }
 
 void ItemLibrary::addItem( LibraryItem* item )
