@@ -4,7 +4,7 @@
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 3 of the License, or     *
+ *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
@@ -37,6 +37,7 @@ eDiode::~eDiode()
 void eDiode::initialize()
 {
     m_resist = high_imp;
+    m_admit = 1/high_imp;
     m_converged = true;
     m_voltPN  = 0;
     m_deltaV  = 0;
@@ -50,32 +51,44 @@ void eDiode::initialize()
 void eDiode::setVChanged()
 {
     m_voltPN = m_ePin[0]->getVolt()-m_ePin[1]->getVolt();
-    m_converged = true;
+    /*if( m_converged )
+    {
+        m_converged = false;
+        m_admit = 1e-9;
+        eResistor::stamp();
+        m_ePin[0]->stampCurrent( 0 );
+        m_ePin[1]->stampCurrent( 0 );
+    }*/
+    
     
     //if( abs(m_voltPN) < 1e-9 ) m_voltPN = 0;
 
+    double admit = 1/m_imped;
     double deltaR = m_imped;
     double deltaV = m_threshold;
 
     if( m_voltPN <= m_threshold )   // Not conducing
     {
-        if( (m_zenerV > 0)&(m_voltPN <-m_zenerV) )
+        if( (m_zenerV > 0)&&(m_voltPN <-m_zenerV) )
             deltaV =-m_zenerV;
         else                        
         {
             deltaV = m_voltPN;
             deltaR = high_imp;
+            admit = 1e-9;
         }
     }
-    //qDebug() <<"eDiode::setVChanged,  deltaR: "<< deltaR << "  deltaV" << deltaV << "m_voltPN" << m_voltPN ;
+    //qDebug() <<"eDiode::setVChanged,  deltaR: "<< deltaR << "  deltaV" << deltaV << "m_voltPN" << m_voltPN<<m_threshold<<m_imped ;
+    //qDebug() <<"eDiode::setVChanged : "<< (m_voltPN==m_threshold);
 
     if( deltaR != m_resist )
     {
         m_resist = deltaR;
+        m_admit = admit;
         eResistor::stamp();
-        m_converged = false;
+        //m_converged = false;
     }
-    if( deltaV != m_deltaV )
+    //if( fabs(deltaV - m_deltaV) > 1e-18 ) 
     {
         m_deltaV = deltaV;
 
@@ -84,6 +97,7 @@ void eDiode::setVChanged()
         m_ePin[0]->stampCurrent( current );
         m_ePin[1]->stampCurrent(-current );
     }
+    //else m_converged = true;
 }
 
 void eDiode::setThreshold( double threshold )
@@ -130,7 +144,7 @@ void eDiode::updateVI()
         if( volt>0 )
         {
             m_current = volt/m_resist;
-            //qDebug() << " current " <<m_current<<volt<<m_deltaV;
+            //qDebug() << " current " <<m_current<<volt<<m_voltPN<<m_deltaV;
         }
     }
     else m_current = 0;
