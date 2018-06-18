@@ -62,6 +62,8 @@ static  bool  m_oscopeBusy;
         void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
     private:
+ static QString* m_helpStatic;
+ 
         double m_voltIn;
         double m_voltTrig;
 
