@@ -141,10 +141,8 @@ void eBJT::setVChanged()
         //qDebug()<<"m_baseCurr"<<m_baseCurr<<"    currentCE"<<currentCE<<"     maxCurrCE"<<maxCurrCE<<"     voltBE"<<voltBE <<"    m_Efollow"<<m_Efollow;
 
         if(( currentCE > maxCurrCE ) & ( m_Efollow == false) )
-        {
-            m_resist = voltCE/currentCE;
-            eResistor::stamp();
-        }
+            eResistor::setRes( voltCE/currentCE );
+
         current = maxCurrCE-currentCE;
         if( current < 0 ) current = 0;
 

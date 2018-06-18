@@ -39,36 +39,12 @@ void CircMatrix::createMatrix( QList<eNode*> &eNodeList, QList<eElement*> &eleme
     m_numEnodes = eNodeList.size();
 
     m_circMatrix.clear();
-    m_nodeVolt.clear();
     m_coefVect.clear();
-    
-    a.clear();
-    b.clear();
-    ipvt.clear();
 
-    m_circMatrix.resize( m_numEnodes , std::vector<double>( m_numEnodes , 0 ) );
-    m_nodeVolt.resize( m_numEnodes , 0 );
+    m_circMatrix.resize( m_numEnodes , d_vector_t( m_numEnodes , 0 ) );
     m_coefVect.resize( m_numEnodes , 0 );
     
-    
-    a.resize( m_numEnodes , std::vector<double>( m_numEnodes , 0 ) );
-    b.resize( m_numEnodes , 0 );
-    ipvt.resize( m_numEnodes , 0 );
-    
-    // Initialize Matrixs & Vectors
-    for( int i=0; i<m_numEnodes; i++ )
-    {
-        for( int j=0; j<m_numEnodes; j++ )
-        {
-             m_circMatrix[i][j] = 0;
-             a[i][j] = 0;
-         }
-        m_coefVect[i] = 0;
-        m_nodeVolt[i] = 0;
-        ipvt[i] = 0;
-        b[i] = 0;
-    }
-    
+    m_circChanged  = true;
     m_admitChanged = false;
     m_currChanged  = false;
     
@@ -88,127 +64,214 @@ void CircMatrix::createMatrix( QList<eNode*> &eNodeList, QList<eElement*> &eleme
 
 void CircMatrix::stampMatrix( int row, int col, double value )
 {
-    if(( row == 0 )|( col == 0 )) return;
-    //std::cout <<"CircMatrix::stampMatrix "<< "  Row: "<< row<< "  Col: " << col << value <<std::endl;
     m_admitChanged = true;
+    
     m_circMatrix[row-1][col-1] = value;      // eNode numbers start at 1
 }
 
 void CircMatrix::stampCoef( int row, double value )
 {
-    if( row == 0 ) return;
     m_currChanged = true;
+    
     m_coefVect[row-1] = value;
-    //std::cout<<"\n row: "<<row <<  "value:"<< value<<std::endl;
-    //std::cout<< "coefs:\n" << m_coefVect << std::endl;
+}
+
+void CircMatrix::addConnections( int enodNum, QList<int>* nodeGroup )
+{
+    if( !nodeGroup->contains( enodNum ) )  nodeGroup->append( enodNum );
+    
+    eNode* enod = m_eNodeList->at( enodNum-1 );
+    
+    QList<int> cons = enod->getConnections();
+    
+    foreach( int nodeNum, cons ) 
+    {
+        if( nodeNum == 0 ) continue;
+        if( !nodeGroup->contains( nodeNum ) ) 
+        {
+            nodeGroup->append( nodeNum );
+            addConnections( nodeNum, nodeGroup );
+        }
+    }
 }
 
 bool CircMatrix::solveMatrix()
 {
     if( !m_admitChanged && !m_currChanged ) return true;
-    //if(!m_admitChanged )
-    //qDebug() <<"---------" << m_admitChanged << m_currChanged;
 
-    int n = m_numEnodes;
+    bool isOk = true;
 
-    if( m_admitChanged )      // Only factor admitance matrix if changed
+    if( m_circChanged )          // Split Circuit into unconnected parts
     {
+        QList<int> allNodes;
+        
+        for( int i=0; i<m_numEnodes; i++ )         // Reset single Nodes
+        {
+            eNode* enode = m_eNodeList->at(i);
+            
+            if( enode->isSingle() ) enode->setSingle( false );
+
+            allNodes.append( i+1 );
+        }
+        m_aList.clear();
+        m_aFaList.clear();
+        m_bList.clear();
+        m_ipvtList.clear();
+        m_eNodeActList.clear();
+        int group = 0;
+        
+        while( !allNodes.isEmpty() ) // Get a list of groups of nodes interconnected
+        {
+            QList<int> nodeGroup;
+            addConnections( allNodes.first(), &nodeGroup ); // Get a group of nodes interconnected
+            
+            foreach( int num, nodeGroup ) allNodes.removeOne(num);
+            
+            int numEnodes = nodeGroup.size();
+            if( numEnodes==1 )           // Sigle nodes do by themselves
+            {
+                eNode* enod = m_eNodeList->at( nodeGroup[0]-1 );
+                enod->setSingle( true );
+                enod->solveSingle();
+            }
+            else
+            {
+                dp_matrix_t a;
+                d_matrix_t ap;
+                dp_vector_t b;
+                i_vector_t ipvt;
+                QHash<int, eNode*> eNodeActive;
+                
+                a.resize( numEnodes , dp_vector_t( numEnodes , 0 ) );
+                ap.resize( numEnodes , d_vector_t( numEnodes , 0 ) );
+                b.resize( numEnodes , 0 );
+                ipvt.resize( numEnodes , 0 );
+
+                int ny=0;
+                for( int y=0; y<m_numEnodes; y++ )    // Copy data to reduced Matrix
+                {
+                    if( !nodeGroup.contains( y+1 ) ) continue;
+                    int nx=0;
+                    for( int x=0; x<m_numEnodes; x++ )      
+                    {
+                        if( !nodeGroup.contains( x+1 ) ) continue;
+                        a[nx][ny] = &(m_circMatrix[x][y]);
+                        nx++;
+                    }
+                    b[ny] = &(m_coefVect[y]);
+                    eNodeActive[ny] = m_eNodeList->at( y );
+                    ny++;
+                }
+                m_aList.append( a );
+                m_aFaList.append( ap );
+                m_bList.append( b );
+                m_ipvtList.append( ipvt );
+                m_eNodeActList.append( eNodeActive );
+                m_eNodeActive = eNodeActive;
+                
+                factorMatrix( m_aList[group], m_ipvtList[group], ny, group );
+                isOk &= luSolve( m_aFaList[group], m_bList[group], m_ipvtList[group], ny );
+
+                group++;
+            }
+        }
+        m_circChanged  = false;
+        //qDebug() <<"groups:"<<group;
+    }
+    else
+    {
+        for( int i=0; i<m_bList.size(); i++ )
+        {
+            m_eNodeActive   = m_eNodeActList[i];
+            int n = m_eNodeActive.size();
+
+            if( m_admitChanged ) factorMatrix( m_aList[i], m_ipvtList[i], n, i );
+
+            isOk &= luSolve( m_aFaList[i], m_bList[i], m_ipvtList[i], n );
+        }
+    }
+    m_currChanged  = false;
+    m_admitChanged = false;
+    return isOk;
+}
+
+void CircMatrix::factorMatrix( dp_matrix_t& ap, i_vector_t& ipvt, int n, int group  )
+{
     // factors a matrix into upper and lower triangular matrices by
     // gaussian elimination.  On entry, a[0..n-1][0..n-1] is the
     // matrix to be factored.  ipvt[] returns an integer vector of pivot
-    // indices, used in the lu_solve() routine.
-
-        a = m_circMatrix;                                 // Copy matrix
-        
-        double scaleFactors[n];
-        int i,j,k;
-
-        // divide each row by its largest element, keeping track of the scaling factors
-        for( i=0; i<n; i++ )
-        {
-            double largest = 0;
-            for( j=0; j<n; j++ )
-            {
-                double x = std::fabs( a[i][j] );
-                if( x > largest ) largest = x;
-            }
-            // if all zeros, it's a singular matrix
-            if( largest == 0 ) return false;
-            scaleFactors[i] = 1.0/largest;
-        }
-
-        // use Crout's method; loop through the columns
-        for( j=0; j<n; j++ )
-        {
-            // calculate upper triangular elements for this column
-            for( i=0; i<j; i++ )
-            {
-                double q = a[i][j];
-                for( k=0; k<i; k++ ) q -= a[i][k]*a[k][j];
-
-                a[i][j] = q;
-            }
-
-            // calculate lower triangular elements for this column
-            double largest = 0;
-            int largestRow = -1;
-            for( i=j; i<n; i++ )
-            {
-                double q = a[i][j];
-                for( k=0; k<j; k++ ) q -= a[i][k]*a[k][j];
-
-                a[i][j] = q;
-                double x = std::fabs( q );
-                if( x >= largest )
-                {
-                    largest = x;
-                    largestRow = i;
-                }
-            }
-
-            if( j != largestRow ) // pivoting
-            {
-                double x;
-                for( k=0; k<n; k++ )
-                {
-                    x = a[largestRow][k];
-                    a[largestRow][k] = a[j][k];
-                    a[j][k] = x;
-                }
-                scaleFactors[largestRow] = scaleFactors[j];
-            }
-
-            ipvt[j] = largestRow;      // keep track of row interchanges
-
-            if( a[j][j] == 0.0 ) a[j][j]=1e-18;           // avoid zeros
-
-            if( j != n-1 )
-            {
-                double mult = 1.0/a[j][j];
-                for( i=j+1; i<n; i++ ) a[i][j] *= mult;
-            }
-        }
-    }
+    // indices, used in the solve routine.
     
-    
-/*for( int i=0; i<m_numEnodes; i++ )
-{
-    for( int j=0; j<m_numEnodes; j++ )
+    d_matrix_t a = m_aFaList.at(group);
+    for( int i=0; i<n; i++ )
     {
-        std::cout << a[i][j] <<"\t";
+        for( int j=0; j<n; j++ )
+        {
+             a[i][j] = *(ap[i][j]);             
+             //qDebug() << m_circMatrix[i][j];
+        }
     }
-    std::cout << "\t";
-    std::cout << m_coefVect[i]<< std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-}*/
     
-    
-// Solves the set of n linear equations using a LU factorization
-// previously performed by solveMatrix.  On input, b[0..n-1] is the right
-// hand side of the equations, and on output, contains the solution.
+    int i,j,k;
 
-    b = m_coefVect;                                       // Copy vector
+    for( j=0; j<n; j++ ) // use Crout's method; loop through the columns
+    {
+        for( i=0; i<j; i++ ) // calculate upper triangular elements for this column
+        {
+            double q = a[i][j];
+            for( k=0; k<i; k++ ) q -= a[i][k]*a[k][j];
+
+            a[i][j] = q;
+        }
+                           // calculate lower triangular elements for this column
+        double largest = 0;
+        int largestRow = -1;
+        for( i=j; i<n; i++ )
+        {
+            double q = a[i][j];
+            for( k=0; k<j; k++ ) q -= a[i][k]*a[k][j];
+
+            a[i][j] = q;
+            double x = std::fabs( q );
+            if( x >= largest )
+            {
+                largest = x;
+                largestRow = i;
+            }
+        }
+
+        if( j != largestRow ) // pivoting
+        {
+            double x;
+            for( k=0; k<n; k++ )
+            {
+                x = a[largestRow][k];
+                a[largestRow][k] = a[j][k];
+                a[j][k] = x;
+            }
+        }
+        ipvt[j] = largestRow;      // keep track of row interchanges
+
+        if( a[j][j] == 0.0 ) a[j][j]=1e-18;           // avoid zeros
+
+        if( j != n-1 )
+        {
+            double div = a[j][j];
+            for( i=j+1; i<n; i++ ) a[i][j] /= div;
+        }
+    }
+    m_aFaList.replace( group, a );
+}
+
+bool CircMatrix::luSolve( d_matrix_t& a, dp_vector_t& bp, i_vector_t& ipvt, int n )
+{
+    // Solves the set of n linear equations using a LU factorization
+    // previously performed by solveMatrix.  On input, b[0..n-1] is the right
+    // hand side of the equations, and on output, contains the solution.
+
+    d_vector_t b;
+    b.resize( n , 0 );
+    for( int i=0; i<n; i++ ) b[i] = *(bp[i]);             
     
     int i;
     for( i=0; i<n; i++ )                 // find first nonzero b element
@@ -229,135 +292,36 @@ bool CircMatrix::solveMatrix()
         double tot = b[row];
 
         b[row] = b[i];
-        // forward substitution using the lower triangular matrix
-        for( j=bi; j<i; j++ ) tot -= a[i][j]*b[j];
+        
+        for( j=bi; j<i; j++ ) tot -= a[i][j]*b[j]; // forward substitution using the lower triangular matrix
 
         b[i] = tot;
     }
+    bool isOk = true;
     for( i=n-1; i>=0; i-- )
     {
         double tot = b[i];
 
         // back-substitution using the upper triangular matrix
         for( int j=i+1; j<n; j++ ) tot -= a[i][j]*b[j];
-
-        b[i] = tot/a[i][i];
-    }
-    m_admitChanged = false;
-    m_currChanged  = false;
-    
-    for( i=0; i<m_numEnodes; i++ )  
-    {
-        double volt = b[i];
-        if( std::isnan( volt ) ) return false;  
-
-        m_eNodeList->at(i)->setVolt( volt ); 
-    }
-    return true;
-}
-
-
-void CircMatrix::simplify()
-{
-    //printMatrix();
-    QList<int> singleEls;
-    
-    for( int y=0; y<m_numEnodes; y++ )       // Find Single Element Rows
-    {
-        int nonCero = 0;
-        for( int x=0; x<m_numEnodes; x++ )            // Find Cero Row
-        {
-            if( m_circMatrix[x][y] == 0 )continue;
-            nonCero++;
-        }
-        if( nonCero < 2 ) singleEls.append( y );
-    }
-    
-    m_eNodeList2.clear();
-    int newY = 0;
-    
-    for( int y=0; y<m_numEnodes; y++ )
-    {
-        if( singleEls.contains( y ) ) 
-        {
-            m_eNodeList->at( y )->setSingle( true );
-            continue;
-        }
-        newY++;
-        eNode* enode = m_eNodeList->at( y );
-        //enode->setNodeNumber( newY );
-        //enode->initialize();
-        m_eNodeList2.append( enode );
-    }
-    std::cout << "\nSimplify Matrix "<<std::endl;
-    createMatrix( m_eNodeList2, m_elementList );
-    
-    //printMatrix();
-    /*for( int y=0; y<m_numEnodes; y++ )
-    {
-        bool ceroel = false;
-        int nonCero = 0;
-        int toSwap = 0;
-        for( int x=y+1; x<m_numEnodes; x++ )
-        {
-            if( m_circMatrix[x][y] == 0 )
-            {
-                ceroel = true;
-                //std::cout << "\nceroel:\n"<< x<<y<<std::endl;
-            }
-            else 
-            {
-                nonCero++;
-                if( ceroel ) toSwap = x;          // First non-cero
-            }
-            //std::cout << "\nCOL:"<< x<<" "<<nonCero<<" "<<toSwap<<" val= "<<m_circMatrix[x][y]<<std::endl;
-        }
-        //std::cout << "\nROW:"<< y<<" "<<nonCero<<" "<<toSwap<<std::endl;
-        if(( nonCero == 1 )&( toSwap > 1 )) swap( toSwap, y );
-    }*/
-}
-
-
-/*void CircMatrix::splitNode( int node )
-{
-    
-}*/
-void CircMatrix::swap( int x, int y )
-{
-    //std::cout << "\nNo ceroel:\n"<< x<<y<<std::endl;
-    double p = m_circMatrix[x][x]; //diagonal elm
-    double end = m_numEnodes-1;
-    double destRow = 0;
-    
-    for( double Y=y; Y<x; Y++ )
-        if( m_circMatrix[x][Y] != 0 ) destRow = Y+1;
         
-    //if( destRow == end ) continue;
-
-    for( double Y=y; Y<destRow; Y++ ) // Move Row & Column
-    {
-        m_circMatrix[destRow][Y] = m_circMatrix[x][Y];
-        m_circMatrix[x][Y] = 0;
-        m_circMatrix[Y][destRow] = m_circMatrix[Y][x];
-        m_circMatrix[Y][x] = 0;
-    }
-    printMatrix();
-    
-    double c = m_coefVect[x];
-    for( double Y=end; Y>destRow; Y-- )// Move diagonal
-    {
-        for( double X=end; X>destRow; X-- )
+        double volt = tot/a[i][i];
+        b[i] = volt;
+        
+        if( std::isnan( volt ) ) 
         {
-            m_circMatrix[X][Y] = m_circMatrix[X-1][Y-1];
-            m_circMatrix[X-1][Y-1] = 0;
+            isOk = false;
+            volt = 0;
         }
-        m_coefVect[Y] = m_coefVect[Y-1];
+        m_eNodeActive[i]->setVolt( volt ); 
     }
-    m_circMatrix[destRow][destRow] = p; //diagonal elm
-    m_coefVect[destRow] = c;            // Right side
-    m_eNodeList->insert( destRow,( m_eNodeList->takeAt( x ) )); // Move eNodes like Right side
+    return isOk;
+}
 
-    printMatrix();
+void CircMatrix::setCircChanged()
+{ 
+    m_circChanged  = true; 
+    m_admitChanged = true;
 }
 
 void CircMatrix::printMatrix()

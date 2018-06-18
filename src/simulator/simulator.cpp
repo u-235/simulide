@@ -66,8 +66,9 @@ inline void Simulator::solveMatrix()
 
     if( !m_matrix.solveMatrix() )            // Try to solve matrix,
     {                                     // if fail stop simulation
-        std::cout << "Simulator::runStep, Failed to solve Matrix" << std::endl;
-        CircuitWidget::self()->powerCircOff();//stopSim();
+        std::cout << "Simulator::solveMatrix(), Failed to solve Matrix" << std::endl;
+        //CircuitWidget::self()->powerCircOff();//stopSim();
+        m_error = true;
         CircuitWidget::self()->setRate( -1 );
     }                                // m_matrix sets the eNode voltages
 }
@@ -76,6 +77,12 @@ void Simulator::timerEvent( QTimerEvent* e )  //update at m_timerTick rate (50 m
 {
     e->accept();
     if( !m_isrunning ) return;
+    if( m_error ) 
+    {
+        CircuitWidget::self()->powerCircOff();
+        CircuitWidget::self()->setRate( -1 );
+        return;
+    }
 
     //m_CircuitFuture.waitForFinished();
     if( m_CircuitFuture.isFinished() )  // Run Circuit in a parallel thread
@@ -178,7 +185,7 @@ void Simulator::runContinuous()
     // Initialize Matrix
     m_matrix.createMatrix( m_eNodeList, m_elementList );
 
-    m_matrix.simplify();
+    //m_matrix.simplify();
 
     // Try to solve matrix, if fail stop simulation
     // m_matrix.printMatrix();
@@ -197,6 +204,7 @@ void Simulator::runContinuous()
     simuRateChanged( m_simuRate );
 
     m_isrunning = true;
+    m_error = false;
     std::cout << "\n    Running \n"<<std::endl;
     m_timerId = this->startTimer( m_timerTick );
 }
