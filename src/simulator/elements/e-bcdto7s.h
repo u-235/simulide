@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010 by santiago González                               *
+ *   Copyright (C) 2018 by santiago González                               *
  *   santigoro@gmail.com                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,36 +17,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SEVENSEGMENTBCD_H
-#define SEVENSEGMENTBCD_H
+#ifndef EBCDTO7S_H
+#define EBCDTO7S_H
 
-#include "itemlibrary.h"
-#include "logiccomponent.h"
-#include "e-bcdto7s.h"
+#include "e-logic_device.h"
 
-
-class MAINMODULE_EXPORT SevenSegmentBCD : public LogicComponent, public eBcdTo7S
+class MAINMODULE_EXPORT eBcdTo7S : public eLogicDevice
 {
-    Q_OBJECT
-
     public:
-        SevenSegmentBCD( QObject* parent, QString type, QString id );
-        ~SevenSegmentBCD();
 
-        static Component* construct( QObject* parent, QString type, QString id );
-        static LibraryItem *libraryItem();
+        eBcdTo7S( std::string id  );
+        ~eBcdTo7S();
 
-        void resetState();
-        void updateStep();
-        void remove();
+        virtual void initialize();
+        virtual void setVChanged();
         
+        void createPins();
 
-        void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
-
-    private:
-        int m_origx;
-        int m_origy;
+    protected:
+        std::vector<bool> m_outValue;
+        
+        bool m_changed;
 };
 
-#endif
 
+#endif
