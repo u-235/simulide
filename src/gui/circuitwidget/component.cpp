@@ -22,15 +22,18 @@
 #include "connector.h"
 #include "circuit.h"
 #include "utils.h"
+#include "simuapi_apppath.h"
 
 int Component::m_error = 0;
+QString Component::m_noHelpMsg = "Sorry... no Help Available";
 
 Component::Component( QObject* parent , QString type, QString id )
     : QObject(parent), QGraphicsItem()
     ,multUnits( "TGMk munp" )
 {
     //setCacheMode(QGraphicsItem::DeviceCoordinateCache);
-    
+
+    m_help = &m_noHelpMsg;
     m_unitMult = 1;
     m_Hflip  = 1;
     m_Vflip  = 1;
@@ -57,7 +60,6 @@ Component::Component( QObject* parent , QString type, QString id )
     setObjectName( id );
     setId(id);
 
-    //setToolTip( QString("Left-Click and Move this Component \nRight-Click for Context Menu \nSelect and change properties in Right Panel") );
     setCursor(Qt::OpenHandCursor);
     this->setFlag( QGraphicsItem::ItemIsSelectable, true );
     
@@ -84,6 +86,8 @@ void Component::mousePressEvent(QGraphicsSceneMouseEvent* event)
         }
 
         QPropertyEditorWidget::self()->setObject( this );
+        PropertiesWidget::self()->setHelpText( m_help );
+        
         setCursor( Qt::ClosedHandCursor );
         grabMouse();
     }
@@ -94,7 +98,8 @@ void Component::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* event )
     if ( event->button() == Qt::LeftButton )
     {
         QPropertyEditorWidget::self()->setObject( this );
-        QPropertyEditorWidget::self()->setVisible( true );
+        PropertiesWidget::self()->setHelpText( m_help );
+        //QPropertyEditorWidget::self()->setVisible( true );
     }
 }
 
@@ -203,7 +208,8 @@ void Component::remove()
 void Component::slotProperties()
 {
     QPropertyEditorWidget::self()->setObject( this );
-    MainWindow::self()->m_sidepanel->setCurrentIndex( 2 );
+    PropertiesWidget::self()->setHelpText( m_help );
+    MainWindow::self()->m_sidepanel->setCurrentIndex( 2 ); // Open Properties tab
 }
 
 void Component::H_flip()
@@ -405,6 +411,28 @@ QString Component::category()  { return m_category; }
 QIcon   Component::icon()      { return m_icon; }
 
 //bool Component::isChanged(){ return m_changed;}
+
+QString Component::getHelp( QString hfile )
+{
+    QString dfPath = SIMUAPI_AppPath::self()->availableDataFilePath( hfile );
+
+    QFile file( dfPath );
+    
+    if( !file.open(QFile::ReadOnly | QFile::Text) )
+    {
+        MessageBoxNB( "Component::loadHelp",
+                  tr("Cannot read Help file:\n%1:\n%2.").arg(dfPath).arg(file.errorString()) );
+          return m_noHelpMsg;
+    }
+    QTextStream s1( &file );
+    
+    QString help;
+    help.append(s1.readAll());
+
+    file.close();
+    
+    return help;
+}
 
 void Component::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {

@@ -38,7 +38,7 @@ int   CodeEditor::m_tabSize = 4;
 QFont CodeEditor::m_font;
 
 CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTable ) 
-        : QPlainTextEdit( parent )
+          : QPlainTextEdit( parent )
 {
     setObjectName( "Editor" );
     

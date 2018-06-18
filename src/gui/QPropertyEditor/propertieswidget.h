@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Popov Alexey                                    *
- *   hovercraft@yandex.ru                                                  *
+ *   Copyright (C) 2018 by santiago González                               *
+ *   santigoro@gmail.com                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,33 +16,34 @@
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.  *
  *                                                                         *
  ***************************************************************************/
- 
-#ifndef SIMUAPI_APPPATH_H
-#define SIMUAPI_APPPATH_H
 
-#include <qdir.h>
+#ifndef PROPERTIESWIDGET_H
+#define PROPERTIESWIDGET_H
 
-class MAINMODULE_EXPORT SIMUAPI_AppPath
+#include <QPlainTextEdit>
+
+#include "QPropertyEditorWidget.h"
+
+
+class PropertiesWidget : public QWidget
 {
+    Q_OBJECT
+
     public:
-        static SIMUAPI_AppPath* self();
+        PropertiesWidget( QWidget *parent );
+        ~PropertiesWidget();
 
+ static PropertiesWidget* self() { return m_pSelf; }
+ 
+        void setHelpText( QString* text );
+ 
+    private:
+ static PropertiesWidget* m_pSelf;
+ 
+        void createWidgets();
 
-        QDir RODataFolder() const;
-        void setRODataFolder(const QDir &RODataFolder);
-
-        QDir RWDataFolder() const;
-        void setRWDataFolder(const QDir &RWDataFolder);
-
-        QString availableDataFilePath(QString fileRelPath);
-        QString availableDataDirPath(QString dirRelPath);
-
-private:
-        SIMUAPI_AppPath();
-        static SIMUAPI_AppPath* m_pSelf;
-
-        QDir m_RODataFolder;
-        QDir m_RWDataFolder;
+        QPropertyEditorWidget* m_properties;
+        QPlainTextEdit*        m_help;
 };
 
-#endif // SIMUAPI_APPPATH_H
+#endif // PROPERTIESWIDGET_H
