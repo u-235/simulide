@@ -46,7 +46,7 @@ class MAINMODULE_EXPORT VoltSource : public Component, public eElement
         
         void updateStep();
 
-        double volt() const      { return m_value; }
+        double volt() const      { return m_voltHight; }
         void setVolt( double v );
         
         void setUnit( QString un );
