@@ -29,6 +29,7 @@
 #include "avrasmdebugger.h"
 #include "picasmdebugger.h"
 #include "mcucomponent.h"
+#include "mainwindow.h"
 #include "simuapi_apppath.h"
 
 bool  CodeEditor::m_showSpaces = false;
@@ -60,14 +61,25 @@ CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTab
     m_font.setPointSize( m_fontSize );
     setFont( m_font );
     
-    setTabSize( m_tabSize );
+    QSettings* settings = MainWindow::self()->settings();
+    
+    if( settings->contains( "Editor_show_spaces" ) )
+        setShowSpaces( settings->value( "Editor_show_spaces" ).toBool() );
+
+    if( settings->contains( "Editor_spaces_tabs" ) )
+        setSpaceTabs( settings->value( "Editor_spaces_tabs" ).toBool() );
+
+    if( settings->contains( "Editor_tab_size" ) )
+        setTabSize( settings->value( "Editor_tab_size" ).toInt() );
+
+    if( settings->contains( "Editor_font_size" ) )
+        setFontSize( settings->value( "Editor_font_size" ).toInt() );
+
     
     QPalette p = palette();
     p.setColor( QPalette::Base, QColor( 255, 255, 245) );
     p.setColor( QPalette::Text, QColor( 0, 0, 0) );
     setPalette( p );
-
-    setupDebugTimer();
 
     connect( this, SIGNAL( blockCountChanged( int )),   this, SLOT( updateLineNumberAreaWidth( int )));
     connect( this, SIGNAL( updateRequest( QRect,int )), this, SLOT( updateLineNumberArea( QRect,int )));
@@ -187,6 +199,9 @@ void CodeEditor::setCompilerPath()
 
 void CodeEditor::compile()
 {
+    m_debugLine  = -1;
+    update();
+    
     int error=-2;
     m_isCompiled = false;
     
@@ -224,25 +239,23 @@ void CodeEditor::compile()
         }
         error = m_debugger->compile();
     }
-    
+
     if( error == 0)
     {
         m_outPane->writeText( tr("     SUCCESS!!! Compilation Ok\n") );
-        
-        if( m_debugging ) m_debugLine  = 1;
-        else              m_debugLine  = -1; // Don't show arrow
         
         m_isCompiled = true;
     }
     else 
     {
         m_outPane->writeText( tr("     ERROR!!! Compilation Faliled\n") );
+        
         if( error > 0 ) // goto error line number
         {
             m_debugLine = error; // Show arrow in error line
+            updateScreen();
         }
     }
-    updateScreen();
 }
 
 void CodeEditor::upload()
@@ -275,28 +288,16 @@ void CodeEditor::remBreakPoint( int line ) { m_brkPoints.removeOne( line ); }
 
 void CodeEditor::run()
 {
-    if( m_running )     return;
-    if( !m_debugging ) initDebbuger();
+    if( m_running ) return;
 
-    if( m_debugging )
-    {
-        if( !m_brkPoints.isEmpty() )
-        {
-            m_running = true;
-            m_timer.start( m_timerTick );
-        }
-    }
+    m_running = true;
+    timerTick();
 }
 
 void CodeEditor::step()
 {
-    if( m_running )     return;
-    if( !m_debugging )
-    {
-        initDebbuger();
-        return;
-    }
-
+    if( m_running ) return;
+    
     runClockTick();
     updateScreen();
 
@@ -304,42 +305,30 @@ void CodeEditor::step()
 
 void CodeEditor::stepOver()
 {
-    if( m_running )     return;
-    if( !m_debugging ) initDebbuger();
+    if( m_running ) return;
 
-    if( m_debugging )
-    {
-        runClockTick( true );
-        updateScreen();
-    }
+    runClockTick( true );
+    updateScreen();
 }
 
 void CodeEditor::pause()
 {
-    m_timer.stop();
     m_running = false;
     updateScreen();
 }
 
 void CodeEditor::reset()
 {
-    if( m_debugging )
-    {
-        McuComponent::self()->reset();
-        m_debugLine = m_debugger->getProgramStart();
-        pause();
-    }
+    if( m_running ) pause();
+    
+    McuComponent::self()->reset();
+    m_debugLine = m_debugger->getProgramStart();
+    
+    updateScreen();
 }
 
 void CodeEditor::runClockTick( bool over )
 {
-    if( document()->isModified() )
-    {
-         QMessageBox::warning( 0, tr("Document has Changed!!!"),
-         tr("Document has Changed\n you should save it and Reset") );
-         pause();
-         return;
-    }
     m_prevDebugLine = m_debugLine;
 
     while( m_debugLine == m_prevDebugLine ) // Run to next src line
@@ -354,21 +343,24 @@ void CodeEditor::runClockTick( bool over )
 
 void CodeEditor::timerTick()
 {
-    for( int step=0; step<m_stepsPT; step++ )
-    {
-        runClockTick();
-        if( m_brkPoints.contains(m_debugLine) ) { pause();  break; }
-    }
+    if( !m_running ) return;
+    
+    runClockTick();
+    if( m_brkPoints.contains(m_debugLine) ) pause();
+
+    if( m_running ) QTimer::singleShot( 500, this, SLOT( timerTick()) );
+    
+    updateScreen();
 }
 
 void CodeEditor::updateScreen()
 {
-    setTextCursor(QTextCursor(document()->findBlockByLineNumber(m_debugLine-1)));
+    setTextCursor( QTextCursor(document()->findBlockByLineNumber(m_debugLine-1)));
     ensureCursorVisible();
     update();
 }
 
-void CodeEditor::initDebbuger()
+bool CodeEditor::initDebbuger()
 {
     m_outPane->writeText( "-------------------------------------------------------\n" );
     m_outPane->writeText( "Starting Debbuger...\n" );
@@ -413,13 +405,13 @@ void CodeEditor::initDebbuger()
         }        
         else 
         {
-            //m_hlighter->addRegisters( m_debugger->getDefsList() );
             m_debugging = true;
             reset();
             BaseProcessor::self()->setSteps( 0 );
             m_outPane->writeText( "Debbuger Started \n" );
         }
     }
+    return m_debugging;
 }
 
 void CodeEditor::stopDebbuger()
@@ -434,20 +426,6 @@ void CodeEditor::stopDebbuger()
         m_debugging = false;
     }
     m_outPane->writeText( "Debbuger Stopped \n" );
-}
-
-void CodeEditor::setupDebugTimer()
-{
-    connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerTick()));
-
-    int simuclock  = 4*1e6/4;        // steps/Sec
-    int timerClock = simuclock/1000; // to reach 1000 steps per timer tick
-    m_timerTick  = 10;
-
-    m_stepsPT = m_timerTick*timerClock;
-
-    qDebug() << "\nm_timerTick: " << m_timerTick << "mS \nSteps/tick: " << m_stepsPT;
-    //m_outPane->writeText(tr("\nm_timerTick: %1 mS \nSteps/tick: %2" ).arg(m_timerTick).arg(m_stepsPT) );
 }
 
 int CodeEditor::lineNumberAreaWidth()
@@ -551,6 +529,21 @@ void CodeEditor::focusInEvent( QFocusEvent* event)
     QPlainTextEdit::focusInEvent( event );
 }
 
+void CodeEditor::writeSettings()
+{
+    MainWindow::self()->settings()->setValue( "Editor_font_size", QString::number(m_fontSize) );
+    MainWindow::self()->settings()->setValue( "Editor_tab_size", QString::number(m_tabSize) );
+
+    if( m_showSpaces )
+        MainWindow::self()->settings()->setValue( "Editor_show_spaces", "true" );
+    else
+        MainWindow::self()->settings()->setValue( "Editor_show_spaces", "false" );
+        
+    if( m_spaceTabs )
+        MainWindow::self()->settings()->setValue( "Editor_spaces_tabs", "true" );
+    else
+        MainWindow::self()->settings()->setValue( "Editor_spaces_tabs", "false" );
+}
 int CodeEditor::fontSize()
 {
     return m_fontSize;
@@ -560,6 +553,7 @@ void CodeEditor::setFontSize( int size )
     m_fontSize = size;
     m_font.setPointSize( size );
     setFont( m_font );
+    
     setTabSize( m_tabSize );
 }
 
@@ -571,6 +565,8 @@ void CodeEditor::setTabSize( int size )
 {
     m_tabSize = size;
     setTabStopWidth( m_tabSize*m_fontSize*2/3 );
+    
+    if( m_spaceTabs ) setSpaceTabs( true );
 }
 
 bool CodeEditor::showSpaces()
@@ -584,9 +580,9 @@ void CodeEditor::setShowSpaces( bool on )
     QTextOption option =  document()->defaultTextOption();
     
     if( on ) option.setFlags(option.flags() | QTextOption::ShowTabsAndSpaces);
-    else     option.setFlags(option.flags() & ~QTextOption::ShowTabsAndSpaces);
-    
-    //option.setFlags(option.flags() | QTextOption::AddSpaceForLineAndParagraphSeparators);*/
+
+    else option.setFlags(option.flags() & ~QTextOption::ShowTabsAndSpaces);
+
     document()->setDefaultTextOption(option);
 }
 
@@ -597,6 +593,13 @@ bool CodeEditor::spaceTabs()
 void CodeEditor::setSpaceTabs( bool on )
 {
     m_spaceTabs = on;
+
+    if( on )
+    {
+        m_tab = "";
+        for( int i=0; i<m_tabSize; i++) m_tab += " ";
+    }
+    else m_tab = "\t";
 }
 
 void CodeEditor::keyPressEvent( QKeyEvent* event )
@@ -609,15 +612,157 @@ void CodeEditor::keyPressEvent( QKeyEvent* event )
     {
         setFontSize( m_fontSize-1 );
     }
-    else if( m_spaceTabs && (event->key() == Qt::Key_Tab)  )
+    else if( event->key() == Qt::Key_Tab )
     {
-        QString spaces;
-        for( int i=0; i<m_tabSize; i++) spaces += " ";
-
-        insertPlainText( spaces );
+        if( textCursor().hasSelection() ) indentSelection( false );
+        else                              insertPlainText( m_tab );
     }
-    else QPlainTextEdit::keyPressEvent( event );
+    else if( event->key() == Qt::Key_Backtab )
+    {
+        if( textCursor().hasSelection() ) indentSelection( true );
+        else
+        {
+            textCursor().movePosition( QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor , m_tab.size() );
+        }
+    }
+    else 
+    {
+        int tabs = 0;
+        if( event->key() == Qt::Key_Return )
+        {
+            int n0 = 0;
+            int n = m_tab.size();
+            QString line = textCursor().block().text();
+            
+            while(1)
+            {
+                QString part = line.mid( n0, n );
+                if( part == m_tab )
+                {
+                    n0 += n;
+                    tabs += 1;
+                }
+                else break;
+            }
+        } 
+        QPlainTextEdit::keyPressEvent( event );
+        
+        if( event->key() == Qt::Key_Return )
+        {
+            for( int i=0; i<tabs; i++ ) insertPlainText( m_tab );
+        }
+    }
 }
+
+/*void CodeEditor::increaseSelectionIndent()
+{
+    QTextCursor curs = textCursor();
+
+    // Get the first and count of lines to indent.
+
+    int spos = curs.anchor();
+    int epos = curs.position();
+
+    if( spos > epos ) std::swap(spos, epos);
+
+    curs.setPosition( spos, QTextCursor::MoveAnchor );
+    int sblock = curs.block().blockNumber();
+
+    curs.setPosition( epos, QTextCursor::MoveAnchor );
+    int eblock = curs.block().blockNumber();
+
+    // Do the indent.
+
+    curs.setPosition( spos, QTextCursor::MoveAnchor );
+
+    curs.beginEditBlock();
+
+    for( int i = 0; i <= ( eblock-sblock); ++i )
+    {
+        curs.movePosition( QTextCursor::StartOfBlock, QTextCursor::MoveAnchor );
+
+        curs.insertText( m_tab );
+
+        curs.movePosition( QTextCursor::NextBlock, QTextCursor::MoveAnchor );
+    }
+    curs.endEditBlock();
+
+    // Set our cursor's selection to span all of the involved lines.
+
+    curs.setPosition(spos, QTextCursor::MoveAnchor);
+    curs.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor );
+
+    while( curs.block().blockNumber() < eblock )
+    {
+        curs.movePosition(QTextCursor::NextBlock, QTextCursor::KeepAnchor );
+    }
+    curs.movePosition( QTextCursor::EndOfBlock, QTextCursor::KeepAnchor );
+
+    setTextCursor( curs );
+}*/
+
+void CodeEditor::indentSelection( bool unIndent )
+{
+    QTextCursor cur = textCursor();
+    int a = cur.anchor();
+    int p = cur.position();
+    
+    cur.beginEditBlock();
+     
+    if( a > p ) std::swap( a, p );
+    
+    QString str = cur.selection().toPlainText();
+    QString str2 = "";
+    QStringList list = str.split("\n");
+    
+    int lines = list.count();
+ 
+    for (int i = 0; i < lines; i++)
+    {
+        QString line = list[i];
+        
+        if( unIndent ) 
+        {
+            int n = m_tab.size();
+            int n1 = n;
+            int n2 = 0;
+            
+            while( n1 > 0 )
+            {
+                QString car = line.at(n2);
+                
+                if( car == " " ) 
+                {
+                    n1 -= 1;
+                    n2 += 1;
+                }
+                else if( car == "\t" )
+                {
+                    n1 -= n;
+                    if( n1 >= 0 ) n2 += 1;
+                }
+                else n1 = 0;
+            }
+            line.replace( 0, n2, "" );
+        }
+        else line.insert( 0, m_tab );
+        
+        if( i < lines-1 ) line += "\n";
+
+        str2 += line;
+    }
+    cur.removeSelectedText();
+    cur.insertText(str2);
+    p = cur.position();
+
+    cur.setPosition( a );
+    cur.setPosition( p, QTextCursor::KeepAnchor );
+
+    setTextCursor(cur);
+
+    cur.endEditBlock();
+}
+
 
 
 // CLASS LineNumberArea ******************************************************

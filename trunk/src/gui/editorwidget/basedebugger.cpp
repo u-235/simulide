@@ -127,7 +127,7 @@ void BaseDebugger::getCompilerPath()
                                QFileDialog::ShowDirsOnly
                              | QFileDialog::DontResolveSymlinks);
 
-        m_compilerPath += "/";
+        if( m_compilerPath != "" ) m_compilerPath += "/";
 
         MainWindow::self()->settings()->setValue( m_compSetting, m_compilerPath);
 

@@ -45,7 +45,6 @@ SOURCES += ../src/*.cpp \
     ../src/simulator/*.cpp \
     ../src/simulator/elements/*.cpp \
     ../src/simulator/elements/processors/*.cpp \
-    ../src/misc/simuapi_apppath.cpp \
     ../src/simavr/sim/*.c \
     ../src/simavr/cores/*.c 
 
@@ -66,7 +65,6 @@ HEADERS += ../src/*.h \
     ../src/simulator/*.h \
     ../src/simulator/elements/*.h \
     ../src/simulator/elements/processors/*.h \
-    ../src/misc/simuapi_apppath.h \
     ../src/simavr/sim/*.h \
     ../src/simavr/sim/avr/*.h  \
     ../src/simavr/cores/*.h 
@@ -88,7 +86,6 @@ INCLUDEPATH += ../src \
     ../src/simulator \
     ../src/simulator/elements \
     ../src/simulator/elements/processors \
-    ../src/misc \
     ../src/simavr \
     ../src/simavr/sim \
     ../src/simavr/sim/avr \

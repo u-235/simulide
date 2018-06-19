@@ -171,7 +171,7 @@ int InoDebugger::compile()
         {
             if( !(line.contains( "error:" )) ) continue;
             QStringList words = line.split(":");
-            error = words.at(1).toInt();
+            error = words.at(1).toInt()-1;
             break;
         }
     }
