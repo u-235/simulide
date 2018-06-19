@@ -57,15 +57,17 @@ void MainWindow::closeEvent( QCloseEvent *event )
     {
         const QMessageBox::StandardButton ret
         = QMessageBox::warning(this, tr("Application"),
-                               tr("Circuit has been modified.\n"
-                                  "Do you want to save your changes?"),
+                               tr("\nCircuit has been modified.\n"
+                                  "Do you want to save your changes?\n"),
                                QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
                                
         if(ret == QMessageBox::Save ) m_circuit->saveCirc();
         else if(ret == QMessageBox::Cancel ) { event->ignore(); return; }
     }
-    CircuitWidget::self()->newCircuit();
+    if( !m_editor->close() ) { event->ignore(); return; }
+    m_circuit->newCircuit();
     writeSettings();
+    
     event->accept();
 }
 
@@ -148,9 +150,9 @@ void MainWindow::createWidgets()
     m_circuit->setObjectName(QString::fromUtf8("circuit"));
     m_Centralsplitter->addWidget( m_circuit );
     
-    EditorWindow* editor = new EditorWindow( this );
-    m_circuit->setObjectName(QString::fromUtf8("editor"));
-    m_Centralsplitter->addWidget( editor );
+    m_editor = new EditorWindow( this );
+    m_editor->setObjectName(QString::fromUtf8("editor"));
+    m_Centralsplitter->addWidget( m_editor );
 
     baseWidgetLayout->addWidget( m_Centralsplitter, 0, 0 );
 

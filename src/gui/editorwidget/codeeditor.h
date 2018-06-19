@@ -69,9 +69,12 @@ class CodeEditor : public QPlainTextEdit
         void setCompiled( bool compiled ) { m_isCompiled = compiled; }
         
         bool debugStarted() { return m_debugging; }
+        bool initDebbuger();
 
         bool hasDebugger() { return m_debugger!=0l; }
         void setCompilerPath();
+        
+        void writeSettings();
 
     signals:
         void msg( QString text );
@@ -98,7 +101,6 @@ class CodeEditor : public QPlainTextEdit
         void updateLineNumberAreaWidth(int newBlockCount);
         void updateLineNumberArea( const QRect &, int );
         void highlightCurrentLine();
-        void initDebbuger();
 
     private:
         int  getSintaxCoincidences(QString& fileName, QStringList& instructions );
@@ -108,6 +110,8 @@ class CodeEditor : public QPlainTextEdit
 
         void runClockTick( bool over=false );
         void setupDebugTimer();
+        
+        void indentSelection( bool unIndent );
         
         BaseDebugger*  m_debugger;
         RamTable*      m_ramTable;
@@ -121,6 +125,8 @@ class CodeEditor : public QPlainTextEdit
         QString m_fileDir;
         QString m_fileName;
         QString m_fileExt;
+        
+        QString m_tab;
 
         QList<int> m_brkPoints;
 
@@ -131,10 +137,6 @@ class CodeEditor : public QPlainTextEdit
         bool m_isCompiled;
         bool m_debugging;
         bool m_running;
-        
-        QTimer m_timer;
-        int m_timerTick;
-        int m_stepsPT;
         
  static bool  m_showSpaces;
  static bool  m_spaceTabs;

@@ -61,7 +61,6 @@ void BaseProcessor::initialized()
     //qDebug() << "\nBaseProcessor::initialized  Firmware: " << m_symbolFile;
     //qDebug() << "\nBaseProcessor::initialized Data File: " << m_dataFile;
 
-    setRegisters();
     m_loadStatus = true;
     m_nextCycle = m_mcuStepsPT;
 
@@ -83,12 +82,8 @@ QString BaseProcessor::getDevice() { return m_device;}
 
 void BaseProcessor::setDataFile( QString datafile ) 
 { 
-    //QDir compSetDir( qApp->applicationDirPath() );
-    //compSetDir.cd( "../share/simulide/data" );
-    //m_dataFile = QCoreApplication::applicationDirPath()+"/data/"+datafile+".data";
-    //m_dataFile = compSetDir.absolutePath() + datafile + ".data";
-    //m_dataFile = SIMUAPI_AppPath::self()->availableDataFilePath(datafile + ".data");
     m_dataFile = datafile;
+    setRegisters();
 }
 
 /*void BaseProcessor::reset()
@@ -97,7 +92,10 @@ void BaseProcessor::setDataFile( QString datafile )
     //emit chipReset();
 }*/
 
-int BaseProcessor::getRegAddress( QString name ) { return m_regsTable.value( name ); }
+int BaseProcessor::getRegAddress( QString name ) 
+{ 
+    return m_regsTable.value( name ); 
+}
 
 void BaseProcessor::updateRamValue( QString name )
 {
@@ -149,11 +147,12 @@ void BaseProcessor::updateRamValue( QString name )
         else memcpy(&value, ba, 4);
 
         m_ramTable->setItemValue( 1, value  );
+        
         if( type.contains( "8" ) )
             m_ramTable->setItemValue( 2, decToBase(value, 2, 8)  );
         
     }
-    //qDebug()<<name<<type <<address;
+    //qDebug()<<name<<type <<address<<value;
     if( !type.contains( "8" ) ) m_ramTable->setItemValue( 2, type  );
 }
 
@@ -175,7 +174,8 @@ void BaseProcessor::addWatchVar( QString name, int address, QString type )
     if( !m_regsTable.contains(name) ) 
     {
         m_regsTable.insert( name, address );
-        m_typeTable.insert( name, type ); 
+        m_typeTable.insert( name, type );
+        m_regList.append( name );
     }
 }
 
@@ -183,7 +183,12 @@ void BaseProcessor::setRegisters()// get register addresses from data file
 {
     QStringList lineList = fileToStringList( m_dataFile, "BaseProcessor::setRegisters" );
 
-    if( !m_regsTable.isEmpty() ) m_regsTable.clear();
+    if( !m_regsTable.isEmpty() ) 
+    {
+        m_regList.clear();
+        m_regsTable.clear();
+        m_typeTable.clear();
+    }
 
     foreach( QString line, lineList )
     {
@@ -208,7 +213,7 @@ void BaseProcessor::setRegisters()// get register addresses from data file
                 address = validate( address );
                 addWatchVar( name, address, "u8" );        // type uint8 
             }
-            //qDebug() << name << address<<"\n";
+            qDebug() << name << address<<"\n";
         }
     }
 }

@@ -65,6 +65,7 @@ class MAINMODULE_EXPORT BaseProcessor : public QObject
         virtual void uartIn( uint32_t value );
         
         virtual void initialized();
+        virtual QStringList getRegList() { return m_regList; }
     
     protected:
  static BaseProcessor* m_pSelf;
@@ -80,6 +81,7 @@ class MAINMODULE_EXPORT BaseProcessor : public QObject
         unsigned long m_nextCycle;
 
         RamTable* m_ramTable;
+        QStringList m_regList;
         QHash<QString, int> m_regsTable;     // int max 32 bits
         QHash<QString, float> m_floatTable;  // float 32 bits
         QHash<QString, QString> m_typeTable;
