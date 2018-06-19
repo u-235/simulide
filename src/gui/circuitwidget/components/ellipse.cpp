@@ -40,6 +40,12 @@ Ellipse::Ellipse( QObject* parent, QString type, QString id )
 }
 Ellipse::~Ellipse(){}
 
+QPainterPath Ellipse::shape() const
+{
+    QPainterPath path;
+    path.addEllipse(boundingRect());
+    return path;
+}
 
 void Ellipse::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {

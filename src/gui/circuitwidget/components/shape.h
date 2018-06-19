@@ -25,11 +25,12 @@
 class MAINMODULE_EXPORT Shape : public Component
 {
     Q_OBJECT
-    Q_PROPERTY( int    H_size READ hSize   WRITE setHSize  DESIGNABLE true USER true )
-    Q_PROPERTY( int    V_size READ vSize   WRITE setVSize  DESIGNABLE true USER true )
-    Q_PROPERTY( int    Border READ border  WRITE setBorder DESIGNABLE true USER true )
-    Q_PROPERTY( QColor Color  READ color   WRITE setColor  DESIGNABLE true USER true )
-    
+    Q_PROPERTY( int    H_size  READ hSize   WRITE setHSize   DESIGNABLE true USER true )
+    Q_PROPERTY( int    V_size  READ vSize   WRITE setVSize   DESIGNABLE true USER true )
+    Q_PROPERTY( int    Border  READ border  WRITE setBorder  DESIGNABLE true USER true )
+    Q_PROPERTY( QColor Color   READ color   WRITE setColor   DESIGNABLE true USER true )
+    Q_PROPERTY( qreal  Opacity READ opacity WRITE setOpacity DESIGNABLE true USER true )
+    Q_PROPERTY( qreal  Z_Value READ zValue  WRITE setZValue  DESIGNABLE true USER true )
 
     public:
 
