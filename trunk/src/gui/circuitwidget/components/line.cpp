@@ -39,6 +39,17 @@ Line::Line( QObject* parent, QString type, QString id )
 }
 Line::~Line(){}
 
+QPainterPath Line::shape() const
+{
+    QPainterPath path;
+    QPolygon polygon;
+    polygon << QPoint(-m_hSize/2+1, m_vSize/2   );
+    polygon << QPoint( m_hSize/2,  -m_vSize/2+1 );
+    polygon << QPoint( m_hSize/2-1,-m_vSize/2   );
+    polygon << QPoint(-m_hSize/2,   m_vSize/2-1 );
+    path.addPolygon(polygon);
+    return path;
+}
 
 void Line::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
