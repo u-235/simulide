@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef VOLTSOURCE_H
-#define VOLTSOURCE_H
+#ifndef CURRSOURCE_H
+#define CURRSOURCE_H
 
 #include "component.h"
 #include "e-source.h"
@@ -28,26 +28,30 @@
 class LibraryItem;
 //class DialWidget;
 
-class MAINMODULE_EXPORT VoltSource : public Component, public eElement
+class MAINMODULE_EXPORT CurrSource : public Component, public eElement
 {
     Q_OBJECT
-    Q_PROPERTY( double  Voltage   READ volt    WRITE setVolt    DESIGNABLE true USER true )
+    Q_PROPERTY( double  Current   READ current WRITE setCurrent DESIGNABLE true USER true )
     Q_PROPERTY( QString Unit      READ unit    WRITE setUnit    DESIGNABLE true USER true )
-    Q_PROPERTY( bool    Show_Volt READ showVal WRITE setShowVal DESIGNABLE true USER true )
+    Q_PROPERTY( bool    Show_Amp  READ showVal WRITE setShowVal DESIGNABLE true USER true )
+    //Q_PROPERTY( double  Max_Volt  READ volt    WRITE setVolt    DESIGNABLE true USER true )
 
     public:
         QRectF boundingRect() const { return QRect( -44, -68, 56, 80 ); }
 
-        VoltSource( QObject* parent, QString type, QString id );
-        ~VoltSource();
+        CurrSource( QObject* parent, QString type, QString id );
+        ~CurrSource();
 
         static Component* construct( QObject* parent, QString type, QString id );
         static LibraryItem* libraryItem();
         
         void updateStep();
 
-        double volt() const      { return m_value; }
-        void setVolt( double v );
+        double current() const      { return m_value; }
+        void setCurrent( double c );
+        
+        //double volt() const      { return m_voltHight; }
+        //void setVolt( double v );
         
         void setUnit( QString un );
 
@@ -55,7 +59,7 @@ class MAINMODULE_EXPORT VoltSource : public Component, public eElement
 
     public slots:
         void onbuttonclicked();
-        void voltChanged( int volt );
+        void currChanged( int volt );
         virtual void remove();
 
     private:
@@ -63,10 +67,12 @@ class MAINMODULE_EXPORT VoltSource : public Component, public eElement
         
         bool m_changed;
         
-        double m_voltHight;
-        double m_voltOut;
+        double m_current;
+        double m_maxCurrent;
+        //double m_voltHight;
+        //double m_voltOut;
+        
         Pin* outpin;
-        eSource* m_out;
         
         VoltWidget m_voltw;
 

@@ -32,6 +32,7 @@
 #include "buffer.h"
 #include "capacitor.h"
 #include "clock.h"
+#include "currsource.h"
 #include "dac.h"
 #include "dectobcd.h"
 #include "demux.h"
@@ -112,6 +113,7 @@ void ItemLibrary::loadItems()
     addItem( Clock::libraryItem() );
     addItem( WaveGen::libraryItem() );
     addItem( VoltSource::libraryItem() );
+    addItem( CurrSource::libraryItem() );
     addItem( Rail::libraryItem() );
     addItem( Ground::libraryItem() );
     // Switches
