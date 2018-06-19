@@ -213,7 +213,7 @@ void BaseProcessor::setRegisters()// get register addresses from data file
                 address = validate( address );
                 addWatchVar( name, address, "u8" );        // type uint8 
             }
-            qDebug() << name << address<<"\n";
+            //qDebug() << name << address<<"\n";
         }
     }
 }
