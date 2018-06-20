@@ -52,7 +52,8 @@ class MAINMODULE_EXPORT BaseProcessor : public QObject
         virtual void stepOne()=0;
         virtual void reset()=0;
         virtual int  pc()=0;
-
+        
+        virtual void hardReset( bool reset );
         virtual int getRamValue( QString name );
         virtual int getRamValue( int address )=0;
         virtual int getRegAddress( QString name );
@@ -86,6 +87,7 @@ class MAINMODULE_EXPORT BaseProcessor : public QObject
         QHash<QString, float> m_floatTable;  // float 32 bits
         QHash<QString, QString> m_typeTable;
 
+        bool m_resetStatus;
         bool m_loadStatus;
         bool m_usartTerm;
         bool m_serialPort;

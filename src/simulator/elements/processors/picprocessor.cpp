@@ -145,7 +145,7 @@ bool PicProcessor::loadFirmware( QString fileN )
 
 void PicProcessor::step()                 // Run 1 step 
 {
-    if( !m_loadStatus ) return;
+    if( !m_loadStatus || m_resetStatus ) return;
     
     int cycles = m_mcuStepsPT/m_cpi;
 
@@ -171,7 +171,9 @@ void PicProcessor::reset()
 }
 
 int PicProcessor::getRamValue( int address )
-{ return m_pPicProcessor->rma[address].get_value(); }
+{ 
+    return m_pPicProcessor->rma[address].get_value(); 
+}
 
 int PicProcessor::validate( int address ) { return address; }
 

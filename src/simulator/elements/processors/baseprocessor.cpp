@@ -86,11 +86,12 @@ void BaseProcessor::setDataFile( QString datafile )
     setRegisters();
 }
 
-/*void BaseProcessor::reset()
+void BaseProcessor::hardReset( bool rst )
 {
-    //qDebug()<<"BaseProcessor::reset"<<m_device<<"m_loadStatus"<<m_loadStatus;
-    //emit chipReset();
-}*/
+    m_resetStatus = rst;
+    
+    if( rst )  reset();
+}
 
 int BaseProcessor::getRegAddress( QString name ) 
 { 
