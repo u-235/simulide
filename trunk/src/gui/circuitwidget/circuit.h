@@ -97,6 +97,7 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         void undo();
         void redo();
         void importCirc(  QPointF eventpoint  );
+        void bom();
 
     protected:
         void mousePressEvent(QGraphicsSceneMouseEvent* event);

@@ -28,12 +28,13 @@ int Component::m_error = 0;
 QString Component::m_noHelpMsg = "Sorry... no Help Available";
 
 Component::Component( QObject* parent , QString type, QString id )
-    : QObject(parent), QGraphicsItem()
-    ,multUnits( "TGMk munp" )
+         : QObject(parent), QGraphicsItem()
+         , multUnits( "TGMk munp" )
 {
     //setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 
     m_help = &m_noHelpMsg;
+    m_value    = 0;
     m_unitMult = 1;
     m_Hflip  = 1;
     m_Vflip  = 1;
@@ -43,6 +44,7 @@ Component::Component( QObject* parent , QString type, QString id )
     m_color  = QColor( Qt::white );
     m_showId = false;
     m_moving = false;
+    m_printable = false;
     
     m_idLabel = new Label( this );
     m_idLabel->setDefaultTextColor( Qt::darkBlue );
@@ -432,6 +434,22 @@ QString Component::getHelp( QString hfile )
     file.close();
     
     return help;
+}
+
+void Component::setPrintable( bool p )
+{
+    m_printable = p;
+}
+
+QString Component::print()
+{
+    if( !m_printable ) return "";
+    
+    QString str = objectName().split("-").first()+" ";
+    if( m_value > 0 ) str += QString::number( m_value*m_unitMult )+" ";
+    str += m_unit+"\n";
+    
+    return str;
 }
 
 void Component::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
