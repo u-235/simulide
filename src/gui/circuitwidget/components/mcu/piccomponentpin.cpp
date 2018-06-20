@@ -91,7 +91,7 @@ void PICComponentPin::setVChanged()
         m_pIOPIN->set_nodeVoltage(volt);
     }
     else if( m_pinType == 21 ) // reset
-    {qDebug() << "PICComponentPin::setVChanged()"<< m_id << m_type << volt;
+    {
         if( volt < 3 )  BaseProcessor::self()->hardReset( true );
         else            BaseProcessor::self()->hardReset( false );
     }
