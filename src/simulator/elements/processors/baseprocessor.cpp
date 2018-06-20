@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "baseprocessor.h"
+#include "mcucomponent.h"
 #include "circuitwidget.h"
 #include "mainwindow.h"
 #include "simulator.h"
@@ -27,7 +28,7 @@
 BaseProcessor* BaseProcessor::m_pSelf = 0l;
 
 BaseProcessor::BaseProcessor( QObject* parent )
-     : QObject( parent )
+             : QObject( parent )
 {
     m_loadStatus = false;
     m_resetStatus = false;
@@ -54,7 +55,6 @@ void BaseProcessor::terminate()
     m_pSelf = 0l;
     m_loadStatus = false;
     m_symbolFile = "";
-    //m_device     = "";
 }
 
 void BaseProcessor::initialized()
@@ -91,7 +91,7 @@ void BaseProcessor::hardReset( bool rst )
 {
     m_resetStatus = rst;
     
-    if( rst )  reset();
+    if( rst ) McuComponent::self()->reset();
 }
 
 int BaseProcessor::getRegAddress( QString name ) 
@@ -181,7 +181,7 @@ void BaseProcessor::addWatchVar( QString name, int address, QString type )
     }
 }
 
-void BaseProcessor::setRegisters()// get register addresses from data file
+void BaseProcessor::setRegisters() // get register addresses from data file
 {
     QStringList lineList = fileToStringList( m_dataFile, "BaseProcessor::setRegisters" );
 
@@ -243,9 +243,5 @@ void BaseProcessor::uartIn( uint32_t value ) // Receive one byte on Uart
         TerminalWidget::self()->uartIn( value );
     }
 }
-/*QStringList BaseProcessor::getDefsList( QString fileName )
-{
-    return QStringList( getRegsTable( fileName ).uniqueKeys() );
-}*/
 
 #include "moc_baseprocessor.cpp"

@@ -28,7 +28,8 @@
 
 //void simulation_cleanup();
 
-PicProcessor::PicProcessor( QObject* parent ) : BaseProcessor( parent )
+PicProcessor::PicProcessor( QObject* parent ) 
+            : BaseProcessor( parent )
 {
     m_pSelf = this;
     m_pPicProcessor = 0l;
