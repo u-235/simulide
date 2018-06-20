@@ -557,12 +557,12 @@ void Circuit::listToDom( QDomDocument* doc, QList<Component*>* complist )
     for (int i=0; i<count; i++)
     {
         Component* item = complist->at(i);
-        
+
         // Don't save internal items
         bool isNumber = false;
         item->objectName().split("-").last().toInt( &isNumber );
 
-        if ( item && isNumber)
+        if( isNumber)
         {
             QDomElement pin = m_domDoc.createElement("item");
             const QMetaObject* metaobject = item->metaObject();

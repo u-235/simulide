@@ -79,14 +79,15 @@ void eLed::updateBright()
         return;
     }
     updateVI();
-    
-    if( lastUpdatePeriod != 0. )
+    if( lastUpdatePeriod > 10000 )
     {
+        
         disp_brightness = avg_brightness/lastUpdatePeriod;
         //qDebug() << disp_brightness << avg_brightness << lastUpdatePeriod;
         avg_brightness   = 0;
         lastUpdatePeriod = 0;
+        m_bright = uint(disp_brightness*255)+40;
     }
-    m_bright = uint(disp_brightness*255)+40;
+    
     //qDebug() << m_bright;
 }

@@ -23,7 +23,8 @@
 #include "pin.h"
 
 LedBase::LedBase( QObject* parent, QString type, QString id )
-    : Component( parent, type, id ), eLed( id.toStdString() )
+       : Component( parent, type, id )
+       , eLed( id.toStdString() )
 {
     m_grounded = false;
     m_ground   = 0l;
