@@ -181,9 +181,7 @@ void SevenSegment::deleteDisplay( int dispNumber )
     Pin* pin = static_cast<Pin*>(m_commonPin[dispNumber]);
     if( pin->isConnected() ) pin->connector()->remove();
 
-    //pin->deleteLater();
-
-    for( int i=0; i<8; i++ ) m_segment[dispNumber*8+i]->remove();
+    for( int i=0; i<8; i++ ) Circuit::self()->removeComp( m_segment[dispNumber*8+i] );
     Circuit::self()->update();
     update();
 }
@@ -241,23 +239,12 @@ void SevenSegment::remove()
     for( int i=0; i<m_numDisplays; i++ )
     {
         int pin;
-        if( m_commonCathode )
+
+        for( int j=0; j<8; j++ )
         {
-            for( int j=0; j<8; j++ )
-            {
-                pin = i*8+j;
-                m_cathodePin[pin]->setEnode( 0l );
-                m_anodePin[pin]->setEnode( 0l );
-            }
-        }
-        else
-        {
-            for( int j=0; j<8; j++ )
-            {
-                pin = i*8+j;
-                m_anodePin[pin]->setEnode( 0l );
-                m_cathodePin[pin]->setEnode( 0l );
-            }
+            pin = i*8+j;
+            m_cathodePin[pin]->setEnode( 0l );
+            m_anodePin[pin]->setEnode( 0l );
         }
     }
 
