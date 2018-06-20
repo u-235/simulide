@@ -82,7 +82,7 @@ void LedBase::setGrounded( bool grounded )
         if( !m_grounded ) return;
         
         Pin* pin1 = (static_cast<Pin*>(m_ePin[1]));
-        //if( m_ePin[1]->isConnected() ) pin1->connector()->remove();
+
         pin1->setEnabled( true );
         pin1->setVisible( true );
         
@@ -103,6 +103,7 @@ void LedBase::remove()
 {
     if( m_ePin[0] && m_ePin[0]->isConnected() )
         (static_cast<Pin*>(m_ePin[0]))->connector()->remove();
+        
     if(( m_ePin[1] && m_ePin[1]->isConnected() )&( !m_grounded ))
         (static_cast<Pin*>(m_ePin[1]))->connector()->remove();
 
@@ -127,18 +128,18 @@ void LedBase::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidge
         p->setBrush( Qt::white );
         pen.setColor( QColor( Qt::white ));
     }
-
     int overBight = 100;
+    
     if( m_bright > 40 )
     {
         m_bright += 10;                          // Set a Minimun Bright
+        
         if( m_bright > 255 ) 
         {
             overBight += m_bright-255;
             m_bright = 255;
         }
     }
-
     p->setPen(pen);
 
     drawBackground( p );
@@ -151,7 +152,6 @@ void LedBase::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidge
     else if( m_ledColor == orange ) color = QColor( m_bright,  m_bright*2/3, overBight );
     else if( m_ledColor == purple ) color = QColor( m_bright,  overBight,  m_bright*2/3 );
     
-
     pen.setColor( color );
     pen.setWidth(2.5);
     p->setPen(pen);

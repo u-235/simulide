@@ -23,7 +23,8 @@
 #include "e-node.h"
 #include "simulator.h"
 
-eDiode::eDiode( std::string id ) : eResistor(id )
+eDiode::eDiode( std::string id ) 
+      : eResistor(id )
 {
     m_imped = 0.6;
     m_threshold = 0.7;
@@ -125,7 +126,6 @@ void  eDiode::setZenerV( double zenerV )
 
 void eDiode::updateVI()
 {
-    //if( !m_converged ) return;
     m_current = 0;
     
     if( m_resist == high_imp ) return;
@@ -133,11 +133,7 @@ void eDiode::updateVI()
     if( m_ePin[0]->isConnected() && m_ePin[1]->isConnected() )
     {
         double volt = m_voltPN - m_deltaV;
-        if( volt>0 )
-        {
-            m_current = volt/m_resist;
-            //qDebug() << " current " <<m_current<<volt<<m_voltPN<<m_deltaV;
-        }
+        if( volt>0 ) m_current = volt/m_resist;
     }
 }
 

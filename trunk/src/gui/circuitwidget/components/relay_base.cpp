@@ -68,8 +68,8 @@ RelayBase::RelayBase( QObject* parent, QString type, QString id )
     m_resistor->setEpin( 0, m_ePin[2] );
     m_resistor->setEpin( 1, m_ePin[3] );
 
-    m_resistor->setRes( 50 );
-    m_trigCurrent = 0.075;
+    m_resistor->setRes( 100 );
+    m_trigCurrent = 0.02;
 
     m_internalEnode = new eNode( m_id+"-internaleNode" );
     m_ePin[1]->setEnode( m_internalEnode );

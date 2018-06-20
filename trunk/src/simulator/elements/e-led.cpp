@@ -20,7 +20,8 @@
 #include "e-led.h"
 #include "simulator.h"
 
-eLed::eLed( std::string id ) : eDiode( id )
+eLed::eLed( std::string id ) 
+    : eDiode( id )
 {
     m_threshold = 2.4;
 
@@ -64,7 +65,9 @@ void eLed::updateVI()
     lastUpdatePeriod += period;
 
     if( m_lastCurrent > 0) avg_brightness += m_lastCurrent * period / m_maxCurrent;
+    
     m_lastCurrent = m_current;
+    
     //qDebug()<<"current"<< m_current<<m_lastCurrent<<period<< lastUpdatePeriod <<avg_brightness;
     //label->setText( QString("%1 A"). arg(double(int(m_current*1000))/1000) );
 }
@@ -79,11 +82,11 @@ void eLed::updateBright()
         return;
     }
     updateVI();
+    
     if( lastUpdatePeriod > 10000 )
     {
-        
         disp_brightness = avg_brightness/lastUpdatePeriod;
-        //qDebug() << disp_brightness << avg_brightness << lastUpdatePeriod;
+
         avg_brightness   = 0;
         lastUpdatePeriod = 0;
         m_bright = uint(disp_brightness*255)+40;
