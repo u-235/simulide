@@ -30,6 +30,7 @@ BaseProcessor::BaseProcessor( QObject* parent )
      : QObject( parent )
 {
     m_loadStatus = false;
+    m_resetStatus = false;
     m_usartTerm  = false;
     m_serialPort = false;
     m_ramTable   = 0l;

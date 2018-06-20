@@ -92,8 +92,8 @@
     <item name="pic18f2455" package="pic/pic18f2550" data="pic/pic18f2550" device="pic18f2455" ></item>
     <item name="pic18f2550" package="pic/pic18f2550" data="pic/pic18f2550" device="pic18f2550" ></item>
     <item name="pic18f4520" package="pic/pic18f4520" data="pic/pic18f4520" device="pic18f4520" ></item>
-    <item name="pic18f4455" package="pic/pic16f877"  data="pic/pic18f4455" device="pic18f4455" ></item>
-    <item name="pic18f4550" package="pic/pic16f877"  data="pic/pic18f4550" device="pic18f4550" ></item>
+    <item name="pic18f4455" package="pic/pic18f4550" data="pic/pic18f4455" device="pic18f4455" ></item>
+    <item name="pic18f4550" package="pic/pic18f4550" data="pic/pic18f4550" device="pic18f4550" ></item>
     <item name="pic18f26k22" package="pic/pic18f26k22"  data="pic/pic18f26k22" device="pic18f26k22" ></item>
 
     </itemset>
