@@ -516,6 +516,39 @@ bool Circuit::saveCircuit( QString &fileName )
     return true;
 }
 
+void Circuit::bom()
+{
+    QString bom;
+    
+    bom += "\nCircuit: ";
+    bom += QFileInfo( m_fileName ).fileName();
+    bom += "\n\n";
+    bom += "Bill of Materials:\n\n";
+    
+    foreach( Component* comp, m_compList )
+    {
+        bool isNumber = false;
+        comp->objectName().split("-").last().toInt( &isNumber );
+
+        if( isNumber ) bom += comp->print();
+    }
+    
+    QString fileName = m_fileName; 
+    fileName.replace( ".simu", "" );
+    fileName += "-bom.txt";
+
+    QFile file( fileName );
+
+    if( !file.open(QFile::WriteOnly | QFile::Text) )
+    {
+          QMessageBox::warning(0l, tr("Application"),
+          tr("Cannot write file %1:\n%2.").arg(fileName).arg(file.errorString()));
+    }
+    QTextStream out(&file);
+    out << bom;
+    file.close();
+}
+
 void Circuit::listToDom( QDomDocument* doc, QList<Component*>* complist )
 {
     QDomElement root = doc->firstChild().toElement();
@@ -524,6 +557,7 @@ void Circuit::listToDom( QDomDocument* doc, QList<Component*>* complist )
     for (int i=0; i<count; i++)
     {
         Component* item = complist->at(i);
+        
         // Don't save internal items
         bool isNumber = false;
         item->objectName().split("-").last().toInt( &isNumber );
@@ -628,8 +662,20 @@ Component* Circuit::createItem( QString type, QString id )
 {
     //qDebug() << type << id;
     foreach( LibraryItem* libItem, ItemLibrary::self()->items() )
+    {
         if( libItem->type()==type )
-            return libItem->createItemFnPtr()( this, type, id );
+        {
+            Component* comp = libItem->createItemFnPtr()( this, type, id );
+            
+            QString category = libItem->category();
+            if( ( category != "Meters" )
+            &&  ( category != "Sources" )
+            &&  ( category != "Other" ) )
+                comp->setPrintable( true );
+                
+            return comp;
+        }
+    }
 
     return 0l;
 }

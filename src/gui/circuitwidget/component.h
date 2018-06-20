@@ -104,6 +104,9 @@ class MAINMODULE_EXPORT Component : public QObject, public QGraphicsItem
         void updateLabel( Label* label, QString txt );
         
         QString getHelp( QString file );
+        
+        void setPrintable( bool p );
+        QString print();
 
         QString itemType();
         QString category();
@@ -170,6 +173,7 @@ class MAINMODULE_EXPORT Component : public QObject, public QGraphicsItem
         bool m_showId;
         bool m_showVal;
         bool m_moving;
+        bool m_printable;
         
         std::vector<Pin*> m_pin;
 };
