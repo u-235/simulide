@@ -240,6 +240,12 @@ void Arduino::initBoard()
             //pin->setEnode( m_boardLedEnode );
             m_pb5Pin = pin;
         }
+        else if( pinId.toUpper().contains( "RST" ) )      // Reset Pins
+        {
+            mcuPin->setImp( 20000 );
+            mcuPin->setVoltHigh( 5 );
+            mcuPin->setVoltLow( 5 );
+        }
     }
 }
 

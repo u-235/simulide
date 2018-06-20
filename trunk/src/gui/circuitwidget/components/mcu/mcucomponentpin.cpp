@@ -68,6 +68,8 @@ void McuComponentPin::initialize()
 {
     if( m_ePin[0]->isConnected() && m_attached )
         m_ePin[0]->getEnode()->addToChangedFast(this);
+        
+    if( m_pinType == 21 ) BaseProcessor::self()->hardReset( true );
 
     eSource::initialize();
 }
