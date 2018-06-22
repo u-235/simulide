@@ -55,6 +55,7 @@
 #include "latchd.h"
 #include "led.h"
 #include "ledbar.h"
+#include "ledmatrix.h"
 #include "line.h"
 #include "logicinput.h"
 #include "mosfet.h"
@@ -136,6 +137,7 @@ void ItemLibrary::loadItems()
     // Outputs
     addItem( Led::libraryItem() );
     addItem( LedBar::libraryItem() );
+    addItem( LedMatrix::libraryItem() );
     addItem( SevenSegment::libraryItem() );
     addItem( KeyPad::libraryItem() );
     addItem( Hd44780::libraryItem() );

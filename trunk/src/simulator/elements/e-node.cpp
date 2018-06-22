@@ -53,6 +53,7 @@ void eNode::initialize()
     
     m_ePinSubList.clear();
     m_changedFast.clear();
+    m_nonLinear.clear();
     m_reactiveList.clear();
     m_admitList.clear();
     m_currList.clear();

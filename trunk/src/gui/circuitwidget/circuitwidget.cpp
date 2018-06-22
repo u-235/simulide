@@ -145,7 +145,7 @@ void CircuitWidget::openCirc()
     QString fileName = QFileDialog::getOpenFileName( 0l, tr("Load Circuit"), dir,
                                           tr("Circuits (*.simu);;All files (*.*)"));
 
-    
+    loadCirc( fileName );
 }
 
 void CircuitWidget::loadCirc( QString path )
