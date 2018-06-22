@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2018 by Pavel Lamonov                                   *
- *   leamonpaul@yandex.ru                                                  *
+ *   Copyright (C) 2018 by santiago González                               *
+ *   santigoro@gmail.com                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,45 +17,49 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FILEBROWSER_H
-#define FILEBROWSER_H
+#ifndef FILEWIDGET_H
+#define FILEWIDGET_H
 
-#include <QtWidgets>
+#include "filebrowser.h"
 
-class MAINMODULE_EXPORT FileBrowser : public QTreeView
+class MAINMODULE_EXPORT FileWidget : public QWidget
 {
     Q_OBJECT
-
+    
     public:
-        FileBrowser( QWidget *parent );
-        ~FileBrowser();
+        FileWidget( QWidget* parent );
+        ~FileWidget();
+
+ static FileWidget* self() { return m_pSelf; }
+
+        void addBookMark( QString path );
         
- static FileBrowser* self() { return m_pSelf; }
- 
-        void setPath(QString path);
+        void setPath( QString path );
         
-    public slots:
-        void cdUp();
-        void open();
-        void openInEditor();
-        void addBookMark();
-        
-    signals:
-        void openFileWithEditor( QString path );
-        
+        void writeSettings();
+
+    private slots:
+        void itemClicked( QListWidgetItem* );
+        void remBookMark();
+        void pathChanged();
+
     protected:
         void contextMenuEvent( QContextMenuEvent* event );
 
     private:
-    
- static FileBrowser*  m_pSelf;
- 
-        void mouseDoubleClickEvent(QMouseEvent *event);
-        void keyPressEvent( QKeyEvent *event );
+ static FileWidget* m_pSelf;
+
+        void resizeToItems();
+        void addEntry( QString name, QString path );
+
+        QStringList m_bookmarkList;
         
-        QFileSystemModel* m_fileSystemModel;
+        FileBrowser* m_fileBrowser;
+        QListWidget* m_bookmarks;
+        QPushButton* m_cdUpButton;
+        QLineEdit*   m_path;
         
-        QString m_currentPath;
+        bool m_blocked;
 };
 
 #endif

@@ -92,6 +92,7 @@ void MainWindow::writeSettings()
             m_settings.setValue( item->child(j)->text(0)+"/collapsed", !item->child(j)->isExpanded() );
         }
     }
+    FileWidget::self()->writeSettings();
 }
 
 void MainWindow::setTitle( QString title )
@@ -142,7 +143,7 @@ void MainWindow::createWidgets()
     m_itemprop->setObjectName(QString::fromUtf8("properties"));
     m_sidepanel->addTab( m_itemprop, QString::fromUtf8("Properties") );
     
-    m_fileSystemTree = new FileBrowser( this );
+    m_fileSystemTree = new FileWidget( this );
     m_fileSystemTree->setObjectName(QString::fromUtf8("fileExplorer"));
     m_sidepanel->addTab( m_fileSystemTree, QString::fromUtf8("File explorer") );
 

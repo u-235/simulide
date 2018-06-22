@@ -32,9 +32,11 @@ SIMUAPI_AppPath *SIMUAPI_AppPath::self()
 }
 
 SIMUAPI_AppPath::SIMUAPI_AppPath()
-    : m_RODataFolder(qApp->applicationDirPath()),
+    : m_ROExamFolder(qApp->applicationDirPath()),
+      m_RODataFolder(qApp->applicationDirPath()),
       m_RWDataFolder(QStandardPaths::writableLocation(QStandardPaths::DataLocation))
 {
+    m_ROExamFolder.cd( "../share/simulide/examples" );
     m_RODataFolder.cd( "../share/simulide/data" );
     m_RWDataFolder.cd( "data" );
 }
@@ -47,6 +49,16 @@ QDir SIMUAPI_AppPath::RWDataFolder() const
 void SIMUAPI_AppPath::setRWDataFolder(const QDir &RWDataFolder)
 {
     m_RWDataFolder = RWDataFolder;
+}
+
+QDir SIMUAPI_AppPath::ROExamFolder() const
+{
+    return m_ROExamFolder;
+}
+
+void SIMUAPI_AppPath::setROExamFolder(const QDir &ROExamFolder)
+{
+    m_ROExamFolder = ROExamFolder;
 }
 
 QDir SIMUAPI_AppPath::RODataFolder() const
@@ -62,8 +74,8 @@ void SIMUAPI_AppPath::setRODataFolder(const QDir &RODataFolder)
 QString SIMUAPI_AppPath::availableDataFilePath(QString fileRelPath)
 {
     QString filePath = m_RWDataFolder.absoluteFilePath(fileRelPath);
-    if (QFile::exists(filePath))
-        return filePath;
+    
+    if (QFile::exists(filePath)) return filePath;
     filePath = m_RODataFolder.absoluteFilePath(fileRelPath);
     if (QFile::exists(filePath))
         return filePath;
