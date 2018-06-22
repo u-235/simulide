@@ -101,13 +101,19 @@ void LedBase::setGrounded( bool grounded )
 
 void LedBase::remove()
 {
-    if( m_ePin[0] && m_ePin[0]->isConnected() )
-        (static_cast<Pin*>(m_ePin[0]))->connector()->remove();
-        
-    if(( m_ePin[1] && m_ePin[1]->isConnected() )&( !m_grounded ))
-        (static_cast<Pin*>(m_ePin[1]))->connector()->remove();
-
-    if( m_ground )   delete m_ground;
+    /*for( int i=0; i<2; i++ )
+    {
+        if( ( !m_grounded )&&( m_ePin[i]  ) )
+        {
+            Pin* pin = static_cast<Pin*>(m_ePin[i]);
+            if( pin && pin->isConnected())
+            {
+                Connector* con = pin->connector();
+                if( con ) con->remove();
+            }
+        }
+    }*/
+    if( m_ground ) delete m_ground;
     
     Simulator::self()->remFromUpdateList( this ); 
     

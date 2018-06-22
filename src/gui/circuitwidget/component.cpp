@@ -203,8 +203,15 @@ void Component::slotRemove()
 
 void Component::remove()
 {
-    for( uint i=0; i<m_pin.size(); i++ )               // Remove connectors attached
-        if( m_pin[i]->isConnected() ) m_pin[i]->connector()->remove();
+    for( uint i=0; i<m_pin.size(); i++ )   // Remove connectors attached
+    {
+        Pin* pin = m_pin[i];
+        if( pin && pin->isConnected())
+        {
+            Connector* con = pin->connector();
+            if( con ) con->remove();
+        }
+    }
 }
 
 void Component::slotProperties()

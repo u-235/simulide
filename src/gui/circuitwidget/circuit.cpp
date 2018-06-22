@@ -118,7 +118,7 @@ void Circuit::removeComp( Component* comp )
     comp->remove();
     QPropertyEditorWidget::self()->removeObject( comp );
     compList()->removeOne( comp );
-    removeItem( comp );
+    if( items().contains( comp ) ) removeItem( comp );
     comp->deleteLater();
 }
 

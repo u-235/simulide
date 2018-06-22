@@ -175,7 +175,7 @@ void Simulator::runContinuous()
     {
         if( !m_paused )
         {
-            //std::cout << "el->resetState()"
+            //std::cout << "el->resetState()<< getId()
             //      <<  std::endl;
             el->resetState();
             m_paused = false;
