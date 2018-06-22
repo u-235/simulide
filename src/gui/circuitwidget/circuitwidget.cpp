@@ -145,16 +145,21 @@ void CircuitWidget::openCirc()
     QString fileName = QFileDialog::getOpenFileName( 0l, tr("Load Circuit"), dir,
                                           tr("Circuits (*.simu);;All files (*.*)"));
 
-    if( !fileName.isEmpty() && fileName.endsWith(".simu") )
+    
+}
+
+void CircuitWidget::loadCirc( QString path )
+{
+    if( !path.isEmpty() && path.endsWith(".simu") )
     {
         newCircuit();
-        Circuit::self()->loadCircuit( fileName );
+        Circuit::self()->loadCircuit( path );
    
-        m_curCirc = fileName;
-        m_lastCircDir = fileName;
-        MainWindow::self()->setTitle(fileName.split("/").last());
+        m_curCirc = path;
+        m_lastCircDir = path;
+        MainWindow::self()->setTitle(path.split("/").last());
         MainWindow::self()->settings()->setValue( "lastCircDir", m_lastCircDir );
-        FileBrowser::self()->setPath(m_lastCircDir);
+        //FileBrowser::self()->setPath(m_lastCircDir);
     }
 }
 
@@ -187,7 +192,7 @@ bool CircuitWidget::saveCircAs()
         QString fileName = m_curCirc;
         MainWindow::self()->setTitle(fileName.split("/").last());
         MainWindow::self()->settings()->setValue( "lastCircDir", m_lastCircDir );
-        FileBrowser::self()->setPath(m_lastCircDir);
+        //FileBrowser::self()->setPath(m_lastCircDir);
     }
     return saved;
 }

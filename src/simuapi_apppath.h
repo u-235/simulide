@@ -27,6 +27,8 @@ class MAINMODULE_EXPORT SIMUAPI_AppPath
     public:
         static SIMUAPI_AppPath* self();
 
+        QDir ROExamFolder() const;
+        void setROExamFolder(const QDir &ROExamFolder);
 
         QDir RODataFolder() const;
         void setRODataFolder(const QDir &RODataFolder);
@@ -41,6 +43,7 @@ private:
         SIMUAPI_AppPath();
         static SIMUAPI_AppPath* m_pSelf;
 
+        QDir m_ROExamFolder;
         QDir m_RODataFolder;
         QDir m_RWDataFolder;
 };

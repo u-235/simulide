@@ -26,8 +26,9 @@
 #include "propertieswidget.h"
 #include "componentselector.h"
 #include "circuitwidget.h"
-#include "filebrowser.h"
+//#include "filebrowser.h"
 #include "editorwindow.h"
+#include "filewidget.h"
 
 class MAINMODULE_EXPORT MainWindow : public QMainWindow
 {
@@ -85,7 +86,7 @@ class MAINMODULE_EXPORT MainWindow : public QMainWindow
         EditorWindow*       m_editor;
         
         QSplitter*   m_Centralsplitter;
-        FileBrowser* m_fileSystemTree;
+        FileWidget* m_fileSystemTree;
 };
 
 #endif

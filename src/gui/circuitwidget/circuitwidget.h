@@ -57,6 +57,7 @@ class MAINMODULE_EXPORT CircuitWidget : public QWidget
     public slots:
         void newCircuit();
         void openCirc();
+        void loadCirc( QString path );
         void saveCirc();
         bool saveCircAs();
         void powerCircOn();
