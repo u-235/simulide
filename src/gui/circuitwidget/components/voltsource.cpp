@@ -65,6 +65,9 @@ VoltSource::VoltSource( QObject* parent, QString type, QString id )
     nodid.append("-eSource");
     m_out = new eSource( nodid.toStdString(), outpin );
     
+    m_out->setVoltHigh( 0 );
+    m_out->setVoltLow( 0 );
+    
     m_unit = "V";
     setVolt(5.0);
     voltChanged( 0 );

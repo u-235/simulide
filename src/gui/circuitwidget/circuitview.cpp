@@ -30,7 +30,6 @@ CircuitView::CircuitView( QWidget *parent )
 {
     m_circuit     = 0l;
     m_enterItem   = 0l;
-    m_scalefactor = 1;
 
     clear();
 
@@ -57,21 +56,17 @@ void CircuitView::clear()
         m_circuit->remove();
         m_circuit->deleteLater();
     }
+    resetMatrix();
+    
     m_circuit = new Circuit( -1600, -1200, 3200, 2400, this );
     setScene( m_circuit );
     centerOn( 900, 600 );
 }
 
-void CircuitView::wheelEvent(QWheelEvent *event) { scaleView(pow( 2.0, event->delta() / 700.0)); }
-
-void CircuitView::scaleView(qreal scaleFactor)
-{
-    qreal factor = matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 8, 8)).width();
-
-    if( factor < 1 || factor > 100 ) return;
-
-    m_scalefactor *=  factor;
-    scale(scaleFactor, scaleFactor);
+void CircuitView::wheelEvent( QWheelEvent *event ) 
+{ 
+    qreal scaleFactor = pow( 2.0, event->delta() / 700.0);
+    scale( scaleFactor, scaleFactor );
 }
 
 void CircuitView::dragEnterEvent(QDragEnterEvent *event)

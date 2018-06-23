@@ -38,28 +38,40 @@ eDiode::~eDiode()
 void eDiode::initialize()
 {
     m_resist = high_imp;
-    m_admit = 1/high_imp;
+    m_admit = 0;
     m_converged = true;
     m_voltPN  = 0;
     m_deltaV  = 0;
     m_current = 0;
 
-    if( m_ePin[0]->isConnected() ) m_ePin[0]->getEnode()->addToNoLinList(this);
-    if( m_ePin[1]->isConnected() ) m_ePin[1]->getEnode()->addToNoLinList(this);
+    if( m_ePin[0]->isConnected() )
+    {
+        eNode* node = m_ePin[0]->getEnode();
+        node->addToNoLinList(this);
+        if( node ) node->setSwitched( true );
+    }
+    if( m_ePin[1]->isConnected() )
+    {
+        eNode* node = m_ePin[1]->getEnode();
+        node->addToNoLinList(this);
+        if( node ) node->setSwitched( true );
+    }
     eResistor::initialize();
 }
 
 void eDiode::setVChanged()
 {
     m_voltPN = m_ePin[0]->getVolt()-m_ePin[1]->getVolt();
+    
     /*if( m_converged )
     {
         m_converged = false;
-        m_admit = 1e-9;
+        m_admit = 0;
         eResistor::stamp();
         m_ePin[0]->stampCurrent( 0 );
         m_ePin[1]->stampCurrent( 0 );
     }*/
+    //if( m_voltPN > 1e6 ) m_voltPN = m_threshold;
 
     double deltaR = m_imped;
     double deltaV = m_threshold;
@@ -74,13 +86,15 @@ void eDiode::setVChanged()
             deltaR = high_imp;
         }
     }
+    //if( deltaV < 0 ) deltaV = 0;
     //qDebug() <<"eDiode::setVChanged,  deltaR: "<< deltaR << "  deltaV" << deltaV << "m_voltPN" << m_voltPN<<m_threshold<<m_imped ;
     //qDebug() <<"eDiode::setVChanged : "<< (m_voltPN==m_threshold);
 
     if( deltaR != m_resist )
     {
         m_resist = deltaR;
-        eResistor::setAdmit( 1/m_resist );
+        if( deltaR == high_imp ) eResistor::setAdmit( 0 );
+        else                     eResistor::setAdmit( 1/m_resist );
         //m_converged = false;
     }
     //if( fabs(deltaV - m_deltaV) > 1e-18 ) 
@@ -88,6 +102,8 @@ void eDiode::setVChanged()
         m_deltaV = deltaV;
 
         double current = deltaV/m_resist;
+        
+        if( deltaR == high_imp ) current = 0;
 
         m_ePin[0]->stampCurrent( current );
         m_ePin[1]->stampCurrent(-current );
@@ -134,6 +150,7 @@ void eDiode::updateVI()
     {
         double volt = m_voltPN - m_deltaV;
         if( volt>0 ) m_current = volt/m_resist;
+        //qDebug() << "m_voltPN"<<m_voltPN<<"m_deltaV"<<m_deltaV<<"volt"<<volt;
     }
 }
 

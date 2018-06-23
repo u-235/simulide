@@ -177,7 +177,7 @@ void eNode::solveSingle()
 {
     double volt = 0;
     
-    if( (m_totalAdmit > 0) && (m_totalCurr > 0) ) volt = m_totalCurr/m_totalAdmit;
+    if( m_totalAdmit > 0 ) volt = m_totalCurr/m_totalAdmit;
     setVolt( volt );
 }
 

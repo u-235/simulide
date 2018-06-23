@@ -31,7 +31,8 @@
 
 Simulator* Simulator::m_pSelf = 0l;
 
-Simulator::Simulator( QObject* parent ) : QObject(parent)
+Simulator::Simulator( QObject* parent ) 
+         : QObject(parent)
 {
     m_pSelf = this;
 

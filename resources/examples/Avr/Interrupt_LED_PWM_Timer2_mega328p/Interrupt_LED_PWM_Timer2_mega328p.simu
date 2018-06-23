@@ -1,24 +1,36 @@
 <circuit type="simulide_0.1">
  
-atmega328-4: 
-<item itemtype="AVR" labelx="-15" id="atmega328" rotation="0" hflip="1" Show_id="true" labely="-17" valLabRot="0" vflip="1" y="-300" valLabely="0" valLabelx="0" Mhz="16" program="Interrupt_LED_PWM_Timer2_mega328p.hex" objectName="atmega328-4" x="-388" labelrot="0"/>
+Node-6: 
+<item labelrot="0" valLabely="0" valLabRot="0" itemtype="Node" Show_id="false" hflip="1" y="-108" labelx="-16" labely="-24" x="-284" vflip="1" rotation="0" objectName="Node-6" id="Node-6" valLabelx="0"/>
  
-Led-3: 
-<item x="-308" MaxCurrent="0.029999999999999999" Grounded="false" vflip="1" id="Led-3" hflip="1" labelrot="0" valLabRot="0" valLabelx="0" Resistance="0.01" Show_id="false" y="-220" labely="-24" itemtype="Led" labelx="-16" threshold="2.3999999999999999" objectName="Led-3" valLabely="0" rotation="0"/>
+Oscope-5: 
+<item labelrot="0" valLabely="0" valLabRot="0" itemtype="Oscope" Show_id="false" hflip="1" y="-220" labelx="-16" labely="-24" x="-108" Filter="0.29999999999999999" vflip="1" rotation="0" objectName="Oscope-5" id="Oscope-5" valLabelx="0"/>
  
-Ground (0 V)-2: 
-<item itemtype="Ground" labelx="-16" id="Ground (0 V)-2" rotation="0" hflip="1" Show_id="false" labely="-24" valLabRot="0" vflip="1" y="-180" valLabely="0" valLabelx="0" objectName="Ground (0 V)-2" x="-172" labelrot="0"/>
+Resistor-4: 
+<item labelx="-16" itemtype="Resistor" rotation="0" x="-188" hflip="1" valLabely="-20" objectName="Resistor-4" labelrot="0" Show_id="false" y="-108" Resistance="100" valLabelx="-15" Unit=" Ω" valLabRot="0" labely="-24" Show_res="true" vflip="1" id="Resistor-4"/>
  
-Resistor-1: 
-<item x="-236" vflip="1" id="Resistor-1" hflip="1" labelrot="0" valLabRot="0" valLabelx="-15" Resistance="100" Show_id="false" Unit=" Ω" y="-220" labely="-24" itemtype="Resistor" labelx="-16" objectName="Resistor-1" valLabely="-20" rotation="0" Show_res="true"/>
+Ground (0 V)-3: 
+<item labelrot="0" valLabely="0" valLabRot="0" itemtype="Ground" Show_id="false" hflip="1" y="-68" labelx="-16" labely="-24" x="-124" vflip="1" rotation="0" objectName="Ground (0 V)-3" id="Ground (0 V)-3" valLabelx="0"/>
  
-Connector-5: 
-<item endpinid="Led-3-lPin" x="-348" vflip="1" id="Connector-5" hflip="1" labelrot="0" valLabRot="0" valLabelx="0" enodeid="Circ_eNode-6" Show_id="false" startpinid="atmega328-4-PB5" pointList="-348,-220,-324,-220" y="-220" labely="-24" itemtype="Connector" labelx="-16" objectName="Connector-5" valLabely="0" rotation="0"/>
+Led-2: 
+<item labelx="-16" itemtype="Led" rotation="0" threshold="2.3999999999999999" x="-260" hflip="1" valLabely="0" objectName="Led-2" MaxCurrent="0.029999999999999999" labelrot="0" Show_id="false" y="-108" valLabelx="0" Resistance="0.01" valLabRot="0" labely="-24" vflip="1" Color="0" id="Led-2" Grounded="false"/>
+ 
+atmega328-1: 
+<item labelrot="0" valLabely="0" valLabRot="0" itemtype="AVR" Show_id="true" hflip="1" y="-188" Mhz="16" labelx="-15" labely="-17" x="-340" program="Interrupt_LED_PWM_Timer2_mega328p.hex" vflip="1" rotation="0" objectName="atmega328-1" id="atmega328" valLabelx="0"/>
  
 Connector-7: 
-<item endpinid="Resistor-1-lPin" x="-292" vflip="1" id="Connector-7" hflip="1" labelrot="0" valLabRot="0" valLabelx="0" enodeid="Circ_eNode-8" Show_id="false" startpinid="Led-3-rPin" pointList="-292,-220,-252,-220" y="-220" labely="-24" itemtype="Connector" labelx="-16" objectName="Connector-7" valLabely="0" rotation="0"/>
+<item labelx="-16" itemtype="Connector" pointList="-300,-108,-284,-108" rotation="0" enodeid="Circ_eNode-8" x="-300" hflip="1" valLabely="0" startpinid="atmega328-1-PB5" objectName="Connector-7" labelrot="0" Show_id="false" y="-108" valLabelx="0" valLabRot="0" labely="-24" vflip="1" id="Connector-7" endpinid="Node-6-0"/>
  
 Connector-9: 
-<item endpinid="Ground (0 V)-2-Gnd" x="-220" vflip="1" id="Connector-9" hflip="1" labelrot="0" valLabRot="0" valLabelx="0" enodeid="Circ_eNode-10" Show_id="false" startpinid="Resistor-1-rPin" pointList="-220,-220,-172,-220,-172,-196" y="-220" labely="-24" itemtype="Connector" labelx="-16" objectName="Connector-9" valLabely="0" rotation="0"/>
+<item labelx="-16" itemtype="Connector" pointList="-244,-108,-204,-108" rotation="0" enodeid="Circ_eNode-10" x="-244" hflip="1" valLabely="0" startpinid="Led-2-rPin" objectName="Connector-9" labelrot="0" Show_id="false" y="-108" valLabelx="0" valLabRot="0" labely="-24" vflip="1" id="Connector-9" endpinid="Resistor-4-lPin"/>
+ 
+Connector-11: 
+<item labelx="-16" itemtype="Connector" pointList="-172,-108,-124,-108,-124,-84" rotation="0" enodeid="Circ_eNode-12" x="-172" hflip="1" valLabely="0" startpinid="Resistor-4-rPin" objectName="Connector-11" labelrot="0" Show_id="false" y="-108" valLabelx="0" valLabRot="0" labely="-24" vflip="1" id="Connector-11" endpinid="Ground (0 V)-3-Gnd"/>
+ 
+Connector-13: 
+<item labelx="-16" itemtype="Connector" pointList="-228,-220,-284,-220,-284,-108" rotation="0" enodeid="Circ_eNode-8" x="-228" hflip="1" valLabely="0" startpinid="Oscope-5-PinP" objectName="Connector-13" labelrot="0" Show_id="false" y="-220" valLabelx="0" valLabRot="0" labely="-24" vflip="1" id="Connector-13" endpinid="Node-6-1"/>
+ 
+Connector-14: 
+<item labelx="-16" itemtype="Connector" pointList="-284,-108,-276,-108" rotation="0" enodeid="Circ_eNode-8" x="-284" hflip="1" valLabely="0" startpinid="Node-6-2" objectName="Connector-14" labelrot="0" Show_id="false" y="-108" valLabelx="0" valLabRot="0" labely="-24" vflip="1" id="Connector-14" endpinid="Led-2-lPin"/>
  
 </circuit>

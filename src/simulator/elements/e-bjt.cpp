@@ -149,7 +149,7 @@ void eBJT::setVChanged()
     }
     if( m_PNP ) current = -current;
 
-    if( fabs(current-m_lastOut)<m_accuracy ) return;
+    if( fabs(current-m_lastOut) < m_accuracy ) return;
     
     m_lastOut = current;
     m_ePin[0]->stampCurrent( current );
