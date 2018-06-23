@@ -35,8 +35,6 @@ class CircuitView : public QGraphicsView
 
         void clear();
 
-        qreal scaleFactor() { return m_scalefactor; }
-
     public slots:
         void saveImage();
         void slotPaste();
@@ -58,9 +56,7 @@ class CircuitView : public QGraphicsView
         void mouseReleaseEvent(QMouseEvent *event );
 
         void resizeEvent(QResizeEvent *event);
-        void scaleView(qreal scaleFactor);
 
-        qreal       m_scalefactor;
         Component*  m_enterItem;
         Circuit*     m_circuit;
 

@@ -161,7 +161,7 @@ void FileWidget::pathChanged()
 
 void FileWidget::resizeToItems()
 {
-    int size = m_bookmarks->count()*22+2;
+    int size = m_bookmarks->count()*22+7;
     m_bookmarks->setFixedHeight( size );
 }
 

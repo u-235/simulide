@@ -40,9 +40,9 @@ LibraryItem* Oscope::libraryItem()
 }
 
 Oscope::Oscope( QObject* parent, QString type, QString id )
-    : Component( parent, type, id )
-    , eElement( (id+"-eElement").toStdString() )
-    , m_topW( )
+      : Component( parent, type, id )
+      , eElement( (id+"-eElement").toStdString() )
+      , m_topW( )
 {
     m_area = QRectF( -115, -65, 230, 130 );
     
@@ -79,9 +79,6 @@ Oscope::~Oscope()
 
 void Oscope::initialize()
 {
-    //m_oscopeW->setOscope( this );
-    //m_changed = true;
-    //updateStep();
 }
 
 double Oscope::getVolt()
@@ -93,6 +90,7 @@ double Oscope::getVolt()
 void Oscope::remove()
 {    
     Simulator::self()->remFromUpdateList( this );
+    m_oscopeW->setOscope( 0l );
     
     Component::remove();
 }

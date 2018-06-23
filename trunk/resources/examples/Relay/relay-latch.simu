@@ -10,7 +10,7 @@ Diode-11:
 <item rotation="0" labelrot="0" labelx="-16" valLabelx="0" objectName="Diode-11" id="Diode-11" valLabely="0" threshold="0.69999999999999996" itemtype="Diode" Show_id="false" labely="-24" x="-332" valLabRot="0" y="-212" vflip="1" Zener_Volt="0" hflip="1"/>
  
 Relay SPST-10: 
-<item itemtype="RelaySPST" vflip="1" rotation="0" Rcoil="50" id="Relay SPST-10" Show_id="false" objectName="Relay SPST-10" Itrig="0.014999999999999999" DT="false" labelx="-16" valLabelx="-16" labelrot="0" valLabely="6" hflip="1" x="-332" valLabRot="0" labely="-24" y="-236" Poles="1"/>
+<item itemtype="RelaySPST" vflip="1" rotation="0" Rcoil="100" id="Relay SPST-10" Show_id="false" objectName="Relay SPST-10" Itrig="0.014999999999999999" DT="false" labelx="-16" valLabelx="-16" labelrot="0" valLabely="6" hflip="1" x="-332" valLabRot="0" labely="-24" y="-236" Poles="1"/>
  
 Rail.-9: 
 <item itemtype="Rail" Voltage="5" vflip="1" rotation="0" id="Rail.-9" Show_id="false" objectName="Rail.-9" labelx="-64" valLabelx="-16" labelrot="0" Unit=" V" valLabely="8" hflip="1" x="-420" valLabRot="0" labely="-24" y="-364" Show_Volt="true"/>

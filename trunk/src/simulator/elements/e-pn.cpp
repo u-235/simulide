@@ -54,7 +54,7 @@ void ePN::setVChanged()
 
     //qDebug() <<"ePN::setVChanged,  deltaR: "<< deltaR << "  deltaV" << deltaV << "m_voltPN" << m_voltPN ;
 
-    //if( fabs(deltaV-m_deltaV) < m_accuracy ) return;
+    if( fabs(deltaV-m_deltaV) < m_accuracy ) return;
 
     m_deltaV = deltaV;
 

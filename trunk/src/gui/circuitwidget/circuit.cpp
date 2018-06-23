@@ -249,6 +249,8 @@ void Circuit::loadCircuit( QString &fileName )
     loadDomDoc( &m_domDoc );
 
     m_domDoc.clear();
+    
+    m_graphicView->centerOn( QPointF( 1200+itemsBoundingRect().center().x(), 950+itemsBoundingRect().center().y() ) );
 }
 
 QString Circuit::getCompId( QString name )
@@ -483,9 +485,6 @@ void Circuit::loadDomDoc( QDomDocument* doc )
             con->move( m_deltaMove );
         }
     }
-    else 
-        m_graphicView->centerOn( QPointF( 1200+itemsBoundingRect().center().x(), 950+itemsBoundingRect().center().y() ) );
-    
     // Take care about unconnected Joints
     foreach( Node* joint, jointList ) joint->remove(); // Only removed if some missing connector
 }

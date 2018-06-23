@@ -35,7 +35,7 @@ ConnectorLine::ConnectorLine( int x1, int y1, int x2, int y2, Connector* connect
 
    this->setFlag( QGraphicsItem::ItemIsSelectable, true );
 
-   setToolTip( QString("Wire:\n Left-Click to start a wire \n Ctrl+Left-Click to move Line \n Right-Click for Context Menu ") );
+   //setToolTip( QString("Wire:\n Left-Click to start a wire \n Ctrl+Left-Click to move Line \n Right-Click for Context Menu ") );
 
    setCursor(Qt::CrossCursor);
 
