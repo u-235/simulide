@@ -224,11 +224,6 @@ void Probe::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget 
     else                              p->setBrush( QColor( 230, 230, 255 ) );
 
     p->drawEllipse( -8, -8, 16, 16 );
-    /*if( m_haveOscope )
-    {
-        p->drawLine( -8, 0, 8, 0 );
-        p->drawLine(  0,-8, 0, 8 );
-    }*/
 }
 
 #include "moc_probe.cpp"
