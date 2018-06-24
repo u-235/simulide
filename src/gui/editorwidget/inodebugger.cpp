@@ -139,10 +139,15 @@ int InoDebugger::compile()
     cBuildPath  = addQuotes( cBuildPath );
     ProcInoFile = addQuotes( ProcInoFile );
     #endif
+    
+    QString boardName;
+    
+    if( m_board < Custom ) boardName = boardList.at(m_board);
+    else                   boardName = m_customBoard;
                 
-    command += " -v --board arduino:avr:"+boardList.at(m_board)+" --pref build.path=" + cBuildPath;
+    command += " -v --board arduino:avr:"+boardName+" --pref build.path=" + cBuildPath;
     if( !preferencesPath.isEmpty() )
-        command += " --preferences-file " + preferencesPath; //m_appPath+"/data/codeeditor/preferences.txt"
+        command += " --preferences-file " + preferencesPath;
     command += " --preserve-temp-files --verify " + ProcInoFile;
     m_firmware = "";
     
