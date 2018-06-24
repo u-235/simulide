@@ -27,7 +27,8 @@
 class InoDebugger : public BaseDebugger
 {
     Q_OBJECT
-    Q_PROPERTY( board_t  Board   READ board    WRITE setBoard   DESIGNABLE true USER true )
+    Q_PROPERTY( board_t Board        READ board       WRITE setBoard       DESIGNABLE true USER true )
+    Q_PROPERTY( QString Custom_Board READ customBoard WRITE setCustomBoard DESIGNABLE true USER true )
     Q_ENUMS( board_t )
     
     public:
@@ -38,8 +39,12 @@ class InoDebugger : public BaseDebugger
             Uno = 0,
             Nano,
             Duemilanove,
-            Leonardo
+            Leonardo,
+            Custom
         };
+        
+        QString customBoard() { return m_customBoard; }
+        void setCustomBoard( QString b ){ m_customBoard = b; }
         
         board_t board() { return m_board; }
         void setBoard( board_t b ){ m_board = b; }
@@ -62,6 +67,7 @@ class InoDebugger : public BaseDebugger
         int m_processorType;
         
         QStringList boardList;
+        QString m_customBoard;
         board_t m_board;
 };
 

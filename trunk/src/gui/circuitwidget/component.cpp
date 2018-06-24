@@ -452,9 +452,10 @@ QString Component::print()
 {
     if( !m_printable ) return "";
     
-    QString str = objectName().split("-").first()+" ";
-    if( m_value > 0 ) str += QString::number( m_value*m_unitMult )+" ";
-    str += m_unit+"\n";
+    QString str = m_id+" : ";
+    str += objectName().split("-").first()+" ";
+    if( m_value > 0 ) str += QString::number( m_value );
+    str += m_mult+m_unit+"\n";
     
     return str;
 }

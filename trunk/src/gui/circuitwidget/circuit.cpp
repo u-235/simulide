@@ -208,7 +208,7 @@ void Circuit::importCirc(  QPointF eventpoint  )
 
     m_deltaMove = QPointF( 160, 160 );//togrid(eventpoint);
 
-    const QString dir = m_fileName;
+    const QString dir = m_filePath;
     QString fileName = QFileDialog::getOpenFileName( 0l, tr("Load Circuit"), dir,
                                           tr("Circuits (*.simu);;All files (*.*)"));
 
@@ -223,7 +223,7 @@ void Circuit::importCirc(  QPointF eventpoint  )
 
 void Circuit::loadCircuit( QString &fileName )
 {
-    m_fileName = fileName;
+    m_filePath = fileName;
     QFile file( fileName );
 
     if( !file.open(QFile::ReadOnly | QFile::Text) )
@@ -517,22 +517,17 @@ bool Circuit::saveCircuit( QString &fileName )
 
 void Circuit::bom()
 {
-    QString bom;
-    
-    bom += "\nCircuit: ";
-    bom += QFileInfo( m_fileName ).fileName();
-    bom += "\n\n";
-    bom += "Bill of Materials:\n\n";
+    QStringList bom;
     
     foreach( Component* comp, m_compList )
     {
         bool isNumber = false;
         comp->objectName().split("-").last().toInt( &isNumber );
 
-        if( isNumber ) bom += comp->print();
+        if( isNumber ) bom.append( comp->print() );
     }
     
-    QString fileName = m_fileName; 
+    QString fileName = m_filePath; 
     fileName.replace( ".simu", "" );
     fileName += "-bom.txt";
 
@@ -543,8 +538,15 @@ void Circuit::bom()
           QMessageBox::warning(0l, tr("Application"),
           tr("Cannot write file %1:\n%2.").arg(fileName).arg(file.errorString()));
     }
+    bom.sort();
+    
     QTextStream out(&file);
-    out << bom;
+    out <<  "\nCircuit: ";
+    out <<  QFileInfo( m_filePath ).fileName();
+    out <<  "\n\n";
+    out <<  "Bill of Materials:\n\n";
+    foreach( QString line, bom ) out << line;
+    
     file.close();
 }
 
@@ -659,18 +661,21 @@ void Circuit::redo()
 
 Component* Circuit::createItem( QString type, QString id )
 {
-    //qDebug() << type << id;
+    qDebug() << type << id;
     foreach( LibraryItem* libItem, ItemLibrary::self()->items() )
     {
         if( libItem->type()==type )
         {
             Component* comp = libItem->createItemFnPtr()( this, type, id );
             
-            QString category = libItem->category();
-            if( ( category != "Meters" )
-            &&  ( category != "Sources" )
-            &&  ( category != "Other" ) )
-                comp->setPrintable( true );
+            if( comp )
+            {
+                QString category = libItem->category();
+                if( ( category != "Meters" )
+                &&  ( category != "Sources" )
+                &&  ( category != "Other" ) )
+                    comp->setPrintable( true );
+            }
                 
             return comp;
         }
