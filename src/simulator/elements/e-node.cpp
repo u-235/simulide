@@ -117,10 +117,10 @@ void eNode::stampMatrix()
         }
         if( !m_single || m_switched ) stampAdmit();
         
-        if( m_switched )
+        if( m_switched )                       // Find open/close events
         {
-            QHashIterator<int, double> ai(m_admit); // Iterate eNode-Admit
-            while ( ai.hasNext() )             // Find open/close events
+            QHashIterator<int, double> ai(m_admit);
+            while ( ai.hasNext() )                // Iterate eNode-Admit
             {
                 ai.next();
                 int enode = ai.key();

@@ -52,6 +52,7 @@ CurrSource::CurrSource( QObject* parent, QString type, QString id )
 
     m_button = m_voltw.pushButton;
     m_dial   = m_voltw.dial;
+    m_dial->setMaximum( 1000 );
 
     m_button->setText( QString("-- A") );
 
@@ -62,7 +63,9 @@ CurrSource::CurrSource( QObject* parent, QString type, QString id )
     
     m_unit = "A";
     //setVolt(50.0);
+    setCurrent( 1 );
     currChanged( 0 );
+    
     setValLabelPos(-26, 10 , 0 ); // x, y, rot 
     setShowVal( true );
     
@@ -108,13 +111,12 @@ void CurrSource::updateButton()
 
 void CurrSource::onbuttonclicked()
 {
-    updateButton();
     m_changed = true;
 }
 
-void CurrSource::currChanged( int amp )
+void CurrSource::currChanged( int val )
 {
-    m_current = double( amp )/100;
+    m_current = double( m_maxCurrent*val/1000 );
     m_changed = true;
 }
 
@@ -127,13 +129,14 @@ void CurrSource::setCurrent( double c )
 {
     Component::setValue( c );       // Takes care about units multiplier
     m_maxCurrent = m_value*m_unitMult;
-    m_dial->setMaximum( int(m_maxCurrent*100) );
+    currChanged( m_dial->value() );
 }
 
 void CurrSource::setUnit( QString un ) 
 {
     Component::setUnit( un );
-    setCurrent( m_value*m_unitMult );
+    m_maxCurrent = m_value*m_unitMult;
+    currChanged( m_dial->value() );
 }
 
 void CurrSource::remove()

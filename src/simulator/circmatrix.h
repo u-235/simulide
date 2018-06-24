@@ -21,9 +21,6 @@
 #define CIRCMATRIX_H
 
 #include <vector>
-//#include <iostream>
-//#include <cmath>
-
 #include <QList>
 
 #include "e-node.h"
@@ -56,9 +53,9 @@ class MAINMODULE_EXPORT CircMatrix
     private:
  static CircMatrix* m_pSelf;
         
-        void factorMatrix( dp_matrix_t& ap, i_vector_t& ipvt, int n, int group );
-        bool luSolve( d_matrix_t& a, dp_vector_t& bp, i_vector_t& ipvt, int n );
-        void addConnections( int enodNum, QList<int>* nodeGroup );
+        void factorMatrix( int n, int group );
+        bool luSolve( int n, int group );
+        void addConnections( int enodNum, QList<int>* nodeGroup, QList<int>* allNodes );
         
         int m_numEnodes;
         QList<eNode*>* m_eNodeList;
@@ -69,8 +66,8 @@ class MAINMODULE_EXPORT CircMatrix
         QList<dp_vector_t> m_bList;
         QList<i_vector_t>  m_ipvtList;
         
-        QHash<int, eNode*> m_eNodeActive;
-        QList<QHash<int, eNode*>> m_eNodeActList;
+        QList<eNode*>*       m_eNodeActive;
+        QList<QList<eNode*>> m_eNodeActList;
 
         d_matrix_t m_circMatrix;
         d_vector_t m_coefVect;

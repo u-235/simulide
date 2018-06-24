@@ -101,7 +101,7 @@ void Potentiometer::updateStep()
 {
     if( m_changed ) 
     {
-        double res = m_dial->value();
+        double res = double( m_resist*m_dial->value()/1000 );
 
         m_resA.setRes( res );
         m_resB.setRes( m_resist-res );
@@ -120,7 +120,6 @@ void Potentiometer::setRes( double res ) // Called when property resistance is c
 {
     Component::setValue( res );       // Takes care about units multiplier
     m_resist = m_value*m_unitMult;
-    m_dial->setMaximum( int(m_resist) );
     
     m_changed = true;
 }
@@ -129,20 +128,19 @@ void Potentiometer::setUnit( QString un )
 {
     Component::setUnit( un );
     m_resist = m_value*m_unitMult;
-    m_dial->setMaximum( int(m_resist) );
 
     m_changed = true;
 }
 
 void Potentiometer::setVal( int val )
 {
-    m_dial->setValue( val );
+    m_dial->setValue( val*1000/m_resist );
     //resChanged( val );
 }
 
 int Potentiometer::val()
 {
-    return m_dial->value();
+    return m_resist*m_dial->value()/1000;
 }
 
 void Potentiometer::remove()

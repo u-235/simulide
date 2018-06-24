@@ -76,22 +76,21 @@ void CircMatrix::stampCoef( int row, double value )
     m_coefVect[row-1] = value;
 }
 
-void CircMatrix::addConnections( int enodNum, QList<int>* nodeGroup )
+void CircMatrix::addConnections( int enodNum, QList<int>* nodeGroup, QList<int>* allNodes )
 {
-    if( !nodeGroup->contains( enodNum ) )  nodeGroup->append( enodNum );
-    
+    nodeGroup->append( enodNum );
+    allNodes->removeOne( enodNum );
+
     eNode* enod = m_eNodeList->at( enodNum-1 );
+    enod->setSingle( false );
     
     QList<int> cons = enod->getConnections();
     
     foreach( int nodeNum, cons ) 
     {
         if( nodeNum == 0 ) continue;
-        if( !nodeGroup->contains( nodeNum ) ) 
-        {
-            nodeGroup->append( nodeNum );
-            addConnections( nodeNum, nodeGroup );
-        }
+        
+        if( !nodeGroup->contains( nodeNum ) ) addConnections( nodeNum, nodeGroup, allNodes );
     }
 }
 
@@ -103,16 +102,11 @@ bool CircMatrix::solveMatrix()
 
     if( m_circChanged )          // Split Circuit into unconnected parts
     {
+        //qDebug() <<"Spliting Circuit...";
         QList<int> allNodes;
         
-        for( int i=0; i<m_numEnodes; i++ )         // Reset single Nodes
-        {
-            eNode* enode = m_eNodeList->at(i);
-            
-            if( enode->isSingle() ) enode->setSingle( false );
-
-            allNodes.append( i+1 );
-        }
+        for( int i=0; i<m_numEnodes; i++ ) allNodes.append( i+1 );
+        
         m_aList.clear();
         m_aFaList.clear();
         m_bList.clear();
@@ -123,9 +117,9 @@ bool CircMatrix::solveMatrix()
         while( !allNodes.isEmpty() ) // Get a list of groups of nodes interconnected
         {
             QList<int> nodeGroup;
-            addConnections( allNodes.first(), &nodeGroup ); // Get a group of nodes interconnected
+            addConnections( allNodes.first(), &nodeGroup, &allNodes ); // Get a group of nodes interconnected
             
-            foreach( int num, nodeGroup ) allNodes.removeOne(num);
+            //foreach( int num, nodeGroup ) allNodes.removeOne(num);
             
             int numEnodes = nodeGroup.size();
             if( numEnodes==1 )           // Sigle nodes do by themselves
@@ -140,7 +134,7 @@ bool CircMatrix::solveMatrix()
                 d_matrix_t ap;
                 dp_vector_t b;
                 i_vector_t ipvt;
-                QHash<int, eNode*> eNodeActive;
+                QList<eNode*> eNodeActive;
                 
                 a.resize( numEnodes , dp_vector_t( numEnodes , 0 ) );
                 ap.resize( numEnodes , d_vector_t( numEnodes , 0 ) );
@@ -159,7 +153,7 @@ bool CircMatrix::solveMatrix()
                         nx++;
                     }
                     b[ny] = &(m_coefVect[y]);
-                    eNodeActive[ny] = m_eNodeList->at( y );
+                    eNodeActive.append( m_eNodeList->at(y) );
                     ny++;
                 }
                 m_aList.append( a );
@@ -167,27 +161,27 @@ bool CircMatrix::solveMatrix()
                 m_bList.append( b );
                 m_ipvtList.append( ipvt );
                 m_eNodeActList.append( eNodeActive );
-                m_eNodeActive = eNodeActive;
+                m_eNodeActive = &eNodeActive;
                 
-                factorMatrix( m_aList[group], m_ipvtList[group], ny, group );
-                isOk &= luSolve( m_aFaList[group], m_bList[group], m_ipvtList[group], ny );
+                factorMatrix( ny, group );
+                isOk &= luSolve( ny, group );
 
                 group++;
             }
         }
         m_circChanged  = false;
-        //qDebug() <<"groups:"<<group;
+        //qDebug() <<group<<"Circuits";
     }
     else
     {
         for( int i=0; i<m_bList.size(); i++ )
         {
-            m_eNodeActive   = m_eNodeActList[i];
-            int n = m_eNodeActive.size();
+            m_eNodeActive = &(m_eNodeActList[i]);
+            int n = m_eNodeActive->size();
 
-            if( m_admitChanged ) factorMatrix( m_aList[i], m_ipvtList[i], n, i );
+            if( m_admitChanged ) factorMatrix( n, i );
 
-            isOk &= luSolve( m_aFaList[i], m_bList[i], m_ipvtList[i], n );
+            isOk &= luSolve( n, i );
         }
     }
     m_currChanged  = false;
@@ -195,14 +189,17 @@ bool CircMatrix::solveMatrix()
     return isOk;
 }
 
-void CircMatrix::factorMatrix( dp_matrix_t& ap, i_vector_t& ipvt, int n, int group  )
+void CircMatrix::factorMatrix( int n, int group  )
 {
     // factors a matrix into upper and lower triangular matrices by
     // gaussian elimination.  On entry, a[0..n-1][0..n-1] is the
     // matrix to be factored.  ipvt[] returns an integer vector of pivot
     // indices, used in the solve routine.
     
-    d_matrix_t a = m_aFaList.at(group);
+    dp_matrix_t&  ap  = m_aList[group];
+    i_vector_t&  ipvt = m_ipvtList[group];
+    
+    d_matrix_t& a = m_aFaList[group];
     for( int i=0; i<n; i++ )
     {
         for( int j=0; j<n; j++ )
@@ -263,11 +260,15 @@ void CircMatrix::factorMatrix( dp_matrix_t& ap, i_vector_t& ipvt, int n, int gro
     m_aFaList.replace( group, a );
 }
 
-bool CircMatrix::luSolve( d_matrix_t& a, dp_vector_t& bp, i_vector_t& ipvt, int n )
+bool CircMatrix::luSolve( int n, int group )
 {
     // Solves the set of n linear equations using a LU factorization
     // previously performed by solveMatrix.  On input, b[0..n-1] is the right
     // hand side of the equations, and on output, contains the solution.
+
+    const d_matrix_t&  a    = m_aFaList[group];
+    const dp_vector_t& bp   = m_bList[group];
+    const i_vector_t&  ipvt = m_ipvtList[group];
 
     d_vector_t b;
     b.resize( n , 0 );
@@ -287,17 +288,17 @@ bool CircMatrix::luSolve( d_matrix_t& a, dp_vector_t& bp, i_vector_t& ipvt, int 
     int bi = i++;
     for( /*i = bi*/; i < n; i++ )
     {
-        int row = ipvt[i];
-        int j;
+        int    row = ipvt[i];
         double tot = b[row];
 
         b[row] = b[i];
         
-        for( j=bi; j<i; j++ ) tot -= a[i][j]*b[j]; // forward substitution using the lower triangular matrix
+        for( int j=bi; j<i; j++ ) tot -= a[i][j]*b[j]; // forward substitution using the lower triangular matrix
 
         b[i] = tot;
     }
     bool isOk = true;
+    
     for( i=n-1; i>=0; i-- )
     {
         double tot = b[i];
@@ -313,7 +314,7 @@ bool CircMatrix::luSolve( d_matrix_t& a, dp_vector_t& bp, i_vector_t& ipvt, int 
             isOk = false;
             volt = 0;
         }
-        m_eNodeActive[i]->setVolt( volt ); 
+        m_eNodeActive->at(i)->setVolt( volt );      // Set Node Voltages
     }
     return isOk;
 }

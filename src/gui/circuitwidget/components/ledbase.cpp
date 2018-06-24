@@ -29,6 +29,7 @@ LedBase::LedBase( QObject* parent, QString type, QString id )
     m_grounded = false;
     m_ground   = 0l;
     m_scrEnode = 0l;
+    m_bright = 0;
     
     m_color = QColor( Qt::black );
     setColor( yellow );
@@ -44,6 +45,7 @@ LedBase::~LedBase()
 
 void LedBase::updateStep()
 {
+    eLed::updateBright();
     update();
 }
 
@@ -123,8 +125,6 @@ void LedBase::remove()
 void LedBase::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
     Component::paint( p, option, widget );
-
-    eLed::updateBright();
 
     QPen pen(Qt::black, 4, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 
