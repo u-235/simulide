@@ -18,10 +18,11 @@
  ***************************************************************************/
 
 #include "e-gate.h"
-
+#include <QDebug>
 eGate::eGate( std::string id, int inputs )
      : eLogicDevice( id )
 {
+    m_tristate = false;
 }
 eGate::~eGate()
 {
@@ -41,7 +42,7 @@ void eGate::initialize()
 void eGate::setVChanged()
 {
     if( m_tristate ) eLogicDevice::updateOutEnabled();
-    
+
     int  inputs = 0;
 
     for( int i=0; i<m_numInputs; i++ )
@@ -50,7 +51,7 @@ void eGate::setVChanged()
 
         if( state ) inputs++;
     }
-    //qDebug() << "eGate::setVChanged" << m_prevInputs << inputs; 
+    //qDebug() << "eGate::setVChanged" << inputs <<m_output[0]->imp(); 
     
     eLogicDevice::setOut( 0, calcOutput( inputs ) );// In each gate type
 }

@@ -43,6 +43,9 @@ class MAINMODULE_EXPORT Buffer : public Gate
         void setTristate( bool t );
         
         virtual void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
+    
+    public slots:
+        virtual void remove();
         
     private:
         Pin* m_outEnPin;

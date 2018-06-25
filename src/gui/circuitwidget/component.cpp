@@ -553,7 +553,7 @@ void Label::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 }
 
 void Label::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
-{qDebug() << "Label::contextMenuEvent";
+{
     event->accept();
     QMenu menu;
 

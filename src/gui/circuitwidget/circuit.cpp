@@ -759,7 +759,7 @@ void Circuit::createSubcircuit()
     QHash<QString, QString> compList;        // Get Components properties
 
     //qDebug() << compIdTip<<"--------------------------";
-    foreach( Component* component, m_compList)
+    foreach( Component* component, m_compList )
     {
         QString compId     = "";
         QString propString = "";
@@ -899,18 +899,22 @@ void Circuit::createSubcircuit()
         subcircuit +="\" >\n    </item>\n\n";
     }
     subcircuit +="</subcircuit>";
-    QString fileName = "subcirc.xml";
+    
+    QString fileName = m_filePath;                    // Save Subcircuit
+    
+    fileName.replace( m_filePath.lastIndexOf( ".simu" ), 5, ".subcircuit" );
+    
     QFile file( fileName );
 
     if( !file.open(QFile::WriteOnly | QFile::Text) )
     {
-          QMessageBox::warning(0l, tr("Application"),
+          QMessageBox::warning(0l, tr("Save Subcircuit"),
           tr("Cannot write file %1:\n%2.").arg(fileName).arg(file.errorString()));
     }
-    QTextStream out(&file);
+    QTextStream out( &file );
     out << subcircuit;
     file.close();
-    //qDebug() << subcircuit;
+    //qDebug() <<"Circuit::createSubcircuit\n" << subcircuit;
 }
 
 QString Circuit::newSceneId()
