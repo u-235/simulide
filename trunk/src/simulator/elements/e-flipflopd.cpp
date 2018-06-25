@@ -41,8 +41,6 @@ void eFlipFlopD::createPins()
     
     // Output 1 - Q
     // Output 2 - !Q
-    m_input[1]->setInverted( true );  // Set
-    m_input[2]->setInverted( true );  // Reset
 }
 
 void eFlipFlopD::initialize()
