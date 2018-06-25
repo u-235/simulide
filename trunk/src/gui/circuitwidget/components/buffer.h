@@ -30,6 +30,7 @@ class LibraryItem;
 class MAINMODULE_EXPORT Buffer : public Gate
 {
     Q_OBJECT
+    Q_PROPERTY( bool Tristate READ tristate WRITE setTristate DESIGNABLE true USER true )
     
     public:
     
@@ -38,8 +39,13 @@ class MAINMODULE_EXPORT Buffer : public Gate
 
         static Component* construct( QObject* parent, QString type, QString id );
         static LibraryItem *libraryItem();
-
+        
+        void setTristate( bool t );
+        
         virtual void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
+        
+    private:
+        Pin* m_outEnPin;
 };
 
 #endif

@@ -47,7 +47,6 @@
 #include "ground.h"
 #include "hd44780.h"
 #include "i2c.h"
-#include "ic74.h"
 #include "inbus.h"
 #include "inductor.h"
 #include "keypad.h"
@@ -172,7 +171,6 @@ void ItemLibrary::loadItems()
     addItem( OutBus::libraryItem() );
     addItem( InBus::libraryItem() );
     // Subcircuits
-    //addItem( Ic74::libraryItem() );
     addItem( SubCircuit::libraryItem() );
     // Other
     addItem( TextComponent::libraryItem() );
