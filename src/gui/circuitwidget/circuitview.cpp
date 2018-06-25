@@ -75,7 +75,7 @@ void CircuitView::dragEnterEvent(QDragEnterEvent *event)
 
     event->accept();
     bool pauseSim = Simulator::self()->isRunning();
-    if( pauseSim ) Simulator::self()->pauseSim();
+    if( pauseSim )  Simulator::self()->pauseSim();
 
     QString type = event->mimeData()->html();
     QString id = event->mimeData()->text()+"-"+m_circuit->newSceneId(); //event->mimeData()->text();
@@ -93,7 +93,7 @@ void CircuitView::dragEnterEvent(QDragEnterEvent *event)
 void CircuitView::dragMoveEvent(QDragMoveEvent *event)
 {
     event->accept();
-    if (m_enterItem ) m_enterItem->setPos( togrid( mapToScene( event->pos() ) ) );
+    if( m_enterItem ) m_enterItem->setPos( togrid( mapToScene( event->pos() ) ) );
 }
 
 void CircuitView::dragLeaveEvent(QDragLeaveEvent *event)

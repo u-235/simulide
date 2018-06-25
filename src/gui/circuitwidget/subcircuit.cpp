@@ -71,11 +71,9 @@ LibraryItem* SubCircuit::libraryItem()
 }
 
 SubCircuit::SubCircuit( QObject* parent, QString type, QString id )
-    : Package( parent, type, id )
+          : Package( parent, type, id )
 {
     m_numItems = 0;
-
-    //m_dataFile = "subcircuits.xml";
 
     initPackage();
 }
@@ -89,8 +87,6 @@ void SubCircuit::initPackage()
 
     m_dataFile = ComponentSelector::self()->getXmlFile( compName );
 
-    //QString dfPath = SIMUAPI_AppPath::self()->availableDataFilePath(m_dataFile);
-    //qDebug() << "SubCircuit::initPackage datafile: " << compName << " <= " << dfPath;
     QFile file( m_dataFile );
     if( !file.open(QFile::ReadOnly | QFile::Text) )
     {
@@ -137,7 +133,6 @@ void SubCircuit::initPackage()
         }
         rNode = rNode.nextSibling();
     }
-
     initSubcircuit();
 }
 

@@ -58,10 +58,9 @@ class CircuitView : public QGraphicsView
         void resizeEvent(QResizeEvent *event);
 
         Component*  m_enterItem;
-        Circuit*     m_circuit;
+        Circuit*    m_circuit;
 
         QPointF m_eventpoint;
-        //QString    m_file;
 };
 
 #endif

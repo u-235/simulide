@@ -20,7 +20,7 @@
 #include "e-gate.h"
 
 eGate::eGate( std::string id, int inputs )
-    : eLogicDevice( id )
+     : eLogicDevice( id )
 {
 }
 eGate::~eGate()
@@ -29,6 +29,8 @@ eGate::~eGate()
 
 void eGate::initialize()
 {
+    eLogicDevice::initialize();
+    
     for( int i=0; i<m_numInputs; i++ )
     {
         eNode* enode = m_input[i]->getEpin()->getEnode();
@@ -38,6 +40,8 @@ void eGate::initialize()
 
 void eGate::setVChanged()
 {
+    if( m_tristate ) eLogicDevice::updateOutEnabled();
+    
     int  inputs = 0;
 
     for( int i=0; i<m_numInputs; i++ )
@@ -54,4 +58,13 @@ void eGate::setVChanged()
 bool eGate::calcOutput( int inputs ) 
 { 
     return (inputs==m_numInputs); // Default for: Buffer, Inverter, And, Nand
-} 
+}
+
+bool eGate::tristate()
+{
+    return m_tristate;
+}
+void eGate::setTristate( bool t )
+{
+    m_tristate = t;
+}

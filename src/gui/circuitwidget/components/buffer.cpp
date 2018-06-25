@@ -37,10 +37,26 @@ LibraryItem* Buffer::libraryItem()
 }
 
 Buffer::Buffer( QObject* parent, QString type, QString id )
-        : Gate( parent, type, id, 1 )
+      : Gate( parent, type, id, 1 )
 {
+    m_outEnPin = new Pin( 90, QPoint( 0,-16 ), m_id+"-outEnPin", 0, this );
+    eLogicDevice::createOutEnablePin( m_outEnPin );
+    
+    setTristate( false );
 }
 Buffer::~Buffer(){}
+
+void Buffer::setTristate( bool t )
+{
+    if( !t ) 
+    {
+        if( m_outEnPin->isConnected() ) m_outEnPin->connector()->remove();
+        m_outEnPin->reset();
+    }
+    m_outEnPin->setVisible( t );
+    m_tristate = t;
+    eLogicDevice::updateOutEnabled();
+}
 
 void Buffer::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
