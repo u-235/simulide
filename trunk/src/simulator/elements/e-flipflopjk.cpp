@@ -22,7 +22,7 @@
 #include "e-flipflopjk.h"
 
 eFlipFlopJK::eFlipFlopJK( std::string id )
-    : eLogicDevice( id )
+           : eLogicDevice( id )
 {
 }
 eFlipFlopJK::~eFlipFlopJK()

@@ -22,7 +22,7 @@
 #include "e-logic_device.h"
 
 eLogicDevice::eLogicDevice( std::string id )
-    : eElement( id )
+            : eElement( id )
 {
     m_numInputs  = 0;
     m_numOutputs = 0;
