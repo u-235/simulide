@@ -47,10 +47,10 @@ SevenSegmentBCD::SevenSegmentBCD( QObject* parent, QString type, QString id )
     QStringList pinList;
 
     pinList // Inputs:
-            << "IL06  "
-            << "IL04  "
-            << "IL02  "
-            << "IL00  "
+            << "ID04  "
+            << "ID03  "
+            << "ID02  "
+            << "ID01  "
             ;
     init( pinList );
 
