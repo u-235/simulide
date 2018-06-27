@@ -71,10 +71,17 @@ Oscope::Oscope( QObject* parent, QString type, QString id )
     m_proxy->setParentItem( this );
     m_proxy->setPos( QPoint( -110, -60) );
     //m_proxy->setFlag(QGraphicsItem::ItemNegativeZStacksBehindParent, true );
+    
+    Simulator::self()->addToUpdateList( this );
 }
 
 Oscope::~Oscope() 
 {
+}
+
+void Oscope::updateStep()
+{
+    m_oscopeW->read();
 }
 
 void Oscope::initialize()

@@ -37,7 +37,7 @@ class MAINMODULE_EXPORT OscopeWidget : public QWidget, public eElement
         ~OscopeWidget();
         
         void setOscope( Oscope* oscope );
-        //void setProbe( Probe* probe );
+        void read();
         void clear();
         void setupWidget( int size );
         double filter()                 { return m_filter; }
@@ -103,6 +103,7 @@ class MAINMODULE_EXPORT OscopeWidget : public QWidget, public eElement
         double m_mid;
         double m_min;
         
+        bool m_reading;
         bool m_haveFreq;
         bool m_rising;
         bool m_falling;
