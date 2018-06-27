@@ -37,7 +37,8 @@ LibraryItem* LogicInput::libraryItem()
 }
 
 LogicInput::LogicInput( QObject* parent, QString type, QString id )
-    : Component( parent, type, id ), eElement( id.toStdString() )
+          : Component( parent, type, id )
+          , eElement( id.toStdString() )
 {
     setLabelPos(-64,-24 );
     
@@ -89,6 +90,7 @@ void LogicInput::updateStep()
     {
         m_out->stampOutput();
         m_changed = false;
+        update();
     }
 }
 

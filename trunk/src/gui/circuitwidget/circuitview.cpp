@@ -36,7 +36,7 @@ CircuitView::CircuitView( QWidget *parent )
     viewport()->setFixedSize( 3200, 2400 );
     setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-    setViewportUpdateMode( QGraphicsView::FullViewportUpdate );
+    //setViewportUpdateMode( QGraphicsView::FullViewportUpdate );
     //setCacheMode( CacheBackground );
     //setRenderHint( QPainter::Antialiasing );
     setRenderHints( QPainter::HighQualityAntialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);

@@ -53,10 +53,11 @@ void Gate::setNumInps( int inputs )
 
     for( int i=0; i<m_numInputs; i++ )
     {
-        if( m_inputPin[i]->isConnected() ) m_inputPin[i]->connector()->remove();
-        Circuit::self()->removeItem( m_inputPin[i] );
-        m_inputPin[i]->reset();
-        delete m_inputPin[i];
+        Pin* pin = m_inputPin[i];
+        if( pin->isConnected() ) pin->connector()->remove();
+        if( pin->scene() ) Circuit::self()->removeItem( pin );
+        pin->reset();
+        delete pin;
     }
     eLogicDevice::deleteInputs( m_numInputs );
 
