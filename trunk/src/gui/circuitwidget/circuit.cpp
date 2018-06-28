@@ -290,6 +290,8 @@ Pin* Circuit::findPin( int x, int y, QString id )
 
 void Circuit::loadDomDoc( QDomDocument* doc )
 {
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    
     int firstSeqNumber = m_seqNumber+1;
 
     QDomElement root = doc->documentElement();
@@ -474,6 +476,8 @@ void Circuit::loadDomDoc( QDomDocument* doc )
     }
     // Take care about unconnected Joints
     foreach( Node* joint, jointList ) joint->remove(); // Only removed if some missing connector
+    
+    QApplication::restoreOverrideCursor();
 }
 
 bool Circuit::saveCircuit( QString &fileName )

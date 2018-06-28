@@ -40,7 +40,7 @@ AudioOut::AudioOut( QObject* parent, QString type, QString id )
         : Component( parent, type, id ),
           eResistor( id.toStdString() )
 {
-    m_area = QRect( -10, -12, 20, 16 );
+    m_area = QRect( -12, -24, 24, 40 );
     
     m_pin.resize( 2 );
     
@@ -154,6 +154,25 @@ void AudioOut::remove()
     if( m_ePin[0]->isConnected() ) (static_cast<Pin*>(m_ePin[0]))->connector()->remove();
     if( m_ePin[1]->isConnected() ) (static_cast<Pin*>(m_ePin[1]))->connector()->remove();
     Component::remove();
+}
+
+QPainterPath AudioOut::shape() const
+{
+    QPainterPath path;
+    
+    QVector<QPointF> points;
+    
+    points << QPointF(-10,-12 )
+           << QPointF(-10, 4 )
+           << QPointF( 0, 4 )
+           << QPointF( 10, 16 )
+           << QPointF( 10, -24 )
+           << QPointF( 0, -12 )
+           << QPointF(-10, -12 );
+        
+    path.addPolygon( QPolygonF(points) );
+    path.closeSubpath();
+    return path;
 }
 
 void AudioOut::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )

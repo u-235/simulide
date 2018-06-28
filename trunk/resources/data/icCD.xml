@@ -24,8 +24,7 @@
     <itemset category="Logic/IC CD" type="Subcircuit">
 
     <item name="CD4510"  package="icCD/CD4510.package"  subcircuit="icCD/CD4510.subcircuit"  icon="ic2.png" ></item>
-    <item name="pru"  package="icCD/pru.package"  subcircuit="icCD/pru.subcircuit"  icon="ic2.png" ></item>
-    
+
     </itemset>
 
 </itemlib>

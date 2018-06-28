@@ -148,7 +148,7 @@ void Simulator::runCircuit()
                     if( !m_isrunning ) return;
                 }
                 
-                if( ++counter > 1000 ) break; // Limit the number of loops
+                if( ++counter > 100 ) break; // Limit the number of loops
             }
             //if( counter > 0 ) qDebug() << "\nSimulator::runCircuit  Non-Linear Solved in steps:"<<counter;
         }
