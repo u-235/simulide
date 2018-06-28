@@ -82,6 +82,7 @@ void LogicInput::onbuttonclicked()
     m_out->setOut( m_button->isChecked() );
     m_changed = true;
     //qDebug() << "LogicInput::onbuttonclicked" ;
+    update();
 }
 
 void LogicInput::updateStep()
@@ -90,7 +91,6 @@ void LogicInput::updateStep()
     {
         m_out->stampOutput();
         m_changed = false;
-        update();
     }
 }
 

@@ -75,6 +75,8 @@ void SwitchBase::updateStep()
         m_ePin[1]->stampAdmitance( admit );
 
         m_changed = false;
+        
+        //update();
     }
 }
 

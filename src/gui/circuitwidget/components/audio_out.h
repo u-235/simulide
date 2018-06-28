@@ -41,6 +41,7 @@ class AudioOut : public Component, public eResistor
         virtual void initialize();
         virtual void simuClockStep();
         
+        virtual QPainterPath shape() const;
         virtual void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
     
     public slots:
