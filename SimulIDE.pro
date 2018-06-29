@@ -90,9 +90,12 @@ INCLUDEPATH += ../src \
     ../src/simavr/sim \
     ../src/simavr/sim/avr \
     ../src/simavr/cores 
-    
+
+
+TRANSLATIONS = ../resources/translations/*.ts
     
 RESOURCES = ../src/application.qrc
+
 
 QMAKE_CXXFLAGS_DEBUG -= -O
 QMAKE_CXXFLAGS_DEBUG -= -O1
@@ -132,14 +135,16 @@ DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 TARGET_NAME = SimulIDE_$$VERSION$$
 
-CONFIG(release, debug|release) {
+CONFIG( release, debug|release ) {
         TARGET_PREFIX = $$BUILD_DIR/release/$$TARGET_NAME
         _OBJECTS_DIR  = $$OUT_PWD/build/release
 }
-CONFIG(debug, debug|release) {
+
+CONFIG( debug, debug|release ) {
         TARGET_PREFIX = $$BUILD_DIR/debug/$$TARGET_NAME
         _OBJECTS_DIR  = $$OUT_PWD/build/debug
 }
+
 OBJECTS_DIR *= $$_OBJECTS_DIR
 MOC_DIR     *= $$_OBJECTS_DIR
 INCLUDEPATH += $$OBJECTS_DIR
@@ -148,16 +153,25 @@ DESTDIR = $$TARGET_PREFIX/bin
 
 TARGET = SimulIDE_$$VERSION
 
-mkpath($$TARGET_PREFIX/bin)
+mkpath( $$TARGET_PREFIX/bin )
+
+
+runLrelease.commands = lrelease $$TRANSLATIONS; 
+QMAKE_EXTRA_TARGETS += runLrelease
+POST_TARGETDEPS     += runLrelease
 
 copy2dest.commands = \
-$(MKDIR) $$TARGET_PREFIX/share/simulide/data ; \
-#$(MKDIR) $$TARGET_PREFIX/share/simulide/examples ; \
-$(COPY_DIR) ../resources/data $$TARGET_PREFIX/share/simulide ; \
-#$(COPY_DIR) ../resources/examples $$TARGET_PREFIX/share/simulide
+$(MKDIR)    $$TARGET_PREFIX/share/simulide/data ; \
+$(MKDIR)    $$TARGET_PREFIX/share/simulide/examples ; \
+$(MKDIR)    $$TARGET_PREFIX/share/simulide/translations ; \
+$(COPY_DIR) ../resources/data              $$TARGET_PREFIX/share/simulide ; \
+$(COPY_DIR) ../resources/examples          $$TARGET_PREFIX/share/simulide ; \
+$(COPY)     ../resources/translations/*.qm $$TARGET_PREFIX/share/simulide/translations ;
 
 QMAKE_EXTRA_TARGETS += copy2dest
-POST_TARGETDEPS += copy2dest
+POST_TARGETDEPS     += copy2dest
+
+
 
 message( "-----------------------------" )
 message( "    " $$TARGET_NAME )
