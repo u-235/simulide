@@ -202,11 +202,6 @@
 <context>
     <name>BaseDebugger</name>
     <message>
-        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="61"/>
-        <source>BaseDebugger::loadFirmware</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="62"/>
         <source>Debugger already running
 Stop active session</source>
@@ -296,11 +291,6 @@ FirmWare Uploaded to </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="223"/>
-        <source>MainWindow::loadCircuit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../src/gui/circuitwidget/circuit.cpp" line="224"/>
         <source>Cannot read file %1:
 %2.</source>
@@ -313,7 +303,6 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="491"/>
         <location filename="../../src/gui/circuitwidget/circuit.cpp" line="527"/>
         <source>Application</source>
         <translation type="unfinished"></translation>
@@ -324,11 +313,6 @@ to DomDocument</source>
         <location filename="../../src/gui/circuitwidget/circuit.cpp" line="916"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="915"/>
-        <source>Save Subcircuit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -371,7 +355,7 @@ to DomDocument</source>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="206"/>
-        <source>Bom</source>
+        <source>Bill of Materials</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -387,11 +371,6 @@ to DomDocument</source>
 </context>
 <context>
     <name>CircuitWidget</name>
-    <message>
-        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="39"/>
-        <source>verticalLayout</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="76"/>
         <source>New C&amp;ircuit	Ctrl+N</source>
@@ -443,24 +422,29 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="96"/>
         <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="97"/>
-        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="98"/>
         <source>Online Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="137"/>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="128"/>
+        <source>New Circuit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="135"/>
         <source>Load Circuit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="138"/>
-        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="175"/>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="136"/>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="173"/>
         <source>Circuits (*.simu);;All files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="174"/>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="172"/>
         <source>Save Circuit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -483,18 +467,6 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="145"/>
         <source>File recognized as: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="149"/>
-        <source>Pic asm
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="158"/>
-        <source>Avr asm
-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -557,12 +529,6 @@ Uploading:
     <message>
         <location filename="../../src/gui/componentselector/componentselector.cpp" line="88"/>
         <source>    Loading Component sets at:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/componentselector/componentselector.cpp" line="104"/>
-        <location filename="../../src/gui/componentselector/componentselector.cpp" line="110"/>
-        <source>Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -663,12 +629,6 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="95"/>
         <source>All files (*)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="145"/>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="171"/>
-        <source>Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -866,26 +826,6 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="369"/>
-        <source>&amp;About</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="370"/>
-        <source>Show the application&apos;s About box</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="373"/>
-        <source>About &amp;Qt</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="374"/>
-        <source>Show the Qt library&apos;s About box</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="380"/>
         <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="381"/>
         <source>Find Replace</source>
@@ -899,11 +839,6 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="386"/>
         <source>Start Debugger</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="517"/>
-        <source>About Application</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -941,11 +876,6 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/findreplacedialog/ui_findreplaceform.h" line="221"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../src/gui/editorwidget/findreplacedialog/ui_findreplaceform.h" line="222"/>
         <source>&amp;Find:</source>
         <translation type="unfinished"></translation>
@@ -956,8 +886,13 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../src/gui/editorwidget/findreplacedialog/ui_findreplaceform.h" line="221"/>
+        <source>Find/Replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../src/gui/editorwidget/findreplacedialog/ui_findreplaceform.h" line="224"/>
-        <source>errorLabel</source>
+        <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1236,11 +1171,6 @@ Do you want to save your changes?
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="59"/>
-        <source>Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../src/mainwindow.cpp" line="60"/>
         <source>
 Circuit has been modified.
@@ -1284,7 +1214,7 @@ Do you want to save your changes?
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="257"/>
-        <source>App Plugin Error:</source>
+        <source>Plugin Error:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1450,11 +1380,6 @@ to DomDocument</source>
 <context>
     <name>PICComponent</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/piccomponent.cpp" line="29"/>
-        <source>PIC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../src/gui/circuitwidget/components/mcu/piccomponent.cpp" line="30"/>
         <source>Micro</source>
         <translation type="unfinished"></translation>
@@ -1538,24 +1463,6 @@ No valid Package</source>
     </message>
 </context>
 <context>
-    <name>PlotterWidget</name>
-    <message>
-        <location filename="../../src/gui/plotterwidget/plotterwidget.cpp" line="175"/>
-        <source>horizontalLayout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/plotterwidget/plotterwidget.cpp" line="179"/>
-        <source>verticalLayout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/plotterwidget/plotterwidget.cpp" line="232"/>
-        <source>oscope</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Potentiometer</name>
     <message>
         <location filename="../../src/gui/circuitwidget/components/potentiometer.cpp" line="34"/>
@@ -1632,11 +1539,6 @@ No valid Package</source>
 <context>
     <name>RamTable</name>
     <message>
-        <location filename="../../src/gui/ramtable.cpp" line="41"/>
-        <source>---</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../src/gui/ramtable.cpp" line="61"/>
         <source>Reg.</source>
         <translation type="unfinished"></translation>
@@ -1665,11 +1567,6 @@ No valid Package</source>
     <message>
         <location filename="../../src/gui/ramtable.cpp" line="127"/>
         <source>Save VarSet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/ramtable.cpp" line="137"/>
-        <source>RamTable::saveVarSet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1793,21 +1690,6 @@ No valid Package</source>
     <message>
         <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="233"/>
         <source>Space</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="237"/>
-        <source>1.5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="242"/>
-        <source>RTS/CTS</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="243"/>
-        <source>XON/XOFF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
