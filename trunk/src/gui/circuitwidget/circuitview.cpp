@@ -203,7 +203,7 @@ void CircuitView::contextMenuEvent(QContextMenuEvent* event)
         QAction* createSubCircAct = menu.addAction(QIcon(":/load.png"), tr("Create SubCircuit") );
         connect(createSubCircAct, SIGNAL(triggered()), Circuit::self(), SLOT( createSubcircuit() ));
         
-        QAction* createBomAct = menu.addAction(QIcon(":/savecirc.png"), tr("Bom") );
+        QAction* createBomAct = menu.addAction(QIcon(":/savecirc.png"), tr("Bill of Materials") );
         connect(createBomAct, SIGNAL(triggered()), Circuit::self(), SLOT( bom() ));
 
         menu.exec( mapFromScene( eventPos ) );

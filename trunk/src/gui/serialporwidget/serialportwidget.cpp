@@ -234,13 +234,13 @@ void SerialPortWidget::fillPortsParameters()
 
     ui->stopBitsBox->addItem(QStringLiteral("1"), QSerialPort::OneStop);
 #ifdef Q_OS_WIN
-    ui->stopBitsBox->addItem(tr("1.5"), QSerialPort::OneAndHalfStop);
+    ui->stopBitsBox->addItem( "1.5", QSerialPort::OneAndHalfStop);
 #endif
     ui->stopBitsBox->addItem(QStringLiteral("2"), QSerialPort::TwoStop);
 
     ui->flowControlBox->addItem(tr( "None"),     QSerialPort::NoFlowControl);
-    ui->flowControlBox->addItem(tr( "RTS/CTS"),  QSerialPort::HardwareControl);
-    ui->flowControlBox->addItem(tr( "XON/XOFF"), QSerialPort::SoftwareControl);
+    ui->flowControlBox->addItem(    "RTS/CTS" ,  QSerialPort::HardwareControl);
+    ui->flowControlBox->addItem(    "XON/XOFF",  QSerialPort::SoftwareControl);
 }
 
 void SerialPortWidget::fillPortsInfo()

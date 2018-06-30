@@ -38,7 +38,7 @@ RamTable::RamTable( BaseProcessor *processor )
     for( int row=0; row<m_numRegs; row++ )
     {
         it = new QTableWidgetItem(0);
-        it->setText( tr("---") );
+        it->setText( "---" );
         setVerticalHeaderItem( row, it );
         for( int col=0; col<4; col++ )
         {
@@ -134,7 +134,7 @@ void RamTable::saveVarSet()
 
         if( !file.open(QFile::WriteOnly | QFile::Text) )
         {
-              QMessageBox::warning(0l, tr("RamTable::saveVarSet"),
+              QMessageBox::warning(0l, "RamTable::saveVarSet",
               tr("Cannot write file %1:\n%2.").arg(fileName).arg(file.errorString()));
               return;
         }

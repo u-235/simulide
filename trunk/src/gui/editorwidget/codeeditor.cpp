@@ -146,7 +146,7 @@ void CodeEditor::setFile( const QString& filePath )
 
         if( isPic > isAvr )   // Is Pic
         {
-            m_outPane->writeText( tr("Pic asm\n") );
+            m_outPane->writeText( "Pic asm\n" );
 
             QString path = sintaxPath + "pic14asm.sintax";
             m_hlighter->readSintaxFile( path );
@@ -155,7 +155,7 @@ void CodeEditor::setFile( const QString& filePath )
         }
         else                 // Is Avr
         {
-            m_outPane->writeText( tr("Avr asm\n") );
+            m_outPane->writeText( "Avr asm\n" );
 
             QString path = sintaxPath + "avrasm.sintax";
             m_hlighter->readSintaxFile( path );

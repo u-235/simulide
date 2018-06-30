@@ -142,7 +142,7 @@ bool EditorWindow::saveFile(const QString &fileName)
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly | QFile::Text))
     {
-        QMessageBox::warning(this, tr("Application"),
+        QMessageBox::warning(this, "EditorWindow::saveFile",
                              tr("Cannot write file %1:\n%2.")
                              .arg(fileName)
                              .arg(file.errorString()));
@@ -168,7 +168,7 @@ bool EditorWindow::maybeSave()
     if( getCodeEditor()->document()->isModified() )
     {
         QMessageBox::StandardButton ret;
-        ret = QMessageBox::warning(this, tr("Application"),
+        ret = QMessageBox::warning(this, "EditorWindow::saveFile",
               tr("\nThe Document has been modified.\nDo you want to save your changes?\n"),
               QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
         if      (ret == QMessageBox::Save)   return save();
@@ -366,13 +366,13 @@ void EditorWindow::createActions()
     loadAct->setEnabled(false);
     connect( loadAct, SIGNAL(triggered()), this, SLOT(upload()) );
 
-    aboutAct = new QAction(QIcon(":/info.png"),tr("&About"), this);
+    /*aboutAct = new QAction(QIcon(":/info.png"),tr("&About"), this);
     aboutAct->setStatusTip(tr("Show the application's About box"));
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
+    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));*/
 
-    aboutQtAct = new QAction(QIcon(":/info.png"),tr("About &Qt"), this);
+    /*aboutQtAct = new QAction(QIcon(":/info.png"),tr("About &Qt"), this);
     aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));
-    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));*/
 
     //connect(m_codeEditor, SIGNAL(copyAvailable(bool)), cutAct, SLOT(setEnabled(bool)));
     //connect(m_codeEditor, SIGNAL(copyAvailable(bool)), copyAct, SLOT(setEnabled(bool)));
@@ -514,7 +514,8 @@ QString EditorWindow::strippedName(const QString &fullFileName)
 
 void EditorWindow::about()
 {
-   QMessageBox::about(this, tr("About Application"),
-            tr(""));
+   /*QMessageBox::about(this, tr("About Application"),
+            tr(""));*/
+            ;
 }
 #include  "moc_editorwindow.cpp"

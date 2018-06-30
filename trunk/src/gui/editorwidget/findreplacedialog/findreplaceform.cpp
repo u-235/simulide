@@ -37,9 +37,10 @@
 #define WHOLE_CHECK "wholeCheck"
 #define REGEXP_CHECK "regexpCheck"
 
-FindReplaceForm::FindReplaceForm(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::FindReplaceFORM), textEdit(0)
+FindReplaceForm::FindReplaceForm(QWidget *parent) 
+               : QWidget(parent)
+               , ui( new Ui::FindReplaceFORM )
+               , textEdit(0)
 {
     ui->setupUi(this);
 

@@ -56,13 +56,13 @@ void MainWindow::closeEvent( QCloseEvent *event )
     if( windowTitle().endsWith('*') )
     {
         const QMessageBox::StandardButton ret
-        = QMessageBox::warning(this, tr("Application"),
+        = QMessageBox::warning(this, "MainWindow::closeEvent",
                                tr("\nCircuit has been modified.\n"
                                   "Do you want to save your changes?\n"),
                                QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
                                
-        if(ret == QMessageBox::Save ) m_circuit->saveCirc();
-        else if(ret == QMessageBox::Cancel ) { event->ignore(); return; }
+        if( ret == QMessageBox::Save ) m_circuit->saveCirc();
+        else if( ret == QMessageBox::Cancel ) { event->ignore(); return; }
     }
     if( !m_editor->close() ) { event->ignore(); return; }
     m_circuit->newCircuit();
@@ -128,27 +128,27 @@ void MainWindow::createWidgets()
     m_Centralsplitter->addWidget( m_sidepanel );
 
     m_components = new ComponentSelector( m_sidepanel );
-    m_components->setObjectName(QString::fromUtf8("components"));
-    m_sidepanel->addTab( m_components, QString::fromUtf8("Components") );
+    m_components->setObjectName( "components" );
+    m_sidepanel->addTab( m_components,  "Components" );
 
     m_ramTabWidget = new QWidget( this );
-    m_ramTabWidget->setObjectName("ramTabWidget");
+    m_ramTabWidget->setObjectName( "ramTabWidget" );
     m_ramTabWidgetLayout = new QGridLayout( m_ramTabWidget );
     m_ramTabWidgetLayout->setSpacing(0);
     m_ramTabWidgetLayout->setContentsMargins(0, 0, 0, 0);
-    m_ramTabWidgetLayout->setObjectName("ramTabWidgetLayout");
-    m_sidepanel->addTab( m_ramTabWidget, tr("RamTable")  );
+    m_ramTabWidgetLayout->setObjectName( "ramTabWidgetLayout" );
+    m_sidepanel->addTab( m_ramTabWidget, tr( "RamTable" ));
 
     m_itemprop = new PropertiesWidget( this );
-    m_itemprop->setObjectName(QString::fromUtf8("properties"));
-    m_sidepanel->addTab( m_itemprop, QString::fromUtf8("Properties") );
+    m_itemprop->setObjectName( "properties" );
+    m_sidepanel->addTab( m_itemprop,  tr( "Properties" ));
     
     m_fileSystemTree = new FileWidget( this );
-    m_fileSystemTree->setObjectName(QString::fromUtf8("fileExplorer"));
-    m_sidepanel->addTab( m_fileSystemTree, QString::fromUtf8("File explorer") );
+    m_fileSystemTree->setObjectName( "fileExplorer" );
+    m_sidepanel->addTab( m_fileSystemTree, tr( "File explorer" ) );
 
     m_circuit = new CircuitWidget( this );
-    m_circuit->setObjectName(QString::fromUtf8("circuit"));
+    m_circuit->setObjectName( "circuit" );
     m_Centralsplitter->addWidget( m_circuit );
     
     m_editor = new EditorWindow( this );
@@ -252,9 +252,9 @@ void MainWindow::loadPluginsAt( QDir pluginsDir )
             qDebug()<< "        " << pluginName << "\tplugin FAILED: " << errorMsg;
 
             if( errorMsg.contains( "libQt5SerialPort" ) )
-                errorMsg = " Qt5SerialPort is not installed in your system\n\n    Mcu SerialPort will not work\n    Just Install libQt5SerialPort package\n    To have Mcu Serial Port Working";
+                errorMsg = tr( " Qt5SerialPort is not installed in your system\n\n    Mcu SerialPort will not work\n    Just Install libQt5SerialPort package\n    To have Mcu Serial Port Working" );
 
-            QMessageBox::warning( 0,"App Plugin Error:", errorMsg );
+            QMessageBox::warning( 0,tr( "Plugin Error:" ), errorMsg );
         }
     }
     qDebug() << "\n";

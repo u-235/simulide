@@ -85,7 +85,7 @@ void ComponentSelector::LoadCompSetAt( QDir compSetDir )
 
     if( xmlList.isEmpty() ) return;                  // No comp sets to load
 
-    qDebug() << "\n    Loading Component sets at:\n"<<compSetDir.absolutePath()<<"\n";
+    qDebug() << "\n" << tr("    Loading Component sets at:")<< "\n" << compSetDir.absolutePath()<<"\n";
 
     foreach( QString compSetName, xmlList )
     {
@@ -101,13 +101,13 @@ void ComponentSelector::loadXml( const QString &setFile )
     QFile file( setFile );
     if( !file.open(QFile::ReadOnly | QFile::Text) )
     {
-          QMessageBox::warning(0, tr("Application"), tr("Cannot read file %1:\n%2.").arg(setFile).arg(file.errorString()));
+          QMessageBox::warning(0, "ComponentSelector::loadXml", tr("Cannot read file %1:\n%2.").arg(setFile).arg(file.errorString()));
           return;
     }
     QDomDocument domDoc;
     if( !domDoc.setContent(&file) )
     {
-         QMessageBox::warning(0, tr("Application"), tr("Cannot set file %1\nto DomDocument").arg(setFile));
+         QMessageBox::warning(0, "ComponentSelector::loadXml", tr("Cannot set file %1\nto DomDocument").arg(setFile));
          file.close();
          return;
     }
@@ -158,7 +158,7 @@ void ComponentSelector::loadXml( const QString &setFile )
     }
     QString compSetName = setFile.split( "/").last();
 
-    qDebug() << "        Loaded Component set:           "<< compSetName;
+    qDebug() << tr("        Loaded Component set:           ") << compSetName;
 
     m_compSetUnique.append( compSetName );
 }
