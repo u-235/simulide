@@ -220,7 +220,7 @@ void Circuit::loadCircuit( QString &fileName )
 
     if( !file.open(QFile::ReadOnly | QFile::Text) )
     {
-        QMessageBox::warning(0l, tr("MainWindow::loadCircuit"),
+        QMessageBox::warning(0l, "Circuit::loadCircuit",
         tr("Cannot read file %1:\n%2.").arg(fileName).arg(file.errorString()));
         return;
     }
@@ -228,7 +228,7 @@ void Circuit::loadCircuit( QString &fileName )
 
     if( !m_domDoc.setContent(&file) )
     {
-        QMessageBox::warning( 0l, "MainWindow::loadCircuit",
+        QMessageBox::warning( 0l, "Circuit::loadCircuit",
         tr("Cannot set file %1\nto DomDocument").arg(fileName));
         file.close();
         return;
@@ -488,7 +488,7 @@ bool Circuit::saveCircuit( QString &fileName )
 
     if( !file.open(QFile::WriteOnly | QFile::Text) )
     {
-          QMessageBox::warning(0l, tr("Application"),
+          QMessageBox::warning(0l, "Circuit::saveCircuit",
           tr("Cannot write file %1:\n%2.").arg(fileName).arg(file.errorString()));
           return false;
     }
@@ -912,7 +912,7 @@ void Circuit::createSubcircuit()
 
     if( !file.open(QFile::WriteOnly | QFile::Text) )
     {
-          QMessageBox::warning(0l, tr("Save Subcircuit"),
+          QMessageBox::warning(0l, "Circuit::createSubcircuit",
           tr("Cannot write file %1:\n%2.").arg(fileName).arg(file.errorString()));
     }
     QTextStream out( &file );

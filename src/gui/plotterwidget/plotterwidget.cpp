@@ -172,11 +172,11 @@ void PlotterWidget::setScale()
 void PlotterWidget::setupWidget()
 {
     m_horizontalLayout = new QHBoxLayout( this );
-    m_horizontalLayout->setObjectName(tr("horizontalLayout"));
+    m_horizontalLayout->setObjectName( "horizontalLayout");
     //m_horizontalLayout.setContentsMargins(0, 0, 0, 0);
     //m_horizontalLayout.setSpacing(0);
     m_verticalLayout = new QVBoxLayout();
-    m_verticalLayout->setObjectName(tr("verticalLayout"));
+    m_verticalLayout->setObjectName( "verticalLayout");
 
     QFont font;
     font.setPointSize(12);
@@ -229,7 +229,7 @@ void PlotterWidget::setupWidget()
     m_horizontalLayout->addLayout( m_verticalLayout );
 
     m_rArea = new RenderArea( 1000, 180, this );
-    m_rArea->setObjectName(tr("oscope"));
+    m_rArea->setObjectName( "oscope" );
 
     QPen pen( m_color[0], 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin );
 

@@ -58,8 +58,8 @@ void BaseDebugger::upload()
 {
     if( m_loadStatus )
     {
-        QMessageBox::warning( 0, tr("BaseDebugger::loadFirmware"),
-                                 tr("Debugger already running\nStop active session") );
+        QMessageBox::warning( 0, "BaseDebugger::loadFirmware",
+                                tr("Debugger already running\nStop active session") );
         return;
     }
     m_outPane->writeText( "-------------------------------------------------------\n" );

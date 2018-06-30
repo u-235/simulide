@@ -92,7 +92,7 @@ INCLUDEPATH += ../src \
     ../src/simavr/cores 
 
 
-TRANSLATIONS = ../resources/translations/*.ts
+TRANSLATIONS = ../resources/translations/simulide.ts
     
 RESOURCES = ../src/application.qrc
 
@@ -156,7 +156,7 @@ TARGET = SimulIDE_$$VERSION
 mkpath( $$TARGET_PREFIX/bin )
 
 
-runLrelease.commands = lrelease $$TRANSLATIONS; 
+runLrelease.commands = lrelease ../resources/translations/*.ts; 
 QMAKE_EXTRA_TARGETS += runLrelease
 POST_TARGETDEPS     += runLrelease
 

@@ -26,7 +26,7 @@
 LibraryItem* PICComponent::libraryItem()
 {
     return new LibraryItem(
-        tr("PIC"),
+        "PIC",
         tr("Micro"),
         "ic2.png",
         "PIC",
