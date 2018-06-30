@@ -92,7 +92,10 @@ INCLUDEPATH += ../src \
     ../src/simavr/cores 
 
 
-TRANSLATIONS = ../resources/translations/simulide.ts
+TRANSLATIONS +=  \
+    ../resources/translations/simulide.ts \
+    ../resources/translations/simulide_es.ts 
+
     
 RESOURCES = ../src/application.qrc
 
