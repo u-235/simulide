@@ -118,15 +118,29 @@ void CircuitWidget::createToolBars()
     m_circToolBar.addSeparator();//..........................
 }
 
-void CircuitWidget::newCircuit()
+bool CircuitWidget::newCircuit()
 {
     powerCircOff();
+    
+    if( MainWindow::self()->windowTitle().endsWith('*') )
+    {
+        const QMessageBox::StandardButton ret
+        = QMessageBox::warning(this, "MainWindow::closeEvent",
+                               tr("\nCircuit has been modified.\n"
+                                  "Do you want to save your changes?\n"),
+                               QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+                               
+        if( ret == QMessageBox::Save ) saveCirc();
+        else if( ret == QMessageBox::Cancel ) return false;
+    }
     
     clear();
     m_curCirc = "";
 
     MainWindow::self()->setTitle( tr("New Circuit"));
     MainWindow::self()->settings()->setValue( "lastCircDir", m_lastCircDir );
+    
+    return true;
 }
 
 void CircuitWidget::openCirc()

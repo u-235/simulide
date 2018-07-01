@@ -163,7 +163,7 @@ void WaveGen::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidge
     else
         p->setBrush( QColor( 230, 230, 255 ) );
 
-    p->drawRoundedRect( boundingRect(),2 ,2 );
+    p->drawRoundedRect( m_area,2 ,2 );
 
     QPen pen;
     pen.setWidth(1);

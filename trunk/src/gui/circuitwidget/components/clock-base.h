@@ -29,6 +29,8 @@ class MAINMODULE_EXPORT ClockBase : public LogicInput
     Q_PROPERTY( int Freq  READ freq   WRITE setFreq   DESIGNABLE true USER true )
 
     public:
+    
+        QRectF boundingRect() const { return QRectF( m_area.x()-2, m_area.y()-2, m_area.width()+4 ,m_area.height()+4 ); }
 
         ClockBase( QObject* parent, QString type, QString id );
         ~ClockBase();

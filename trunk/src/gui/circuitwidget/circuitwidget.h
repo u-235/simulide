@@ -52,7 +52,7 @@ class MAINMODULE_EXPORT CircuitWidget : public QWidget
         void writeSerialPortWidget( const QByteArray &data );
         
     public slots:
-        void newCircuit();
+        bool newCircuit();
         void openCirc();
         void loadCirc( QString path );
         void saveCirc();

@@ -53,19 +53,9 @@ MainWindow::~MainWindow(){ }
 
 void MainWindow::closeEvent( QCloseEvent *event )
 {
-    if( windowTitle().endsWith('*') )
-    {
-        const QMessageBox::StandardButton ret
-        = QMessageBox::warning(this, "MainWindow::closeEvent",
-                               tr("\nCircuit has been modified.\n"
-                                  "Do you want to save your changes?\n"),
-                               QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-                               
-        if( ret == QMessageBox::Save ) m_circuit->saveCirc();
-        else if( ret == QMessageBox::Cancel ) { event->ignore(); return; }
-    }
-    if( !m_editor->close() ) { event->ignore(); return; }
-    m_circuit->newCircuit();
+    if( !m_editor->close() )      { event->ignore(); return; }
+    if( !m_circuit->newCircuit()) { event->ignore(); return; }
+    
     writeSettings();
     
     event->accept();
