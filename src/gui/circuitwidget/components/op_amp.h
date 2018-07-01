@@ -42,6 +42,7 @@ class MAINMODULE_EXPORT OpAmp : public Component, public eOpAmp
         static Component* construct( QObject* parent, QString type, QString id );
         static LibraryItem *libraryItem();
 
+        virtual QPainterPath shape() const;
         virtual void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
         
     public slots:

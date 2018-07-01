@@ -172,7 +172,7 @@ void Package::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidge
 {
     Component::paint( p, option, widget );
 
-    p->drawRoundedRect( boundingRect(), 1, 1);
+    p->drawRoundedRect( m_area, 1, 1);
 
     p->setPen( QColor( 170, 170, 150 ) );
     p->drawArc( boundingRect().width()/2-4, -4, 8, 8, 0, -2880 /* -16*180 */ );

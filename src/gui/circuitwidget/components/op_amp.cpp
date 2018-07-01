@@ -102,6 +102,22 @@ OpAmp::~OpAmp()
     //delete m_inResistor;
 }
 
+QPainterPath OpAmp::shape() const
+{
+    QPainterPath path;
+    
+    QVector<QPointF> points;
+    
+    points << QPointF(-16,-16 )
+           << QPointF(-16, 16 )
+           << QPointF( 16,  1 )
+           << QPointF( 16, -1 );
+        
+    path.addPolygon( QPolygonF(points) );
+    path.closeSubpath();
+    return path;
+}
+
 void OpAmp::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
     Component::paint( p, option, widget );

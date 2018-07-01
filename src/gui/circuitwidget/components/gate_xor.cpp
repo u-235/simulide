@@ -55,10 +55,10 @@ QPainterPath XorGate::shape() const
     
     QVector<QPointF> points;
     
-    points << QPointF(-20,-18 )
+    points << QPointF(-22,-18 )
            << QPointF(-16,-8  )
            << QPointF(-16, 8  )
-           << QPointF(-20, 18 )
+           << QPointF(-22, 18 )
            << QPointF(  0, 16 )
            << QPointF( 16, 8  )
            << QPointF( 16,-8  )
@@ -71,8 +71,8 @@ QPainterPath XorGate::shape() const
 
 void XorGate::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
-    int y_orig = this->boundingRect().y();
-    int height = this->boundingRect().height();
+    int y_orig = m_area.y();
+    int height = m_area.height();
 
     // Paint white background of gate
     Component::paint( p, option, widget );

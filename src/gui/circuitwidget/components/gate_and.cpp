@@ -67,7 +67,7 @@ void AndGate::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidge
     pen.setWidth(2);
     p->setPen(pen);
 
-    p->drawChord( -48, boundingRect().y(), 64, boundingRect().height(), -1440/*-16*90*/, 2880/*16*180*/ );
+    p->drawChord( -48, m_area.y(), 64, m_area.height(), -1440/*-16*90*/, 2880/*16*180*/ );
 }
 
 #include "moc_gate_and.cpp"

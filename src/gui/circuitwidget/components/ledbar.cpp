@@ -37,8 +37,10 @@ LibraryItem* LedBar::libraryItem()
 }
 
 LedBar::LedBar( QObject* parent, QString type, QString id )
-    : Component( parent, type, id )
+      : Component( parent, type, id )
 {
+    m_area = QRect( -8, -28, 16, 64 );
+    
     m_led.resize( 8 );
     m_pin.resize( 16 );
     
@@ -128,7 +130,7 @@ void LedBar::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget
     
     p->setBrush( QColor( 0, 0, 0) );
 
-    p->drawRoundRect( boundingRect(), 4, 4 );
+    p->drawRoundRect( m_area, 4, 4 );
 }
 
 #include "moc_ledbar.cpp"

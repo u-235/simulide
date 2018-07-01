@@ -34,7 +34,6 @@ class MAINMODULE_EXPORT LedBar : public Component
     Q_PROPERTY( bool   Grounded   READ grounded   WRITE setGrounded   DESIGNABLE true USER true )
 
     public:
-        QRectF boundingRect() const { return QRect( -8, -28, 16, 64 ); }
 
         LedBar( QObject* parent, QString type, QString id );
         ~LedBar();

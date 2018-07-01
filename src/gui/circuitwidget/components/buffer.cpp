@@ -40,6 +40,7 @@ Buffer::Buffer( QObject* parent, QString type, QString id )
       : Gate( parent, type, id, 1 )
 {
     m_area = QRect( -19, -17, 38, 34 ); 
+    
     m_outEnPin = new Pin( 90, QPoint( 0,-16 ), m_id+"-ePin-outEnable", 0, this );
     eLogicDevice::createOutEnablePin( m_outEnPin );
     
@@ -73,10 +74,10 @@ QPainterPath Buffer::shape() const
     
     QVector<QPointF> points;
     
-    points << QPointF(-16,-16 )
-           << QPointF(-16, 16 )
-           << QPointF( 16,  1 )
-           << QPointF( 16, -1 );
+    points << QPointF(-17,-17 )
+           << QPointF(-17, 17 )
+           << QPointF( 17,  1 )
+           << QPointF( 17, -1 );
         
     path.addPolygon( QPolygonF(points) );
     path.closeSubpath();

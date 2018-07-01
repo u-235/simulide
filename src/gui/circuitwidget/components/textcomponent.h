@@ -16,6 +16,12 @@ class MAINMODULE_EXPORT TextComponent : public Component
     public:
         TextComponent( QObject* parent, QString type, QString id );
         ~TextComponent();
+        
+        QRectF boundingRect() const 
+        { 
+            return QRectF( m_area.x()-m_border/2-1, m_area.y()-m_border/2-1, 
+                           m_area.width()+m_border+2, m_area.height()+m_border+2 ); 
+        }
 
  static Component* construct( QObject* parent, QString type, QString id );
  static LibraryItem *libraryItem();
