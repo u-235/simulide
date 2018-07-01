@@ -47,11 +47,11 @@ ConnectorLine::~ConnectorLine(){}
 
 QRectF ConnectorLine::boundingRect() const
 {
-   if     ( m_p2X > m_p1X ) return QRect( 0,           -4,           m_p2X-m_p1X, 8 );
-   else if( m_p2X < m_p1X ) return QRect( m_p2X-m_p1X, -4,           m_p1X-m_p2X, 8 );
-   else if( m_p2Y > m_p1Y ) return QRect(-4,            0,           8,           m_p2Y-m_p1Y );
-   else if( m_p2Y < m_p1Y ) return QRect(-4,            m_p2Y-m_p1Y, 8,           m_p1Y-m_p2Y );
-   else                     return QRect( 0,            0,           0,           0 );
+   if     ( m_p2X > m_p1X ) return QRect(-1,            -4,             m_p2X-m_p1X+2, 8 );
+   else if( m_p2X < m_p1X ) return QRect( m_p2X-m_p1X-1,-4,             m_p1X-m_p2X+2, 8 );
+   else if( m_p2Y > m_p1Y ) return QRect(-4,            -1,             8,             m_p2Y-m_p1Y+2 );
+   else if( m_p2Y < m_p1Y ) return QRect(-4,             m_p2Y-m_p1Y-1, 8,             m_p1Y-m_p2Y+2 );
+   else                     return QRect( 0,             0,             0,             0 );
 }
 
 void ConnectorLine::sSetP1( QPoint point )

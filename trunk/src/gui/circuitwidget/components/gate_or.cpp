@@ -70,8 +70,8 @@ QPainterPath OrGate::shape() const
 
 void OrGate::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
-    int y_orig = this->boundingRect().y();
-    int height = this->boundingRect().height();
+    int y_orig = m_area.y();
+    int height = m_area.height();
 
     // Paint white background of gate
     Component::paint( p, option, widget );

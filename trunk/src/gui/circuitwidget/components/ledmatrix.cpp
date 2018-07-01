@@ -93,10 +93,11 @@ void LedMatrix::createMatrix()
             LedSmd* lsmd = new LedSmd( this, "LEDSMD", ledid, QRectF(-2, -2, 4, 4) );
             m_led[row][col] = lsmd;
             lsmd->setParentItem(this);
-            lsmd->setEnabled(false);
             lsmd->setNumEpins(2);
             lsmd->setMaxCurrent( 0.02 );
             lsmd->setPos( col*8, row*8 );
+            lsmd->setEnabled(false);
+            lsmd->setAcceptedMouseButtons(0);
         }
     }
     for( int col=0; col<m_cols; col++ )
@@ -230,7 +231,7 @@ void LedMatrix::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWid
     
     p->setBrush( QColor( 0, 0, 0) );
 
-    p->drawRoundRect( boundingRect(), 4, 4 );
+    p->drawRoundRect( m_area, 4, 4 );
 }
 
 #include "moc_ledmatrix.cpp"

@@ -25,6 +25,8 @@
 ClockBase::ClockBase( QObject* parent, QString type, QString id )
          : LogicInput( parent, type, id )
 {
+    m_area = QRect( -14, -8, 22, 16 );
+    
     m_isRunning = false;
 
     m_stepsPC = 0;
@@ -44,10 +46,9 @@ void ClockBase::updateStep()
         else
         {
             m_out->setOut( false );
-            m_out->stampOutput();
             Simulator::self()->remFromSimuClockList( this );
         }
-        m_changed = false;
+        LogicInput::updateStep();
     }
 }
 

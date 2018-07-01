@@ -43,7 +43,7 @@ Ellipse::~Ellipse(){}
 QPainterPath Ellipse::shape() const
 {
     QPainterPath path;
-    path.addEllipse(boundingRect());
+    path.addEllipse( Shape::boundingRect() );
     return path;
 }
 
