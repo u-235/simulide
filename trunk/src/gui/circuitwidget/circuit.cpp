@@ -506,6 +506,16 @@ bool Circuit::saveCircuit( QString &fileName )
 
 void Circuit::bom()
 {
+    QString fileName = m_filePath; 
+    fileName.replace( fileName.lastIndexOf( ".simu" ), 5, "-bom.txt" );
+    
+    fileName = QFileDialog::getSaveFileName( MainWindow::self()
+                            , tr( "Bill Of Materials" )
+                            , fileName
+                            , "(*.*)"  );
+
+    if( fileName.isEmpty() ) return;
+    
     QStringList bom;
     
     foreach( Component* comp, m_compList )
@@ -515,16 +525,12 @@ void Circuit::bom()
 
         if( isNumber ) bom.append( comp->print() );
     }
-    
-    QString fileName = m_filePath; 
-    fileName.replace( ".simu", "" );
-    fileName += "-bom.txt";
 
     QFile file( fileName );
 
     if( !file.open(QFile::WriteOnly | QFile::Text) )
     {
-          QMessageBox::warning(0l, tr("Application"),
+          QMessageBox::warning(0l, "Circuit::bom",
           tr("Cannot write file %1:\n%2.").arg(fileName).arg(file.errorString()));
     }
     bom.sort();
@@ -907,6 +913,11 @@ void Circuit::createSubcircuit()
     QString fileName = m_filePath;                    // Save Subcircuit
     
     fileName.replace( m_filePath.lastIndexOf( ".simu" ), 5, ".subcircuit" );
+    
+    fileName = QFileDialog::getSaveFileName( MainWindow::self()
+                            , tr( "Bill Of Materials" )
+                            , fileName
+                            , "(*.*)"  );
     
     QFile file( fileName );
 
