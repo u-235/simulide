@@ -52,13 +52,16 @@ void eOutBus::setVChanged()
 {
     int address = 0;
     
-    bool haveInput = true;
+    bool haveInput = false;
     
     for( int i=0; i<m_numInputs; i++ )
     {
         double volt = m_input[i]->getVolt();
-        if( fabs( volt-m_threshold ) < m_threshold/2 ) haveInput = false;
+        
+        if( fabs( volt-m_threshold ) > m_threshold/5 ) haveInput = true;
+        
         //qDebug() << "eOutBus::setVChanged" <<volt<<m_threshold<<haveInput;
+        
         bool  state = m_inputState[i];
 
         if     ( volt > m_inputHighV ) state = true;

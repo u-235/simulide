@@ -303,14 +303,15 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="527"/>
-        <source>Application</source>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="513"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="918"/>
+        <source>Bill Of Materials</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuit.cpp" line="492"/>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="528"/>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="916"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="534"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="927"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation type="unfinished"></translation>
@@ -356,6 +357,11 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="206"/>
         <source>Bill of Materials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="226"/>
+        <source>Save as Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -428,23 +434,31 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="128"/>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="129"/>
+        <source>
+Circuit has been modified.
+Do you want to save your changes?
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="140"/>
         <source>New Circuit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="135"/>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="149"/>
         <source>Load Circuit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="136"/>
-        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="173"/>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="150"/>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="187"/>
         <source>Circuits (*.simu);;All files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="172"/>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="186"/>
         <source>Save Circuit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1171,40 +1185,32 @@ Do you want to save your changes?
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="60"/>
-        <source>
-Circuit has been modified.
-Do you want to save your changes?
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="105"/>
+        <location filename="../../src/mainwindow.cpp" line="95"/>
         <source>About Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="106"/>
+        <location filename="../../src/mainwindow.cpp" line="96"/>
         <source>Circuit simulationand IDE for mcu development</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="140"/>
+        <location filename="../../src/mainwindow.cpp" line="130"/>
         <source>RamTable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="144"/>
+        <location filename="../../src/mainwindow.cpp" line="134"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="148"/>
+        <location filename="../../src/mainwindow.cpp" line="138"/>
         <source>File explorer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="255"/>
+        <location filename="../../src/mainwindow.cpp" line="245"/>
         <source> Qt5SerialPort is not installed in your system
 
     Mcu SerialPort will not work
@@ -1213,7 +1219,7 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="257"/>
+        <location filename="../../src/mainwindow.cpp" line="247"/>
         <source>Plugin Error:</source>
         <translation type="unfinished"></translation>
     </message>
