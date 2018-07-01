@@ -222,10 +222,10 @@ void CircuitView::slotPaste()
 
 void CircuitView::saveImage()
 {
-    QString fileName= QFileDialog::getSaveFileName( this
-                            , "Save image"
+    QString fileName = QFileDialog::getSaveFileName( this
+                            , tr( "Save as Image" )
                             , Circuit::self()->getFileName()
-                            , "BMP Files (*.*)"  );
+                            , "(*.*)"  );
     if (!fileName.isNull())
     {
         if( fileName.endsWith( "svg" ) )

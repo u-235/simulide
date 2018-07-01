@@ -48,7 +48,7 @@ TextComponent::TextComponent( QObject* parent, QString type, QString id )
     sansFont.setFixedPitch(true);
 
     m_text = new QGraphicsTextItem( this );
-    m_text->setTextInteractionFlags(Qt::TextEditorInteraction);
+    m_text->setTextInteractionFlags( Qt::TextEditorInteraction );
     m_text->setTextWidth( 90 );
     m_text->setFont( sansFont );
     m_text->setPlainText("... TEXT ...");
