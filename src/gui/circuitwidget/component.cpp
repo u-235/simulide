@@ -304,26 +304,33 @@ void Component::setValLabelPos()
 
 void Component::setValue( double val) 
 { 
-    if( val < 1e-12 ) val = 1e-12;
-    val = val*m_unitMult;
-    
-    int index = 4;   // We are in bare units "TGMK munp"
-    m_unitMult = 1;
-    while( val >= 1000 )
+    if( fabs(val) < 1e-12 ) 
     {
-        index--;
-        m_unitMult = m_unitMult*1000;
-        val = val/1000;
+        m_value = 0;
+        m_mult = " ";
     }
-    while( val < 1 )
+    else
     {
-        index++;
-        m_unitMult = m_unitMult/1000;
-        val = val*1000;
+        val = val*m_unitMult;
+        
+        int index = 4;   // We are in bare units "TGMK munp"
+        m_unitMult = 1;
+        while( fabs(val) >= 1000 )
+        {
+            index--;
+            m_unitMult = m_unitMult*1000;
+            val = val/1000;
+        }
+        while( fabs(val) < 1 )
+        {
+            index++;
+            m_unitMult = m_unitMult/1000;
+            val = val*1000;
+        }
+        m_mult = multUnits.at( index );
+        if( m_mult != " " ) m_mult.prepend( " " );
+        m_value = val;
     }
-    m_mult = multUnits.at( index );
-    if( m_mult != " " ) m_mult.prepend( " " );
-    m_value = val;
     m_valLabel->setPlainText( QString::number(m_value)+m_mult+m_unit );
 }
 

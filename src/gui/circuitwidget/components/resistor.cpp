@@ -65,6 +65,8 @@ double Resistor::resist() { return m_value; }
 
 void Resistor::setResist( double r )
 {
+    if( r < 1e-12 ) r = 1e-12;
+    
     Component::setValue( r );       // Takes care about units multiplier
     eResistor::setResSafe( m_value*m_unitMult );
 }
