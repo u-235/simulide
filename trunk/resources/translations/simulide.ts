@@ -268,12 +268,12 @@ FirmWare Uploaded to </source>
 <context>
     <name>Capacitor</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/capacitor.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/capacitor.cpp" line="29"/>
         <source>Capacitor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/capacitor.cpp" line="33"/>
+        <location filename="../../src/gui/circuitwidget/components/capacitor.cpp" line="30"/>
         <source>Passive</source>
         <translation type="unfinished"></translation>
     </message>
@@ -523,7 +523,7 @@ Uploading:
 <context>
     <name>Component</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="433"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="440"/>
         <source>Cannot read Help file:
 %1:
 %2.</source>
@@ -1956,6 +1956,19 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/gate_xor.cpp" line="33"/>
         <source>Logic</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>elCapacitor</name>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/elcapacitor.cpp" line="29"/>
+        <source>Electrolytic Capacitor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/elcapacitor.cpp" line="30"/>
+        <source>Passive</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

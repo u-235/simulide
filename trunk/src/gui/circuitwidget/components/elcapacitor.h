@@ -17,38 +17,36 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "capacitor.h"
+#ifndef ELCAPACITOR_H
+#define ELCAPACITOR_H
 
+#include "capacitorbase.h"
+#include "itemlibrary.h"
 
-Component* Capacitor::construct( QObject* parent, QString type, QString id )
-{ return new Capacitor( parent, type, id ); }
-
-LibraryItem* Capacitor::libraryItem()
+class MAINMODULE_EXPORT elCapacitor : public CapacitorBase
 {
-    return new LibraryItem(
-            tr( "Capacitor" ),
-            tr( "Passive" ),
-            "capacitor.png",
-            "Capacitor",
-            Capacitor::construct);
-}
+    Q_OBJECT
+    
+    public:
 
-Capacitor::Capacitor( QObject* parent, QString type, QString id )
-         : CapacitorBase( parent, type, id )
-{
-}
-Capacitor::~Capacitor(){}
+        elCapacitor( QObject* parent, QString type, QString id );
+        ~elCapacitor();
 
-void Capacitor::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
-{
-    Component::paint( p, option, widget );
+        static Component* construct( QObject* parent, QString type, QString id );
+        static LibraryItem* libraryItem();
+        
+        void initialize();
+        void updateStep();
 
-    QPen pen = p->pen();
-    pen.setWidth(3);
-    p->setPen(pen);
+        virtual void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
+        
+    public slots:
+        virtual void remove();
+        
+    private:
+        bool m_reversed;
+        int  m_counter;
+};
 
-    p->drawLine(-3,-6,-3, 6 );
-    p->drawLine( 3,-6, 3, 6 );
-}
+#endif
 
-#include "moc_capacitor.cpp"

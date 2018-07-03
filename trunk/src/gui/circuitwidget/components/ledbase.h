@@ -72,6 +72,9 @@ class MAINMODULE_EXPORT LedBase : public Component, public eLed
         
         LedColor m_ledColor;
         
+        bool m_overCurrent;
+        int  m_counter;
+        
 };
 
 #endif
