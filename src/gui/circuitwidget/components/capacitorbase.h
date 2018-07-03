@@ -17,38 +17,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "capacitor.h"
+#ifndef CAPACITORBASE_H
+#define CAPACITORBASE_H
+
+#include "e-capacitor.h"
+#include "component.h"
 
 
-Component* Capacitor::construct( QObject* parent, QString type, QString id )
-{ return new Capacitor( parent, type, id ); }
-
-LibraryItem* Capacitor::libraryItem()
+class MAINMODULE_EXPORT CapacitorBase : public Component, public eCapacitor
 {
-    return new LibraryItem(
-            tr( "Capacitor" ),
-            tr( "Passive" ),
-            "capacitor.png",
-            "Capacitor",
-            Capacitor::construct);
-}
+    Q_OBJECT
+    Q_PROPERTY( double Capacitance   READ capac    WRITE setCapac   DESIGNABLE true USER true )
+    Q_PROPERTY( QString  Unit        READ unit     WRITE setUnit    DESIGNABLE true USER true )
+    Q_PROPERTY( bool     Show_Cap    READ showVal  WRITE setShowVal DESIGNABLE true USER true )
+    
+    public:
 
-Capacitor::Capacitor( QObject* parent, QString type, QString id )
-         : CapacitorBase( parent, type, id )
-{
-}
-Capacitor::~Capacitor(){}
+        CapacitorBase( QObject* parent, QString type, QString id );
+        ~CapacitorBase();
+        
+        double capac();
+        void  setCapac( double c );
+        
+        void setUnit( QString un );
+};
 
-void Capacitor::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
-{
-    Component::paint( p, option, widget );
+#endif
 
-    QPen pen = p->pen();
-    pen.setWidth(3);
-    p->setPen(pen);
-
-    p->drawLine(-3,-6,-3, 6 );
-    p->drawLine( 3,-6, 3, 6 );
-}
-
-#include "moc_capacitor.cpp"

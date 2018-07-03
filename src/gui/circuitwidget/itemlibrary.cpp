@@ -37,6 +37,7 @@
 #include "dectobcd.h"
 #include "demux.h"
 #include "diode.h"
+#include "elcapacitor.h"
 #include "ellipse.h"
 #include "flipflopd.h"
 #include "flipflopjk.h"
@@ -126,6 +127,7 @@ void ItemLibrary::loadItems()
     addItem( Resistor::libraryItem() );
     addItem( ResistorDip::libraryItem() );
     addItem( Capacitor::libraryItem() );
+    addItem( elCapacitor::libraryItem() );
     addItem( Inductor::libraryItem() );
     // Active
     addItem( Diode::libraryItem() );
