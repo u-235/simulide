@@ -1195,6 +1195,11 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../src/mainwindow.cpp" line="122"/>
+        <source>Components</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../src/mainwindow.cpp" line="130"/>
         <source>RamTable</source>
         <translation type="unfinished"></translation>
