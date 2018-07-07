@@ -119,7 +119,7 @@ void MainWindow::createWidgets()
 
     m_components = new ComponentSelector( m_sidepanel );
     m_components->setObjectName( "components" );
-    m_sidepanel->addTab( m_components,  "Components" );
+    m_sidepanel->addTab( m_components, tr("Components") );
 
     m_ramTabWidget = new QWidget( this );
     m_ramTabWidget->setObjectName( "ramTabWidget" );

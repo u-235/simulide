@@ -59,6 +59,7 @@
         <file alias="poweron.png">../src/icons/mainwindow/poweron.png</file>
         <file alias="voltsource.png">../src/icons/components/voltsource.png</file>
         <file alias="capacitor.png">../src/icons/components/capacitor.png</file>
+        <file alias="elcapacitor.png">../src/icons/components/elcapacitor.png</file>
         <file alias="seven_segment.png">../src/icons/components/seven_segment.png</file>
         <file alias="switch.png">../src/icons/components/switch.png</file>
         <file alias="inductor.png">../src/icons/components/inductor.png</file>
