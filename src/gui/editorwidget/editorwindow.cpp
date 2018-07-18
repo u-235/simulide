@@ -44,7 +44,9 @@ EditorWindow::~EditorWindow(){}
 
 bool EditorWindow::close()
 {
-    getCodeEditor()->writeSettings();
+    CodeEditor* ce = getCodeEditor();
+    if( ce ) ce->writeSettings();
+    
     writeSettings();
     
     for( int i=0; i<m_docWidget->count(); i++ )
