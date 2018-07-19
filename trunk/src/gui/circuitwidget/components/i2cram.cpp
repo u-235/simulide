@@ -152,6 +152,7 @@ int I2CRam::rSize()
 
 void I2CRam::setRSize( int size )
 {
+    if( size > 65536 ) size = 65536;
     m_size = size;
 }
 
