@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by santiago González                               *
+ *   Copyright (C) 2018 by santiago González                               *
  *   santigoro@gmail.com                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,32 +17,43 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef I2C_H
-#define I2C_H
+#ifndef I2CRAM_H
+#define I2CRAM_H
 
 #include "e-i2c.h"
 #include "itemlibrary.h"
 #include "logiccomponent.h"
 
-class MAINMODULE_EXPORT I2C : public LogicComponent, public eI2C
+class MAINMODULE_EXPORT I2CRam : public LogicComponent, public eI2C
 {
     Q_OBJECT
-    Q_PROPERTY( double Input_High_V READ inputHighV WRITE setInputHighV DESIGNABLE true USER true )
-    Q_PROPERTY( double Input_Low_V  READ inputLowV  WRITE setInputLowV  DESIGNABLE true USER true )
-    Q_PROPERTY( double Input_Imped  READ inputImp   WRITE setInputImp   DESIGNABLE true USER true )
-    Q_PROPERTY( double Out_High_V   READ outHighV   WRITE setOutHighV   DESIGNABLE true USER true )
-    Q_PROPERTY( double Out_Low_V    READ outLowV    WRITE setOutLowV    DESIGNABLE true USER true )
-    Q_PROPERTY( double Out_Imped    READ outImp     WRITE setOutImp     DESIGNABLE true USER true )
+    Q_PROPERTY( int Control_Code READ cCode WRITE setCcode DESIGNABLE true USER true )
+    Q_PROPERTY( int Size_bytes READ rSize WRITE setRSize DESIGNABLE true USER true )
 
     public:
-        I2C( QObject* parent, QString type, QString id );
-        ~I2C();
+        I2CRam( QObject* parent, QString type, QString id );
+        ~I2CRam();
 
         static Component* construct( QObject* parent, QString type, QString id );
         static LibraryItem *libraryItem();
         
+        int cCode();
+        void setCcode( int code );
+        
+        int rSize();
+        void setRSize( int size );
+        
+        virtual void initialize();
         virtual void setVChanged();
-
+        virtual void writeByte();
+        virtual void readByte();
+        
+    private:
+        int m_ram[65536];
+        int m_size;
+        int m_addrPtr;
+        int m_cCode;
+        int m_phase;
 };
 
 #endif

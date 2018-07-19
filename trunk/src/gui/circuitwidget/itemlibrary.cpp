@@ -47,7 +47,7 @@
 #include "gate_xor.h"
 #include "ground.h"
 #include "hd44780.h"
-#include "i2c.h"
+#include "i2cram.h"
 #include "inbus.h"
 #include "inductor.h"
 #include "keypad.h"
@@ -152,7 +152,6 @@ void ItemLibrary::loadItems()
     addItem( AVRComponent::libraryItem() );
     addItem( Arduino::libraryItem() );
     // Logic
-    //addItem( I2C::libraryItem() );
     addItem( SevenSegmentBCD::libraryItem() );
     addItem( Buffer::libraryItem() );
     addItem( AndGate::libraryItem() );
@@ -172,6 +171,7 @@ void ItemLibrary::loadItems()
     addItem( DAC::libraryItem() );
     addItem( OutBus::libraryItem() );
     addItem( InBus::libraryItem() );
+    addItem( I2CRam::libraryItem() );
     // Subcircuits
     addItem( SubCircuit::libraryItem() );
     // Other
