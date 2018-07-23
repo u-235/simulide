@@ -111,7 +111,7 @@ void FileBrowser::contextMenuEvent( QContextMenuEvent* event )
         
         if( m_fileSystemModel->isDir( currentIndex()) )
         {
-            QAction* addBookMarkAction = menu.addAction(QIcon(":/setroot.png"),"Add Bookmark");
+            QAction* addBookMarkAction = menu.addAction(QIcon(":/setroot.png"),tr("Add Bookmark"));
             connect( addBookMarkAction, SIGNAL( triggered()), 
                      this,              SLOT(   addBookMark() ) );
                      
@@ -119,7 +119,7 @@ void FileBrowser::contextMenuEvent( QContextMenuEvent* event )
         }
         else
         {
-            QAction* openWithEditor = menu.addAction(QIcon(":/open.png"),"Open in editor");
+            QAction* openWithEditor = menu.addAction(QIcon(":/open.png"),tr("Open in editor"));
             connect( openWithEditor, SIGNAL( triggered()), 
                      this,           SLOT(   openInEditor()) );
                      

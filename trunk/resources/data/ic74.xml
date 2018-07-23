@@ -20,6 +20,7 @@
 <!-- *************************************************************************** -->
 
 <itemlib>
+    <tag>QT_TRANSLATE_NOOP("xmlfile","Logic/IC 74")</tag>
     
     <itemset category="Logic/IC 74" type="Subcircuit">
 

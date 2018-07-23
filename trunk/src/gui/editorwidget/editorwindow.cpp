@@ -230,7 +230,7 @@ void EditorWindow::tabContextMenu( const QPoint &eventpoint )
     if( !ce ) return;
     
     QMenu* menu = new QMenu();
-    QAction* setCompilerAction = menu->addAction(QIcon(":/copy.png"),"set Compiler Path");
+    QAction* setCompilerAction = menu->addAction(QIcon(":/copy.png"),tr("set Compiler Path"));
     connect( setCompilerAction, SIGNAL( triggered()), this, SLOT(setCompiler()) );
 
     menu->exec( mapToGlobal(eventpoint) );

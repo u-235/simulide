@@ -59,18 +59,18 @@ void BaseDebugger::upload()
     if( m_loadStatus )
     {
         QMessageBox::warning( 0, "BaseDebugger::loadFirmware",
-                                tr("Debugger already running\nStop active session") );
+                                tr("Debugger already running")+"\n"+tr("Stop active session") );
         return;
     }
     m_outPane->writeText( "-------------------------------------------------------\n" );
-    m_outPane->appendText( tr("\nUploading: \n") );
+    m_outPane->appendText( "\n"+tr("Uploading: ")+"\n" );
     m_outPane->appendText( m_firmware );
     m_outPane->writeText( "\n\n" );
     
     if( McuComponent::self() ) 
     {
         McuComponent::self()->load( m_firmware );
-        m_outPane->appendText( tr("\nFirmWare Uploaded to ")+McuComponent::self()->device()+"\n" );
+        m_outPane->appendText( "\n"+tr("FirmWare Uploaded to ")+McuComponent::self()->device()+"\n" );
         m_outPane->writeText( "\n\n" );
     }
 }
@@ -131,7 +131,7 @@ void BaseDebugger::getCompilerPath()
 
         MainWindow::self()->settings()->setValue( m_compSetting, m_compilerPath);
 
-        m_outPane->appendText( "Using Compiler Path: \n" );
+        m_outPane->appendText( "\n"+tr("Using Compiler Path: ")+"\n" );
         m_outPane->writeText( m_compilerPath+"\n\n" );
 }
 
@@ -139,6 +139,12 @@ void BaseDebugger::setCompilerPath( QString path )
 {
     m_compilerPath = path;
     MainWindow::self()->settings()->setValue( m_compSetting, m_compilerPath );
+}
+
+void BaseDebugger::toolChainNotFound()
+{
+    m_outPane->appendText( tr(": ToolChain not found")+"\n" );
+        m_outPane->writeText( "\n"+tr("Right-Click on Document Tab to set Path")+"\n\n" );
 }
 #include "moc_basedebugger.cpp"
 

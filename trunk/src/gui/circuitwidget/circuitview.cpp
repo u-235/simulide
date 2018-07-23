@@ -171,26 +171,26 @@ void CircuitView::contextMenuEvent(QContextMenuEvent* event)
 
         QMenu menu;
 
-        QAction* pasteAction = menu.addAction(QIcon(":/paste.png"),"Paste\tCtrl+V");
+        QAction* pasteAction = menu.addAction(QIcon(":/paste.png"),tr("Paste")+"\tCtrl+V");
         connect( pasteAction, SIGNAL( triggered()), this, SLOT(slotPaste()) );
 
-        QAction* undoAction = menu.addAction(QIcon(":/undo.png"),"Undo\tCtrl+Z");
+        QAction* undoAction = menu.addAction(QIcon(":/undo.png"),tr("Undo")+"\tCtrl+Z");
         connect( undoAction, SIGNAL( triggered()), Circuit::self(), SLOT(undo()) );
 
-        QAction* redoAction = menu.addAction(QIcon(":/redo.png"),"Redo\tCtrl+Y");
+        QAction* redoAction = menu.addAction(QIcon(":/redo.png"),tr("Redo")+"\tCtrl+Y");
         connect( redoAction, SIGNAL( triggered()), Circuit::self(), SLOT(redo()) );
         menu.addSeparator();
 
-        QAction* openCircAct = menu.addAction(QIcon(":/opencirc.png"), tr("Open Circuit\tCtrl+O") );
+        QAction* openCircAct = menu.addAction(QIcon(":/opencirc.png"), tr("Open Circuit")+"\tCtrl+O" );
         connect(openCircAct, SIGNAL(triggered()), CircuitWidget::self(), SLOT(openCirc()));
 
-        QAction* newCircAct = menu.addAction( QIcon(":/newcirc.png"), tr("New Circuit\tCtrl+N") );
+        QAction* newCircAct = menu.addAction( QIcon(":/newcirc.png"), tr("New Circuit")+"\tCtrl+N" );
         connect( newCircAct, SIGNAL(triggered()), CircuitWidget::self(), SLOT(newCircuit()));
 
-        QAction* saveCircAct = menu.addAction(QIcon(":/savecirc.png"), tr("Save Circuit\tCtrl+S") );
+        QAction* saveCircAct = menu.addAction(QIcon(":/savecirc.png"), tr("Save Circuit")+"\tCtrl+S" );
         connect(saveCircAct, SIGNAL(triggered()), CircuitWidget::self(), SLOT(saveCirc()));
 
-        QAction* saveCircAsAct = menu.addAction(QIcon(":/savecircas.png"),tr("Save Circuit As...\tCtrl+Shift+S") );
+        QAction* saveCircAsAct = menu.addAction(QIcon(":/savecircas.png"),tr("Save Circuit As...")+"\tCtrl+Shift+S" );
         connect(saveCircAsAct, SIGNAL(triggered()), CircuitWidget::self(), SLOT(saveCircAs()));
         menu.addSeparator();
 

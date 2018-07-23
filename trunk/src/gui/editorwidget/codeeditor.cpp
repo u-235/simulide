@@ -97,7 +97,7 @@ void CodeEditor::setFile( const QString& filePath )
     if( m_debugger ) return;
     
     m_outPane->appendText( "-------------------------------------------------------\n" );
-    m_outPane->appendText( " File: " );
+    m_outPane->appendText( tr(" File: ") );
     m_outPane->appendText( filePath );
     m_outPane->writeText( "\n\n" );
 
@@ -234,7 +234,7 @@ void CodeEditor::compile()
     {
         if( !m_debugger )
         {
-            m_outPane->writeText( "File type not supported\n" );
+            m_outPane->writeText( "\n"+tr("File type not supported")+"\n" );
             return;
         }
         error = m_debugger->compile();
@@ -242,13 +242,13 @@ void CodeEditor::compile()
 
     if( error == 0)
     {
-        m_outPane->writeText( tr("     SUCCESS!!! Compilation Ok\n") );
+        m_outPane->writeText( "\n"+tr("     SUCCESS!!! Compilation Ok")+"\n" );
         
         m_isCompiled = true;
     }
     else 
     {
-        m_outPane->writeText( tr("     ERROR!!! Compilation Faliled\n") );
+        m_outPane->writeText( "\n"+tr("     ERROR!!! Compilation Faliled")+"\n" );
         
         if( error > 0 ) // goto error line number
         {
@@ -263,7 +263,7 @@ void CodeEditor::upload()
     if( m_file.endsWith(".hex") )     // is an .hex file, upload to proccessor
     {
         //m_outPane->writeText( "-------------------------------------------------------\n" );
-        m_outPane->appendText( tr("\nUploading: \n") );
+        m_outPane->appendText( "\n"+tr("Uploading: ")+"\n" );
         m_outPane->appendText( m_file );
         m_outPane->writeText( "\n\n" );
 
@@ -363,23 +363,23 @@ void CodeEditor::updateScreen()
 bool CodeEditor::initDebbuger()
 {
     m_outPane->writeText( "-------------------------------------------------------\n" );
-    m_outPane->writeText( "Starting Debbuger...\n" );
+    m_outPane->writeText( tr("Starting Debbuger...")+"\n" );
 
     bool error = false;
     
     if( !McuComponent::self() )             // Must be an Mcu in Circuit
     {
-        m_outPane->writeText( "\n    Error: No Mcu in Simulator... \n" );
+        m_outPane->writeText( "\n    "+tr("Error: No Mcu in Simulator... ")+"\n" );
         error = true;
     }
     else if( !m_debugger )             // No debugger for this file type
     {
-        m_outPane->writeText( "\n    Error: No Debugger Suited for this File... \n" );
+        m_outPane->writeText( "\n    "+tr("Error: No Debugger Suited for this File... ")+"\n" );
         error = true;
     }
     else if( m_file == "" )                                   // No File
     {
-        m_outPane->writeText( "\n    Error: No File... \n" );
+        m_outPane->writeText( "\n    "+tr("Error: No File... ")+"\n" );
         error = true;
     }
     else if( !m_isCompiled ) 
@@ -387,7 +387,7 @@ bool CodeEditor::initDebbuger()
         compile();
         if( !m_isCompiled )                           // Error compiling
         { 
-            m_outPane->writeText( "\n    Error Compiling... \n" );
+            m_outPane->writeText( "\n    "+tr("Error Compiling... ")+"\n" );
             error = true; 
         }
     }
@@ -400,7 +400,7 @@ bool CodeEditor::initDebbuger()
     {
         if( !m_debugger->loadFirmware() )      // Error Loading Firmware
         {
-            m_outPane->writeText( "\n    Error Loading Firmware... \n" );
+            m_outPane->writeText( "\n    "+tr("Error Loading Firmware... ")+"\n" );
             stopDebbuger();
         }        
         else 
@@ -408,7 +408,7 @@ bool CodeEditor::initDebbuger()
             m_debugging = true;
             reset();
             BaseProcessor::self()->setSteps( 0 );
-            m_outPane->writeText( "Debbuger Started \n" );
+            m_outPane->writeText( tr("Debbuger Started ")+"\n" );
         }
     }
     return m_debugging;
@@ -425,7 +425,7 @@ void CodeEditor::stopDebbuger()
         pause();
         m_debugging = false;
     }
-    m_outPane->writeText( "Debbuger Stopped \n" );
+    m_outPane->writeText( tr("Debbuger Stopped ")+"\n" );
 }
 
 int CodeEditor::lineNumberAreaWidth()

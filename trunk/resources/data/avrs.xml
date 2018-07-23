@@ -20,6 +20,8 @@
 <!-- *************************************************************************** -->
 
 <itemlib>
+    <tag>QT_TRANSLATE_NOOP("xmlfile","AVR")</tag>
+    
     <itemset category="AVR" type="AVR">
 
     <item name="at90usb162" package="avr/at90usb162"  data="avr/at90usb162"  device="at90usb162" ></item>
