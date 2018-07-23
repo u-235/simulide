@@ -103,7 +103,7 @@ class MAINMODULE_EXPORT Component : public QObject, public QGraphicsItem
         
         void updateLabel( Label* label, QString txt );
         
-        QString getHelp( QString file );
+        //QString getHelp( QString file );
         
         void setPrintable( bool p );
         QString print();
@@ -162,7 +162,6 @@ class MAINMODULE_EXPORT Component : public QObject, public QGraphicsItem
         QString m_type;
         QString m_category;
         
- static QString m_noHelpMsg;
         QString* m_help;
         
         QIcon   m_icon;

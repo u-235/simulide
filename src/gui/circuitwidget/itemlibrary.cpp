@@ -18,6 +18,7 @@
  ***************************************************************************/
  
 #include "itemlibrary.h"
+#include "simuapi_apppath.h"
 #include "appiface.h"
 
 //BEGIN Item includes
@@ -87,8 +88,6 @@
 #include "voltsource.h"
 #include "wavegen.h"
 //END Item includes
-
-#include "simuapi_apppath.h"
 
 ItemLibrary* ItemLibrary::m_pSelf = 0l;
 
@@ -269,7 +268,25 @@ LibraryItem::LibraryItem( const QString &name,
     m_category  = category;
     m_iconfile  = iconName;
     m_type      = type;
+    m_help      = "Sorry... no Help Available";
     createItem  = _createItem;
+    
+    QString dfPath = SIMUAPI_AppPath::self()->availableDataFilePath( "help/"+type.toLower()+".txt" );
+
+    if( dfPath != "" )
+    {
+        QFile file( dfPath );
+        
+        if( file.open(QFile::ReadOnly | QFile::Text) ) // Get Help from help file
+        {
+            QTextStream s1( &file );
+        
+            m_help = "";
+            m_help.append(s1.readAll());
+
+            file.close();
+        }
+    }
 }
 LibraryItem::~LibraryItem() { }
 
