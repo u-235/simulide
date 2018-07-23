@@ -25,8 +25,9 @@
 
 // GpSim includes
 #include "gpsim/pic-processor.h"
+#include "gpsim/uart.h"
+#include "gpsim/pir.h"
 
-//void simulation_cleanup();
 
 PicProcessor::PicProcessor( QObject* parent ) 
             : BaseProcessor( parent )
@@ -42,6 +43,12 @@ void PicProcessor::terminate()
 {
     //qDebug() << "PicProcessor::terminate";
     BaseProcessor::terminate();
+    
+    //QByteArray symbolFile = m_symbolFile.toLocal8Bit();
+    QByteArray device = m_device.toLocal8Bit();
+
+    globalSymbolTable().removeSymbol( device.constData() );
+    
     m_pPicProcessor = 0l;
 }
 
@@ -73,19 +80,29 @@ bool PicProcessor::loadFirmware( QString fileN )
     
     QByteArray symbolFile = m_symbolFile.toLocal8Bit();
     QByteArray device = m_device.toLocal8Bit();
-
+    
     if( !m_pPicProcessor )
     {
+        //qDebug() << "\nPicProcessor::loadFirmware Breakpoints:";
+        //get_cycles().dump_breakpoints();
+        Cycle_Counter_breakpoint_list* l1 = &(get_cycles().active);
+
+        while(l1->next)            // Clear CycleCounter breakpoint list
+        {
+            //qDebug() << "clear_break"<<l1->break_value;
+            l1->clear();
+            Cycle_Counter_breakpoint_list* l2 = l1;
+            l1 = l1->next;
+            l2->next = 0l;
+        }
         gpsimObject* psn = globalSymbolTable().find( device.constData() );
 
-        if( psn ) m_pPicProcessor = dynamic_cast<pic_processor*>( psn );
-        else
-        {
-            ProcessorConstructor *pc = ProcessorConstructorList::GetList()->findByType(device.constData());
-            Processor* p = pc->ConstructProcessor(device.constData());
-            m_pPicProcessor = dynamic_cast<pic_processor*>( p );
-        }
-        
+        if( psn ) globalSymbolTable().removeSymbol( device.constData() );
+
+        ProcessorConstructor *pc = ProcessorConstructorList::GetList()->findByType(device.constData());
+        Processor* p = pc->ConstructProcessor(device.constData());
+        m_pPicProcessor = dynamic_cast<pic_processor*>( p );
+
         if( !m_pPicProcessor )
         {
             QMessageBox::warning( 0, tr("Unkown Error:")
@@ -93,7 +110,6 @@ bool PicProcessor::loadFirmware( QString fileN )
             return false;
         }
     }
-
     FILE* pFile  = fopen( symbolFile.constData(), "r" );
     m_loadStatus = m_pPicProcessor->LoadProgramFile( symbolFile.constData(), pFile, device.constData() );
 
@@ -102,12 +118,13 @@ bool PicProcessor::loadFirmware( QString fileN )
         QMessageBox::warning( 0, tr("Unkown Error:"),  tr("Could not Load: \"%1\"").arg(m_symbolFile) );
         return false;
     }
-    m_cpi = m_pPicProcessor->get_ClockCycles_per_Instruction();
-    
+    int cpi = m_pPicProcessor->get_ClockCycles_per_Instruction();
+    m_ipc = 1/(double)cpi;
+
     qDebug() << "\nPicProcessor::loadFirmware      Device: " << m_pPicProcessor->name().c_str();
     
     qDebug() << "    frequency=" << m_pPicProcessor->get_frequency();
-    qDebug() << "    Cycles_per_Instruction=" << m_cpi;
+    qDebug() << "    Cycles_per_Instruction=" << cpi;
     qDebug() << "    OSCperiod=" << m_pPicProcessor->get_OSCperiod();
     qDebug() << "    instruction period=" << m_pPicProcessor->get_InstPeriod();
     qDebug() << "    internal OSC=" << (m_pPicProcessor->get_int_osc() ? "true" : "false");
@@ -121,10 +138,11 @@ bool PicProcessor::loadFirmware( QString fileN )
         qDebug() << "    tmr1_freq=" << tmr1FreqVal->getVal();
     }
     
-
     m_lastTrmtBit = 0; // for usart
+    m_pendingIpc = 0;
     
     initialized();
+    get_cycles().preset( 0 );
     
     int address = getRegAddress( "RCREG" );
     Register* rcreg = m_pPicProcessor->rma.get_register( address );
@@ -148,7 +166,11 @@ void PicProcessor::step()                 // Run 1 step
 {
     if( !m_loadStatus || m_resetStatus ) return;
     
-    int cycles = m_mcuStepsPT/m_cpi;
+    double dCycles = (double)m_mcuStepsPT*m_ipc + m_pendingIpc;
+    
+    int cycles = (int)dCycles;
+    
+    m_pendingIpc = dCycles-(double)cycles;
 
     for( int k=0; k<cycles; k++ ) 
     {
@@ -221,7 +243,7 @@ void PicProcessor::bitChange( QString regName, int bit, bool value )
 }
 
 // RegBitSink inform us about bit changes in a register
-RegBitSink::RegBitSink(PicProcessor* processor, QString name, int bit ) 
+/*RegBitSink::RegBitSink(PicProcessor* processor, QString name, int bit ) 
 {
     m_picProcessor = processor;
     m_regName      = name;
@@ -242,7 +264,7 @@ void RegBitSink::setSink(bool b)  // Called by gpsim when bit changes
 {
     if( m_picProcessor )
         m_picProcessor->bitChange( m_regName, m_bit, b );
-}
+}*/
 
 #include "moc_picprocessor.cpp"
 
