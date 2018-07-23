@@ -19,12 +19,10 @@
 
 #include "probe.h"
 #include "connector.h"
+#include "e-source.h"
 #include "simulator.h"
 #include "itemlibrary.h"
 #include "circuitwidget.h"
-
-bool     Probe::m_oscopeBusy = false;
-QString* Probe::m_helpStatic=0l;
 
 Component* Probe::construct( QObject* parent, QString type, QString id )
 { return new Probe( parent, type, id ); }
@@ -45,7 +43,6 @@ Probe::Probe( QObject* parent, QString type, QString id )
 {
     m_readPin = 0l;
     m_readConn = 0l;
-    //m_haveOscope = false;
     m_voltTrig = 2.5;
     m_plotterLine = -1;
     m_plotterColor = QColor( 255, 255, 255 );
@@ -74,13 +71,6 @@ Probe::Probe( QObject* parent, QString type, QString id )
     setShowVal( true );
     
     setLabelPos( 16, -16 , 45 );
-    
-    if( !m_helpStatic  )         // Only load Help Text once for a class
-    {
-        m_helpStatic = new QString();
-        m_helpStatic->append( getHelp( "help/probe.txt" ) );
-    }
-    m_help = m_helpStatic;
 
     Simulator::self()->addToUpdateList( this );
 }

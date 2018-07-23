@@ -21,9 +21,11 @@
 #define PROBE_H
 
 #include "component.h"
-#include "e-source.h"
-#include "pin.h"
+#include "e-element.h"
 
+class Pin;
+class eSource;
+class Connector;
 class LibraryItem;
 
 class MAINMODULE_EXPORT Probe : public Component, public eElement
@@ -37,17 +39,15 @@ class MAINMODULE_EXPORT Probe : public Component, public eElement
         Probe( QObject* parent, QString type, QString id );
         ~Probe();
 
-        static Component* construct( QObject* parent, QString type, QString id );
-        static LibraryItem *libraryItem();
+ static Component* construct( QObject* parent, QString type, QString id );
+ static LibraryItem* libraryItem();
         
-static  bool  m_oscopeBusy;
-
         void setVolt( double volt );
         double getVolt();
 
         void updateStep();
 
-        virtual void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
+        virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget );
 
     public slots:
         virtual void remove();
@@ -58,9 +58,7 @@ static  bool  m_oscopeBusy;
     protected:
         void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
-    private:
- static QString* m_helpStatic;
- 
+    private: 
         double m_voltIn;
         double m_voltTrig;
 

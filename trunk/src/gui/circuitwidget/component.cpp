@@ -20,12 +20,12 @@
 #include "component.h"
 #include "mainwindow.h"
 #include "connector.h"
+#include "itemlibrary.h"
 #include "circuit.h"
 #include "utils.h"
 #include "simuapi_apppath.h"
 
 int Component::m_error = 0;
-QString Component::m_noHelpMsg = "Sorry... no Help Available";
 
 Component::Component( QObject* parent , QString type, QString id )
          : QObject(parent), QGraphicsItem()
@@ -33,7 +33,7 @@ Component::Component( QObject* parent , QString type, QString id )
 {
     //setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 
-    m_help = &m_noHelpMsg;
+    m_help = ItemLibrary::self()->libraryItem( type )->help();
     m_value    = 0;
     m_unitMult = 1;
     m_Hflip  = 1;
@@ -427,28 +427,6 @@ QString Component::category()  { return m_category; }
 QIcon   Component::icon()      { return m_icon; }
 
 //bool Component::isChanged(){ return m_changed;}
-
-QString Component::getHelp( QString hfile )
-{
-    QString dfPath = SIMUAPI_AppPath::self()->availableDataFilePath( hfile );
-
-    QFile file( dfPath );
-    
-    if( !file.open(QFile::ReadOnly | QFile::Text) )
-    {
-        MessageBoxNB( "Component::loadHelp",
-                  tr("Cannot read Help file:\n%1:\n%2.").arg(dfPath).arg(file.errorString()) );
-          return m_noHelpMsg;
-    }
-    QTextStream s1( &file );
-    
-    QString help;
-    help.append(s1.readAll());
-
-    file.close();
-    
-    return help;
-}
 
 void Component::setPrintable( bool p )
 {
