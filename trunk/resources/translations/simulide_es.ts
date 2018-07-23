@@ -211,31 +211,43 @@
     <name>BaseDebugger</name>
     <message>
         <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="62"/>
-        <source>Debugger already running
-Stop active session</source>
-        <translation>Depurador iniciado
-Detenga la sesion</translation>
+        <source>Debugger already running</source>
+        <translation>Depurador iniciado</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="62"/>
+        <source>Stop active session</source>
+        <translation>Detenga la sesion primero</translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="66"/>
-        <source>
-Uploading: 
-</source>
-        <translation>
-Subiendo: 
-</translation>
+        <source>Uploading: </source>
+        <translation>Cargando: </translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="73"/>
-        <source>
-FirmWare Uploaded to </source>
-        <translation>
-Firmware subido a </translation>
+        <source>FirmWare Uploaded to </source>
+        <translation>FirmWare Cargado en </translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="125"/>
         <source>Select Compiler toolchain directory</source>
-        <translation>Seleccione direectorio del Compilador</translation>
+        <translation>Seleccione directorio del Compilador</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="134"/>
+        <source>Using Compiler Path: </source>
+        <translation>Usando Ruta de Compilador: </translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="146"/>
+        <source>: ToolChain not found</source>
+        <translation>: Compilador no encontrado</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="147"/>
+        <source>Right-Click on Document Tab to set Path</source>
+        <translation>Click-Derecho en pestaña de Documento para elegir Ruta</translation>
     </message>
 </context>
 <context>
@@ -335,24 +347,39 @@ a DomDocument</translation>
 <context>
     <name>CircuitView</name>
     <message>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="174"/>
+        <source>Paste</source>
+        <translation>Pegar</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="177"/>
+        <source>Undo</source>
+        <translation>Deshacer</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="180"/>
+        <source>Redo</source>
+        <translation>Rehacer</translation>
+    </message>
+    <message>
         <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="184"/>
-        <source>Open Circuit	Ctrl+O</source>
-        <translation>Abrir Circuito	Ctrl+O</translation>
+        <source>Open Circuit</source>
+        <translation>Abrir Circuito</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="187"/>
-        <source>New Circuit	Ctrl+N</source>
-        <translation>Nuevo Circuito	Ctrl+N</translation>
+        <source>New Circuit</source>
+        <translation>Nuevo Circuito</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="190"/>
-        <source>Save Circuit	Ctrl+S</source>
-        <translation>Grabar Circuito	Ctrl+S</translation>
+        <source>Save Circuit</source>
+        <translation>Guardar circuito</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="193"/>
-        <source>Save Circuit As...	Ctrl+Shift+S</source>
-        <translation>Grabar Circuito Como...	Ctrl+Shift+S</translation>
+        <source>Save Circuit As...</source>
+        <translation>Guardar Circuito Como...</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="197"/>
@@ -496,42 +523,82 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>CodeEditor</name>
     <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="100"/>
+        <source> File: </source>
+        <translation> Archivo: </translation>
+    </message>
+    <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="145"/>
         <source>File recognized as: </source>
         <translation>Archivo reconocido como: </translation>
     </message>
     <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="237"/>
+        <source>File type not supported</source>
+        <translation>Tipo de archivo no soportado</translation>
+    </message>
+    <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="245"/>
-        <source>     SUCCESS!!! Compilation Ok
-</source>
-        <translation>     SUCCESS!!! Compilacion exitosa
-</translation>
+        <source>     SUCCESS!!! Compilation Ok</source>
+        <translation>     SUCCESS!!! Compilacion Correcta</translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="251"/>
-        <source>     ERROR!!! Compilation Faliled
-</source>
-        <translation>     ERROR!!! Fallo la Compilacion
-</translation>
+        <source>     ERROR!!! Compilation Faliled</source>
+        <translation>     ERROR!!! Compilacion Fallida</translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="266"/>
-        <source>
-Uploading: 
-</source>
-        <translation>
-Subiendo: 
-</translation>
+        <source>Uploading: </source>
+        <translation>Cargando: </translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="366"/>
+        <source>Starting Debbuger...</source>
+        <translation>Iniciando Depurador...</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="372"/>
+        <source>Error: No Mcu in Simulator... </source>
+        <translation>Error: No hay Mcu en el simulador... </translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="377"/>
+        <source>Error: No Debugger Suited for this File... </source>
+        <translation>Error: No hay deprador para este tipo de archivo... </translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="382"/>
+        <source>Error: No File... </source>
+        <translation>Error: No hay Archivo... </translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="390"/>
+        <source>Error Compiling... </source>
+        <translation>Error Compilando... </translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="403"/>
+        <source>Error Loading Firmware... </source>
+        <translation>Error Cargando Firmware... </translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="411"/>
+        <source>Debbuger Started </source>
+        <translation>Depurador Iniciado </translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="428"/>
+        <source>Debbuger Stopped </source>
+        <translation>Depurador Detenido </translation>
     </message>
 </context>
 <context>
     <name>CodeEditorWidget</name>
     <message>
         <location filename="../../src/gui/editorwidget/codeeditorwidget.cpp" line="30"/>
-        <source>Ready
-</source>
-        <translation>Listo
-</translation>
+        <source>Ready</source>
+        <translation>Listo</translation>
     </message>
 </context>
 <context>
@@ -545,13 +612,44 @@ Subiendo:
 <context>
     <name>Component</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="440"/>
-        <source>Cannot read Help file:
-%1:
-%2.</source>
-        <translation>No se puede leer archivo de ayuda:
-%1:
-%2.</translation>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="163"/>
+        <source>Copy</source>
+        <translation>Copiar</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="166"/>
+        <source>Remove</source>
+        <translation>Eliminar</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="169"/>
+        <source>Properties</source>
+        <translation>Propiedades</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="173"/>
+        <source>Rotate CW</source>
+        <translation>Rotar Derecha</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="176"/>
+        <source>Rotate CCW</source>
+        <translation>Rotar Izquierda</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="179"/>
+        <source>Rotate 180</source>
+        <translation>Rotar 180</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="182"/>
+        <source>Horizontal Flip</source>
+        <translation>Espejo Horizontal</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="185"/>
+        <source>Vertical Flip</source>
+        <translation>Espejo Vertical</translation>
     </message>
 </context>
 <context>
@@ -584,12 +682,12 @@ to DomDocument</source>
 a DomDocument</translation>
     </message>
     <message>
-        <location filename="../../src/gui/componentselector/componentselector.cpp" line="161"/>
+        <location filename="../../src/gui/componentselector/componentselector.cpp" line="164"/>
         <source>        Loaded Component set:           </source>
         <translation>Grupo de Componentes Cargado:</translation>
     </message>
     <message>
-        <location filename="../../src/gui/componentselector/componentselector.cpp" line="331"/>
+        <location filename="../../src/gui/componentselector/componentselector.cpp" line="334"/>
         <source>Manage Components</source>
         <translation>Configurar Componentes</translation>
     </message>
@@ -662,24 +760,24 @@ a DomDocument</translation>
 <context>
     <name>EditorWindow</name>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="95"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="97"/>
         <source>Load File</source>
         <translation>Abrir Archivo</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="95"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="97"/>
         <source>All files (*)</source>
         <translation>Todos (*)</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="146"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="148"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>No se pudo escribir el archivo %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="172"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="174"/>
         <source>
 The Document has been modified.
 Do you want to save your changes?
@@ -689,198 +787,203 @@ El Documento ha sido modificado.
 Quiere guardar los cambios?</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="282"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="233"/>
+        <source>set Compiler Path</source>
+        <translation>Seleccionar Ruta del Compilador</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="284"/>
         <source>&amp;New	Ctrl+N</source>
         <translation>&amp;Nuevo	Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="283"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="285"/>
         <source>Create a new file</source>
         <translation>Crear nuevo documento</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="286"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="288"/>
         <source>&amp;Open...	Ctrl+O</source>
         <translation>Abrir...	Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="287"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="289"/>
         <source>Open an existing file</source>
         <translation>Abrir un Archivo existente</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="290"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="292"/>
         <source>&amp;Save	Ctrl+S</source>
         <translation>Guardar	Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="291"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="293"/>
         <source>Save the document to disk</source>
         <translation>Guardar el Documento a disco</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="295"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="297"/>
         <source>Save &amp;As...	Ctrl+Shift+S</source>
         <translation>Guardar Como...	Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="296"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="298"/>
         <source>Save the document under a new name</source>
         <translation>Guardar el documento con otro nombre</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="300"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="302"/>
         <source>E&amp;xit</source>
         <translation>Salir</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="301"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="303"/>
         <source>Exit the application</source>
         <translation>Salir de la aplicacion</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="304"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="306"/>
         <source>Cu&amp;t	Ctrl+X</source>
         <translation>Cortar	Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="305"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="307"/>
         <source>Cut the current selection&apos;s contents to the clipboard</source>
         <translation>Cortar la seleccion actual al portapapeles</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="309"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="311"/>
         <source>&amp;Copy	Ctrl+C</source>
         <translation>Copiar	Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="310"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="312"/>
         <source>Copy the current selection&apos;s contents to the clipboard</source>
         <translation>Copiarr la seleccion actual al portapapeles</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="314"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="316"/>
         <source>&amp;Paste	Ctrl+V</source>
         <translation>Pegar	Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="315"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="317"/>
         <source>Paste the clipboard&apos;s contents into the current selection</source>
         <translation>Pegar el contenido del portapapeles sobre la seleccion actual</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="319"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="321"/>
         <source>Undo	Ctrl+Z</source>
         <translation>Deshacer	Ctrl+Z</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="320"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="322"/>
         <source>Undo the last action</source>
         <translation>Deshacer la ultima accion</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="324"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="326"/>
         <source>Redo	Ctrl+Shift+Z</source>
         <translation>Rehacer	Ctrl+Shift+Z</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="325"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="327"/>
         <source>Redo the last action</source>
         <translation>Rehacer la ultima accion</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="329"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="331"/>
         <source>Run To Breakpoint</source>
         <translation>Ir hasta Breakpoint</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="330"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="332"/>
         <source>Run to next breakpoint</source>
         <translation>Ejecutar hasta siguiente punto de corte</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="334"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="336"/>
         <source>Step</source>
         <translation>Paso</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="335"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="337"/>
         <source>Step debugger</source>
         <translation>Avanzar un paso</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="339"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="341"/>
         <source>StepOver</source>
         <translation>Saltar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="340"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="342"/>
         <source>Step Over</source>
         <translation>Saltar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="344"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="346"/>
         <source>Pause</source>
         <translation>Pausar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="345"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="347"/>
         <source>Pause debugger</source>
         <translation>Pausar depurador</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="349"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="351"/>
         <source>Reset</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="350"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="352"/>
         <source>Reset debugger</source>
         <translation>Resetear depurador</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="354"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="356"/>
         <source>Stop</source>
         <translation>Terminar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="355"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="357"/>
         <source>Stop debugger</source>
         <translation>Terminar sesion de depuracion</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="359"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="361"/>
         <source>Compile</source>
         <translation>Compilar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="360"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="362"/>
         <source>Compile Source</source>
         <translation>Compilar el archivo actual</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="364"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="366"/>
         <source>UpLoad</source>
-        <translation>Subir</translation>
+        <translation>Cargar firmware al Mcu</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="365"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="367"/>
         <source>Load Firmware</source>
-        <translation>Subir firmware al Mcu</translation>
+        <translation>Cargar firmware al Mcu</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="380"/>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="381"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="382"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="383"/>
         <source>Find Replace</source>
         <translation>Buscar Reemplazar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="385"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="387"/>
         <source>Debug</source>
         <translation>Depurar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="386"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="388"/>
         <source>Start Debugger</source>
         <translation>Iniciar depurador</translation>
     </message>
@@ -896,6 +999,19 @@ Quiere guardar los cambios?</translation>
         <location filename="../../src/gui/circuitwidget/components/ellipse.cpp" line="30"/>
         <source>Other</source>
         <translation>Otros</translation>
+    </message>
+</context>
+<context>
+    <name>FileBrowser</name>
+    <message>
+        <location filename="../../src/gui/filebrowser/filebrowser.cpp" line="114"/>
+        <source>Add Bookmark</source>
+        <translation>Añadir Marcador</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/filebrowser/filebrowser.cpp" line="122"/>
+        <source>Open in editor</source>
+        <translation>Abrir en Editor</translation>
     </message>
 </context>
 <context>
@@ -1060,16 +1176,16 @@ Quiere guardar los cambios?</translation>
     </message>
 </context>
 <context>
-    <name>I2C</name>
+    <name>I2CRam</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/i2c.cpp" line="31"/>
-        <source>I2C</source>
-        <translation></translation>
+        <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="31"/>
+        <source>I2C Ram</source>
+        <translation>I2C Ram</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/i2c.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="32"/>
         <source>Logic</source>
-        <translation></translation>
+        <translation>Logica</translation>
     </message>
 </context>
 <context>
@@ -1490,28 +1606,28 @@ Package no valido</translation>
 <context>
     <name>PicProcessor</name>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="56"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="63"/>
         <source>File Not Found</source>
         <translation>Archivo No Encontrado</translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="56"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="63"/>
         <source>The file &quot;%1&quot; was not found.</source>
         <translation>No se encontro el archivo: &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="91"/>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="102"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="108"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="118"/>
         <source>Unkown Error:</source>
         <translation>Error no Especificado:</translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="92"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="109"/>
         <source>Could not Create Pic Processor for: &quot;%1&quot;</source>
         <translation>No se pudo crear Pic Processor para: &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="102"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="118"/>
         <source>Could not Load: &quot;%1&quot;</source>
         <translation>No se pudo cargar: &quot;%1&quot;</translation>
     </message>
@@ -1532,23 +1648,14 @@ Package no valido</translation>
 <context>
     <name>Probe</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="35"/>
+        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="33"/>
         <source>Probe</source>
         <translation>Sonda Voltaje.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="36"/>
+        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="34"/>
         <source>Meters</source>
         <translation>Medida</translation>
-    </message>
-</context>
-<context>
-    <name>PropertiesWidget</name>
-    <message>
-        <location filename="../../src/gui/QPropertyEditor/propertieswidget.cpp" line="55"/>
-        <source>Here will be some help ..............................................
-</source>
-        <translation></translation>
     </message>
 </context>
 <context>
@@ -1608,6 +1715,7 @@ Package no valido</translation>
         <translation>Binario</translation>
     </message>
     <message>
+        <location filename="../../src/gui/ramtable.cpp" line="72"/>
         <location filename="../../src/gui/ramtable.cpp" line="99"/>
         <source>Load VarSet</source>
         <translation>Cargar Grupo de Variables</translation>
@@ -1619,6 +1727,7 @@ Package no valido</translation>
         <translation>VarSets (*.vst);;Todos (*.*)</translation>
     </message>
     <message>
+        <location filename="../../src/gui/ramtable.cpp" line="75"/>
         <location filename="../../src/gui/ramtable.cpp" line="127"/>
         <source>Save VarSet</source>
         <translation>Grabar Grupo de Variables</translation>
@@ -2022,6 +2131,34 @@ a DomDocument</translation>
         <location filename="../../src/gui/circuitwidget/components/elcapacitor.cpp" line="30"/>
         <source>Passive</source>
         <translation>Pasivos</translation>
+    </message>
+</context>
+<context>
+    <name>xmlfile</name>
+    <message>
+        <location filename="../data/icCD.xml" line="23"/>
+        <source>Logic/IC CD</source>
+        <translation>Logica/IC CD</translation>
+    </message>
+    <message>
+        <location filename="../data/arduinos.xml" line="23"/>
+        <source>Arduino</source>
+        <translation>Arduino</translation>
+    </message>
+    <message>
+        <location filename="../data/avrs.xml" line="23"/>
+        <source>AVR</source>
+        <translation>AVR</translation>
+    </message>
+    <message>
+        <location filename="../data/ic74.xml" line="23"/>
+        <source>Logic/IC 74</source>
+        <translation type="unfinished">Logica/IC 74</translation>
+    </message>
+    <message>
+        <location filename="../data/pics.xml" line="23"/>
+        <source>PIC</source>
+        <translation type="unfinished">PIC</translation>
     </message>
 </context>
 </TS>
