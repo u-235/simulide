@@ -122,6 +122,9 @@ void ComponentSelector::loadXml( const QString &setFile )
         QDomNode    node    = element.firstChild();
 
         QString category = element.attribute( "category");
+        const char* charCat = category.toUtf8().data();
+        category = QApplication::translate("xmlfile", charCat );
+        
         QString type     = element.attribute( "type");
 
         //LibraryItem* parent = m_itemLibrary.itemByName(category);

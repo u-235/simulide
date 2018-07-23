@@ -20,6 +20,8 @@
 <!-- *************************************************************************** -->
 
 <itemlib>
+    <tag>QT_TRANSLATE_NOOP("xmlfile","Arduino")</tag>
+    
     <itemset category="Arduino" type="Arduino">
 
     <item name="Arduino Uno"        package="arduino/arduino_uno"  data="avr/atmega328"  device="atmega328"  icon="arduinoUno.png" ></item>

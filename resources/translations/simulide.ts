@@ -203,26 +203,42 @@
     <name>BaseDebugger</name>
     <message>
         <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="62"/>
-        <source>Debugger already running
-Stop active session</source>
+        <source>Debugger already running</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="62"/>
+        <source>Stop active session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="66"/>
-        <source>
-Uploading: 
-</source>
+        <source>Uploading: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="73"/>
-        <source>
-FirmWare Uploaded to </source>
+        <source>FirmWare Uploaded to </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="125"/>
         <source>Select Compiler toolchain directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="134"/>
+        <source>Using Compiler Path: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="146"/>
+        <source>: ToolChain not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="147"/>
+        <source>Right-Click on Document Tab to set Path</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -320,23 +336,38 @@ to DomDocument</source>
 <context>
     <name>CircuitView</name>
     <message>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="174"/>
+        <source>Paste</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="177"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="180"/>
+        <source>Redo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="184"/>
-        <source>Open Circuit	Ctrl+O</source>
+        <source>Open Circuit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="187"/>
-        <source>New Circuit	Ctrl+N</source>
+        <source>New Circuit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="190"/>
-        <source>Save Circuit	Ctrl+S</source>
+        <source>Save Circuit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="193"/>
-        <source>Save Circuit As...	Ctrl+Shift+S</source>
+        <source>Save Circuit As...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -479,27 +510,73 @@ Do you want to save your changes?
 <context>
     <name>CodeEditor</name>
     <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="100"/>
+        <source> File: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="145"/>
         <source>File recognized as: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="237"/>
+        <source>File type not supported</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="245"/>
-        <source>     SUCCESS!!! Compilation Ok
-</source>
+        <source>     SUCCESS!!! Compilation Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="251"/>
-        <source>     ERROR!!! Compilation Faliled
-</source>
+        <source>     ERROR!!! Compilation Faliled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="266"/>
-        <source>
-Uploading: 
-</source>
+        <source>Uploading: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="366"/>
+        <source>Starting Debbuger...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="372"/>
+        <source>Error: No Mcu in Simulator... </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="377"/>
+        <source>Error: No Debugger Suited for this File... </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="382"/>
+        <source>Error: No File... </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="390"/>
+        <source>Error Compiling... </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="403"/>
+        <source>Error Loading Firmware... </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="411"/>
+        <source>Debbuger Started </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="428"/>
+        <source>Debbuger Stopped </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -507,8 +584,7 @@ Uploading:
     <name>CodeEditorWidget</name>
     <message>
         <location filename="../../src/gui/editorwidget/codeeditorwidget.cpp" line="30"/>
-        <source>Ready
-</source>
+        <source>Ready</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -523,10 +599,43 @@ Uploading:
 <context>
     <name>Component</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="440"/>
-        <source>Cannot read Help file:
-%1:
-%2.</source>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="163"/>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="166"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="169"/>
+        <source>Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="173"/>
+        <source>Rotate CW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="176"/>
+        <source>Rotate CCW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="179"/>
+        <source>Rotate 180</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="182"/>
+        <source>Horizontal Flip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="185"/>
+        <source>Vertical Flip</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -558,12 +667,12 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/componentselector/componentselector.cpp" line="161"/>
+        <location filename="../../src/gui/componentselector/componentselector.cpp" line="164"/>
         <source>        Loaded Component set:           </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/componentselector/componentselector.cpp" line="331"/>
+        <location filename="../../src/gui/componentselector/componentselector.cpp" line="334"/>
         <source>Manage Components</source>
         <translation type="unfinished"></translation>
     </message>
@@ -636,23 +745,23 @@ to DomDocument</source>
 <context>
     <name>EditorWindow</name>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="95"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="97"/>
         <source>Load File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="95"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="97"/>
         <source>All files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="146"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="148"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="172"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="174"/>
         <source>
 The Document has been modified.
 Do you want to save your changes?
@@ -660,198 +769,203 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="282"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="233"/>
+        <source>set Compiler Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="284"/>
         <source>&amp;New	Ctrl+N</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="283"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="285"/>
         <source>Create a new file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="286"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="288"/>
         <source>&amp;Open...	Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="287"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="289"/>
         <source>Open an existing file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="290"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="292"/>
         <source>&amp;Save	Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="291"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="293"/>
         <source>Save the document to disk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="295"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="297"/>
         <source>Save &amp;As...	Ctrl+Shift+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="296"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="298"/>
         <source>Save the document under a new name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="300"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="302"/>
         <source>E&amp;xit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="301"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="303"/>
         <source>Exit the application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="304"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="306"/>
         <source>Cu&amp;t	Ctrl+X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="305"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="307"/>
         <source>Cut the current selection&apos;s contents to the clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="309"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="311"/>
         <source>&amp;Copy	Ctrl+C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="310"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="312"/>
         <source>Copy the current selection&apos;s contents to the clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="314"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="316"/>
         <source>&amp;Paste	Ctrl+V</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="315"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="317"/>
         <source>Paste the clipboard&apos;s contents into the current selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="319"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="321"/>
         <source>Undo	Ctrl+Z</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="320"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="322"/>
         <source>Undo the last action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="324"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="326"/>
         <source>Redo	Ctrl+Shift+Z</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="325"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="327"/>
         <source>Redo the last action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="329"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="331"/>
         <source>Run To Breakpoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="330"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="332"/>
         <source>Run to next breakpoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="334"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="336"/>
         <source>Step</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="335"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="337"/>
         <source>Step debugger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="339"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="341"/>
         <source>StepOver</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="340"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="342"/>
         <source>Step Over</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="344"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="346"/>
         <source>Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="345"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="347"/>
         <source>Pause debugger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="349"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="351"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="350"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="352"/>
         <source>Reset debugger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="354"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="356"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="355"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="357"/>
         <source>Stop debugger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="359"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="361"/>
         <source>Compile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="360"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="362"/>
         <source>Compile Source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="364"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="366"/>
         <source>UpLoad</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="365"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="367"/>
         <source>Load Firmware</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="380"/>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="381"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="382"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="383"/>
         <source>Find Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="385"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="387"/>
         <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="386"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="388"/>
         <source>Start Debugger</source>
         <translation type="unfinished"></translation>
     </message>
@@ -866,6 +980,19 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/circuitwidget/components/ellipse.cpp" line="30"/>
         <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FileBrowser</name>
+    <message>
+        <location filename="../../src/gui/filebrowser/filebrowser.cpp" line="114"/>
+        <source>Add Bookmark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/filebrowser/filebrowser.cpp" line="122"/>
+        <source>Open in editor</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1031,14 +1158,14 @@ Do you want to save your changes?
     </message>
 </context>
 <context>
-    <name>I2C</name>
+    <name>I2CRam</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/i2c.cpp" line="31"/>
-        <source>I2C</source>
+        <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="31"/>
+        <source>I2C Ram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/i2c.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="32"/>
         <source>Logic</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1447,28 +1574,28 @@ No valid Package</source>
 <context>
     <name>PicProcessor</name>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="56"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="63"/>
         <source>File Not Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="56"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="63"/>
         <source>The file &quot;%1&quot; was not found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="91"/>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="102"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="108"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="118"/>
         <source>Unkown Error:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="92"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="109"/>
         <source>Could not Create Pic Processor for: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="102"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="118"/>
         <source>Could not Load: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1489,22 +1616,13 @@ No valid Package</source>
 <context>
     <name>Probe</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="35"/>
+        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="33"/>
         <source>Probe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="36"/>
+        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="34"/>
         <source>Meters</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PropertiesWidget</name>
-    <message>
-        <location filename="../../src/gui/QPropertyEditor/propertieswidget.cpp" line="55"/>
-        <source>Here will be some help ..............................................
-</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1565,6 +1683,7 @@ No valid Package</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../src/gui/ramtable.cpp" line="72"/>
         <location filename="../../src/gui/ramtable.cpp" line="99"/>
         <source>Load VarSet</source>
         <translation type="unfinished"></translation>
@@ -1576,6 +1695,7 @@ No valid Package</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../src/gui/ramtable.cpp" line="75"/>
         <location filename="../../src/gui/ramtable.cpp" line="127"/>
         <source>Save VarSet</source>
         <translation type="unfinished"></translation>
@@ -1974,6 +2094,34 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/elcapacitor.cpp" line="30"/>
         <source>Passive</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>xmlfile</name>
+    <message>
+        <location filename="../data/icCD.xml" line="23"/>
+        <source>Logic/IC CD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/arduinos.xml" line="23"/>
+        <source>Arduino</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/avrs.xml" line="23"/>
+        <source>AVR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/ic74.xml" line="23"/>
+        <source>Logic/IC 74</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/pics.xml" line="23"/>
+        <source>PIC</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

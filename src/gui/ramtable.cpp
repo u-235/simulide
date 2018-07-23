@@ -69,10 +69,10 @@ RamTable::RamTable( BaseProcessor *processor )
     it->setText( tr("Binary") );
     setHorizontalHeaderItem( 2, it );
     
-    QAction *loadVarSet = new QAction( QIcon(":/fileopen.png"),"loadVarSet", this);
+    QAction *loadVarSet = new QAction( QIcon(":/open.png"),tr("Load VarSet"), this);
     connect( loadVarSet, SIGNAL(triggered()), this, SLOT(loadVarSet()) );
     
-    QAction *saveVarSet = new QAction( QIcon(":/remove.png"),"saveVarSet", this);
+    QAction *saveVarSet = new QAction( QIcon(":/save.png"),tr("Save VarSet"), this);
     connect( saveVarSet, SIGNAL(triggered()), this, SLOT(saveVarSet()) );
     
     horizontalHeader()->addAction( loadVarSet );

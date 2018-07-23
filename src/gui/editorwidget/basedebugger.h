@@ -58,6 +58,7 @@ class BaseDebugger : public QObject    // Base Class for all debuggers
         void ProcRead();
 
     protected:
+        void toolChainNotFound();
     
         OutPanelText*  m_outPane;
 

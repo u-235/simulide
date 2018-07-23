@@ -52,7 +52,7 @@ void PropertiesWidget::createWidgets()
     splitter0->addWidget( m_properties );
     splitter0->addWidget( m_help );
     
-    m_help->appendPlainText( tr( "Here will be some help ..............................................\n" ));
+    //m_help->appendPlainText( tr( "Here will be some help ..............................................\n" ));
     m_help->setReadOnly( true );
 }
 

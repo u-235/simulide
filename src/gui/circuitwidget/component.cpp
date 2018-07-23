@@ -160,29 +160,29 @@ void Component::contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu 
 {
     m_eventpoint = mapToScene( togrid(event->pos()) );
 
-    QAction* copyAction = menu->addAction(QIcon(":/copy.png"),"Copy\tCtrl+C");
+    QAction* copyAction = menu->addAction(QIcon(":/copy.png"),tr("Copy")+"\tCtrl+C");
     connect( copyAction, SIGNAL( triggered()), this, SLOT(slotCopy()) );
 
-    QAction* removeAction = menu->addAction( QIcon( ":/remove.png"),"Remove\tDel" );
+    QAction* removeAction = menu->addAction( QIcon( ":/remove.png"),tr("Remove")+"\tDel" );
     connect( removeAction, SIGNAL( triggered()), this, SLOT(slotRemove()) );
     
-    QAction* propertiesAction = menu->addAction( QIcon( ":/properties.png"),"Properties" );
+    QAction* propertiesAction = menu->addAction( QIcon( ":/properties.png"),tr("Properties") );
     connect( propertiesAction, SIGNAL( triggered()), this, SLOT(slotProperties()) );
     menu->addSeparator();
 
-    QAction* rotateCWAction = menu->addAction( QIcon( ":/rotateCW.png"),"Rotate CW" );
+    QAction* rotateCWAction = menu->addAction( QIcon( ":/rotateCW.png"),tr("Rotate CW") );
     connect( rotateCWAction, SIGNAL( triggered()), this, SLOT(rotateCW()));
 
-    QAction* rotateCCWAction = menu->addAction(QIcon( ":/rotateCCW.png"),"Rotate CCW" );
+    QAction* rotateCCWAction = menu->addAction(QIcon( ":/rotateCCW.png"),tr("Rotate CCW") );
     connect( rotateCCWAction, SIGNAL( triggered()), this, SLOT(rotateCCW()) );
 
-    QAction* rotateHalfAction = menu->addAction(QIcon(":/rotate180.png"),"Rotate 180");
+    QAction* rotateHalfAction = menu->addAction(QIcon(":/rotate180.png"),tr("Rotate 180") );
     connect( rotateHalfAction, SIGNAL( triggered()), this, SLOT(rotateHalf()) );
     
-    QAction* H_flipAction = menu->addAction(QIcon(":/hflip.png"),"Horizontal Flip");
+    QAction* H_flipAction = menu->addAction(QIcon(":/hflip.png"),tr("Horizontal Flip") );
     connect( H_flipAction, SIGNAL( triggered()), this, SLOT(H_flip()) );
     
-    QAction* V_flipAction = menu->addAction(QIcon(":/vflip.png"),"Vertical Flip");
+    QAction* V_flipAction = menu->addAction(QIcon(":/vflip.png"),tr("Vertical Flip") );
     connect( V_flipAction, SIGNAL( triggered()), this, SLOT(V_flip()) );
 
     menu->exec(event->screenPos());

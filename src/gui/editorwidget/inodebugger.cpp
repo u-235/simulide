@@ -64,8 +64,8 @@ int InoDebugger::compile()
     QDir arduinoDir( m_compilerPath );
     if( !arduinoDir.exists() )
     {
-        m_outPane->appendText( "\nArduino ToolChain not found\n" );
-        m_outPane->writeText( "\nRight-Click on Document Tab to set Path\n\n" );
+        m_outPane->appendText( "\nArduino" );
+        toolChainNotFound();
         return -1;
     }
 
@@ -164,8 +164,8 @@ int InoDebugger::compile()
     int error = -1;
     if( p_stderr=="" )
     {
-        m_outPane->appendText( "\nArduino ToolChain not found\n" );
-        m_outPane->writeText( "\nRight-Click on Document Tab to set Path\n\n" );
+        m_outPane->appendText( "\nArduino" );
+        toolChainNotFound();
         error = -1;
     }
     else if( p_stderr.toUpper().contains("ERROR") )

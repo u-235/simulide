@@ -234,8 +234,8 @@ int GcbDebugger::compile()
     QDir gcBasicDir( m_compilerPath );
     if( !gcBasicDir.exists() )
     {
-        m_outPane->appendText( "\nGcBasic ToolChain not found\n" );
-        m_outPane->writeText( "\nRight-Click on Document Tab to set Path\n\n" );
+        m_outPane->appendText( "\nGcBasic" );
+        toolChainNotFound();
         return -1;
     }
 
@@ -264,8 +264,8 @@ int GcbDebugger::compile()
     int error = -1;
     if( p_stdout=="" )
     {
-        m_outPane->appendText( "\nGcBasic ToolChain not found\n" );
-        m_outPane->writeText( "\nRight-Click on Document Tab to set Path\n\n" );
+        m_outPane->appendText( "\nGcBasic" );
+        toolChainNotFound();
         error = -1;
     }
     else if( p_stdout.toUpper().contains("DONE")) 
