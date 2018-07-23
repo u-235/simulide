@@ -161,7 +161,7 @@ void FileWidget::pathChanged()
 
 void FileWidget::resizeToItems()
 {
-    int size = m_bookmarks->count()*22+7;
+    int size = m_bookmarks->count()*22+17;
     m_bookmarks->setFixedHeight( size );
 }
 
@@ -175,7 +175,7 @@ void FileWidget::contextMenuEvent( QContextMenuEvent* event )
 
         QMenu menu;
 
-        QAction* remBookMarkAction = menu.addAction(QIcon(":/remove.png"),"Remove Bookmark");
+        QAction* remBookMarkAction = menu.addAction(QIcon(":/remove.png"),tr("Remove Bookmark"));
         connect( remBookMarkAction, SIGNAL( triggered()), 
                  this,              SLOT(   remBookMark() ) );
                  

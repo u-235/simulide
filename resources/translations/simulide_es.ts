@@ -682,12 +682,12 @@ to DomDocument</source>
 a DomDocument</translation>
     </message>
     <message>
-        <location filename="../../src/gui/componentselector/componentselector.cpp" line="164"/>
+        <location filename="../../src/gui/componentselector/componentselector.cpp" line="163"/>
         <source>        Loaded Component set:           </source>
         <translation>Grupo de Componentes Cargado:</translation>
     </message>
     <message>
-        <location filename="../../src/gui/componentselector/componentselector.cpp" line="334"/>
+        <location filename="../../src/gui/componentselector/componentselector.cpp" line="333"/>
         <source>Manage Components</source>
         <translation>Configurar Componentes</translation>
     </message>
@@ -736,7 +736,7 @@ a DomDocument</translation>
     <message>
         <location filename="../../src/gui/circuitwidget/components/demux.cpp" line="31"/>
         <source>Demux</source>
-        <translation></translation>
+        <translation>Demultiplexor</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/demux.cpp" line="32"/>
@@ -1015,6 +1015,14 @@ Quiere guardar los cambios?</translation>
     </message>
 </context>
 <context>
+    <name>FileWidget</name>
+    <message>
+        <location filename="../../src/gui/filebrowser/filewidget.cpp" line="178"/>
+        <source>Remove Bookmark</source>
+        <translation>Eliminar Marcador</translation>
+    </message>
+</context>
+<context>
     <name>FindReplaceDialog</name>
     <message>
         <location filename="../../src/gui/editorwidget/findreplacedialog/ui_findreplacedialog.h" line="65"/>
@@ -1180,7 +1188,7 @@ Quiere guardar los cambios?</translation>
     <message>
         <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="31"/>
         <source>I2C Ram</source>
-        <translation>I2C Ram</translation>
+        <translation>Ram I2C</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="32"/>
@@ -1313,6 +1321,19 @@ Quiere guardar los cambios?</translation>
         <location filename="../../src/gui/circuitwidget/components/line.cpp" line="30"/>
         <source>Other</source>
         <translation>Otros</translation>
+    </message>
+</context>
+<context>
+    <name>LineNumberArea</name>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="783"/>
+        <source>Add BreakPoint</source>
+        <translation>Añadir Punto Ruptura</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="786"/>
+        <source>Remove BreakPoint</source>
+        <translation>Eliminar Punto Ruptura</translation>
     </message>
 </context>
 <context>
@@ -1480,7 +1501,7 @@ a DomDocument</translation>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mux.cpp" line="32"/>
         <source>Mux</source>
-        <translation></translation>
+        <translation>Multiplexor</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mux.cpp" line="33"/>
@@ -1493,7 +1514,7 @@ a DomDocument</translation>
     <message>
         <location filename="../../src/gui/circuitwidget/components/op_amp.cpp" line="37"/>
         <source>OpAmp</source>
-        <translation></translation>
+        <translation>Amplificador Operacional</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/op_amp.cpp" line="38"/>
@@ -1956,7 +1977,7 @@ Package no valido</translation>
     <message>
         <location filename="../../src/gui/circuitwidget/components/shiftreg.cpp" line="32"/>
         <source>Shift Reg.</source>
-        <translation></translation>
+        <translation>Registro Desplazamiento</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/shiftreg.cpp" line="33"/>
@@ -2153,12 +2174,12 @@ a DomDocument</translation>
     <message>
         <location filename="../data/ic74.xml" line="23"/>
         <source>Logic/IC 74</source>
-        <translation type="unfinished">Logica/IC 74</translation>
+        <translation>Logica/IC 74</translation>
     </message>
     <message>
         <location filename="../data/pics.xml" line="23"/>
         <source>PIC</source>
-        <translation type="unfinished">PIC</translation>
+        <translation>PIC</translation>
     </message>
 </context>
 </TS>

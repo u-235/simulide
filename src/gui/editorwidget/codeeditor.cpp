@@ -780,10 +780,10 @@ void LineNumberArea::contextMenuEvent( QContextMenuEvent *event)
     
     QMenu menu;
 
-    QAction *addm_brkAction = menu.addAction( QIcon(":/remove.png"),"Add BreakPoint" );
+    QAction *addm_brkAction = menu.addAction( QIcon(":/breakpoint.png"),tr( "Add BreakPoint" ) );
     connect( addm_brkAction, SIGNAL( triggered()), m_codeEditor, SLOT(slotAddBreak()) );
 
-    QAction *remm_brkAction = menu.addAction( QIcon(":/remove.png"),"Remove BreakPoint" );
+    QAction *remm_brkAction = menu.addAction( QIcon(":/nobreakpoint.png"),tr( "Remove BreakPoint" ) );
     connect( remm_brkAction, SIGNAL( triggered()), m_codeEditor, SLOT(slotRemBreak()) );
 
     if( menu.exec(event->globalPos()) != 0 ) lastPos = event->pos().y();

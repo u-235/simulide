@@ -46,6 +46,9 @@
         <file alias="terminal.png">../src/icons/mainwindow/terminal.png</file>
         <file alias="closeterminal.png">../src/icons/mainwindow/closeterminal.png</file>
         <file alias="saveimage.png">../src/icons/mainwindow/saveimage.png</file>
+        
+        <file alias="breakpoint.png">../src/icons/mainwindow/breakpoint.png</file>
+        <file alias="nobreakpoint.png">../src/icons/mainwindow/nobreakpoint.png</file>
     
         <file alias="led.png">../src/icons/components/led.png</file>
         <file alias="diode.png">../src/icons/components/diode.png</file>
