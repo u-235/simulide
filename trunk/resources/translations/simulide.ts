@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_ES">
+<TS version="2.1">
 <context>
     <name>ADC</name>
     <message>
@@ -19,7 +19,7 @@
     <message>
         <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="28"/>
         <source>AVR</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">AVR</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="29"/>
@@ -667,12 +667,12 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/componentselector/componentselector.cpp" line="164"/>
+        <location filename="../../src/gui/componentselector/componentselector.cpp" line="163"/>
         <source>        Loaded Component set:           </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/componentselector/componentselector.cpp" line="334"/>
+        <location filename="../../src/gui/componentselector/componentselector.cpp" line="333"/>
         <source>Manage Components</source>
         <translation type="unfinished"></translation>
     </message>
@@ -997,6 +997,14 @@ Do you want to save your changes?
     </message>
 </context>
 <context>
+    <name>FileWidget</name>
+    <message>
+        <location filename="../../src/gui/filebrowser/filewidget.cpp" line="178"/>
+        <source>Remove Bookmark</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FindReplaceDialog</name>
     <message>
         <location filename="../../src/gui/editorwidget/findreplacedialog/ui_findreplacedialog.h" line="65"/>
@@ -1293,6 +1301,19 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/circuitwidget/components/line.cpp" line="30"/>
         <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LineNumberArea</name>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="783"/>
+        <source>Add BreakPoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="786"/>
+        <source>Remove BreakPoint</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2112,7 +2133,7 @@ to DomDocument</source>
     <message>
         <location filename="../data/avrs.xml" line="23"/>
         <source>AVR</source>
-        <translation type="unfinished"></translation>
+        <translation>AVR</translation>
     </message>
     <message>
         <location filename="../data/ic74.xml" line="23"/>
@@ -2122,7 +2143,7 @@ to DomDocument</source>
     <message>
         <location filename="../data/pics.xml" line="23"/>
         <source>PIC</source>
-        <translation type="unfinished"></translation>
+        <translation>PIC</translation>
     </message>
 </context>
 </TS>
