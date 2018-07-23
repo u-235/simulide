@@ -23,10 +23,11 @@
 #include <qtconcurrentrun.h>
 #include <QElapsedTimer>
 
-#include "e-node.h"
-#include "e-element.h"
 #include "circmatrix.h"
-#include "baseprocessor.h"
+
+class BaseProcessor;
+class eElement;
+class eNode;
 
 class MAINMODULE_EXPORT Simulator : public QObject
 {

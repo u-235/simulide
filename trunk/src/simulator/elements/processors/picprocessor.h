@@ -23,12 +23,14 @@
 #define PICPROCESSOR_H
 
 #include "baseprocessor.h"
-#include "gpsim/pic-processor.h"
-#include "gpsim/registers.h"
-#include "gpsim/uart.h"
-#include "gpsim/pir.h"
 
-class RegBitSink;
+//#include "gpsim/registers.h"
+
+//class RegBitSink;
+class pic_processor;
+class _RCREG;
+class _TXSTA;
+class PIR;
 
 class PicProcessor : public BaseProcessor
 {
@@ -61,7 +63,8 @@ class PicProcessor : public BaseProcessor
  
         virtual int  validate( int address );
         
-        int m_cpi;
+        double m_ipc;
+        double m_pendingIpc;
         
         pic_processor* m_pPicProcessor;
 
@@ -75,7 +78,7 @@ class PicProcessor : public BaseProcessor
         //RegBitSink* m_tmrtBitSink;
 };
 
-class RegBitSink : public BitSink  // BitSink inform us about bit changes in a register
+/*class RegBitSink : public BitSink  // BitSink inform us about bit changes in a register
 {
 
     public:
@@ -89,6 +92,6 @@ class RegBitSink : public BitSink  // BitSink inform us about bit changes in a r
         
         QString m_regName;
         int     m_bit;
-};
+};*/
 #endif
 #endif
