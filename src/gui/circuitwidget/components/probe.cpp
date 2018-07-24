@@ -193,10 +193,10 @@ void Probe::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     event->accept();
     QMenu *menu = new QMenu();
 
-    QAction *plotterAddAction = menu->addAction(QIcon(":/fileopen.png"),"Add to Plotter");
+    QAction *plotterAddAction = menu->addAction(QIcon(":/fileopen.png"),tr("Add to Plotter"));
     connect(plotterAddAction, SIGNAL(triggered()), this, SLOT(slotPlotterAdd()));
 
-    QAction *plotterRemAction = menu->addAction(QIcon(":/fileopen.png"),"Remove from Plotter");
+    QAction *plotterRemAction = menu->addAction(QIcon(":/fileopen.png"),tr("Remove from Plotter"));
     connect(plotterRemAction, SIGNAL(triggered()), this, SLOT(slotPlotterRem()));
     
     menu->addSeparator();
@@ -209,7 +209,7 @@ void Probe::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget 
 {
     Component::paint( p, option, widget );
 
-    if( m_plotterLine > -1 )            p->setBrush( m_plotterColor );
+    if( m_plotterLine > -1 )          p->setBrush( m_plotterColor );
     else if ( m_voltIn > m_voltTrig)  p->setBrush( QColor( 255, 166, 0 ) );
     else                              p->setBrush( QColor( 230, 230, 255 ) );
 

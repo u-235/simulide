@@ -52,7 +52,6 @@ CircuitWidget::CircuitWidget( QWidget *parent  )
              &m_serial, &SerialPortWidget::slotWriteData );
     
     m_rateLabel = new QLabel( this );
-    m_rateLabel->setText( "Real Speed: 0 %" );
     
     createActions();
     createToolBars();
@@ -63,6 +62,7 @@ CircuitWidget::CircuitWidget( QWidget *parent  )
     if( m_lastCircDir.isEmpty() )  m_lastCircDir = appPath + "..share/simulide/examples";
     
     newCircuit();
+    setRate(0);
 }
 CircuitWidget::~CircuitWidget() { }
 
@@ -230,7 +230,7 @@ void CircuitWidget::setRate( int rate )
     if( rate < 0 )
         m_rateLabel->setText( "Circuit ERROR!!!" );
     else 
-        m_rateLabel->setText( "Real Speed: "+QString::number(rate) +" %" );
+        m_rateLabel->setText( tr("Real Speed: ")+QString::number(rate) +" %" );
 }
 
 /*void CircuitWidget::setSerialPortWidget( QWidget* serialPortWidget )

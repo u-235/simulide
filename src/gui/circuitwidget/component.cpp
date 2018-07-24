@@ -32,8 +32,9 @@ Component::Component( QObject* parent , QString type, QString id )
          , multUnits( "TGMk munp" )
 {
     //setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+    if( ( type != "Connector" )&&( type != "Node" ) )
+        m_help = ItemLibrary::self()->libraryItem( type )->help();
 
-    m_help = ItemLibrary::self()->libraryItem( type )->help();
     m_value    = 0;
     m_unitMult = 1;
     m_Hflip  = 1;
