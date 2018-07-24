@@ -271,22 +271,35 @@ LibraryItem::LibraryItem( const QString &name,
     m_help      = "Sorry... no Help Available";
     createItem  = _createItem;
     
-    QString dfPath = SIMUAPI_AppPath::self()->availableDataFilePath( "help/"+type.toLower()+".txt" );
-
-    if( dfPath != "" )
-    {
-        QFile file( dfPath );
-        
-        if( file.open(QFile::ReadOnly | QFile::Text) ) // Get Help from help file
-        {
-            QTextStream s1( &file );
-        
-            m_help = "";
-            m_help.append(s1.readAll());
-
-            file.close();
-        }
-    }
+    
 }
 LibraryItem::~LibraryItem() { }
 
+QString* LibraryItem::help() 
+{
+    if( m_help == "Sorry... no Help Available" )
+    {
+        QString locale   = "_"+QLocale::system().name().split("_").first();
+        QString type = m_type;
+        QString dfPath = SIMUAPI_AppPath::self()->availableDataFilePath( "help/"+type.toLower()+locale+".txt" );
+        
+        if( dfPath == "" ) 
+            dfPath = SIMUAPI_AppPath::self()->availableDataFilePath( "help/"+type.toLower()+".txt" );
+
+        if( dfPath != "" )
+        {
+            QFile file( dfPath );
+            
+            if( file.open(QFile::ReadOnly | QFile::Text) ) // Get Text from Help File
+            {
+                QTextStream s1( &file );
+            
+                m_help = "";
+                m_help.append(s1.readAll());
+
+                file.close();
+            }
+        }
+    }
+    return &m_help; 
+}

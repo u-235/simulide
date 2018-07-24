@@ -77,7 +77,7 @@ class MAINMODULE_EXPORT LibraryItem
         QString category() const { return m_category; }
         QString iconfile() const { return m_iconfile; }
         QString type()     const { return m_type; }
-        QString* help() { return &m_help; }
+        QString* help();
 
         createItemPtr createItemFnPtr() const { return createItem; }
 
