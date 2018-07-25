@@ -53,24 +53,21 @@ bool EditorWindow::close()
     {
         closeTab( m_docWidget->currentIndex() );
     }
-    
     return maybeSave();
 }
 
 void EditorWindow::keyPressEvent( QKeyEvent* event )
 {
-    if (event->key() == Qt::Key_N && (event->modifiers() & Qt::ControlModifier))
+    if( event->key() == Qt::Key_N && (event->modifiers() & Qt::ControlModifier))
     {
         newFile();
     }
-    else if (event->key() == Qt::Key_S && (event->modifiers() & Qt::ControlModifier))
+    else if( event->key() == Qt::Key_S && (event->modifiers() & Qt::ControlModifier))
     {
-        if (event->modifiers() & Qt::ShiftModifier)
-            saveAs();
-        else
-            save();
+        if( event->modifiers() & Qt::ShiftModifier) saveAs();
+        else                                        save();
     }
-    else if (event->key() == Qt::Key_O && (event->modifiers() & Qt::ControlModifier))
+    else if( event->key() == Qt::Key_O && (event->modifiers() & Qt::ControlModifier))
     {
         open();
     }
@@ -83,8 +80,8 @@ void EditorWindow::newFile()
     m_docWidget->addTab( baseWidget, "New" );
     m_docWidget->setCurrentWidget( baseWidget );
     
-    connect(baseWidget->m_codeEditor->document(), SIGNAL( contentsChanged()),
-            this,                                 SLOT(   documentWasModified()));
+    connect( baseWidget->m_codeEditor->document(), SIGNAL( contentsChanged()),
+             this,                                 SLOT(   documentWasModified()));
             
     m_fileList << "New";
     enableFileActs( true ); 
@@ -131,8 +128,8 @@ bool EditorWindow::save()
 
 bool EditorWindow::saveAs()
 {
-    QString fileName = QFileDialog::getSaveFileName(this);
-    if (fileName.isEmpty()) return false;
+    QString fileName = QFileDialog::getSaveFileName( this, tr("Save Document As"), m_lastDir );
+    if( fileName.isEmpty() ) return false;
 
     m_fileList.replace( m_docWidget->currentIndex(), fileName );
 
@@ -142,7 +139,7 @@ bool EditorWindow::saveAs()
 bool EditorWindow::saveFile(const QString &fileName)
 {
     QFile file(fileName);
-    if (!file.open(QFile::WriteOnly | QFile::Text))
+    if( !file.open(QFile::WriteOnly | QFile::Text) )
     {
         QMessageBox::warning(this, "EditorWindow::saveFile",
                              tr("Cannot write file %1:\n%2.")
@@ -170,11 +167,12 @@ bool EditorWindow::maybeSave()
     if( getCodeEditor()->document()->isModified() )
     {
         QMessageBox::StandardButton ret;
-        ret = QMessageBox::warning(this, "EditorWindow::saveFile",
+        ret = QMessageBox::warning( this, "EditorWindow::saveFile",
               tr("\nThe Document has been modified.\nDo you want to save your changes?\n"),
               QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-        if      (ret == QMessageBox::Save)   return save();
-        else if (ret == QMessageBox::Cancel) return false;
+              
+        if     ( ret == QMessageBox::Save )   return save();
+        else if( ret == QMessageBox::Cancel ) return false;
     }
     return true;
     //"+strippedName( m_lastDir )+"
@@ -185,7 +183,7 @@ void EditorWindow::documentWasModified(  )
     QTextDocument *doc = getCodeEditor()->document();
     
     bool    modified = doc->isModified();
-    int     index      = m_docWidget->currentIndex();
+    int     index    = m_docWidget->currentIndex();
     QString tabText  = m_docWidget->tabText( index );
 
     if     ( modified && !tabText.endsWith("*") ) tabText.append("*");

@@ -50,8 +50,9 @@ FileWidget::FileWidget( QWidget* parent )
     vLayout->addWidget( m_fileBrowser );
     
     addEntry( "FileSystem", QDir::rootPath() );
-    addEntry( "Home", QDir::homePath() );
-    addEntry( "Examples", SIMUAPI_AppPath::self()->ROExamFolder().absolutePath() );
+    addEntry( "Home",       QDir::homePath() );
+    addEntry( "Examples",   SIMUAPI_AppPath::self()->ROExamFolder().absolutePath() );
+    addEntry( "Data",       SIMUAPI_AppPath::self()->RODataFolder().absolutePath() );
     
     
     connect( m_bookmarks, SIGNAL( itemClicked( QListWidgetItem* )), 

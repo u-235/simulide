@@ -77,7 +77,7 @@ CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTab
 
     
     QPalette p = palette();
-    p.setColor( QPalette::Base, QColor( 255, 255, 245) );
+    p.setColor( QPalette::Base, QColor( 255, 255, 249) );
     p.setColor( QPalette::Text, QColor( 0, 0, 0) );
     setPalette( p );
 
@@ -162,6 +162,13 @@ void CodeEditor::setFile( const QString& filePath )
 
             m_debugger = new AvrAsmDebugger( this, m_outPane, filePath );
         }
+    }
+    else if(( m_file.endsWith(".xml") )
+         || ( m_file.endsWith(".package") )
+         || ( m_file.endsWith(".subcircuit") ))
+    {
+        QString path = sintaxPath + "xml.sintax";
+         m_hlighter->readSintaxFile( path );
     }
 }
 

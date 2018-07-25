@@ -1,5 +1,5 @@
  ###########################################################################
- #   Copyright (C) 2012   by santiago González                             #
+ #   Copyright (C) 2018   by santiago González                             #
  #   santigoro@gmail.com                                                   #
  #                                                                         #
  #   This program is free software; you can redistribute it and/or modify  #
@@ -35,32 +35,20 @@
 #####################################################################
 
 
-keywords: data keyword1 keyword2 number preprocessor lineComment multiLineComment htmlTag quotation function
+keywords: elEnd elName element comment quotation
 
+elEnd-style: #101080 default true false
+elEnd: ">"
 
-data-style: #500030 default true false
-data: byte double int uint long short signed char const enum static struct union unsigned  virtual void volatile bool
+elName-style: #801010 default true false
+elName: "\b[A-Za-z0-9_]+[ *](?=\=)"
 
-keyword1-style: #202060 default true false
-keyword1: class explicit friend inline namespace operator private protected public signals slots template typedef typename
+element-style: #101080 default true false
+element: "<[/!A-Za-z0-9_]+\b"
 
-keyword2-style: #300050 default true false
-keyword2: for if else while continue break switch case return true false this new delete
-
-preprocessor-style: #414164 default true false
-preprocessor: "#[define|endif|ifdef|ifndef|include]+[^\n]*"
-
-number-style: #3030B8 default false false
-number: "\b[0-9]+\b"
-
-htmlTag-style: #303078 default false false
-htmlTag: "<.*>" 
-
-quotation-style: #205010 default false false
+quotation-style: #108010 default false false
 quotation: "\"(\\.|[^\"])*\""
 
-lineComment-style: #646464 default false true
-lineComment: "//[^\n]*"
+comment-style: #505050 default false false
+comment: "<!--.*-->"
 
-function-style: #202030 default false true
-function: "\\b[A-Za-z0-9_]+(?=\\()"
