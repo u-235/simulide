@@ -11,11 +11,4 @@ Right-click for context menu:
 - Remove from Plotter: 
     Remove probe from plotter.
 
-- Add to oscope: 
-    Open Oscilloscope in bottom panel and display probe voltage wave.
-
-- Remove from oscope: 
-    Remove Oscilloscope.
-
-
-
+More info at: http://simulide.blogspot.com/p/probe.html
