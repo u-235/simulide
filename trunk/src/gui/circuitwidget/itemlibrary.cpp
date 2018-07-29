@@ -70,6 +70,7 @@
 #include "potentiometer.h"
 #include "push.h"
 #include "rail.h"
+#include "ram8bit.h"
 #include "rectangle.h"
 #include "relay-spst.h"
 #include "resistor.h"
@@ -170,6 +171,7 @@ void ItemLibrary::loadItems()
     addItem( DAC::libraryItem() );
     addItem( OutBus::libraryItem() );
     addItem( InBus::libraryItem() );
+    addItem( Ram8bit::libraryItem() );
     addItem( I2CRam::libraryItem() );
     // Subcircuits
     addItem( SubCircuit::libraryItem() );
