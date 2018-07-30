@@ -41,6 +41,7 @@ Probe::Probe( QObject* parent, QString type, QString id )
      : Component( parent, type, id )
      , eElement( id.toStdString() )
 {
+    m_area = QRect( -8, -8, 16, 16 );
     m_readPin = 0l;
     m_readConn = 0l;
     m_voltTrig = 2.5;
@@ -54,7 +55,7 @@ Probe::Probe( QObject* parent, QString type, QString id )
     QPoint nodpos = QPoint(-22,0);
     m_inputpin = new Pin( 180, nodpos, nodid, 0, this);
     m_inputpin->setLength( 20 );
-    m_inputpin->setBoundingRect( QRect(-2, -2, 4, 4) );
+    m_inputpin->setBoundingRect( QRect(-2, -2, 6, 4) );
     
     nodid.append( QString("-eSource") );
     m_inSource = new eSource( nodid.toStdString(), m_inputpin );
@@ -205,6 +206,13 @@ void Probe::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     menu->deleteLater();
 }
 
+QPainterPath Probe::shape() const
+{
+    QPainterPath path;
+    path.addEllipse( m_area );
+    return path;
+}
+
 void Probe::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
     Component::paint( p, option, widget );
@@ -213,7 +221,7 @@ void Probe::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget 
     else if ( m_voltIn > m_voltTrig)  p->setBrush( QColor( 255, 166, 0 ) );
     else                              p->setBrush( QColor( 230, 230, 255 ) );
 
-    p->drawEllipse( -8, -8, 16, 16 );
+    p->drawEllipse( m_area );
 }
 
 #include "moc_probe.cpp"

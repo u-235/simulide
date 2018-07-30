@@ -34,8 +34,6 @@ class MAINMODULE_EXPORT Probe : public Component, public eElement
     Q_PROPERTY( bool Show_volt READ showVal  WRITE setShowVal DESIGNABLE true USER true )
 
     public:
-        QRectF boundingRect() const { return QRect( -10, -10, 20, 20 ); }
-
         Probe( QObject* parent, QString type, QString id );
         ~Probe();
 
@@ -47,6 +45,7 @@ class MAINMODULE_EXPORT Probe : public Component, public eElement
 
         void updateStep();
 
+        virtual QPainterPath shape() const;
         virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget );
 
     public slots:
