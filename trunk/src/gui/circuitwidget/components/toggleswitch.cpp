@@ -36,8 +36,8 @@ LibraryItem* ToggleSwitch::libraryItem()
 }
 
 ToggleSwitch::ToggleSwitch( QObject* parent, QString type, QString id )
-    : Component( parent, type, id )
-    , eElement( id.toStdString() )
+            : Component( parent, type, id )
+            , eElement( id.toStdString() )
 {
     m_area =  QRectF( -11, -9, 22, 11 );
     m_idLabel->setPos(-12,-24);
@@ -152,6 +152,8 @@ void ToggleSwitch::onbuttonclicked()
 {
     m_closed = !m_closed;
     m_changed = true;
+    
+    update();
 }
 
 void ToggleSwitch::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
