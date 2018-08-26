@@ -37,7 +37,8 @@ LibraryItem* Mosfet::libraryItem()
 }
 
 Mosfet::Mosfet( QObject* parent, QString type, QString id )
-    : Component( parent, type, id ), eMosfet( id.toStdString() )
+      : Component( parent, type, id )
+      , eMosfet( id.toStdString() )
 {
     m_area =  QRectF( -12, -14, 28, 28 );
     
@@ -51,7 +52,7 @@ Mosfet::Mosfet( QObject* parent, QString type, QString id )
     m_gate = new eSource( newId.toStdString(), m_ePin[2] );
     m_gate->setImp( 1e5 );
 
-    // D,S pins to eResistor m_ePin[0] m_ePin[1] 
+    // D,S pins m_ePin[0] m_ePin[1] 
     newId = id;
     newId.append(QString("-Dren"));
     newPin = new Pin( 90, QPoint(8,-16), newId, 0, this );
@@ -73,7 +74,10 @@ void Mosfet::remove()
     if( m_ePin[0]->isConnected() ) (static_cast<Pin*>(m_ePin[0]))->connector()->remove();
     if( m_ePin[1]->isConnected() ) (static_cast<Pin*>(m_ePin[1]))->connector()->remove();
     if( m_ePin[2]->isConnected() ) (static_cast<Pin*>(m_ePin[2]))->connector()->remove();
+    
     Component::remove();
+    
+    delete m_gate;
 }
 
 void Mosfet::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
