@@ -24,7 +24,7 @@
 eOpAmp::eOpAmp( std::string id )
       : eElement( id )
 {
-    m_ePin.resize(3);
+    m_ePin.resize(5);
     m_gain = 1000;
     
     //m_connected = false;
@@ -50,6 +50,16 @@ void eOpAmp::initialize()
 
 void eOpAmp::setVChanged() // Called when input pins nodes change volt
 {
+    if( m_powerPins )
+    {
+        m_voltPos = m_ePin[3]->getVolt();
+        m_voltNeg = m_ePin[4]->getVolt();
+    }
+    else
+    {
+        m_voltPos = 5;
+        m_voltNeg = 0;
+    }
     double vd = m_ePin[0]->getVolt()-m_ePin[1]->getVolt();
 
     //qDebug() << "lastIn " << m_lastIn << "vd " << vd ;
@@ -99,3 +109,8 @@ void eOpAmp::setVChanged() // Called when input pins nodes change volt
     m_ePin[2]->stampCurrent( out/cero_doub );
 }
 
+double eOpAmp::gain()                {return m_gain;}
+void   eOpAmp::setGain( double gain ){m_gain = gain;}
+
+bool eOpAmp::hasPowerPins()          {return m_powerPins;}
+void eOpAmp::setPowerPins( bool set ){m_powerPins = set;}
