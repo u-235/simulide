@@ -32,11 +32,11 @@ Component::Component( QObject* parent , QString type, QString id )
          , multUnits( "TGMk munp" )
 {
     //setCacheMode(QGraphicsItem::DeviceCoordinateCache);
-    if( ( type != "Connector" )&&( type != "Node" ) )
+    /*if( ( type != "Connector" )&&( type != "Node" ) )
     {
         LibraryItem* li= ItemLibrary::self()->libraryItem( type );
         if( li ) m_help = li->help();
-    }
+    }*/
 
     m_value    = 0;
     m_unitMult = 1;
@@ -92,7 +92,7 @@ void Component::mousePressEvent(QGraphicsSceneMouseEvent* event)
         }
 
         QPropertyEditorWidget::self()->setObject( this );
-        PropertiesWidget::self()->setHelpText( m_help );
+        //PropertiesWidget::self()->setHelpText( m_help );
         
         setCursor( Qt::ClosedHandCursor );
         grabMouse();
@@ -104,7 +104,7 @@ void Component::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* event )
     if ( event->button() == Qt::LeftButton )
     {
         QPropertyEditorWidget::self()->setObject( this );
-        PropertiesWidget::self()->setHelpText( m_help );
+        //PropertiesWidget::self()->setHelpText( m_help );
         //QPropertyEditorWidget::self()->setVisible( true );
     }
 }
@@ -222,7 +222,7 @@ void Component::remove()
 void Component::slotProperties()
 {
     QPropertyEditorWidget::self()->setObject( this );
-    PropertiesWidget::self()->setHelpText( m_help );
+    //PropertiesWidget::self()->setHelpText( m_help );
     MainWindow::self()->m_sidepanel->setCurrentIndex( 2 ); // Open Properties tab
 }
 
