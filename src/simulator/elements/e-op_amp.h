@@ -33,14 +33,17 @@ class MAINMODULE_EXPORT eOpAmp : public eElement
         virtual void initialize();
         virtual void setVChanged();
         
-        virtual double gain()              {return m_gain;}
-        virtual void setGain( double gain ){m_gain = gain;}
+        virtual double gain();
+        virtual void setGain( double gain );
+        
+        virtual bool hasPowerPins();
+        virtual void setPowerPins( bool set );
         
     protected:
         eSource* m_output;
         
-        //bool m_connected;
         bool m_converged;
+        bool m_powerPins;
         
         double m_accuracy;
         double m_gain;
