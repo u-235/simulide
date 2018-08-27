@@ -64,12 +64,27 @@ void BaseProcessor::initialized()
 
     m_loadStatus = true;
     m_nextCycle = m_mcuStepsPT;
+    m_msimStep = 0;
 
     if( m_ramTable == 0l )
     {
         m_ramTable = new RamTable( this );
         MainWindow::self()->m_ramTabWidgetLayout->addWidget( m_ramTable );
         //qDebug() << "RmTable:" << m_ramTable;
+    }
+}
+
+void BaseProcessor::runSimuStep()
+{
+    Simulator::self()->runCircuitStep();
+    
+    m_msimStep++;
+    if( m_msimStep == 50000 ) // 20 fps
+    {
+        m_msimStep = 0;
+        
+        PlotterWidget::self()->step();
+        TerminalWidget::self()->step();
     }
 }
 

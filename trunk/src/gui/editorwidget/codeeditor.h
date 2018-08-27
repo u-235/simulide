@@ -89,6 +89,7 @@ class CodeEditor : public QPlainTextEdit
         void step();
         void stepOver();
         void pause();
+        void resume();
         void reset();
         void run();
 
@@ -137,6 +138,7 @@ class CodeEditor : public QPlainTextEdit
         bool m_isCompiled;
         bool m_debugging;
         bool m_running;
+        bool m_resume;
         
  static bool  m_showSpaces;
  static bool  m_spaceTabs;

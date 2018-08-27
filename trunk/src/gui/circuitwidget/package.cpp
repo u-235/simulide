@@ -27,7 +27,8 @@
 
 
 Package::Package( QObject* parent, QString type, QString id )
-    : Component( parent, type, id ), eElement( id.toStdString() )
+       : Component( parent, type, id )
+       , eElement( id.toStdString() )
 {
     m_color = QColor( 50, 50, 70 );
     m_numpins = 0;

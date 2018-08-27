@@ -39,7 +39,7 @@ FileWidget::FileWidget( QWidget* parent )
     vLayout->addLayout( hLayout );
     
     m_cdUpButton = new QPushButton( this );
-    m_cdUpButton->setIcon( QIcon(":/rotateCCW.png") );
+    m_cdUpButton->setIcon( QIcon(":/cdup.png") );
     hLayout->addWidget( m_cdUpButton );
     
     m_path = new QLineEdit( this );

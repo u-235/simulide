@@ -47,13 +47,14 @@ Component* PICComponent::construct( QObject* parent, QString type, QString id )
         }
         return pic;
     }
-    MessageBoxNB( tr("Error"), tr("Only 1 Mcu allowed\n to be in the Circuit.") );
+    MessageBoxNB( tr("Error")
+                , tr("Only 1 Mcu allowed\n to be in the Circuit.") );
 
     return 0l;
 }
 
 PICComponent::PICComponent( QObject* parent, QString type, QString id )
-    : McuComponent( parent, type, id )
+            : McuComponent( parent, type, id )
 {
     m_pSelf = this;
     m_dataFile = "pics.xml";

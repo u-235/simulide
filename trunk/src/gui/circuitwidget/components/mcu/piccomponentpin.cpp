@@ -126,7 +126,7 @@ void PICComponentPin::set_nodeVoltage( double v )     // Called by Gpsim
 
     eSource::setOut( v > 2.5 );
     eSource::stampOutput();
-    if( m_ePin[0]->getEnode()->needFastUpdate() ) 
+    //if( m_ePin[0]->getEnode()->needFastUpdate() ) 
     {
         Simulator::self()->runExtraStep();
     }

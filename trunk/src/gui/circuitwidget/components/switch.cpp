@@ -36,7 +36,7 @@ LibraryItem* Switch::libraryItem()
 }
 
 Switch::Switch( QObject* parent, QString type, QString id )
-    : SwitchBase( parent, type, id )
+      : SwitchBase( parent, type, id )
 {
     m_area =  QRectF( -11, -9, 22, 11 );
     

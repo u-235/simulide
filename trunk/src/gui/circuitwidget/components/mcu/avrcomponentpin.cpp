@@ -202,7 +202,7 @@ void AVRComponentPin::set_pinVoltage( uint32_t value )
     //eSource::setOut( value >0 );
     //eSource::stampOutput();
     m_ePin[0]->stampCurrent( m_voltOut/m_imp ); // Save some calls
-    if( m_ePin[0]->getEnode()->needFastUpdate() ) 
+    //if( m_ePin[0]->getEnode()->needFastUpdate() ) 
     {
         Simulator::self()->runExtraStep();
     }

@@ -231,6 +231,8 @@ void GcbDebugger::mapLstToAsm()
 
 int GcbDebugger::compile()
 {
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    
     QDir gcBasicDir( m_compilerPath );
     if( !gcBasicDir.exists() )
     {
@@ -286,6 +288,7 @@ int GcbDebugger::compile()
             break;
         }
     }
+    QApplication::restoreOverrideCursor();
     return error;
 }
 

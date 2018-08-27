@@ -132,7 +132,11 @@ void ConnectorLine::updatePos()
    update();
 }
 
-void ConnectorLine::remove() { m_pConnector->remove(); }
+void ConnectorLine::remove() 
+{ 
+    Circuit::self()->saveState();
+    m_pConnector->remove(); 
+}
 
 void ConnectorLine::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {

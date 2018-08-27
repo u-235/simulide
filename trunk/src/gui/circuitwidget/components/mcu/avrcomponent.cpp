@@ -21,6 +21,7 @@
 #include "avrprocessor.h"
 #include "itemlibrary.h"
 #include "mainwindow.h"
+#include "utils.h"
 
 LibraryItem* AVRComponent::libraryItem()
 {
@@ -48,13 +49,8 @@ Component* AVRComponent::construct( QObject* parent, QString type, QString id )
         }
         return avr;
     }
-    QMessageBox* msgBox = new QMessageBox( MainWindow::self() );
-    msgBox->setAttribute( Qt::WA_DeleteOnClose ); //makes sure the msgbox is deleted automatically when closed
-    msgBox->setStandardButtons( QMessageBox::Ok );
-    msgBox->setWindowTitle( tr("Error") );
-    msgBox->setText( tr("Only 1 Mcu allowed\n to be in the Circuit.") );
-    msgBox->setModal( false ); 
-    msgBox->open();
+    MessageBoxNB( tr("Error")
+                , tr("Only 1 Mcu allowed\n to be in the Circuit.") );
 
     return 0l;
 }

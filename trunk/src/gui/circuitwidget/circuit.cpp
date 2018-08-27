@@ -114,11 +114,19 @@ void Circuit::removeItems()                     // Remove Selected items
 
 void Circuit::removeComp( Component* comp )
 {
+    m_compRemoved = false;
     comp->remove();
+    if( !m_compRemoved ) return;
+    
     QPropertyEditorWidget::self()->removeObject( comp );
     compList()->removeOne( comp );
     if( items().contains( comp ) ) removeItem( comp );
     comp->deleteLater();
+}
+
+void Circuit::compRemoved( bool removed ) // Arduino doesn't like to be removed while circuit is running
+{
+    m_compRemoved = removed;
 }
 
 void Circuit::remove() // Remove everything
