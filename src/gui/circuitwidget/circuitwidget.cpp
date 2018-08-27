@@ -203,8 +203,8 @@ bool CircuitWidget::saveCircAs()
 
 void CircuitWidget::powerCirc()
 {
-    if( powerCircAct->iconText() == "Off" ) powerCircOn();
-    else                                    powerCircOff();
+    if     ( powerCircAct->iconText() == "Off" ) powerCircOn();
+    else if( powerCircAct->iconText() == "On" )  powerCircOff();
 }
 
 void CircuitWidget::powerCircOn()
@@ -213,11 +213,19 @@ void CircuitWidget::powerCircOn()
     powerCircAct->setIconText("On");
     Simulator::self()->runContinuous();
 }
+
 void CircuitWidget::powerCircOff()
 {
         powerCircAct->setIcon(QIcon(":/poweroff.png"));
         powerCircAct->setIconText("Off");
         Simulator::self()->stopSim();
+}
+
+void CircuitWidget::powerCircDebug()
+{
+        powerCircAct->setIcon(QIcon(":/powerdeb.png"));
+        powerCircAct->setIconText("Debug");
+        Simulator::self()->debug();
 }
 
 void CircuitWidget::openInfo()

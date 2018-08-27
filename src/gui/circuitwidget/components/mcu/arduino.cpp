@@ -22,6 +22,7 @@
 #include "e-resistor.h"
 #include "itemlibrary.h"
 #include "arduino.h"
+#include "utils.h"
 
 LibraryItem* Arduino::libraryItem()
 {
@@ -48,13 +49,7 @@ Component* Arduino::construct( QObject* parent, QString type, QString id )
         }
         return ard;
     }
-    QMessageBox* msgBox = new QMessageBox( MainWindow::self() );
-    msgBox->setAttribute( Qt::WA_DeleteOnClose ); //makes sure the msgbox is deleted automatically when closed
-    msgBox->setStandardButtons( QMessageBox::Ok );
-    msgBox->setWindowTitle( tr("Error") );
-    msgBox->setText( tr("Only 1 Mcu allowed\n to be in the Circuit.") );
-    msgBox->setModal( false ); 
-    msgBox->open();
+    MessageBoxNB( tr("Error"), tr("Only 1 Mcu allowed\n to be in the Circuit.") );
 
     return 0l;
 }
@@ -90,7 +85,13 @@ Arduino::~Arduino()
 
 void Arduino::remove()
 {
-    if( Simulator::self()->isRunning() ) CircuitWidget::self()->powerCircOff();
+    //if( Simulator::self()->isRunning() ) CircuitWidget::self()->powerCircOff();
+    if( Simulator::self()->isPaused() )
+    {
+        MessageBoxNB( tr("Warning")
+                    , tr("Removing Arduino while runnig \n  Is Not a Good Idea.") );
+        return;
+    }
     m_pb5Pin->setEnode( 0l );
     
     Circuit::self()->compList()->removeOne( m_boardLed );
@@ -102,6 +103,7 @@ void Arduino::remove()
     
     Simulator::self()->remFromEnodeList( m_groundEnode, true );
     Simulator::self()->remFromEnodeList( m_boardLedEnode, true );
+    Simulator::self()->remFromElementList( this );
 
     McuComponent::remove();
 }

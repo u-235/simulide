@@ -33,7 +33,10 @@ Component::Component( QObject* parent , QString type, QString id )
 {
     //setCacheMode(QGraphicsItem::DeviceCoordinateCache);
     if( ( type != "Connector" )&&( type != "Node" ) )
-        m_help = ItemLibrary::self()->libraryItem( type )->help();
+    {
+        LibraryItem* li= ItemLibrary::self()->libraryItem( type );
+        if( li ) m_help = li->help();
+    }
 
     m_value    = 0;
     m_unitMult = 1;
@@ -213,6 +216,7 @@ void Component::remove()
             if( con ) con->remove();
         }
     }
+    Circuit::self()->compRemoved( true );
 }
 
 void Component::slotProperties()

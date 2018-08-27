@@ -27,6 +27,8 @@
 #include "terminalwidget.h"
 #include "connector.h"
 #include "simulator.h"
+#include "utils.h"
+
 //#include "simuapi_apppath.h"
 
 McuComponent* McuComponent::m_pSelf = 0l;
@@ -72,13 +74,7 @@ void McuComponent::initPackage()
     }
     if( !file.open(QFile::ReadOnly | QFile::Text) )
     {
-        QMessageBox* msgBox = new QMessageBox( MainWindow::self() );
-        msgBox->setAttribute( Qt::WA_DeleteOnClose ); //makes sure the msgbox is deleted automatically when closed
-        msgBox->setStandardButtons( QMessageBox::Ok );
-        msgBox->setWindowTitle( tr("Error") );
-        msgBox->setText( tr("Cannot read file %1:\n%2.").arg(m_dataFile).arg(file.errorString()) );
-        msgBox->setModal( false ); 
-        msgBox->open();
+        MessageBoxNB( "Error", tr("Cannot read file %1:\n%2.").arg(m_dataFile).arg(file.errorString()) );
         m_error = 1;
         return;
     }
@@ -86,13 +82,7 @@ void McuComponent::initPackage()
     
     if( !domDoc.setContent(&file) )
     {
-        QMessageBox* msgBox = new QMessageBox( MainWindow::self() );
-        msgBox->setAttribute( Qt::WA_DeleteOnClose ); //makes sure the msgbox is deleted automatically when closed
-        msgBox->setStandardButtons( QMessageBox::Ok );
-        msgBox->setWindowTitle( tr("Error") );
-        msgBox->setText( tr("Cannot set file %1\nto DomDocument") .arg(m_dataFile) );
-        msgBox->setModal( false ); 
-        msgBox->open();
+        MessageBoxNB( "Error", tr("Cannot set file %1\nto DomDocument").arg(m_dataFile) );
         file.close();
         m_error = 1;
         return;
@@ -154,7 +144,7 @@ void McuComponent::setFreq( int freq )
     if     ( freq < 0  )  freq = 0;
     else if( freq > 100 ) freq = 100;
     
-    Simulator::self()->setMcuClock( freq );
+    BaseProcessor::self()->setSteps( freq );
     m_freq = freq; 
 }
 
@@ -178,6 +168,13 @@ void McuComponent::terminate()
 
 void McuComponent::remove()
 {
+    if( Simulator::self()->isPaused() )
+    {
+        MessageBoxNB( tr("Warning")
+                    , tr("Removing an MCU while runnig \n  Is Not a Good Idea.") );
+        return;
+    }
+    
     foreach( McuComponentPin* mcupin, m_pinList )
     {
         Pin* pin = mcupin->pin(); 

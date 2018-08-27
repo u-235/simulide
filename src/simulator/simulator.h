@@ -43,6 +43,10 @@ class MAINMODULE_EXPORT Simulator : public QObject
         void pauseSim();
         void resumeSim();
         void stopSim();
+        void startSim();
+        void debug();
+        void runCircuitStep();
+        void runGraphicStep();
         void runExtraStep();
         
         int simuRate() { return m_simuRate; }
@@ -52,12 +56,12 @@ class MAINMODULE_EXPORT Simulator : public QObject
         void setReaClock( int value );
         int  noLinClock();
         void setNoLinClock( int value );
-        void setMcuClock( int value );
         int  nlAcc();
         void setNlAcc( int ac );
         double NLaccuracy();
         
         bool isRunning();
+        bool isPaused();
         
         unsigned long long step();
 
@@ -92,6 +96,10 @@ class MAINMODULE_EXPORT Simulator : public QObject
 
         void timerEvent( QTimerEvent* e );
 
+    signals:
+        void pauseDebug();
+        void resumeDebug();
+        
     private:
  static Simulator* m_pSelf;
         
@@ -116,6 +124,7 @@ class MAINMODULE_EXPORT Simulator : public QObject
         QList<BaseProcessor*> m_mcuList;
 
         bool m_isrunning;
+        bool m_debugging;
         bool m_paused;
         bool m_error;
         int  m_timerId;
@@ -127,7 +136,6 @@ class MAINMODULE_EXPORT Simulator : public QObject
         int m_stepsPrea;
         int m_stepsNolin;
         int m_timerTick;
-        int m_mcuStepsPT;
         
         int m_circuitRate;
         int m_noLinCounter;

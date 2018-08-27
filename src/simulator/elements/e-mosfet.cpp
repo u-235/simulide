@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <math.h>   // fabs(x,y)
-#include <QDebug>
+//#include <QDebug>
 
 #include "e-mosfet.h"
 #include "simulator.h"
@@ -26,7 +26,7 @@
 
 
 eMosfet::eMosfet( std::string id )
-    : eResistor( id )
+       : eResistor( id )
 {
     m_Pchannel = false;
     

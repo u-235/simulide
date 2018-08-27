@@ -62,6 +62,7 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         void removeItems();
         void removeComp( Component* comp );
         void remove();
+        void compRemoved( bool removed );
         void saveState();
 
         void drawBackground(QPainter* painter, const QRectF &rect);
@@ -128,6 +129,7 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         bool m_con_started;
         bool m_pasting;
         bool m_drawGrid;
+        bool m_compRemoved;
 
         QPointF m_eventpoint;
         QPointF m_deltaMove;

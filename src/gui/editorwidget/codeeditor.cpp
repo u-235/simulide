@@ -85,6 +85,9 @@ CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTab
     connect( this, SIGNAL( updateRequest( QRect,int )), this, SLOT( updateLineNumberArea( QRect,int )));
     connect( this, SIGNAL( cursorPositionChanged()),    this, SLOT( highlightCurrentLine()));
 
+    connect( Simulator::self(), SIGNAL( pauseDebug()), this, SLOT( pause()));
+    connect( Simulator::self(), SIGNAL( resumeDebug()), this, SLOT( resume()));
+    
     setLineWrapMode(QPlainTextEdit::NoWrap);
     updateLineNumberAreaWidth( 0 );
     highlightCurrentLine();
@@ -320,7 +323,16 @@ void CodeEditor::stepOver()
 
 void CodeEditor::pause()
 {
+    //if( !m_running ) return;
+    m_resume = m_running;
     m_running = false;
+    updateScreen();
+}
+
+void CodeEditor::resume()
+{
+    if( !m_debugging )  return;
+    m_running = m_resume;
     updateScreen();
 }
 
@@ -336,6 +348,9 @@ void CodeEditor::reset()
 
 void CodeEditor::runClockTick( bool over )
 {
+    //if( !m_running ) return;
+    if( !m_debugging )  return;
+    
     m_prevDebugLine = m_debugLine;
 
     while( m_debugLine == m_prevDebugLine ) // Run to next src line
@@ -346,6 +361,7 @@ void CodeEditor::runClockTick( bool over )
 
         if( m_debugLine <= 0 ) m_debugLine = m_prevDebugLine; // Baksels returns -1
     }
+    Simulator::self()->runGraphicStep();
 }
 
 void CodeEditor::timerTick()
@@ -414,7 +430,9 @@ bool CodeEditor::initDebbuger()
         {
             m_debugging = true;
             reset();
-            BaseProcessor::self()->setSteps( 0 );
+            //BaseProcessor::self()->setSteps( 0 );
+            if( Simulator::self()->isRunning() ) Simulator::self()->stopSim();
+            CircuitWidget::self()->powerCircDebug();
             m_outPane->writeText( tr("Debbuger Started ")+"\n" );
         }
     }
@@ -428,7 +446,8 @@ void CodeEditor::stopDebbuger()
         m_debugger->stop();
         m_brkPoints.clear();
         m_debugLine = m_prevDebugLine = 0;
-        McuComponent::self()->setFreq( McuComponent::self()->freq() );
+        //McuComponent::self()->setFreq( McuComponent::self()->freq() );
+        CircuitWidget::self()->powerCircOff();
         pause();
         m_debugging = false;
     }

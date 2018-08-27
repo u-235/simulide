@@ -39,7 +39,8 @@ LibraryItem* BJT::libraryItem()
 }
 
 BJT::BJT( QObject* parent, QString type, QString id )
-    : Component( parent, type, id ), eBJT( id.toStdString() )
+   : Component( parent, type, id )
+   , eBJT( id.toStdString() )
 {
     m_area =  QRectF( -12, -14, 28, 28 );
     

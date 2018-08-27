@@ -183,7 +183,7 @@ void OscopeWidget::simuClockStep()
         m_falling = true;
         m_lastData = data;
     }
-    if( ++m_stepCount == 50000 )                          // 5 ms Update
+    if( ++m_stepCount == 50000 )                         // 50 ms Update
     {
         m_stepCount = 0;
         

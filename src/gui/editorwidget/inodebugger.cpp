@@ -61,6 +61,8 @@ bool InoDebugger::loadFirmware()
 
 int InoDebugger::compile()
 {
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    
     QDir arduinoDir( m_compilerPath );
     if( !arduinoDir.exists() )
     {
@@ -205,6 +207,7 @@ int InoDebugger::compile()
 
         error = 0;
     }
+    QApplication::restoreOverrideCursor();
     return error;
 }
 
@@ -233,6 +236,19 @@ void InoDebugger::mapInoToFlash()
     QString buildPath = SIMUAPI_AppPath::self()->RWDataFolder().absoluteFilePath("codeeditor/buildIno");
     //QString buildPath = SIMUAPI_AppPath::self()->availableDataDirPath("codeeditor/buildIno");
     //m_appPath+"/data/codeeditor/buildIno";
+    
+    /*QString elfFileName = buildPath+"/"+ m_fileName + ".ino.elf";
+    QProcess flashToLine( 0l );
+    for( int i=0; i<10000; i++ )
+    {
+        QString addr = val2hex( i );
+        QString command  = m_compilerPath+"hardware/tools/avr/bin/avr-addr2line -e "+ elfFileName+" "+addr;
+        flashToLine.start( command );
+        flashToLine.waitForFinished(-1);
+        
+        QString p_stdout = flashToLine.readAllStandardOutput();
+        if( p_stdout.contains(".ino") ) qDebug() << p_stdout;
+    }*/
     
     QString lstFileName = buildPath+"/"+ m_fileName + ".ino.lst";
     QStringList lstLines = fileToStringList( lstFileName, "InoDebugger::mapInoToFlash" );

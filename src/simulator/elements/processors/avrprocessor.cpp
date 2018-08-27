@@ -32,7 +32,8 @@
 extern "C"
 int elf_read_firmware_ext(const char * file, elf_firmware_t * firmware);
 
-AvrProcessor::AvrProcessor( QObject* parent ) : BaseProcessor( parent )
+AvrProcessor::AvrProcessor( QObject* parent ) 
+            : BaseProcessor( parent )
 {
     m_pSelf = this;
     m_avrProcessor = 0l;
@@ -202,7 +203,16 @@ void AvrProcessor::step()
 
 void AvrProcessor::stepOne()
 {
-    m_avrProcessor->run(m_avrProcessor);
+    //qDebug() <<"AvrProcessor::stepOne()"<<m_avrProcessor->cycle << m_nextCycle;
+
+    if( m_avrProcessor->cycle < m_nextCycle )
+        m_avrProcessor->run(m_avrProcessor);
+
+    if( m_avrProcessor->cycle >= m_nextCycle )
+    {
+        m_nextCycle += m_mcuStepsPT;
+        runSimuStep(); // 1 simu step = 1uS
+    }
 }
 
 int AvrProcessor::pc()

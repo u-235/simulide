@@ -19,6 +19,7 @@
         <file alias="copy.png">../src/icons/mainwindow/copy.png</file>
         <file alias="paste.png">../src/icons/mainwindow/paste.png</file>
         
+        <file alias="cdup.png">../src/icons/mainwindow/cdup.png</file>
         <file alias="undo.png">../src/icons/mainwindow/rotateCCW.png</file>
         <file alias="redo.png">../src/icons/mainwindow/rotateCW.png</file>
         <file alias="find.png">../src/icons/mainwindow/find.png</file>
@@ -32,8 +33,11 @@
         <file alias="pause.png">../src/icons/mainwindow/pause.png</file>
         <file alias="reset.png">../src/icons/mainwindow/reset.png</file>
         <file alias="stop.png">../src/icons/mainwindow/stop.png</file>
-        
         <file alias="finish.png">../src/icons/mainwindow/finish.png</file>
+        
+        <file alias="poweroff.png">../src/icons/mainwindow/poweroff.png</file>
+        <file alias="poweron.png">../src/icons/mainwindow/poweron.png</file>
+        <file alias="powerdeb.png">../src/icons/mainwindow/powerdeb.png</file>
         
         <file alias="remove.png">../src/icons/mainwindow/remove.png</file>
         <file alias="rotateCW.png">../src/icons/mainwindow/rotateCW.png</file>
@@ -58,8 +62,6 @@
         <file alias="ic2.png">../src/icons/components/ic2.png</file>
         <file alias="subc.png">../src/icons/components/subc.png</file>
         <file alias="ground.png">../src/icons/components/ground.png</file>
-        <file alias="poweroff.png">../src/icons/mainwindow/poweroff.png</file>
-        <file alias="poweron.png">../src/icons/mainwindow/poweron.png</file>
         <file alias="voltsource.png">../src/icons/components/voltsource.png</file>
         <file alias="capacitor.png">../src/icons/components/capacitor.png</file>
         <file alias="elcapacitor.png">../src/icons/components/elcapacitor.png</file>

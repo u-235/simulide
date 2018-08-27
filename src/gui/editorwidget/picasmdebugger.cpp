@@ -135,6 +135,8 @@ void PicAsmDebugger::mapLstToAsm()
 
 int PicAsmDebugger::compile()
 {
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    
     //getProcType();
     QString file = m_fileDir+m_fileName+m_fileExt;
     
@@ -176,59 +178,9 @@ int PicAsmDebugger::compile()
         }
     }
     m_firmware = m_fileDir+m_fileName+".hex";
-
+    
+    QApplication::restoreOverrideCursor();
     return error;
 }
-
-/*void PicAsmDebugger::setRegisters()  // get register addresses from lst file
-{
-    QString lstFileName = m_symbolFile;
-    lstFileName.remove( lstFileName.lastIndexOf( "." ), 4 ).append( ".lst");
-    QStringList lineList = fileToStringList( lstFileName, "PicAsmDebugger::setRegisters" );
-
-    if( !regsTable.isEmpty() ) regsTable.clear();
-
-    foreach( QString line, lineList )
-    {
-        line = line.toLower().replace("\t"," ").replace("="," ");
-        if( line.contains("equ ") || line.contains("def "))      // This line contains a definition
-        {
-            QString name    = "";
-            QString addrtxt = "";
-            int address   = 0;
-            bool isNumber = false;
-
-            line.remove("equ").remove(".def").remove(".");
-            QStringList wordList = line.split(QRegExp("\\s+")); // Split in words
-            while( name.isEmpty() ) name = wordList.takeFirst();
-            while( addrtxt.isEmpty() ) addrtxt = wordList.takeFirst();
-
-            if( addrtxt.startsWith("H") )                  // IS hexadecimal??
-            {
-                addrtxt.remove("H").remove("'");           // Get the digits
-                address = addrtxt.toInt( &isNumber, 16 );  // Base 16
-            }
-            else if( addrtxt.startsWith("0x") )            // IS hexadecimal??
-            {
-                addrtxt.remove(0, 2);                      // Get the digits
-                address = addrtxt.toInt( &isNumber, 16 );  // Base 16
-            }
-            else
-            {
-                if( addrtxt.startsWith("r"))
-                {
-                    addrtxt.remove("r");
-                    address = addrtxt.toInt( &isNumber );
-                }
-                else
-                {
-                    address = addrtxt.toInt( &isNumber );
-                    if( isNumber && address < 64 ) address += 32;
-                }
-            }
-            if( isNumber ) regsTable.insert(name, address); // If found a valid address add to map
-        }
-    }
-}*/
 
 #include "moc_picasmdebugger.cpp"

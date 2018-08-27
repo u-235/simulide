@@ -143,6 +143,8 @@ void AvrAsmDebugger::mapLstToAsm()
 
 int AvrAsmDebugger::compile()
 {
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    
     //getProcType();
     QString file = m_fileDir+m_fileName+m_fileExt;
     QString avraIncPath = m_avraIncPath;
@@ -193,7 +195,8 @@ int AvrAsmDebugger::compile()
         if( error == 0 ) error = 1;
     }
     m_firmware = m_fileDir+m_fileName+".hex";
-
+    
+    QApplication::restoreOverrideCursor();
     return error;
 }
 
@@ -207,56 +210,5 @@ void AvrAsmDebugger::setAvraIncPath( QString path )
     m_avraIncPath = path;
     MainWindow::self()->settings()->setValue( "avra_Inc_Path", m_avraIncPath );
 }
-
-/*void AvrAsmDebugger::setRegisters()  // get register addresses from lst file
-{
-    QString lstFileName = m_symbolFile;
-    lstFileName.remove( lstFileName.lastIndexOf( "." ), 4 ).append( ".lst");
-    QStringList lineList = fileToStringList( lstFileName, "AvrAsmDebugger::setRegisters" );
-
-    if( !regsTable.isEmpty() ) regsTable.clear();
-
-    foreach( QString line, lineList )
-    {
-        line = line.toLower().replace("\t"," ").replace("="," ");
-        if( line.contains("equ ") || line.contains("def "))      // This line contains a definition
-        {
-            QString name    = "";
-            QString addrtxt = "";
-            int address   = 0;
-            bool isNumber = false;
-
-            line.remove("equ").remove(".def").remove(".");
-            QStringList wordList = line.split(QRegExp("\\s+")); // Split in words
-            while( name.isEmpty() ) name = wordList.takeFirst();
-            while( addrtxt.isEmpty() ) addrtxt = wordList.takeFirst();
-
-            if( addrtxt.startsWith("H") )                  // IS hexadecimal??
-            {
-                addrtxt.remove("H").remove("'");           // Get the digits
-                address = addrtxt.toInt( &isNumber, 16 );  // Base 16
-            }
-            else if( addrtxt.startsWith("0x") )            // IS hexadecimal??
-            {
-                addrtxt.remove(0, 2);                      // Get the digits
-                address = addrtxt.toInt( &isNumber, 16 );  // Base 16
-            }
-            else
-            {
-                if( addrtxt.startsWith("r"))
-                {
-                    addrtxt.remove("r");
-                    address = addrtxt.toInt( &isNumber );
-                }
-                else
-                {
-                    address = addrtxt.toInt( &isNumber );
-                    if( isNumber && address < 64 ) address += 32;
-                }
-            }
-            if( isNumber ) regsTable.insert(name, address); // If found a valid address add to map
-        }
-    }
-}*/
 
 #include "moc_avrasmdebugger.cpp"

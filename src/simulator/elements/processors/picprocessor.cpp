@@ -137,11 +137,13 @@ bool PicProcessor::loadFirmware( QString fileN )
     if (tmr1FreqVal) {
         qDebug() << "    tmr1_freq=" << tmr1FreqVal->getVal();
     }
+    initialized();
     
     m_lastTrmtBit = 0; // for usart
     m_pendingIpc = 0;
+    m_nextCycle = m_mcuStepsPT/cpi;
+    if( m_nextCycle == 0 ) m_nextCycle = 1;
     
-    initialized();
     get_cycles().preset( 0 );
     
     int address = getRegAddress( "RCREG" );
@@ -180,7 +182,24 @@ void PicProcessor::step()                 // Run 1 step
     if( m_usartTerm ) readUsart();
 }
 
-void PicProcessor::stepOne() { m_pPicProcessor->step_cycle(); }
+void PicProcessor::stepOne() 
+{
+    if( m_nextCycle > 0 )
+    {
+        m_pPicProcessor->step_cycle();
+        m_nextCycle--;
+    }
+    
+    if( m_nextCycle == 0 )
+    {
+        double dCycles = (double)m_mcuStepsPT*m_ipc + m_pendingIpc;
+        int cycles = (int)dCycles;
+        m_pendingIpc = dCycles-(double)cycles;
+        m_nextCycle = cycles;
+        
+        runSimuStep(); // 1 simu step = 1uS
+    }
+}
 
 int PicProcessor::pc() { return m_pPicProcessor->pc->get_value(); }
 
