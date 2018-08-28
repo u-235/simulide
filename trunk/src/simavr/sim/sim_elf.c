@@ -73,8 +73,8 @@ avr_load_firmware(
 	}
 #endif
 
-    if( !avr_loadcode(avr, firmware->flash,
-            firmware->flashsize, firmware->flashbase)){
+    if( avr_loadcode(avr, firmware->flash,
+            firmware->flashsize, firmware->flashbase) != 0){
             return -1;
     }
 	avr->codeend = firmware->flashsize +
