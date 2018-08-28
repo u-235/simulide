@@ -20,6 +20,7 @@
 #ifndef NO_PIC
 #include "piccomponentpin.h"
 #include "piccomponent.h"
+#include "baseprocessor.h"
 #include "simulator.h"
 
 PICComponentPin::PICComponentPin( McuComponent* mcu, QString id, QString type, QString label, int pos, int xpos, int ypos, int angle )

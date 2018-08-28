@@ -167,6 +167,20 @@ void Probe::remove()
     Component::remove();
 }
 
+int Probe::plotter()
+{
+    return m_plotterLine ;
+}
+
+void Probe::setPlotter( int channel )
+{
+    m_plotterLine = channel;
+    if( channel == -1 ) return;
+    PlotterWidget::self()->setChannel( channel );
+    PlotterWidget::self()->setData( m_plotterLine, int(m_voltIn*100) );
+    m_plotterColor = PlotterWidget::self()->getColor( m_plotterLine );
+}
+
 void Probe::slotPlotterAdd()
 {
     if( m_plotterLine != -1 ) return;            // Already have plotter
@@ -222,6 +236,16 @@ void Probe::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget 
     else                              p->setBrush( QColor( 230, 230, 255 ) );
 
     p->drawEllipse( m_area );
+    
+    if( m_plotterLine > -1 )
+    {
+        p->drawLine(-3,-7,-4,-1 );
+        p->drawLine(-4,-1, 2,-3 );
+        p->drawLine( 2,-3, 0, 3 );
+        p->drawLine( 0, 3, 6, 1 );
+        p->drawLine( 6, 1, 4, 7 );
+        //p->drawLine( 5, 3, 8,  0 );
+    }
 }
 
 #include "moc_probe.cpp"

@@ -32,6 +32,7 @@ class MAINMODULE_EXPORT Probe : public Component, public eElement
 {
     Q_OBJECT
     Q_PROPERTY( bool Show_volt READ showVal  WRITE setShowVal DESIGNABLE true USER true )
+    Q_PROPERTY( int PlotterCh  READ plotter  WRITE setPlotter )
 
     public:
         Probe( QObject* parent, QString type, QString id );
@@ -42,6 +43,9 @@ class MAINMODULE_EXPORT Probe : public Component, public eElement
         
         void setVolt( double volt );
         double getVolt();
+        
+        int plotter();
+        void setPlotter( int channel );
 
         void updateStep();
 

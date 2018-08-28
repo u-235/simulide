@@ -66,13 +66,19 @@ int PlotterWidget::addChannel()
         if( m_channel[i] == true ) continue;
 
         m_numchan++;                            // If channel available, inc used channels
-        m_channel[i] = true;                    // Set channel to busy
-        m_chanLabel[i]->setEnabled( true );      // Set channel label enabled
-        m_chanLabel[i]->setText( " 0.00 V" );
-        if( m_numchan > 0 ) setVisible( true ); // Set this visible if some channel active
+        setChannel( i );
         return i;                               // return channel number assigned
     }
     return -1;                                  // -1 = not channel available
+}
+
+void PlotterWidget::setChannel( int channel )
+{
+    m_numchan = channel;
+    m_channel[channel] = true;                    // Set channel to busy
+    m_chanLabel[channel]->setEnabled( true );      // Set channel label enabled
+    m_chanLabel[channel]->setText( " 0.00 V" );
+    if( m_numchan > 0 ) setVisible( true ); // Set this visible if some channel active
 }
 
 void PlotterWidget::remChannel( int channel )
