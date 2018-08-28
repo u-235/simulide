@@ -478,7 +478,7 @@ void Component::paint( QPainter* painter, const QStyleOptionGraphicsItem* option
 // CLASS Label  *****************************************************************************
 
 Label::Label( Component* parent )
-    : QGraphicsTextItem( parent )
+     : QGraphicsTextItem( parent )
 {
     m_parentComp = parent;
     m_labelrot = 0;

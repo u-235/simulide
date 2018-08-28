@@ -18,11 +18,12 @@
  ***************************************************************************/
 
 #include "plotterwidget.h"
+#include "renderarea.h"
 
 PlotterWidget* PlotterWidget::m_pSelf = 0l;
 
 PlotterWidget::PlotterWidget(  QWidget *parent  )
-    : QWidget( parent )
+             : QWidget( parent )
 {
     m_pSelf = this;
 
@@ -59,30 +60,31 @@ PlotterWidget::PlotterWidget(  QWidget *parent  )
 }
 PlotterWidget::~PlotterWidget(){ }
 
-int PlotterWidget::addChannel()
+int PlotterWidget::getChannel()
 {
     for( int i=0; i<4; i++ )                   // Find available channel
     {
         if( m_channel[i] == true ) continue;
 
-        m_numchan++;                            // If channel available, inc used channels
-        setChannel( i );
-        return i;                               // return channel number assigned
+        addChannel( i+1 );
+        return i+1;              // return channel number assigned
     }
-    return -1;                                  // -1 = not channel available
+    return 0;                              // -1 = not channel available
 }
 
-void PlotterWidget::setChannel( int channel )
+void PlotterWidget::addChannel( int channel )
 {
-    m_numchan = channel;
+    channel--;
+    m_numchan++;                                    // Inc used channels
     m_channel[channel] = true;                    // Set channel to busy
-    m_chanLabel[channel]->setEnabled( true );      // Set channel label enabled
+    m_chanLabel[channel]->setEnabled( true );  // Set channel label enabled
     m_chanLabel[channel]->setText( " 0.00 V" );
     if( m_numchan > 0 ) setVisible( true ); // Set this visible if some channel active
 }
 
 void PlotterWidget::remChannel( int channel )
 {
+    channel--;
     if( channel < 0 || channel > 3 || m_channel[channel] == false ) return; // Nothing to do
 
     m_numchan--;                                // Decrease used channel
@@ -96,6 +98,7 @@ void PlotterWidget::remChannel( int channel )
 
 QColor PlotterWidget::getColor( int channel )
 {
+    channel--;
     return m_color[channel];
 }
 
@@ -114,6 +117,7 @@ void PlotterWidget::step()
 
 void PlotterWidget::setData( int channel, int data )
 {
+    channel--;
     if( data == m_data[channel] ) return;
 
     float vf = data;

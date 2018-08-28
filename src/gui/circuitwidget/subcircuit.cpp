@@ -18,6 +18,8 @@
  ***************************************************************************/
 
 #include "subcircuit.h"
+#include "componentselector.h"
+#include "circuit.h"
 #include "utils.h"
 #include "pin.h"
 #include "connector.h"

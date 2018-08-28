@@ -1,0 +1,30 @@
+<circuit type="simulide_0.1">
+ 
+Arduino Uno-2: 
+<item itemtype="Arduino" labelx="47" labelrot="0" rotation="0" valLabRot="0" hflip="1" id="Arduino Uno" valLabelx="0" labely="-16" vflip="1" Mhz="16" Show_id="true" program="HelloKeypad.ino.hex" objectName="Arduino Uno-2" x="-524" y="-348" valLabely="0"/>
+ 
+Teclado-1: 
+<item valLabRot="0" hflip="1" objectName="Teclado-1" Key_Labels="123456789*0#" labelx="-16" x="-604" valLabelx="0" Cols="3" vflip="1" rotation="0" itemtype="KeyPad" Rows="4" labelrot="0" id="Teclado-1" y="-348" valLabely="0" labely="-24" Show_id="false"/>
+ 
+Connector-3: 
+<item valLabRot="0" hflip="1" objectName="Connector-3" labelx="-16" x="-556" valLabelx="0" pointList="-556,-308,-548,-308,-548,-300,-516,-300" vflip="1" rotation="0" itemtype="Connector" enodeid="Circ_eNode-4" startpinid="Teclado-1-Pin2" labelrot="0" id="Connector-3" y="-308" valLabely="0" labely="-24" Show_id="false" endpinid="Arduino Uno-2-PD4"/>
+ 
+Connector-5: 
+<item valLabRot="0" hflip="1" objectName="Connector-5" labelx="-16" x="-516" valLabelx="0" pointList="-516,-292,-556,-292" vflip="1" rotation="0" itemtype="Connector" enodeid="Circ_eNode-6" startpinid="Arduino Uno-2-PD5" labelrot="0" id="Connector-5" y="-292" valLabely="0" labely="-24" Show_id="false" endpinid="Teclado-1-Pin3"/>
+ 
+Connector-7: 
+<item valLabRot="0" hflip="1" objectName="Connector-7" labelx="-16" x="-556" valLabelx="0" pointList="-556,-324,-540,-324,-540,-308,-516,-308" vflip="1" rotation="0" itemtype="Connector" enodeid="Circ_eNode-8" startpinid="Teclado-1-Pin1" labelrot="0" id="Connector-7" y="-324" valLabely="0" labely="-24" Show_id="false" endpinid="Arduino Uno-2-PD3"/>
+ 
+Connector-9: 
+<item valLabRot="0" hflip="1" objectName="Connector-9" labelx="-16" x="-556" valLabelx="0" pointList="-556,-340,-532,-340,-532,-316,-516,-316" vflip="1" rotation="0" itemtype="Connector" enodeid="Circ_eNode-10" startpinid="Teclado-1-Pin0" labelrot="0" id="Connector-9" y="-340" valLabely="0" labely="-24" Show_id="false" endpinid="Arduino Uno-2-PD2"/>
+ 
+Connector-11: 
+<item valLabRot="0" hflip="1" objectName="Connector-11" labelx="-16" x="-572" valLabelx="0" pointList="-572,-276,-572,-268,-548,-268,-548,-284,-516,-284" vflip="1" rotation="0" itemtype="Connector" enodeid="Circ_eNode-12" startpinid="Teclado-1-Pin6" labelrot="0" id="Connector-11" y="-276" valLabely="0" labely="-24" Show_id="false" endpinid="Arduino Uno-2-PD6"/>
+ 
+Connector-13: 
+<item valLabRot="0" hflip="1" objectName="Connector-13" labelx="-16" x="-588" valLabelx="0" pointList="-588,-276,-588,-260,-540,-260,-540,-276,-516,-276" vflip="1" rotation="0" itemtype="Connector" enodeid="Circ_eNode-14" startpinid="Teclado-1-Pin5" labelrot="0" id="Connector-13" y="-276" valLabely="0" labely="-24" Show_id="false" endpinid="Arduino Uno-2-PD7"/>
+ 
+Connector-15: 
+<item valLabRot="0" hflip="1" objectName="Connector-15" labelx="-16" x="-604" valLabelx="0" pointList="-604,-276,-604,-252,-532,-252,-532,-260,-516,-260" vflip="1" rotation="0" itemtype="Connector" enodeid="Circ_eNode-16" startpinid="Teclado-1-Pin4" labelrot="0" id="Connector-15" y="-276" valLabely="0" labely="-24" Show_id="false" endpinid="Arduino Uno-2-PB0"/>
+ 
+</circuit>

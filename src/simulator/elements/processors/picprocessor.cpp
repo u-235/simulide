@@ -60,7 +60,8 @@ bool PicProcessor::loadFirmware( QString fileN )
     
     if( !QFile::exists(m_symbolFile) )
     {
-        QMessageBox::warning( 0, tr("File Not Found"), tr("The file \"%1\" was not found.").arg(m_symbolFile) );
+        QMessageBox::warning( 0, tr("File Not Found")
+                               , tr("The file \"%1\" was not found.").arg(m_symbolFile) );
         return false;
     }
     if( !m_DoneGpsimInit )
@@ -106,7 +107,7 @@ bool PicProcessor::loadFirmware( QString fileN )
         if( !m_pPicProcessor )
         {
             QMessageBox::warning( 0, tr("Unkown Error:")
-                                   , tr("Could not Create Pic Processor for: \"%1\"").arg(m_symbolFile) );
+                                   , tr("Could not Create Pic Processor: \"%1\"").arg(m_device) );
             return false;
         }
     }
@@ -115,7 +116,8 @@ bool PicProcessor::loadFirmware( QString fileN )
 
     if( !m_loadStatus )
     {
-        QMessageBox::warning( 0, tr("Unkown Error:"),  tr("Could not Load: \"%1\"").arg(m_symbolFile) );
+        QMessageBox::warning( 0, tr("Unkown Error:")
+                               , tr("Could not Load: \"%1\"").arg(m_symbolFile) );
         return false;
     }
     int cpi = m_pPicProcessor->get_ClockCycles_per_Instruction();

@@ -50,17 +50,15 @@ void AvrProcessor::terminate()
 
 bool AvrProcessor::loadFirmware( QString fileN )
 {
-    if ( fileN == "" ) return false;
+    if( fileN == "" ) return false;
     QFileInfo fileInfo(fileN);
 
-    //fileN.replace( fileN.split(".").last(), "hex" );
-    if (fileInfo.completeSuffix().isEmpty())
-        fileN.append(".hex");
+    if( fileInfo.completeSuffix().isEmpty() ) fileN.append(".hex");
 
     if( !QFile::exists(fileN) )     // File not found
     {
         QMessageBox::warning( 0, tr("File Not Found"),
-        tr("The file \"%1\" was not found.").arg(fileN) );
+                                 tr("The file \"%1\" was not found.").arg(fileN) );
         return false;
     }
 
@@ -77,18 +75,18 @@ bool AvrProcessor::loadFirmware( QString fileN )
     if( fileN.endsWith("hex") )
     {
         ihex_chunk_p chunk = NULL;
-        int cnt = read_ihex_chunks(filename, &chunk);
+        int cnt = read_ihex_chunks( filename, &chunk );
 
         if( cnt <= 0 )
         {
-            QMessageBox::warning(0,"Error:",
-            tr(" Unable to load IHEX file %1\n").arg(fileN) );
+            QMessageBox::warning(0,tr("Error:"),
+                                tr(" Unable to load IHEX file %1\n").arg(fileN) );
             return false;
         }
 
         int lastFChunk = 0;
 
-        for( int ci = 0; ci < cnt; ci++ )
+        for( int ci=0; ci<cnt; ci++ )
         {
             if( chunk[ci].baseaddr < (1*1024*1024) ) lastFChunk = ci;
         }
@@ -96,7 +94,7 @@ bool AvrProcessor::loadFirmware( QString fileN )
         f.flashsize = chunk[ lastFChunk ].baseaddr + chunk[ lastFChunk ].size;
         f.flash = (uint8_t*) malloc( f.flashsize+1 );
 
-        for( int ci = 0; ci < cnt; ci++ )
+        for( int ci=0; ci<cnt; ci++ )
         {
             if( chunk[ci].baseaddr < (1*1024*1024) )
             {
@@ -114,32 +112,38 @@ bool AvrProcessor::loadFirmware( QString fileN )
     else if( fileN.endsWith(".elf") )
     {
         f.flashsize = 0;
-        elf_read_firmware_ext(filename, &f);
-        if (!f.flashsize)
+        elf_read_firmware_ext( filename, &f );
+        
+        if( !f.flashsize )
         {
             QMessageBox::warning(0,tr("Failed to load firmware: "),
-                                 tr("File %1 is not in valid ELF format\n").arg(fileN) );
+                                   tr("File %1 is not in valid ELF format\n").arg(fileN) );
             return false;
         }
     }
     else                                    // File extension not valid
     {
-        QMessageBox::warning(0,tr("Error:"), tr("%1 should be .hex or .elf\n").arg(fileN) );
+        QMessageBox::warning(0,tr("Error:"), 
+                               tr("%1 should be .hex or .elf\n").arg(fileN) );
         return false;
     }
 
-    QString mmcu(f.mmcu);
-    if (!mmcu.isEmpty())
+    QString mmcu( f.mmcu );
+    if( !mmcu.isEmpty() )
     {
-        if (mmcu != m_device) {
+        if( mmcu != m_device ) 
+        {
             QMessageBox::warning(0,tr("Warning on load firmware: "),
-                                 tr("Incompatible firmware: compiled for %1 and your processor is %2\n").arg(mmcu).arg(m_device) );
-            //return false;
+                                   tr("Incompatible firmware: compiled for %1 and your processor is %2\n").arg(mmcu).arg(m_device) );
+            return false;
         }
-    } else {
-        if( !strlen(name) ) {
-            QMessageBox::warning(0,tr("Failed to load firmware: "),
-                                 tr("The processor model is not specified.\n") );
+    } 
+    else 
+    {
+        if( !strlen(name) ) 
+        {
+            QMessageBox::warning( 0,tr("Failed to load firmware: "),
+                                    tr("The processor model is not specified.\n") );
             return false;
         }
         strcpy( f.mmcu, name );
@@ -150,8 +154,8 @@ bool AvrProcessor::loadFirmware( QString fileN )
 
         if( !m_avrProcessor )
         {
-            QMessageBox::warning(0,"Error:",
-            tr("Simulation of this AVR processor model is not supported: %1\n").arg(f.mmcu) );
+            QMessageBox::warning( 0, tr("Unkown Error:")
+                                   , tr("Could not Create AVR Processor: \"%1\"").arg(f.mmcu) );
             return false;
         }
         int started = avr_init( m_avrProcessor );
@@ -166,14 +170,14 @@ bool AvrProcessor::loadFirmware( QString fileN )
 
         qDebug() << "\nAvrProcessor::loadFirmware Avr Init: "<< name << (started==0);
     }
-    ///TODO: Catch possible abort signal here, otherwise application will crash on the invalid firmware load
+    /// TODO: Catch possible abort signal here, otherwise application will crash on the invalid firmware load
+    /// Done: Modified simavr to not call abort(), instead it returns error code.
     if( avr_load_firmware( m_avrProcessor, &f ) != 0 )
     {
-        QMessageBox::warning(0,"Error:",
-        tr("Wrong firmware!!").arg(f.mmcu) );
+        QMessageBox::warning(0,tr("Error:"),
+                               tr("Wrong firmware!!").arg(f.mmcu) );
         return false;
     }
-
     if( f.flashbase ) m_avrProcessor->pc = f.flashbase;
 
     m_avrProcessor->frequency = 16000000;
@@ -224,7 +228,6 @@ int AvrProcessor::pc()
 {
     return m_avrProcessor->pc;
 }
-
 
 int AvrProcessor::getRamValue( int address )
 {

@@ -27,7 +27,8 @@
 #include "outpaneltext.h"
 #include "mcucomponent.h"
 #include "mainwindow.h"
-
+#include "circuitwidget.h"
+#include "baseprocessor.h"
 
 Simulator* Simulator::m_pSelf = 0l;
 

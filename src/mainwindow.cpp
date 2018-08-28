@@ -20,7 +20,11 @@
 #include "mainwindow.h"
 #include "appiface.h"
 #include "circuit.h"
+#include "propertieswidget.h"
+#include "componentselector.h"
 #include "editorwindow.h"
+#include "circuitwidget.h"
+#include "filewidget.h"
 #include "utils.h"
 #include "simuapi_apppath.h"
 

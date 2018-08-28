@@ -20,6 +20,7 @@
 #include "circuit.h"
 #include "itemlibrary.h"
 #include "mainwindow.h"
+#include "circuitwidget.h"
 #include "node.h"
 #include "utils.h"
 

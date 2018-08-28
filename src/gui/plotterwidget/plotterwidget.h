@@ -22,7 +22,7 @@
 
 #include <QtWidgets>
 
-#include "renderarea.h"
+class RenderArea;
 
 class MAINMODULE_EXPORT PlotterWidget : public QWidget
 {
@@ -34,8 +34,8 @@ class MAINMODULE_EXPORT PlotterWidget : public QWidget
 
  static PlotterWidget* self() { return m_pSelf; }
 
-        int  addChannel();
-        void setChannel( int channel );
+        int  getChannel();
+        void addChannel( int channel );
         void remChannel( int channel );
 
         QColor getColor( int channel );

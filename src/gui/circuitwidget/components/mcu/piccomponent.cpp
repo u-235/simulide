@@ -21,6 +21,7 @@
 #include "piccomponent.h"
 #include "piccomponentpin.h"
 #include "mainwindow.h"
+#include "circuit.h"
 #include "utils.h"
 
 LibraryItem* PICComponent::libraryItem()
