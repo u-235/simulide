@@ -23,15 +23,17 @@
 #include <QtWidgets>
 
 #include "package.h"
-#include "baseprocessor.h"
 
+class BaseProcessor;
 class McuComponentPin;
 
 class MAINMODULE_EXPORT McuComponent : public Package
 {
     Q_OBJECT
-    Q_PROPERTY( QString  program  READ program WRITE setProgram DESIGNABLE true USER true )
-    Q_PROPERTY( int      Mhz      READ freq    WRITE setFreq    DESIGNABLE true USER true )
+    Q_PROPERTY( QString  program     READ program WRITE setProgram DESIGNABLE true  USER true )
+    Q_PROPERTY( int      Mhz         READ freq    WRITE setFreq    DESIGNABLE true  USER true )
+    Q_PROPERTY( bool     Ser_Port    READ serPort WRITE setSerPort )
+    Q_PROPERTY( bool     Ser_Monitor READ serMon  WRITE setSerMon )
 
     public:
 
@@ -48,6 +50,12 @@ class MAINMODULE_EXPORT McuComponent : public Package
         int  freq();
         virtual void setFreq( int freq );
         virtual void initPackage();
+        
+        bool serPort();
+        void setSerPort( bool set );
+        
+        bool serMon();
+        void setSerMon( bool set );
 
         virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget );
   
@@ -77,6 +85,8 @@ class MAINMODULE_EXPORT McuComponent : public Package
         int m_freq;             // Clock Frequency Mhz
         
         bool m_attached;
+        bool m_serPort;
+        bool m_serMon;
 
         QString m_device;       // Name of device
         QString m_symbolFile;   // firmware file loaded

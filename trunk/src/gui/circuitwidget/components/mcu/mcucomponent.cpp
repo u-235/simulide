@@ -24,6 +24,7 @@
 #include "mainwindow.h"
 #include "mcucomponent.h"
 #include "mcucomponentpin.h"
+#include "baseprocessor.h"
 #include "terminalwidget.h"
 #include "connector.h"
 #include "simulator.h"
@@ -224,24 +225,28 @@ void McuComponent::slotOpenSerial()
 {
     CircuitWidget::self()->showSerialPortWidget( true );
     m_processor->setSerPort( true );
+    m_serPort = true;
 }
 
 void McuComponent::slotCloseSerial()
 {
     CircuitWidget::self()->showSerialPortWidget( false );
     m_processor->setSerPort( false );
+    m_serPort = false;
 }
 
 void McuComponent::slotOpenTerm()
 {
     TerminalWidget::self()->setVisible( true );
     m_processor->setUsart( true );
+    m_serMon = true;
 }
 
 void McuComponent::slotCloseTerm()
 {
     TerminalWidget::self()->setVisible( false );
     m_processor->setUsart( false );
+    m_serMon = false;
 }
 
 void McuComponent::slotLoad()
@@ -300,6 +305,28 @@ void McuComponent::setProgram( QString pro )
     {
         load( m_symbolFile );
     }
+}
+
+bool McuComponent::serPort()
+{
+    return m_serPort;
+}
+
+void McuComponent::setSerPort( bool set )
+{
+    if( set ) slotOpenSerial();
+    else      slotCloseSerial();
+}
+
+bool McuComponent::serMon()
+{
+    return m_serMon;
+}
+
+void McuComponent::setSerMon( bool set )
+{
+    if( set ) slotOpenTerm();
+    else      slotCloseTerm();
 }
 
 void McuComponent::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )

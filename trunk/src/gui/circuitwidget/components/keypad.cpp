@@ -36,8 +36,8 @@ LibraryItem* KeyPad::libraryItem()
 }
 
 KeyPad::KeyPad( QObject* parent, QString type, QString id )
-    : Component( parent, type, id )
-    , eElement( id.toStdString() )
+      : Component( parent, type, id )
+      , eElement( id.toStdString() )
 {
     m_keyLabels = "123456789*0#";
     m_rows = 4;

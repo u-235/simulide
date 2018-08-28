@@ -35,6 +35,7 @@ class MAINMODULE_EXPORT PlotterWidget : public QWidget
  static PlotterWidget* self() { return m_pSelf; }
 
         int  addChannel();
+        void setChannel( int channel );
         void remChannel( int channel );
 
         QColor getColor( int channel );

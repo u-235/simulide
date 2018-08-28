@@ -68,14 +68,13 @@ SerialPortWidget* SerialPortWidget::m_pSelf = 0l;
 static const char blankString[] = QT_TRANSLATE_NOOP( "SerialPortWidget", "N/A" );
 
 SerialPortWidget::SerialPortWidget( QWidget *parent )
-              : QWidget(parent),
-                ui( new Ui::SerialPortWidget )
+                : QWidget(parent)
+                , ui( new Ui::SerialPortWidget )
 {
     ui->setupUi( this );
 
     m_pSelf = this;
     
-
     m_serial = new QSerialPort( this );
 
     intValidator = new QIntValidator( 0, 4000000, this );
@@ -149,8 +148,8 @@ void SerialPortWidget::open()
         ui->closeButton->setEnabled( true );
 
         qDebug()<<(tr("Connected to %1 : %2, %3, %4, %5, %6")
-                          .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
-                          .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
+                    .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
+                    .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
     }
     else
     {
