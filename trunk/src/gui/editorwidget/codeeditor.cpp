@@ -30,6 +30,8 @@
 #include "picasmdebugger.h"
 #include "mcucomponent.h"
 #include "mainwindow.h"
+#include "simulator.h"
+#include "circuitwidget.h"
 #include "simuapi_apppath.h"
 
 bool  CodeEditor::m_showSpaces = false;

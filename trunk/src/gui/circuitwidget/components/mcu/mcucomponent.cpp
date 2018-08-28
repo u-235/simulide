@@ -26,6 +26,8 @@
 #include "mcucomponentpin.h"
 #include "baseprocessor.h"
 #include "terminalwidget.h"
+#include "componentselector.h"
+#include "circuitwidget.h"
 #include "connector.h"
 #include "simulator.h"
 #include "utils.h"
@@ -287,7 +289,7 @@ void McuComponent::load( QString fileName )
         QSettings* settings = MainWindow::self()->settings();
         settings->setValue( "lastFirmDir", m_symbolFile );
     }
-    else QMessageBox::warning( 0, tr("Error:"), tr("Could not load ")+ fileName );
+    //else QMessageBox::warning( 0, tr("Error:"), tr("Could not load: \n")+ fileName );
     
     if( pauseSim ) Simulator::self()->runContinuous();
 }

@@ -21,6 +21,7 @@
 #include "avrprocessor.h"
 #include "itemlibrary.h"
 #include "mainwindow.h"
+#include "circuit.h"
 #include "utils.h"
 
 LibraryItem* AVRComponent::libraryItem()

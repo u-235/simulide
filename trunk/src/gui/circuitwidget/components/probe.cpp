@@ -45,7 +45,7 @@ Probe::Probe( QObject* parent, QString type, QString id )
     m_readPin = 0l;
     m_readConn = 0l;
     m_voltTrig = 2.5;
-    m_plotterLine = -1;
+    m_plotterLine = 0;
     m_plotterColor = QColor( 255, 255, 255 );
 
     // Create Input Pin
@@ -142,7 +142,7 @@ void Probe::setVolt( double volt )
     
     m_valLabel->setPlainText( QString("%1 V").arg(double(dispVolt)/100) );
 
-    if( m_plotterLine > -1 ) PlotterWidget::self()->setData(m_plotterLine, m_voltIn*100 );
+    if( m_plotterLine > 0 ) PlotterWidget::self()->setData(m_plotterLine, m_voltIn*100 );
 
     update();       // Repaint
 }
@@ -173,20 +173,20 @@ int Probe::plotter()
 }
 
 void Probe::setPlotter( int channel )
-{
+{qDebug() << "Probe::setPlotter "<<channel;
     m_plotterLine = channel;
-    if( channel == -1 ) return;
-    PlotterWidget::self()->setChannel( channel );
+    if( channel == 0 ) return;
+    PlotterWidget::self()->addChannel( channel );
     PlotterWidget::self()->setData( m_plotterLine, int(m_voltIn*100) );
     m_plotterColor = PlotterWidget::self()->getColor( m_plotterLine );
 }
 
 void Probe::slotPlotterAdd()
 {
-    if( m_plotterLine != -1 ) return;            // Already have plotter
+    if( m_plotterLine != 0 ) return;            // Already have plotter
     
-    m_plotterLine = PlotterWidget::self()->addChannel();
-    if( m_plotterLine < 0 ) return;
+    m_plotterLine = PlotterWidget::self()->getChannel();
+    if( m_plotterLine < 1 ) return;
 
     PlotterWidget::self()->setData( m_plotterLine, int(m_voltIn*100) );
     m_plotterColor = PlotterWidget::self()->getColor( m_plotterLine );
@@ -196,10 +196,10 @@ void Probe::slotPlotterAdd()
 void Probe::slotPlotterRem()
 {
     //qDebug() << m_plotterLine;
-    if( m_plotterLine < 0 ) return;              // No plotter to remove
+    if( m_plotterLine == 0 ) return;              // No plotter to remove
 
     PlotterWidget::self()->remChannel( m_plotterLine );
-    m_plotterLine = -1;
+    m_plotterLine = 0;
     update();       // Repaint
 }
 
@@ -231,19 +231,19 @@ void Probe::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget 
 {
     Component::paint( p, option, widget );
 
-    if( m_plotterLine > -1 )          p->setBrush( m_plotterColor );
+    if( m_plotterLine > 0 )           p->setBrush( m_plotterColor );
     else if ( m_voltIn > m_voltTrig)  p->setBrush( QColor( 255, 166, 0 ) );
     else                              p->setBrush( QColor( 230, 230, 255 ) );
 
     p->drawEllipse( m_area );
     
-    if( m_plotterLine > -1 )
+    if( m_plotterLine > 0 )
     {
-        p->drawLine(-3,-7,-4,-1 );
-        p->drawLine(-4,-1, 2,-3 );
-        p->drawLine( 2,-3, 0, 3 );
-        p->drawLine( 0, 3, 6, 1 );
-        p->drawLine( 6, 1, 4, 7 );
+        //p->drawLine(-4,-7,-5,-1 );
+        p->drawLine(-5,-1, 1,-3 );
+        p->drawLine( 1,-3,-1, 3 );
+        p->drawLine(-1, 3, 5, 1 );
+        //p->drawLine( 6, 1, 4, 7 );
         //p->drawLine( 5, 3, 8,  0 );
     }
 }
