@@ -167,7 +167,12 @@ bool AvrProcessor::loadFirmware( QString fileN )
         qDebug() << "\nAvrProcessor::loadFirmware Avr Init: "<< name << (started==0);
     }
     ///TODO: Catch possible abort signal here, otherwise application will crash on the invalid firmware load
-    avr_load_firmware( m_avrProcessor, &f );
+    if( avr_load_firmware( m_avrProcessor, &f ) != 0 )
+    {
+        QMessageBox::warning(0,"Error:",
+        tr("Wrong firmware!!").arg(f.mmcu) );
+        return false;
+    }
 
     if( f.flashbase ) m_avrProcessor->pc = f.flashbase;
 
