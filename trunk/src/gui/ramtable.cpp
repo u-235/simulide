@@ -161,15 +161,20 @@ void RamTable::updateValues()
             m_currentRow = _row;
             QString name = watchList[_row];
             
-            m_processor->updateRamValue( name );
-
-            //int value = m_processor->getRamValue( name );
-
-            /*if( value >= 0 )
+            bool ok;
+            int addr = name.toInt(&ok, 10); 
+            if( !ok ) addr = name.toInt(&ok, 16);  
+            if( !ok ) m_processor->updateRamValue( name );
+            else
             {
-                item( _row, 1 )->setData( 0, value );
-                item( _row, 2 )->setData( 0, decToBase(value, 2, 8) );
-            }*/
+                int value = m_processor->getRamValue( addr );
+
+                if( value >= 0 )
+                {
+                    item( _row, 1 )->setData( 0, value );
+                    item( _row, 2 )->setData( 0, decToBase(value, 2, 8) );
+                }
+            }
         }
     }
 }
@@ -205,7 +210,11 @@ void RamTable::addToWatch( QTableWidgetItem* it )
     }
     else
     {
-        int value = m_processor->getRegAddress(name);
+        bool ok;
+        int value = name.toInt(&ok, 10); 
+        if( !ok ) value = name.toInt(&ok, 16);  
+        if( !ok ) value = m_processor->getRegAddress(name);
+        
         if( value >= 0 )
         {
             watchList[_row] = name;
