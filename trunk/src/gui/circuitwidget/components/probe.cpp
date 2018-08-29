@@ -173,7 +173,7 @@ int Probe::plotter()
 }
 
 void Probe::setPlotter( int channel )
-{qDebug() << "Probe::setPlotter "<<channel;
+{
     m_plotterLine = channel;
     if( channel == 0 ) return;
     PlotterWidget::self()->addChannel( channel );
