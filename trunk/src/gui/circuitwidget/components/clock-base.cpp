@@ -52,6 +52,8 @@ void ClockBase::updateStep()
     }
 }
 
+int ClockBase::freq() { return m_freq; }
+
 void ClockBase::setFreq( int freq )
 {
     //m_freq = freq;
@@ -64,18 +66,24 @@ void ClockBase::setFreq( int freq )
     emit freqChanged();
 }
 
+bool ClockBase::running() { return m_isRunning; }
+
+void ClockBase::setRunning( bool running )
+{
+    m_isRunning = running;
+    m_step = 0;
+    m_changed = true;
+    updateStep();
+    //qDebug() << m_stepsPC << m_isRunning ;
+}
+
 void ClockBase::onbuttonclicked()
 {
-    m_isRunning = !m_isRunning;
-    m_step = 0;
-
-    m_changed = true;
-    //qDebug() << m_stepsPC << m_isRunning ;
+    setRunning( !m_isRunning );
 }
 
 void ClockBase::remove()
 {
-
     Simulator::self()->remFromSimuClockList( this );
 
     LogicInput::remove();
