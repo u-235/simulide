@@ -195,6 +195,7 @@ void AvrProcessor::reset()
 
     avr_reset( m_avrProcessor );
     m_avrProcessor->pc = 0;
+    for( int i=0; i<m_avrProcessor->ramend; i++ ) m_avrProcessor->data[i] = 0;
 }
 
 void AvrProcessor::step()
