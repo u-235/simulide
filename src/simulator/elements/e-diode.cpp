@@ -93,7 +93,7 @@ void eDiode::setVChanged()
     if( deltaR != m_resist )
     {
         m_resist = deltaR;
-        if( deltaR == high_imp ) eResistor::setAdmit( 0 );
+        if( deltaR == high_imp ) eResistor::setAdmit( cero_doub );
         else                     eResistor::setAdmit( 1/m_resist );
         //m_converged = false;
     }
