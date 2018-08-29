@@ -51,9 +51,6 @@ Simulator::Simulator( QObject* parent )
     m_simuRate   = 1000000;
     m_nlAcc = 5; // Non-Linear accuracy
 
-    //QThread      matrixThread;
-    //m_matrix.moveToThread( &m_mcuThread );
-    //matrixThread.start();
     m_RefTimer.start();
 }
 Simulator::~Simulator()
@@ -78,11 +75,10 @@ void Simulator::timerEvent( QTimerEvent* e )  //update at m_timerTick rate (50 m
     e->accept();
     
     if( !m_isrunning ) return;
-    if(!m_CircuitFuture.isFinished() ) return;
+    if( !m_CircuitFuture.isFinished() ) return;
     
     if( m_error ) 
     {
-        
         CircuitWidget::self()->powerCircOff();
         CircuitWidget::self()->setRate( -1 );
         return;

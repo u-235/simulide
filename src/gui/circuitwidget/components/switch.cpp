@@ -54,6 +54,8 @@ Switch::Switch( QObject* parent, QString type, QString id )
     m_pin[1] = new Pin( 0, pinpos, pinid, 1, this);
     m_ePin[1] = m_pin[1];
     
+    m_proxy->setPos( QPoint(-8, 4) );
+    
     connect( m_button, SIGNAL( clicked() ),
              this,     SLOT  ( onbuttonclicked() ));
 }

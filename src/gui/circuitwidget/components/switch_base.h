@@ -45,8 +45,8 @@ class MAINMODULE_EXPORT SwitchBase : public Component, public eElement
         bool m_changed;
         bool m_closed;
         
-        QPushButton          *m_button;
-        QGraphicsProxyWidget *m_proxy;
+        QPushButton*          m_button;
+        QGraphicsProxyWidget* m_proxy;
 };
 
 #endif
