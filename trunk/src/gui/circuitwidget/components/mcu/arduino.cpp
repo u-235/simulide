@@ -49,7 +49,8 @@ Component* Arduino::construct( QObject* parent, QString type, QString id )
         }
         return ard;
     }
-    MessageBoxNB( tr("Error"), tr("Only 1 Mcu allowed\n to be in the Circuit.") );
+    MessageBoxNB( tr("Error")
+                , tr("Only 1 Mcu allowed\n to be in the Circuit.") );
 
     return 0l;
 }
@@ -184,10 +185,11 @@ void Arduino::initBoard()
     m_boardLed = new LedSmd( this, "LEDSMD", m_id+"boardled", QRectF(0, 0, 4, 3) );
     m_boardLed->setNumEpins(2);
     m_boardLed->setParentItem(this);
-    m_boardLed->setPos( 35, 125 );
     m_boardLed->setEnabled(false);
     m_boardLed->setMaxCurrent( 0.003 );
     m_boardLed->setRes( 1000 );
+    if( objectName().contains("Mega") ) m_boardLed->setPos( 35+12, 125+105 );
+    else                                m_boardLed->setPos( 35, 125 );
     
     //m_boardLedEnode = new eNode( m_id+"-boardLedeNode" );
     m_boardLedEnode = 0l;
@@ -201,8 +203,10 @@ void Arduino::initBoard()
     {
         McuComponentPin* mcuPin = m_pinList.at(i);
 
-        if( mcuPin->angle() == 0 ) mcuPin->move(-16, 0 );
-        else                       mcuPin->move( 16, 0 );
+        if     ( mcuPin->angle() == 0   ) mcuPin->move(-16, 0 );
+        else if( mcuPin->angle() == 180 ) mcuPin->move( 16, 0 );
+        else if( mcuPin->angle() == 90  ) mcuPin->move( 0, 32 );
+        else                              mcuPin->move( 0,-320 );
 
         Pin* pin = mcuPin->pin();
         pin->setLength(0);

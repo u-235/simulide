@@ -37,6 +37,7 @@ class InoDebugger : public BaseDebugger
         
         enum board_t {
             Uno = 0,
+            Mega,
             Nano,
             Duemilanove,
             Leonardo,
