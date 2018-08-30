@@ -64,6 +64,7 @@ class InoDebugger : public BaseDebugger
         QHash<int, int> m_flashToIno;               // Map flash adress to .ino code line
         
         int m_lastInoLine;
+        int m_loopInoLine;
         int m_processorType;
         
         QStringList boardList;

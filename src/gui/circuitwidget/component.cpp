@@ -90,7 +90,6 @@ void Component::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
             setSelected( true );
         }
-
         QPropertyEditorWidget::self()->setObject( this );
         //PropertiesWidget::self()->setHelpText( m_help );
         
@@ -121,7 +120,6 @@ void Component::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             Circuit::self()->saveState();
             m_moving = true;
         }
-
         QPointF delta = togrid(event->scenePos()) - togrid(event->lastScenePos());
 
         foreach( QGraphicsItem* item , itemlist )
@@ -467,7 +465,6 @@ void Component::paint( QPainter* painter, const QStyleOptionGraphicsItem* option
         painter->setBrush( m_color );
         //label->setBrush( Qt::darkBlue );
     }
-
     //painter->setBrush( Qt::yellow );
     //painter->drawRect( boundingRect() );
 

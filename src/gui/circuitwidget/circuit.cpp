@@ -122,7 +122,8 @@ void Circuit::removeComp( Component* comp )
     QPropertyEditorWidget::self()->removeObject( comp );
     compList()->removeOne( comp );
     if( items().contains( comp ) ) removeItem( comp );
-    comp->deleteLater();
+    //comp->deleteLater();
+    delete comp;
 }
 
 void Circuit::compRemoved( bool removed ) // Arduino doesn't like to be removed while circuit is running
@@ -159,8 +160,7 @@ void Circuit::saveState()
     m_undoStack.last()->setContent( m_domDoc.toString() );
     
     QString title = MainWindow::self()->windowTitle();
-    if (!title.endsWith('*'))
-        MainWindow::self()->setWindowTitle(title+'*');
+    if( !title.endsWith('*') ) MainWindow::self()->setWindowTitle(title+'*');
 }
 
 /*void Circuit::setChanged()
@@ -559,7 +559,7 @@ void Circuit::listToDom( QDomDocument* doc, QList<Component*>* complist )
     QDomElement root = doc->firstChild().toElement();
 
     int count = complist->count();
-    for (int i=0; i<count; i++)
+    for( int i=0; i<count; i++ )
     {
         Component* item = complist->at(i);
 
@@ -573,13 +573,13 @@ void Circuit::listToDom( QDomDocument* doc, QList<Component*>* complist )
             const QMetaObject* metaobject = item->metaObject();
 
             int count = metaobject->propertyCount();
-            for (int i=0; i<count; i++)
+            for( int i=0; i<count; i++ )
             {
                 QMetaProperty metaproperty = metaobject->property(i);
                 const char* name = metaproperty.name();
 
                 QVariant value = item->property( name );
-                if ( metaproperty.type() == QVariant::StringList )
+                if( metaproperty.type() == QVariant::StringList )
                 {
                     QStringList list= value.toStringList();
                     pin.setAttribute( name, list.join(",") );

@@ -131,7 +131,6 @@ void ToggleSwitch::updateStep()
             admit0 = 1e3;
             admit1 = 0;
         }
-
         m_ePin[0]->stampAdmitance( admit0 );
         m_ePin[1]->stampAdmitance( admit0 );
         m_ePin[2]->stampAdmitance( admit1 );

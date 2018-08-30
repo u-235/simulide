@@ -83,6 +83,7 @@ void BaseProcessor::runSimuStep()
     {
         m_msimStep = 0;
         
+        Simulator::self()->runGraphicStep();
         PlotterWidget::self()->step();
         TerminalWidget::self()->step();
     }

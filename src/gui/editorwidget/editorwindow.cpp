@@ -24,9 +24,13 @@
 #include "filebrowser.h"
 #include "utils.h"
 
+EditorWindow*  EditorWindow::m_pSelf = 0l;
+
 EditorWindow::EditorWindow( QWidget* parent )
             : QWidget( parent )
 {
+    m_pSelf = this;
+    
     createWidgets();
     createActions();
     createToolBars();
@@ -36,9 +40,6 @@ EditorWindow::EditorWindow( QWidget* parent )
     // Redirect stdout to outPane
     /*mybuf = new mystreambuf( outPane );
     std::cout.rdbuf( mybuf );*/
-    
-    connect( FileBrowser::self(), SIGNAL( openFileWithEditor(QString) )
-           , this               , SLOT( loadFile(QString) ));
 }
 EditorWindow::~EditorWindow(){}
 
