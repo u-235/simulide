@@ -32,7 +32,7 @@ InoDebugger::InoDebugger( QObject* parent, OutPanelText* outPane, QString filePa
     
     readSettings();
     
-    boardList << "uno" << "nano" << "diecimila" << "leonardo";
+    boardList << "uno" << "megaADK" << "nano" << "diecimila" << "leonardo";
     
     m_board = Uno;
     

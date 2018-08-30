@@ -107,6 +107,7 @@
         <file alias="arduinoNano.png">../src/icons/components/arduinoNano.png</file>
         <file alias="duemilanove.png">../src/icons/components/duemilanove.png</file>
         <file alias="leonardo.png">../src/icons/components/leonardo.png</file>
+        <file alias="mega.png">../src/icons/components/mega.png</file>
         
         <file alias="blanc.png">../src/icons/components/blanc.png</file>
         <file alias="font2.png">../src/icons/font/font2.png</file>
