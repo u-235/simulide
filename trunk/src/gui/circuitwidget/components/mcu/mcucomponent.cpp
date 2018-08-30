@@ -171,12 +171,12 @@ void McuComponent::terminate()
 
 void McuComponent::remove()
 {
-    if( Simulator::self()->isPaused() )
+    /*if( Simulator::self()->isPaused() )
     {
         MessageBoxNB( tr("Warning")
                     , tr("Removing an MCU while runnig \n  Is Not a Good Idea.") );
         return;
-    }
+    }*/
     
     foreach( McuComponentPin* mcupin, m_pinList )
     {

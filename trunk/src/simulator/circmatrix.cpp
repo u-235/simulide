@@ -170,7 +170,7 @@ bool CircMatrix::solveMatrix()
             }
         }
         m_circChanged  = false;
-        qDebug() <<group<<"Circuits";
+        //qDebug() <<group<<"Circuits";
     }
     else
     {

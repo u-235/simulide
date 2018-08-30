@@ -21,6 +21,7 @@
 #include "circuitwidget.h"
 #include "circuit.h"
 #include "filewidget.h"
+#include "editorwindow.h"
 
 FileBrowser*  FileBrowser::m_pSelf = 0l;
 
@@ -56,7 +57,7 @@ void FileBrowser::cdUp()
 void FileBrowser::openInEditor()
 {
     QString path = m_fileSystemModel->filePath( currentIndex() );
-    emit openFileWithEditor( path );
+    EditorWindow::self()->loadFile( path );
 }
 
 void FileBrowser::open()

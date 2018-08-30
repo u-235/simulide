@@ -86,12 +86,12 @@ Arduino::~Arduino()
 void Arduino::remove()
 {
     //if( Simulator::self()->isRunning() ) CircuitWidget::self()->powerCircOff();
-    if( Simulator::self()->isPaused() )
+    /*if( Simulator::self()->isPaused() )
     {
         MessageBoxNB( tr("Warning")
                     , tr("Removing Arduino while runnig \n  Is Not a Good Idea.") );
         return;
-    }
+    }*/
     m_pb5Pin->setEnode( 0l );
     
     Circuit::self()->compList()->removeOne( m_boardLed );

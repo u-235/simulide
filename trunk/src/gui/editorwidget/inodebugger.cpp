@@ -125,6 +125,7 @@ int InoDebugger::compile()
             }
         }
         inoLineNumber++;
+        if( inoLine.contains( "loop()" ) ) m_loopInoLine = inoLineNumber;
         out << inoLine << " // INOLINE " << inoLineNumber << "\n";
     }
     file.close();
@@ -254,6 +255,7 @@ void InoDebugger::mapInoToFlash()
     QStringList lstLines = fileToStringList( lstFileName, "InoDebugger::mapInoToFlash" );
 
     bool readFlasAddr = false;
+    bool isInoLIne =    false;
     int inoLineNum = -1;
     QString line;
     foreach( line, lstLines )
@@ -266,13 +268,24 @@ void InoDebugger::mapInoToFlash()
             {
                 m_flashToIno[ flashAddr ] = inoLineNum;
                 m_inoToFlash[ inoLineNum ] = flashAddr;
+                readFlasAddr = false;
+                qDebug()<<"InoDebugger::mapInoToFlash ino-flash:" << inoLineNum << flashAddr ;
             }
-            readFlasAddr = false;
-            //qDebug()<<"InoDebugger::mapInoToFlash ino-flash:" << inoLineNum << flashAddr ;
+            if( isInoLIne ) 
+            {
+                readFlasAddr = false;
+                isInoLIne =    false;
+            }
         }
         if( line.contains("INOLINE") )
         {
             inoLineNum = line.split( " " ).last().toInt()-1;
+            readFlasAddr = true;
+            isInoLIne =    true;
+        }
+        else if( line.contains("loop();") )
+        {
+            inoLineNum = m_loopInoLine;
             readFlasAddr = true;
         }
         QHashIterator<QString, QString> i( m_varList );

@@ -32,9 +32,15 @@ class EditorWindow : public QWidget
     public:
         EditorWindow( QWidget *parent );
         ~EditorWindow();
+        
+ static EditorWindow* self() { return m_pSelf; }
 
         bool close();
 
+    public slots:
+        void loadFile(const QString &fileName);
+        void stop();
+        
     private slots:
         void newFile();
         void open();
@@ -45,7 +51,6 @@ class EditorWindow : public QWidget
         void documentWasModified();
         void tabContextMenu(const QPoint & eventpoint);
         void setCompiler();
-        void loadFile(const QString &fileName);
 
         void cut();
         void copy();
@@ -58,12 +63,12 @@ class EditorWindow : public QWidget
         void stepOver();
         void pause();
         void reset();
-        void stop();
         void compile();
         void upload();
         void findReplaceDialog();
 
     private:
+ static EditorWindow*  m_pSelf;
         void createWidgets();
         void createActions();
         void createToolBars();

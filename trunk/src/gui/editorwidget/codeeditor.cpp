@@ -32,6 +32,7 @@
 #include "mainwindow.h"
 #include "simulator.h"
 #include "circuitwidget.h"
+#include "editorwindow.h"
 #include "simuapi_apppath.h"
 
 bool  CodeEditor::m_showSpaces = false;
@@ -334,7 +335,13 @@ void CodeEditor::pause()
 void CodeEditor::resume()
 {
     if( !m_debugging )  return;
-    m_running = m_resume;
+    
+    if( !BaseProcessor::self() ) 
+    {
+        m_outPane->writeText( tr("\nError:  Mcu Deleted while Debugging!!\n") );
+        EditorWindow::self()->stop() ;
+    }
+    else m_running = m_resume;
     updateScreen();
 }
 
@@ -355,14 +362,14 @@ void CodeEditor::runClockTick( bool over )
     
     m_prevDebugLine = m_debugLine;
 
-    while( m_debugLine == m_prevDebugLine ) // Run to next src line
-    {
+    do{
         if( over ) m_debugLine = m_debugger->stepOver();
         else       m_debugLine = m_debugger->step();
-        //qDebug() <<"m_prevDebugLine "<<m_prevDebugLine<< "  m_debugLine "<<m_debugLine;
-
-        if( m_debugLine <= 0 ) m_debugLine = m_prevDebugLine; // Baksels returns -1
+        
+        //if( m_debugLine <= 0 ) m_debugLine = m_prevDebugLine; // Baksels returns -1
     }
+    while( m_debugLine <= 0 ); // Run to next src line
+    //qDebug() <<"m_prevDebugLine "<<m_prevDebugLine<< "  m_debugLine "<<m_debugLine;
     Simulator::self()->runGraphicStep();
 }
 
@@ -373,9 +380,8 @@ void CodeEditor::timerTick()
     runClockTick();
     if( m_brkPoints.contains(m_debugLine) ) pause();
 
-    if( m_running ) QTimer::singleShot( 500, this, SLOT( timerTick()) );
-    
-    updateScreen();
+    if( m_running ) QTimer::singleShot( 10, this, SLOT( timerTick()) );
+    else updateScreen();
 }
 
 void CodeEditor::updateScreen()

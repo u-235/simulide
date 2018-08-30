@@ -265,13 +265,14 @@ void Simulator::pauseSim()
 
 void Simulator::stopTimer()
 {
+    m_isrunning = false;
+    
     if( m_timerId != 0 )
     {
         this->killTimer( m_timerId );
         m_timerId = 0;
         m_CircuitFuture.waitForFinished();
     }
-    m_isrunning = false;
     std::cout << "\n    Simulation Stopped \n" << std::endl;
 }
 
