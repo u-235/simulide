@@ -46,18 +46,7 @@ InoDebugger::InoDebugger( QObject* parent, OutPanelText* outPane, QString filePa
     m_typesList["ulong"]  = "uint32";
     m_typesList["float"]  = "float32";
 }
-InoDebugger::~InoDebugger()
-{}
-
-bool InoDebugger::loadFirmware()
-{
-    if( BaseDebugger::loadFirmware() )
-    {
-        mapInoToFlash();
-        return true;
-    }
-    return false;
-}
+InoDebugger::~InoDebugger() {}
 
 int InoDebugger::compile()
 {
@@ -70,11 +59,9 @@ int InoDebugger::compile()
         toolChainNotFound();
         return -1;
     }
-
     QString filePath = m_fileDir+m_fileName+m_fileExt;
     // Doing build in the user directory
     QString buildPath = SIMUAPI_AppPath::self()->RWDataFolder().absoluteFilePath("codeeditor/buildIno");
-    //m_appPath+"/data/codeeditor/buildIno";
     
     QDir dir(buildPath);
     dir.removeRecursively();                         // Remove old files
@@ -87,7 +74,7 @@ int InoDebugger::compile()
     {
         QFile::copy( m_fileDir+fileName, buildPath+"/"+m_fileName+"/"+fileName );
     }
-    
+
     QString ProcInoFile = buildPath+"/"+m_fileName+"/"+m_fileName+m_fileExt;
     QFile file( ProcInoFile );
 
@@ -100,7 +87,7 @@ int InoDebugger::compile()
     QTextStream out(&file);
     
     QStringList inoLines = fileToStringList( filePath, "InoDebugger::compile" );
-    m_lastInoLine = inoLines.size();
+    
     QString line;
     QString inoLine;
     int inoLineNumber = 0;
@@ -124,8 +111,9 @@ int InoDebugger::compile()
                 //qDebug() << "InoDebugger::compile  variable "<<type<<varName<<m_typesList[ type ];
             }
         }
-        inoLineNumber++;
         if( inoLine.contains( "loop()" ) ) m_loopInoLine = inoLineNumber;
+        inoLineNumber++;
+        
         out << inoLine << " // INOLINE " << inoLineNumber << "\n";
     }
     file.close();
@@ -212,28 +200,10 @@ int InoDebugger::compile()
     return error;
 }
 
-int InoDebugger::step() // returns source line
+void InoDebugger::mapFlashToSource()
 {
-    BaseProcessor::self()->stepOne();
-
-    int pc = BaseProcessor::self()->pc();
-    int line = m_flashToIno[ pc ];
-
-    return line ;
-}
-
-int InoDebugger::stepOver(){return 0;}
-
-int InoDebugger::getValidLine( int line )
-{
-    while( !m_inoToFlash.contains(line) && line<=m_lastInoLine ) line++;
-    return line;
-}
-
-void InoDebugger::mapInoToFlash()
-{
-    m_flashToIno.clear();
-    m_inoToFlash.clear();
+    m_flashToSource.clear();
+    m_sourceToFlash.clear();
     QString buildPath = SIMUAPI_AppPath::self()->RWDataFolder().absoluteFilePath("codeeditor/buildIno");
     //QString buildPath = SIMUAPI_AppPath::self()->availableDataDirPath("codeeditor/buildIno");
     //m_appPath+"/data/codeeditor/buildIno";
@@ -254,6 +224,8 @@ void InoDebugger::mapInoToFlash()
     QString lstFileName = buildPath+"/"+ m_fileName + ".ino.lst";
     QStringList lstLines = fileToStringList( lstFileName, "InoDebugger::mapInoToFlash" );
 
+    m_lastLine = 0;
+    
     bool readFlasAddr = false;
     bool isInoLIne =    false;
     int inoLineNum = -1;
@@ -266,10 +238,11 @@ void InoDebugger::mapInoToFlash()
             int flashAddr = line.split( ":" ).first().toInt( &ok, 16 );
             if( ok )
             {
-                m_flashToIno[ flashAddr ] = inoLineNum;
-                m_inoToFlash[ inoLineNum ] = flashAddr;
+                m_flashToSource[ flashAddr ] = inoLineNum;
+                m_sourceToFlash[ inoLineNum ] = flashAddr;
+                if( inoLineNum > m_lastLine ) m_lastLine = inoLineNum;
                 readFlasAddr = false;
-                qDebug()<<"InoDebugger::mapInoToFlash ino-flash:" << inoLineNum << flashAddr ;
+                //qDebug()<<"InoDebugger::mapInoToFlash ino-flash:" << inoLineNum << flashAddr ;
             }
             if( isInoLIne ) 
             {

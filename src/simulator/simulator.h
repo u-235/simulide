@@ -40,9 +40,11 @@ class MAINMODULE_EXPORT Simulator : public QObject
 
         void runContinuous();
         void stopTimer();
+        void resumeTimer();
         void pauseSim();
         void resumeSim();
         void stopSim();
+        void stopDebug();
         void startSim();
         void debug();
         void runCircuitStep();

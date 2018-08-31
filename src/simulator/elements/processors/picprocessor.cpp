@@ -20,6 +20,7 @@
 #include <QtGui>
 
 #include "picprocessor.h"
+#include "mcucomponent.h"
 #include "simulator.h"
 #include "utils.h"
 
@@ -168,7 +169,7 @@ bool PicProcessor::loadFirmware( QString fileN )
 
 void PicProcessor::step()                 // Run 1 step 
 {
-    if( !m_loadStatus || m_resetStatus ) return;
+    if( !m_loadStatus || m_resetStatus || m_mcuStepsPT==0 ) return;
     
     double dCycles = (double)m_mcuStepsPT*m_ipc + m_pendingIpc;
     
@@ -180,7 +181,6 @@ void PicProcessor::step()                 // Run 1 step
     {
         m_pPicProcessor->step_cycle();
     }
-
     if( m_usartTerm ) readUsart();
 }
 
@@ -194,13 +194,19 @@ void PicProcessor::stepOne()
     
     if( m_nextCycle == 0 )
     {
-        double dCycles = (double)m_mcuStepsPT*m_ipc + m_pendingIpc;
+        double stepsPT = (double)McuComponent::self()->freq();
+        double dCycles = stepsPT*m_ipc + m_pendingIpc;
         int cycles = (int)dCycles;
         m_pendingIpc = dCycles-(double)cycles;
         m_nextCycle = cycles;
         
         runSimuStep(); // 1 simu step = 1uS
     }
+}
+
+void PicProcessor::stepCpu()
+{
+    m_pPicProcessor->step_cycle();
 }
 
 int PicProcessor::pc() { return m_pPicProcessor->pc->get_value(); }

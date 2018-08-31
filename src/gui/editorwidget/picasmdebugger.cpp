@@ -23,7 +23,7 @@
 #include "simuapi_apppath.h"
 
 PicAsmDebugger::PicAsmDebugger( QObject* parent, OutPanelText* outPane, QString filePath )
-            : BaseDebugger( parent,outPane, filePath )
+              : BaseDebugger( parent,outPane, filePath )
 {
     setObjectName( "PIC asm Compiler" );
     
@@ -34,104 +34,7 @@ PicAsmDebugger::PicAsmDebugger( QObject* parent, OutPanelText* outPane, QString 
 
     m_typesList["byte"]    = "uint8";
 }
-PicAsmDebugger::~PicAsmDebugger()
-{}
-
-bool PicAsmDebugger::loadFirmware()
-{
-    if( BaseDebugger::loadFirmware() )
-    {
-        mapLstToAsm();
-        return true;
-    }
-    return false;
-}
-
-int PicAsmDebugger::step() // returns source line
-{
-    BaseProcessor::self()->stepOne();
-
-    int pc = BaseProcessor::self()->pc();
-    int line = m_flashToAsm[ pc ];
-    //qDebug() <<"PicAsmDebugger::step"<<pc << line;
-    return line ;
-}
-
-int PicAsmDebugger::stepOver(){return 0;}
-
-int PicAsmDebugger::getValidLine( int line )
-{
-    int asmLine = 0;
-    while( asmLine == 0 )
-    {
-        asmLine = m_asmToFlash.value(line);
-        line++;
-    }
-    return m_flashToAsm[asmLine];
-}
-
-void PicAsmDebugger::mapLstToAsm()
-{
-    m_flashToAsm.clear();
-    m_asmToFlash.clear();
-    QString asmFileName = m_fileDir + m_fileName + ".asm";
-
-    QString lstFileName = m_fileDir + m_fileName + ".lst";
-
-    QStringList asmLines = fileToStringList( asmFileName, "PicAsmDebugger::mapLstToAsm" );
-    QStringList lstLines = fileToStringList( lstFileName, "PicAsmDebugger::mapLstToAsm" );
-
-    QString line;
-    QString asmLine;
-    int asmLineNumber = 0;
-    int lastAsmLine = asmLines.size();
-
-    foreach( line, lstLines )
-    {
-        if( line.isEmpty() )      continue;
-        line = line.toUpper().replace("\t", " ");
-        if( line.startsWith(" ") ) continue;
-        if( line.contains("ORG") ) continue;
-
-        while( true )
-        {
-            if( ++asmLineNumber >= lastAsmLine ) break; // End of asm file
-            asmLine = asmLines.at( asmLineNumber ).toUpper();
-            asmLine = asmLine.replace("\t", " ").remove(" ");
-            if( asmLine.isEmpty() ) continue;
-            if( asmLine.startsWith("_")) continue;
-            if( asmLine.startsWith(";")) continue;
-            if( asmLine.startsWith("#")) continue;
-            if( asmLine.startsWith(".")) continue;
-
-            QString lstline = line;
-            if( lstline.remove(" ").contains(asmLine) ) break;
-        }
-        if( asmLineNumber >= lastAsmLine )
-        {
-            asmLineNumber = 0;
-            continue; // End of asm file
-        }
-        QStringList words = line.split(' ');
-        QString numberText = words.at(0);
-        //QString numberText = line.left( 4 );
-        bool ok = false;
-        int address = numberText.toInt( &ok, 16 );  // original adress*2: instruc = 2 bytes
-        if( ok )
-        {
-            m_flashToAsm[address] = asmLineNumber;
-            //qDebug() <<"asmLineNumber"<<asmLineNumber<<"address"<<address;
-        }
-    }
-    QHashIterator<int, int> i(m_flashToAsm);
-    while( i.hasNext() )
-    {
-        i.next();
-        int address       = i.key();
-        int asmLineNumber = i.value();
-        m_asmToFlash[asmLineNumber] = address;
-    }
-}
+PicAsmDebugger::~PicAsmDebugger() {}
 
 int PicAsmDebugger::compile()
 {
@@ -181,6 +84,72 @@ int PicAsmDebugger::compile()
     
     QApplication::restoreOverrideCursor();
     return error;
+}
+
+void PicAsmDebugger::mapFlashToSource()
+{
+    m_flashToSource.clear();
+    m_sourceToFlash.clear();
+    QString asmFileName = m_fileDir + m_fileName + ".asm";
+
+    QString lstFileName = m_fileDir + m_fileName + ".lst";
+
+    QStringList asmLines = fileToStringList( asmFileName, "PicAsmDebugger::mapLstToAsm" );
+    QStringList lstLines = fileToStringList( lstFileName, "PicAsmDebugger::mapLstToAsm" );
+    
+    m_lastLine = 0;
+
+    QString line;
+    QString asmLine;
+    int asmLineNumber = 0;
+    int lastAsmLine = asmLines.size();
+
+    foreach( line, lstLines )
+    {
+        if( line.isEmpty() )      continue;
+        line = line.toUpper().replace("\t", " ");
+        if( line.startsWith(" ") ) continue;
+        if( line.contains("ORG") ) continue;
+
+        while( true )
+        {
+            if( ++asmLineNumber >= lastAsmLine ) break; // End of asm file
+            asmLine = asmLines.at( asmLineNumber ).toUpper();
+            asmLine = asmLine.replace("\t", " ").remove(" ");
+            if( asmLine.isEmpty() ) continue;
+            if( asmLine.startsWith("_")) continue;
+            if( asmLine.startsWith(";")) continue;
+            if( asmLine.startsWith("#")) continue;
+            if( asmLine.startsWith(".")) continue;
+
+            QString lstline = line;
+            if( lstline.remove(" ").contains(asmLine) ) break;
+        }
+        if( asmLineNumber >= lastAsmLine )
+        {
+            asmLineNumber = 0;
+            continue; // End of asm file
+        }
+        QStringList words = line.split(' ');
+        QString numberText = words.at(0);
+        //QString numberText = line.left( 4 );
+        bool ok = false;
+        int address = numberText.toInt( &ok, 16 );  // original adress*2: instruc = 2 bytes
+        if( ok )
+        {
+            m_flashToSource[address] = asmLineNumber;
+            if( asmLineNumber > m_lastLine ) m_lastLine = asmLineNumber;
+            //qDebug() <<"asmLineNumber"<<asmLineNumber<<"address"<<address;
+        }
+    }
+    QHashIterator<int, int> i(m_flashToSource);
+    while( i.hasNext() )
+    {
+        i.next();
+        int address       = i.key();
+        int asmLineNumber = i.value();
+        m_sourceToFlash[asmLineNumber] = address;
+    }
 }
 
 #include "moc_picasmdebugger.cpp"

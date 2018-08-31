@@ -221,11 +221,16 @@ void CircuitWidget::powerCircOff()
         Simulator::self()->stopSim();
 }
 
-void CircuitWidget::powerCircDebug()
+void CircuitWidget::powerCircDebug( bool run )
 {
         powerCircAct->setIcon(QIcon(":/powerdeb.png"));
         powerCircAct->setIconText("Debug");
-        Simulator::self()->debug();
+        if( run ) Simulator::self()->runContinuous();
+        else      
+        {
+            Simulator::self()->debug();
+            m_rateLabel->setText( tr("Real Speed: Debugger") );
+        }
 }
 
 void CircuitWidget::openInfo()
@@ -235,8 +240,7 @@ void CircuitWidget::openInfo()
 
 void CircuitWidget::setRate( int rate )
 {
-    if( rate < 0 )
-        m_rateLabel->setText( "Circuit ERROR!!!" );
+    if( rate < 0 ) m_rateLabel->setText( tr("Circuit ERROR!!!") );
     else 
         m_rateLabel->setText( tr("Real Speed: ")+QString::number(rate) +" %" );
 }

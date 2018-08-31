@@ -18,7 +18,9 @@
  ***************************************************************************/
 
 #include "basedebugger.h"
+#include "baseprocessor.h"
 #include "mainwindow.h"
+#include "simulator.h"
 
 bool BaseDebugger::m_loadStatus = false;
 
@@ -36,6 +38,7 @@ BaseDebugger::BaseDebugger( QObject* parent, OutPanelText* outPane, QString file
     m_fileName = m_fileName.remove( m_fileName.lastIndexOf( m_fileExt ), m_fileExt.size() );
 
     m_processorType = 0;
+    m_driveCirc = false;
     
     connect( &m_compProcess, SIGNAL(readyRead()), SLOT(ProcRead()) );
 }
@@ -50,6 +53,8 @@ bool BaseDebugger::loadFirmware()
     if( m_loadStatus ) return false;
     
     m_loadStatus = true;
+    
+    mapFlashToSource();
 
     return true;
 }
@@ -86,15 +91,21 @@ void BaseDebugger::getProcName()
 
 int BaseDebugger::step()
 {
-    return 0;
+
+    BaseProcessor::self()->stepOne();
+
+    int pc = BaseProcessor::self()->pc();
+    int line = m_flashToSource[ pc ];
+
+    return line ;
 }
 
 int BaseDebugger::stepOver(){return 0;}
 
 int BaseDebugger::getValidLine( int line )
 {
-    Q_UNUSED( line );
-    return 0;
+    while( !m_sourceToFlash.contains(line) && line<=m_lastLine ) line++;
+    return line;
 }
 
 void BaseDebugger::ProcRead()
@@ -104,11 +115,6 @@ void BaseDebugger::ProcRead()
         m_outPane->appendText( m_compProcess.readLine() );
         m_outPane->writeText( "\n" );
     }
-}
-
-QString BaseDebugger::compilerPath()
-{
-    return m_compilerPath;
 }
 
 void BaseDebugger::readSettings()
@@ -135,16 +141,30 @@ void BaseDebugger::getCompilerPath()
         m_outPane->writeText( m_compilerPath+"\n\n" );
 }
 
+QString BaseDebugger::compilerPath()
+{
+    return m_compilerPath;
+}
+
 void BaseDebugger::setCompilerPath( QString path )
 {
     m_compilerPath = path;
     MainWindow::self()->settings()->setValue( m_compSetting, m_compilerPath );
 }
 
+bool BaseDebugger::driveCirc()
+{
+    return m_driveCirc;
+}
+void BaseDebugger::setDriveCirc( bool drive )
+{
+    m_driveCirc = drive;
+}
+
 void BaseDebugger::toolChainNotFound()
 {
     m_outPane->appendText( tr(": ToolChain not found")+"\n" );
-        m_outPane->writeText( "\n"+tr("Right-Click on Document Tab to set Path")+"\n\n" );
+    m_outPane->writeText( "\n"+tr("Right-Click on Document Tab to set Path")+"\n\n" );
 }
 #include "moc_basedebugger.cpp"
 
