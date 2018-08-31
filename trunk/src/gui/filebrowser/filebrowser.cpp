@@ -73,8 +73,7 @@ void FileBrowser::open()
     else  
     {
         if( path.endsWith(".simu") ) CircuitWidget::self()->loadCirc( path );
-        else                         emit openFileWithEditor( path );
-
+        else                         EditorWindow::self()->loadFile( path );
     }
 }
 

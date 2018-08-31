@@ -235,11 +235,19 @@ void Simulator::startSim()
     m_error = false;
 }
 
+void Simulator::stopDebug()
+{
+    m_debugging = false;
+}
+
 void Simulator::stopSim()
 {
     if( !m_isrunning ) return;
-    m_debugging = false;
+    
+    if( m_debugging ) emit pauseDebug();
+    
     m_paused = false;
+    m_isrunning = false;
     
     stopTimer();
 
@@ -254,32 +262,27 @@ void Simulator::stopSim()
     if( McuComponent::self() ) McuComponent::self()->reset();
 
     CircuitWidget::self()->setRate( 0 );
+    
+    std::cout << "\n    Simulation Stopped \n" << std::endl;
 }
 
 void Simulator::pauseSim()
 {
     if( m_debugging ) emit pauseDebug();
-    stopTimer();
-    m_paused = true;
-}
-
-void Simulator::stopTimer()
-{
-    m_isrunning = false;
     
-    if( m_timerId != 0 )
-    {
-        this->killTimer( m_timerId );
-        m_timerId = 0;
-        m_CircuitFuture.waitForFinished();
-    }
-    std::cout << "\n    Simulation Stopped \n" << std::endl;
+    m_isrunning = false;
+    m_paused = true;
+    
+    stopTimer();
+    
+    std::cout << "\n    Simulation Paused \n" << std::endl;
 }
 
 void Simulator::resumeSim()
 {
     m_isrunning = true;
     m_paused = false;
+    
     if( m_debugging )
     {
         emit resumeDebug();
@@ -287,6 +290,21 @@ void Simulator::resumeSim()
     }
     std::cout << "\n    Resuming Simulation\n" << std::endl;
     m_timerId = this->startTimer( m_timerTick );
+}
+
+void Simulator::stopTimer()
+{
+    if( m_timerId != 0 )
+    {
+        this->killTimer( m_timerId );
+        m_timerId = 0;
+        m_CircuitFuture.waitForFinished();
+    }
+}
+
+void Simulator::resumeTimer()
+{
+    if( m_timerId == 0 ) m_timerId = this->startTimer( m_timerTick );
 }
 
 int Simulator::simuRateChanged( int rate )

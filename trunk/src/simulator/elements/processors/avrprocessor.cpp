@@ -19,6 +19,7 @@
 
 #include "avrprocessor.h"
 #include "simulator.h"
+#include "mcucomponent.h"
 #include "utils.h"
 
 // simavr includes
@@ -200,7 +201,7 @@ void AvrProcessor::reset()
 
 void AvrProcessor::step()
 {
-    if( !m_loadStatus || m_resetStatus ) return;
+    if( !m_loadStatus || m_resetStatus || m_mcuStepsPT==0 ) return;
     
     while( m_avrProcessor->cycle < m_nextCycle )
     {
@@ -220,9 +221,14 @@ void AvrProcessor::stepOne()
 
     if( m_avrProcessor->cycle >= m_nextCycle )
     {
-        m_nextCycle += m_mcuStepsPT;
+        m_nextCycle += McuComponent::self()->freq(); //m_mcuStepsPT;
         runSimuStep(); // 1 simu step = 1uS
     }
+}
+
+void AvrProcessor::stepCpu()
+{
+    m_avrProcessor->run(m_avrProcessor);
 }
 
 int AvrProcessor::pc()

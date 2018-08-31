@@ -88,7 +88,7 @@ CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTab
     connect( this, SIGNAL( updateRequest( QRect,int )), this, SLOT( updateLineNumberArea( QRect,int )));
     connect( this, SIGNAL( cursorPositionChanged()),    this, SLOT( highlightCurrentLine()));
 
-    connect( Simulator::self(), SIGNAL( pauseDebug()), this, SLOT( pause()));
+    connect( Simulator::self(), SIGNAL( pauseDebug()),  this, SLOT( pause()));
     connect( Simulator::self(), SIGNAL( resumeDebug()), this, SLOT( resume()));
     
     setLineWrapMode(QPlainTextEdit::NoWrap);
@@ -303,6 +303,7 @@ void CodeEditor::run()
 {
     if( m_running ) return;
 
+    if( !m_debugger->driveCirc() ) Simulator::self()->stopTimer();
     m_running = true;
     timerTick();
 }
@@ -311,9 +312,10 @@ void CodeEditor::step()
 {
     if( m_running ) return;
     
+    if( !m_debugger->driveCirc() ) Simulator::self()->stopTimer();
     runClockTick();
+    if( !m_debugger->driveCirc() ) Simulator::self()->resumeTimer();
     updateScreen();
-
 }
 
 void CodeEditor::stepOver()
@@ -350,38 +352,47 @@ void CodeEditor::reset()
     if( m_running ) pause();
     
     McuComponent::self()->reset();
-    m_debugLine = m_debugger->getProgramStart();
+    m_debugLine = 1; //m_debugger->getProgramStart();
     
     updateScreen();
 }
 
 void CodeEditor::runClockTick( bool over )
 {
-    //if( !m_running ) return;
     if( !m_debugging )  return;
     
     m_prevDebugLine = m_debugLine;
 
-    do{
-        if( over ) m_debugLine = m_debugger->stepOver();
-        else       m_debugLine = m_debugger->step();
-        
-        //if( m_debugLine <= 0 ) m_debugLine = m_prevDebugLine; // Baksels returns -1
+    do{     
+        m_debugLine = m_debugger->step();
+        if( m_debugLine == m_prevDebugLine ) m_debugLine = m_debugger->step();
+        m_prevDebugLine = m_debugLine;
     }
     while( m_debugLine <= 0 ); // Run to next src line
     //qDebug() <<"m_prevDebugLine "<<m_prevDebugLine<< "  m_debugLine "<<m_debugLine;
-    Simulator::self()->runGraphicStep();
+    
+    if( m_debugger->driveCirc() ) Simulator::self()->runGraphicStep();
 }
 
 void CodeEditor::timerTick()
 {
     if( !m_running ) return;
     
-    runClockTick();
-    if( m_brkPoints.contains(m_debugLine) ) pause();
-
+    for( int i=0; i<1000; i++ )
+    {
+        runClockTick();
+        if( m_brkPoints.contains( m_debugLine ) ) 
+        {
+            pause();
+            break;
+        }
+    }
     if( m_running ) QTimer::singleShot( 10, this, SLOT( timerTick()) );
-    else updateScreen();
+    else 
+    {
+        updateScreen();
+        if( !m_debugger->driveCirc() ) Simulator::self()->resumeTimer();
+    }
 }
 
 void CodeEditor::updateScreen()
@@ -438,9 +449,15 @@ bool CodeEditor::initDebbuger()
         {
             m_debugging = true;
             reset();
-            //BaseProcessor::self()->setSteps( 0 );
+
             if( Simulator::self()->isRunning() ) Simulator::self()->stopSim();
-            CircuitWidget::self()->powerCircDebug();
+            
+            if( m_debugger->driveCirc() ) CircuitWidget::self()->powerCircDebug( false );
+            else
+            {
+                BaseProcessor::self()->setSteps( 0 );
+                CircuitWidget::self()->powerCircDebug( true );
+            }
             m_outPane->writeText( tr("Debbuger Started ")+"\n" );
         }
     }
@@ -454,9 +471,14 @@ void CodeEditor::stopDebbuger()
         m_debugger->stop();
         m_brkPoints.clear();
         m_debugLine = m_prevDebugLine = 0;
-        //McuComponent::self()->setFreq( McuComponent::self()->freq() );
+        
+        if( !m_debugger->driveCirc() ) 
+            McuComponent::self()->setFreq( McuComponent::self()->freq() );
+        
         CircuitWidget::self()->powerCircOff();
+        Simulator::self()->stopDebug();
         pause();
+        
         m_debugging = false;
     }
     m_outPane->writeText( tr("Debbuger Stopped ")+"\n" );
