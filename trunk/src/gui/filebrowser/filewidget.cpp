@@ -40,6 +40,7 @@ FileWidget::FileWidget( QWidget* parent )
     
     m_cdUpButton = new QPushButton( this );
     m_cdUpButton->setIcon( QIcon(":/cdup.png") );
+    m_cdUpButton->setToolTip( tr("cd Up") );
     hLayout->addWidget( m_cdUpButton );
     
     m_path = new QLineEdit( this );

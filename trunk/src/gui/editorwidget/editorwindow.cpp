@@ -179,9 +179,10 @@ bool EditorWindow::maybeSave()
     //"+strippedName( m_lastDir )+"
 }
 
-void EditorWindow::documentWasModified(  )
+void EditorWindow::documentWasModified()
 {
-    QTextDocument *doc = getCodeEditor()->document();
+    CodeEditor* ce = getCodeEditor();
+    QTextDocument *doc = ce->document();
     
     bool    modified = doc->isModified();
     int     index    = m_docWidget->currentIndex();
@@ -196,6 +197,8 @@ void EditorWindow::documentWasModified(  )
     undoAct->setEnabled( false );
     if( doc->isRedoAvailable() ) redoAct->setEnabled( true );
     if( doc->isUndoAvailable() ) undoAct->setEnabled( true );
+    
+    ce->setCompiled( false );
 }
 
 void EditorWindow::enableFileActs( bool enable )
@@ -327,7 +330,7 @@ void EditorWindow::createActions()
     redoAct->setEnabled(false);
     connect(redoAct, SIGNAL(triggered()), this, SLOT(redo()));
 
-    runAct =  new QAction(QIcon(":/play.png"),tr("Run To Breakpoint"), this);
+    runAct =  new QAction(QIcon(":/runtobk.png"),tr("Run To Breakpoint"), this);
     runAct->setStatusTip(tr("Run to next breakpoint"));
     runAct->setEnabled(false);
     connect(runAct, SIGNAL(triggered()), this, SLOT(run()));
@@ -352,7 +355,7 @@ void EditorWindow::createActions()
     resetAct->setEnabled(false);
     connect( resetAct, SIGNAL(triggered()), this, SLOT(reset()) );
 
-    stopAct = new QAction(QIcon(":/stop.png"),tr("Stop"), this);
+    stopAct = new QAction(QIcon(":/stop.png"),tr("Stop Debugger"), this);
     stopAct->setStatusTip(tr("Stop debugger"));
     stopAct->setEnabled(false);
     connect( stopAct, SIGNAL(triggered()), this, SLOT(stop()) );
@@ -430,12 +433,33 @@ void EditorWindow::debug()
     {
         m_editorToolBar->setVisible( false);
         m_debuggerToolBar->setVisible( true );
+
+        runAct->setEnabled( true );
+        stepAct->setEnabled( true );
+        resetAct->setEnabled( true );
+        pauseAct->setEnabled( false );
     }
 }
-void EditorWindow::run()     { getCodeEditor()->run(); }
+
+void EditorWindow::run()     
+{ 
+    runAct->setEnabled( false );
+    stepAct->setEnabled( false );
+    resetAct->setEnabled( false );
+    pauseAct->setEnabled( true );
+    getCodeEditor()->run(); 
+}
+
 void EditorWindow::step()    { getCodeEditor()->step(); }
 void EditorWindow::stepOver(){ getCodeEditor()->stepOver(); }
-void EditorWindow::pause()   { getCodeEditor()->pause(); }
+void EditorWindow::pause()   
+{ 
+    getCodeEditor()->pause(); 
+    runAct->setEnabled( true );
+    stepAct->setEnabled( true );
+    resetAct->setEnabled( true );
+    pauseAct->setEnabled( false );
+}
 void EditorWindow::reset()   { getCodeEditor()->reset(); }
 void EditorWindow::stop()    
 { 
@@ -445,9 +469,7 @@ void EditorWindow::stop()
 }
 void EditorWindow::compile() 
 { 
-    CodeEditor* ce = getCodeEditor();
-    if( ce->document()->isModified() ) save();
-    ce->compile(); 
+    getCodeEditor()->compile(); 
 }
 void EditorWindow::upload()  { getCodeEditor()->upload(); }
 
