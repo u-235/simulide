@@ -32,18 +32,19 @@
 #include "e-bcdtodec.h"
 #include "e-dectobcd.h"
 #include "e-bincounter.h"
+#include "e-demux.h"
 #include "e-fulladder.h"
 #include "e-gate_or.h"
 #include "e-gate_xor.h"
 #include "e-gate_xor.h"
 #include "e-flipflopd.h"
 #include "e-flipflopjk.h"
-#include "e-demux.h"
-#include "e-mux.h"
 #include "e-inbus.h"
-#include "e-outbus.h"
-#include "e-mosfet.h"
 #include "e-logic_device.h"
+#include "e-mux.h"
+#include "e-mosfet.h"
+#include "e-op_amp.h"
+#include "e-outbus.h"
 #include "e-source.h"
 #include "e-volt_reg.h"
 #include "ledsmd.h"
@@ -376,6 +377,20 @@ void SubCircuit::initSubcircuit()
                 evoltreg->setNumEpins(3);
                 evoltreg->setVRef( volts );
                 ecomponent = evoltreg;
+            }
+            else if( type == "eOpAmp" )
+            {
+                double gain = 1000;
+                if( element.hasAttribute("Gain") ) gain = element.attribute( "Gain" ).toDouble();
+                bool powerPins = false;
+                if( element.hasAttribute("Power_Pins" ) )
+                {
+                    if( element.attribute( "Power_Pins" ) == "true" ) powerPins = true;
+                }
+                eOpAmp* eopamp = new eOpAmp( id.toStdString() );
+                eopamp->setGain( gain );
+                eopamp->setPowerPins( powerPins );
+                ecomponent = eopamp;
             }
             else if( type == "LedSmd" )
             {
