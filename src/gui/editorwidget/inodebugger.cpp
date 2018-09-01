@@ -65,7 +65,7 @@ int InoDebugger::compile()
     
     QDir dir(buildPath);
     dir.removeRecursively();                         // Remove old files
-    dir.mkpath(buildPath+"/"+m_fileName);            // Create sketch folder
+    dir.mkpath(buildPath+"/"+m_fileName);        // Create sketch folder
     
     QDir directory( m_fileDir );          
     QStringList fileList = directory.entryList(QDir::Files);
@@ -74,7 +74,6 @@ int InoDebugger::compile()
     {
         QFile::copy( m_fileDir+fileName, buildPath+"/"+m_fileName+"/"+fileName );
     }
-
     QString ProcInoFile = buildPath+"/"+m_fileName+"/"+m_fileName+m_fileExt;
     QFile file( ProcInoFile );
 
@@ -87,7 +86,6 @@ int InoDebugger::compile()
     QTextStream out(&file);
     
     QStringList inoLines = fileToStringList( filePath, "InoDebugger::compile" );
-    
     QString line;
     QString inoLine;
     int inoLineNumber = 0;
@@ -172,13 +170,10 @@ int InoDebugger::compile()
         }
     }
     else
-    {
+    {                                                // Get dissassemble
         m_firmware = buildPath + "/"+ m_fileName + ".ino.hex";
 
         QString objdump = m_compilerPath+"hardware/tools/avr/bin/avr-objdump";
-        //objdump.remove( objdump.lastIndexOf( "arduino" ), 7 );
-        //objdump = objdump+"hardware/tools/avr/bin/avr-objdump";
-        
         QString elfPath = buildPath+"/"+m_fileName+".ino.elf";
         
         #ifndef Q_OS_UNIX
@@ -186,14 +181,47 @@ int InoDebugger::compile()
         elfPath = addQuotes( elfPath );
         #endif
         
-        command  = objdump+" -h -S "+elfPath;
-        
+        command  = objdump+" -S -j .text "+elfPath;
         QProcess compIno( 0l );
-
         compIno.setStandardOutputFile( buildPath+"/"+m_fileName+".ino.lst" );
         compIno.start( command );
         compIno.waitForFinished(-1);
 
+                             // Get variable addresses from .bss section
+        QProcess getBss( 0l );
+        command  = m_compilerPath+"hardware/tools/avr/bin/avr-objdump -t -j.bss "+elfPath;
+        getBss.start( command );
+        getBss.waitForFinished(-1);
+        
+        QString  p_stdout = getBss.readAllStandardOutput();
+        QStringList lines = p_stdout.split("\n");
+        foreach( QString line, lines )
+        {
+            //qDebug() << line;
+            if( line.isEmpty() ) continue;
+            QStringList words = line.split(" ");
+            QString addr      = words.takeFirst();
+            QString symbol    = words.takeLast();
+            
+            QHashIterator<QString, QString> i( m_varList );
+            while( i.hasNext() )                        // Find Variable 
+            {
+                i.next();
+                QString varName = i.key();
+                if( varName == symbol )          // Get variable address
+                {
+                    bool ok = false;
+                    int address = addr.toInt( &ok, 16 );
+                    if( ok )
+                    {
+                        address -= 0x800000;          // 0x800000 offset
+                        BaseProcessor::self()->addWatchVar( varName, address, i.value() );
+                        //qDebug() << "InoDebugger::compile  variable "<<addr<<varName<<address<<i.value();
+                    }
+                    break;
+                }
+            }
+        }
         error = 0;
     }
     QApplication::restoreOverrideCursor();
@@ -205,8 +233,6 @@ void InoDebugger::mapFlashToSource()
     m_flashToSource.clear();
     m_sourceToFlash.clear();
     QString buildPath = SIMUAPI_AppPath::self()->RWDataFolder().absoluteFilePath("codeeditor/buildIno");
-    //QString buildPath = SIMUAPI_AppPath::self()->availableDataDirPath("codeeditor/buildIno");
-    //m_appPath+"/data/codeeditor/buildIno";
     
     /*QString elfFileName = buildPath+"/"+ m_fileName + ".ino.elf";
     QProcess flashToLine( 0l );
@@ -261,7 +287,7 @@ void InoDebugger::mapFlashToSource()
             inoLineNum = m_loopInoLine;
             readFlasAddr = true;
         }
-        QHashIterator<QString, QString> i( m_varList );
+        /*QHashIterator<QString, QString> i( m_varList );
         while (i.hasNext())                             // Find Variable 
         {
             i.next();
@@ -273,11 +299,11 @@ void InoDebugger::mapFlashToSource()
                 int address = line.toInt( &ok, 16 );
                 if( ok ) BaseProcessor::self()->addWatchVar( i.key(), address, i.value() );
                 
-                //qDebug() << "InoDebugger::mapInoToFlash  variable "<<line<<i.key()<<address<<i.value();
+                qDebug() << "InoDebugger::mapInoToFlash  variable "<<line<<i.key()<<address<<i.value();
                 
                 break;
             }
-        }
+        }*/
         
     }
 }

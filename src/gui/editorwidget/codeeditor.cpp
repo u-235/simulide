@@ -212,6 +212,7 @@ void CodeEditor::setCompilerPath()
 
 void CodeEditor::compile()
 {
+    if( document()->isModified() ) EditorWindow::self()->save();
     m_debugLine  = -1;
     update();
     
@@ -390,9 +391,10 @@ void CodeEditor::timerTick()
     if( m_running ) QTimer::singleShot( 10, this, SLOT( timerTick()) );
     else 
     {
-        updateScreen();
         if( !m_debugger->driveCirc() ) Simulator::self()->resumeTimer();
+        EditorWindow::self()->pause();
     }
+    updateScreen();
 }
 
 void CodeEditor::updateScreen()
@@ -459,6 +461,7 @@ bool CodeEditor::initDebbuger()
                 CircuitWidget::self()->powerCircDebug( true );
             }
             m_outPane->writeText( tr("Debbuger Started ")+"\n" );
+            setReadOnly( true );
         }
     }
     return m_debugging;
@@ -479,6 +482,7 @@ void CodeEditor::stopDebbuger()
         Simulator::self()->stopDebug();
         pause();
         
+        setReadOnly( false );
         m_debugging = false;
     }
     m_outPane->writeText( tr("Debbuger Stopped ")+"\n" );

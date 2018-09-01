@@ -39,12 +39,13 @@ class EditorWindow : public QWidget
 
     public slots:
         void loadFile(const QString &fileName);
+        void pause();
         void stop();
+        bool save();
         
     private slots:
         void newFile();
         void open();
-        bool save();
         bool saveAs();
         void about();
         void closeTab(int);
@@ -61,7 +62,6 @@ class EditorWindow : public QWidget
         void run();
         void step();
         void stepOver();
-        void pause();
         void reset();
         void compile();
         void upload();

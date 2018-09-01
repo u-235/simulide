@@ -91,7 +91,6 @@ void BaseDebugger::getProcName()
 
 int BaseDebugger::step()
 {
-
     BaseProcessor::self()->stepOne();
 
     int pc = BaseProcessor::self()->pc();
