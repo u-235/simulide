@@ -36,7 +36,8 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
     Q_PROPERTY( int ReactStep READ reactStep WRITE setReactStep DESIGNABLE true USER true )
     Q_PROPERTY( int NoLinStep READ noLinStep WRITE setNoLinStep DESIGNABLE true USER true )
     Q_PROPERTY( int NoLinAcc  READ nlAcc     WRITE setNlAcc     DESIGNABLE true USER true )
-    Q_PROPERTY( bool Draw_Grid  READ drawGrid  WRITE setDrawGrid     DESIGNABLE true USER true )
+    Q_PROPERTY( bool Draw_Grid        READ drawGrid   WRITE setDrawGrid   DESIGNABLE true USER true )
+    Q_PROPERTY( bool Show_ScrollBars  READ showScroll WRITE setShowScroll DESIGNABLE true USER true )
 
     public:
         Circuit(qreal x, qreal y, qreal width, qreal height, QGraphicsView*  parent);
@@ -58,6 +59,9 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         
         bool drawGrid();
         void setDrawGrid( bool draw );
+        
+        bool showScroll();
+        void setShowScroll( bool show );
         
         void removeItems();
         void removeComp( Component* comp );
@@ -128,7 +132,8 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         int  m_seqNumber;
         bool m_con_started;
         bool m_pasting;
-        bool m_drawGrid;
+        bool m_hideGrid;
+        bool m_showScroll;
         bool m_compRemoved;
 
         QPointF m_eventpoint;

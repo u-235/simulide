@@ -37,11 +37,13 @@ Circuit::Circuit( qreal x, qreal y, qreal width, qreal height, QGraphicsView*  p
 
     m_pSelf = this;
 
-    m_drawGrid = true;
-    m_pasting = false;
+    m_pasting     = false;
     m_con_started = false;
     new_connector = 0l;
     m_seqNumber   = 0;
+    
+    m_hideGrid   = MainWindow::self()->settings()->value( "Circuit/hideGrid" ).toBool();
+    m_showScroll = MainWindow::self()->settings()->value( "Circuit/showScroll" ).toBool();
 }
 
 Circuit::~Circuit()
@@ -170,11 +172,36 @@ void Circuit::saveState()
 
 bool Circuit::drawGrid()
 {
-    return m_drawGrid;
+    return !m_hideGrid;
 }
 void Circuit::setDrawGrid( bool draw )
 {
-    m_drawGrid = draw;
+    m_hideGrid = !draw;
+    if( m_hideGrid ) MainWindow::self()->settings()->setValue( "Circuit/hideGrid", "true" );
+    else             MainWindow::self()->settings()->setValue( "Circuit/hideGrid", "false" );
+    update();
+}
+
+bool Circuit::showScroll()
+{
+    return m_showScroll;
+}
+
+void Circuit::setShowScroll( bool show )
+{
+    m_showScroll = show;
+    if( show )
+    {
+        m_graphicView->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+        m_graphicView->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+        MainWindow::self()->settings()->setValue( "Circuit/showScroll", "true" );
+    }
+    else
+    {
+        m_graphicView->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+        m_graphicView->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+        MainWindow::self()->settings()->setValue( "Circuit/showScroll", "false" );
+    }
 }
 
 void Circuit::drawBackground ( QPainter*  painter, const QRectF & rect )
@@ -187,7 +214,7 @@ void Circuit::drawBackground ( QPainter*  painter, const QRectF & rect )
     painter->drawRect( m_scenerect );
     painter->setPen( QColor( 210, 210, 210 ) );
 
-    if( !m_drawGrid ) return;
+    if( m_hideGrid ) return;
     
     int startx = int(m_scenerect.x());///2;
     int endx   = int(m_scenerect.width())/2;

@@ -22,6 +22,7 @@
 #include "circuitwidget.h"
 #include "circuitview.h"
 #include "circuit.h"
+#include "mainwindow.h"
 #include "component.h"
 #include "utils.h"
 
@@ -34,8 +35,17 @@ CircuitView::CircuitView( QWidget *parent )
     clear();
 
     viewport()->setFixedSize( 3200, 2400 );
-    setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-    setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    bool scrollBars = MainWindow::self()->settings()->value( "Circuit/showScroll" ).toBool();
+    if( scrollBars )
+    {
+        setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+        setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+    }
+    else
+    {
+        setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+        setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    }
     //setViewportUpdateMode( QGraphicsView::FullViewportUpdate );
     //setCacheMode( CacheBackground );
     //setRenderHint( QPainter::Antialiasing );
