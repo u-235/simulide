@@ -77,6 +77,18 @@ void Mosfet::updateStep()
     update();
 }
 
+void Mosfet::setPchannel( bool pc )
+{ 
+    m_Pchannel = pc;
+    update();
+}
+
+void Mosfet::setDepletion( bool dep )
+{
+    m_depletion = dep;
+    update();
+}
+
 void Mosfet::remove()
 {
     Simulator::self()->remFromUpdateList( this );
@@ -102,17 +114,13 @@ void Mosfet::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget
     p->drawLine( -12, 0,-4, 0 );
     p->drawLine(  -4,-8,-4, 8 );
     
-    p->drawLine( 0,-9, 0, -5 );
-    p->drawLine( 0,-2, 0, 2 );
-    p->drawLine( 0, 5, 0, 9 );
-    
     p->drawLine( 0,-7.5, 8,-7.5 );
     p->drawLine( 0,   0, 8, 0 );
     p->drawLine( 0, 7.5, 8, 7.5 );
     
     p->drawLine( 8,-12, 8,-7.5 );
     p->drawLine( 8, 12, 8, 0 );
-
+    
     p->setBrush( Qt::black );
     if( m_Pchannel )
     {
@@ -129,6 +137,18 @@ void Mosfet::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget
         QPointF( 5,-2 ),
         QPointF( 5, 2 )     };
         p->drawPolygon(points, 3);
+    }
+    if( m_depletion )
+    {
+        QPen pen(Qt::black, 2.0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+        p->setPen( pen );
+        p->drawLine( 0,-9, 0, 9 );
+    }
+    else
+    {
+        p->drawLine( 0,-9, 0, -5 );
+        p->drawLine( 0,-2, 0, 2 );
+        p->drawLine( 0, 5, 0, 9 );
     }
 }
 
