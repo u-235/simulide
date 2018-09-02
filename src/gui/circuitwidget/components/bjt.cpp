@@ -79,6 +79,12 @@ void BJT::updateStep()
     update();
 }
 
+void BJT::setPnp( double pnp ) 
+{
+    m_PNP = pnp;
+    update();
+}
+
 void BJT::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
     Component::paint( p, option, widget );

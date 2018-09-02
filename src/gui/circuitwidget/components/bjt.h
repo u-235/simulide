@@ -40,6 +40,8 @@ class MAINMODULE_EXPORT BJT : public Component, public eBJT
         static LibraryItem *libraryItem();
         
         void updateStep();
+        
+        void setPnp( double pnp );
 
         virtual void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
 };

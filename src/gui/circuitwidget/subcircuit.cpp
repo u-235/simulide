@@ -367,6 +367,10 @@ void SubCircuit::initSubcircuit()
                 {
                     if( element.attribute( "pChannel" ) == "true" ) emosfet->setPchannel( true );
                 }
+                if( element.hasAttribute("Depletion") )
+                {
+                    if( element.attribute( "Depletion" ) == "true" ) emosfet->setDepletion( true );
+                }
                 ecomponent = emosfet;
             }
             else if( type == "eVoltReg" )
