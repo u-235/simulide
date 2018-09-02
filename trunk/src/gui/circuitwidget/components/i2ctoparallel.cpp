@@ -17,40 +17,48 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "i2cram.h"
+#include "i2ctoparallel.h"
 #include "pin.h"
 
-Component* I2CRam::construct( QObject* parent, QString type, QString id )
+Component* I2CToParallel::construct( QObject* parent, QString type, QString id )
 {
-    return new I2CRam( parent, type, id );
+    return new I2CToParallel( parent, type, id );
 }
 
-LibraryItem* I2CRam::libraryItem()
+LibraryItem* I2CToParallel::libraryItem()
 {
     return new LibraryItem(
-        tr( "I2C Ram" ),
+        tr( "I2C to Parallel" ),
         tr( "Logic" ),
         "subc.png",
-        "I2CRam",
-        I2CRam::construct );
+        "I2CToParallel",
+        I2CToParallel::construct );
 }
 
-I2CRam::I2CRam( QObject* parent, QString type, QString id )
-      : LogicComponent( parent, type, id )
-      , eI2C( id.toStdString() )
+I2CToParallel::I2CToParallel( QObject* parent, QString type, QString id )
+             : LogicComponent( parent, type, id )
+             , eI2C( id.toStdString() )
 {
     m_width  = 4;
-    m_height = 4;
+    m_height = 9;
     
     QStringList pinList;                              // Create Pin List
 
     pinList // Inputs:
-            << "IL01 SDA"//type: Input, side: Left, pos: 01, label: "SDA"
+            << "IL02 SDA"//type: Input, side: Left, pos: 01, label: "SDA"
             << "IL03 SCL"
-            << "IR01 A0"
-            << "IR02 A1"
-            << "IR03 A2"
+            << "IL05 A0"
+            << "IL06 A1"
+            << "IL07 A2"
             // Outputs:
+            << "OR01 D0"
+            << "OR02 D1"
+            << "OR03 D2"
+            << "OR04 D3"
+            << "OR05 D4"
+            << "OR06 D5"
+            << "OR07 D6"
+            << "OR08 D7"
             ;
     init( pinList );                   // Create Pins Defined in pinList
     
@@ -61,12 +69,16 @@ I2CRam::I2CRam( QObject* parent, QString type, QString id )
     eLogicDevice::createInput( m_inPin[3] );                 // Input A1
     eLogicDevice::createInput( m_inPin[4] );                 // Input A2
     
+    for( int i=0; i<8; i++ ) 
+    {
+        eLogicDevice::createOutput( m_outPin[i] );
+    }
+    
     m_cCode = 0b01010000;
-    m_size = 65536;
 }
-I2CRam::~I2CRam(){}
+I2CToParallel::~I2CToParallel(){}
 
-void I2CRam::initialize()                     // Called at Simulation Start
+void I2CToParallel::initialize()                     // Called at Simulation Start
 {
     eI2C::initialize();
     
@@ -75,12 +87,9 @@ void I2CRam::initialize()                     // Called at Simulation Start
         eNode* enode =  m_inPin[i]->getEnode();
         if( enode ) enode->addToChangedFast( this );
     }
-    
-    m_addrPtr = 0;
-    m_phase = 3;
 }
 
-void I2CRam::setVChanged()             // Some Pin Changed State, Manage it
+void I2CToParallel::setVChanged()             // Some Pin Changed State, Manage it
 {
     bool A0 = eLogicDevice::getInputState( 1 );
     bool A1 = eLogicDevice::getInputState( 2 );
@@ -95,65 +104,55 @@ void I2CRam::setVChanged()             // Some Pin Changed State, Manage it
     
     eI2C::setVChanged();                               // Run I2C Engine
     
-    if( m_state == I2C_STARTED ) m_phase = 0;
-    if( m_state == I2C_STOPPED ) m_phase = 3;
+    //if( m_state == I2C_READING ) m_phase = 0;
+    //if( m_state == I2C_STOPPED ) m_phase = 3;
 }
 
-void I2CRam::readByte()
+void I2CToParallel::readByte()           // Reading from I2C to Parallel
 {
-    if( m_phase == 0 )
+    int value = m_rxReg;
+                                      //qDebug() << "Reading " << value;
+    for( int i=0; i<8; i++ )
     {
-        m_phase++;
-        m_addrPtr = m_rxReg<<8;
-    }
-    else if( m_phase == 1 )
-    {
-        m_phase++;
-        m_addrPtr += m_rxReg;
-        
-        while( m_addrPtr >= m_size ) m_addrPtr -= m_size;
-    }
-    else
-    {
-        //qDebug() << "I2CRam::readByte Address:"<<m_addrPtr<<" Value"<< m_rxReg;
-        m_ram[ m_addrPtr ] = m_rxReg;
-        m_addrPtr++;
-        
-        if( m_addrPtr == m_size ) m_addrPtr = 0;
+        bool pinState =  value & 1;
+        m_output[i]->setOut( pinState );
+        m_output[i]->stampOutput();
+                                  //qDebug() << "Bit " << i << pinState;
+        value >>= 1;
     }
     eI2C::readByte();
 }
 
-void I2CRam::writeByte()
+/*void I2CToParallel::writeByte()         // Writting to I2C from Parallel
 {
-    m_txReg = m_ram[ m_addrPtr ];
-    //qDebug() << "I2CRam::writeByte Address:"<<m_addrPtr<<" Value"<< m_txReg;
-    m_addrPtr++;
-    
-    if( m_addrPtr == m_size ) m_addrPtr = 0;
+    for( int i=0; i<8; i++ )
+    {
+        int value = 0;
+        int volt = m_output[i]->getEpin()->getVolt();
+        
+        bool  state = m_dataPinState[i];
+        
+        if     ( volt > m_inputHighV ) state = true;
+        else if( volt < m_inputLowV )  state = false;
+        
+        m_dataPinState[i] = state;
+        //qDebug() << "Bit " << i << state;
+        if( state ) value += pow( 2, i );
+    }
+    m_txReg = value;
+    //qDebug() << "I2CToParallel::writeByte Address:"<<" Value"<< m_txReg;
 
     eI2C::writeByte();
-}
+}*/
 
-int I2CRam::cCode()
+int I2CToParallel::cCode()
 {
     return m_cCode;
 }
 
-void I2CRam::setCcode( int code )
+void I2CToParallel::setCcode( int code )
 {
     m_cCode = code;
 }
 
-int I2CRam::rSize()
-{
-    return m_size;
-}
-
-void I2CRam::setRSize( int size )
-{
-    if( size > 65536 ) size = 65536;
-    m_size = size;
-}
-
-#include "moc_i2cram.cpp"
+#include "moc_i2ctoparallel.cpp"

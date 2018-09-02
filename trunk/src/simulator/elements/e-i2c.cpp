@@ -81,7 +81,6 @@ void eI2C::setVChanged()            // Some Pin Changed State, Manage it
 
                 if( m_rxReg == m_address )              // Address match
                 {
-                    //printf("I²C Address match\n");
                     if( rw ) 
                     {
                         m_state = I2C_READING;

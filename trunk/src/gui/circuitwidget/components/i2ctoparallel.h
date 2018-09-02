@@ -17,22 +17,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef I2CRAM_H
-#define I2CRAM_H
+#ifndef I2CTOPARALLEL_H
+#define I2CTOPARALLEL_H
 
 #include "e-i2c.h"
 #include "itemlibrary.h"
 #include "logiccomponent.h"
 
-class MAINMODULE_EXPORT I2CRam : public LogicComponent, public eI2C
+class MAINMODULE_EXPORT I2CToParallel : public LogicComponent, public eI2C
 {
     Q_OBJECT
     Q_PROPERTY( int Control_Code READ cCode WRITE setCcode DESIGNABLE true USER true )
-    Q_PROPERTY( int Size_bytes   READ rSize WRITE setRSize DESIGNABLE true USER true )
 
     public:
-        I2CRam( QObject* parent, QString type, QString id );
-        ~I2CRam();
+        I2CToParallel( QObject* parent, QString type, QString id );
+        ~I2CToParallel();
 
         static Component* construct( QObject* parent, QString type, QString id );
         static LibraryItem *libraryItem();
@@ -40,20 +39,14 @@ class MAINMODULE_EXPORT I2CRam : public LogicComponent, public eI2C
         int cCode();
         void setCcode( int code );
         
-        int rSize();
-        void setRSize( int size );
-        
         virtual void initialize();
         virtual void setVChanged();
-        virtual void writeByte();
+        //virtual void writeByte();
         virtual void readByte();
         
     private:
-        int m_ram[65536];
-        int m_size;
-        int m_addrPtr;
         int m_cCode;
-        int m_phase;
+        //int m_phase;
 };
 
 #endif
