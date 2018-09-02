@@ -19,6 +19,7 @@
 
 #include "mosfet.h"
 #include "connector.h"
+#include "simulator.h"
 #include "itemlibrary.h"
 #include "e-source.h"
 #include "pin.h"
@@ -66,11 +67,20 @@ Mosfet::Mosfet( QObject* parent, QString type, QString id )
     newPin->setLabelText( "" );
     newPin->setLabelColor( QColor( 0, 0, 0 ) );
     m_ePin[1] = newPin;
+    
+    Simulator::self()->addToUpdateList( this );
 }
 Mosfet::~Mosfet(){}
 
+void Mosfet::updateStep()
+{
+    update();
+}
+
 void Mosfet::remove()
 {
+    Simulator::self()->remFromUpdateList( this );
+    
     if( m_ePin[0]->isConnected() ) (static_cast<Pin*>(m_ePin[0]))->connector()->remove();
     if( m_ePin[1]->isConnected() ) (static_cast<Pin*>(m_ePin[1]))->connector()->remove();
     if( m_ePin[2]->isConnected() ) (static_cast<Pin*>(m_ePin[2]))->connector()->remove();

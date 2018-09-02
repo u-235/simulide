@@ -27,9 +27,9 @@
 #include <math.h>   // fabs(x,y)
 
 Meter::Meter( QObject* parent, QString type, QString id )
-    : Component( parent, type, id )
-    ,  eResistor( id.toStdString() )
-    , m_display( this )
+     : Component( parent, type, id )
+     ,  eResistor( id.toStdString() )
+     , m_display( this )
 {
     m_area = QRectF( -24, -24, 48, 32 );
 

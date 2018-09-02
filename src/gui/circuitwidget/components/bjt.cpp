@@ -72,8 +72,11 @@ BJT::BJT( QObject* parent, QString type, QString id )
     m_pin[2]->setLabelColor( QColor( 0, 0, 0 ) );
     m_ePin[2] = m_pin[2];
 }
-BJT::~BJT()
+BJT::~BJT(){}
+
+void BJT::updateStep()
 {
+    update();
 }
 
 void BJT::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )

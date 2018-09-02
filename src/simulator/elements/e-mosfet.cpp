@@ -28,7 +28,8 @@
 eMosfet::eMosfet( std::string id )
        : eResistor( id )
 {
-    m_Pchannel = false;
+    m_Pchannel  = false;
+    m_depletion = false;
     
     m_gateV     = 0;
     m_resist    = 1;
@@ -51,6 +52,7 @@ void eMosfet::initialize()
     
     m_kRDSon = m_RDSon*(10-m_threshold);
     m_Gth = m_threshold-m_threshold/4;
+    //if( m_depletion ) m_Gth = -m_Gth;
     
     if( (m_ePin[0]->isConnected()) 
       & (m_ePin[1]->isConnected())
@@ -87,6 +89,8 @@ void eMosfet::setVChanged()
         Vgs = Vg-Vs;
         Vds = Vd-Vs;
     }
+    if( m_depletion ) Vgs = -Vgs;
+    
     m_gateV = Vgs - m_Gth;
     
     if( m_gateV < 0 ) m_gateV = 0;
@@ -110,9 +114,46 @@ void eMosfet::setVChanged()
     m_ePin[1]->stampCurrent(-current );
 }
 
+bool eMosfet::pChannel()
+{ 
+    return m_Pchannel; 
+}
+
+void eMosfet::setPchannel( bool pc )
+{ 
+    m_Pchannel = pc;
+}
+
+bool eMosfet::depletion()
+{
+    return m_depletion;
+}
+
+void eMosfet::setDepletion( bool dep )
+{
+    m_depletion = dep;
+}
+        
+double eMosfet::RDSon()
+{ 
+    return m_RDSon;
+}
+        
 void eMosfet::setRDSon( double rdson )
 {
     if( rdson < cero_doub ) rdson = cero_doub;
     if( rdson > 10 ) rdson = 10;
     m_RDSon = rdson;
+}
+
+double eMosfet::threshold()
+{ 
+    return m_threshold; 
+}
+
+void eMosfet::setThreshold( double th )
+{ 
+    m_threshold = th; 
+    m_kRDSon = m_RDSon*(10-m_threshold);
+    m_Gth = m_threshold-m_threshold/4;
 }
