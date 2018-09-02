@@ -49,6 +49,7 @@
 #include "ground.h"
 #include "hd44780.h"
 #include "i2cram.h"
+#include "i2ctoparallel.h"
 #include "inbus.h"
 #include "inductor.h"
 #include "keypad.h"
@@ -173,6 +174,7 @@ void ItemLibrary::loadItems()
     addItem( InBus::libraryItem() );
     addItem( Ram8bit::libraryItem() );
     addItem( I2CRam::libraryItem() );
+    addItem( I2CToParallel::libraryItem() );
     // Subcircuits
     addItem( SubCircuit::libraryItem() );
     // Other

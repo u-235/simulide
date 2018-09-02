@@ -63,7 +63,7 @@ void eRam8bit::setVChanged()        // Some Pin Changed State, Manage it
     
     bool WE = eLogicDevice::getInputState(8);
     bool oe = eLogicDevice::outputEnabled() && !WE;
-    qDebug() << WE << oe;
+    //qDebug() << WE << oe;
     
     if( oe != m_oe )
     {
@@ -92,22 +92,22 @@ void eRam8bit::setVChanged()        // Some Pin Changed State, Manage it
             else if( volt < m_inputLowV )  state = false;
             
             m_dataPinState[i] = state;
-            qDebug() << "Bit " << i << state;
+            //qDebug() << "Bit " << i << state;
             if( state ) value += pow( 2, i );
         }
         m_ram[address] = value;
-        qDebug() << "Writting " << address << value;
+        //qDebug() << "Writting " << address << value;
     }
     else                                                         // Read
     {
         int value = m_ram[address];
-        qDebug() << "Reading " << address << value;
+        //qDebug() << "Reading " << address << value;
         for( int i=0; i<8; i++ )
         {
             bool pinState =  value & 1;
             m_output[i]->setOut( pinState );
             m_output[i]->stampOutput();
-            qDebug() << "Bit " << i << pinState;
+            //qDebug() << "Bit " << i << pinState;
             value >>= 1;
         }
         
