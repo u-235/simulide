@@ -77,6 +77,8 @@ public:
       * @param textEdit_
       */
     void setTextEdit(CodeEditor *textEdit_);
+    
+    void setTextToFind( QString text);
 
     /// hides replace widgets from the form
     void hideReplaceWidgets();
