@@ -474,8 +474,14 @@ void EditorWindow::compile()
 void EditorWindow::upload()  { getCodeEditor()->upload(); }
 
 void EditorWindow::findReplaceDialog() 
-{ 
-    findRepDiaWidget->setTextEdit( getCodeEditor() );
+{
+    CodeEditor* ce = getCodeEditor();
+    
+    findRepDiaWidget->setTextEdit( ce );
+    
+    QString text =ce->textCursor().selectedText();
+    if( text != "" ) findRepDiaWidget->setTextToFind( text );
+
     findRepDiaWidget->show(); 
 }
 
