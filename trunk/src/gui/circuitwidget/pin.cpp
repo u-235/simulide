@@ -54,10 +54,15 @@ Pin::Pin( int angle, const QPoint &pos, QString id, int index, Component* parent
     m_label.setFont( sansFont );
     m_label.setText("");
     m_label.setBrush( QColor( 250, 250, 200 ) );
+    
+    Circuit::self()->addPin( this, m_id );
 
     connect( parent, SIGNAL( moved() ), this, SLOT( isMoved() ) );
 }
-Pin::~Pin(){}
+Pin::~Pin()
+{ 
+    Circuit::self()->removePin( m_id );
+}
 
 void Pin::reset()
 {

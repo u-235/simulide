@@ -96,6 +96,7 @@ void Component::mousePressEvent(QGraphicsSceneMouseEvent* event)
         setCursor( Qt::ClosedHandCursor );
         grabMouse();
     }
+    if( event->button() == Qt::RightButton ) qDebug() << "Component::mousePressEvent Right";
 }
 
 void Component::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* event )

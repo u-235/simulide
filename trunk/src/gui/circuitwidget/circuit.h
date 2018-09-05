@@ -92,6 +92,9 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
 
         bool  pasting();
         QPointF deltaMove();
+        
+        void addPin( Pin* pin, QString pinId );
+        void removePin( QString pinId );
 
         const QString getFileName() const { return m_filePath; }
 
@@ -141,6 +144,8 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
 
         QList<Component*> m_compList;   // Component list
         QList<Component*> m_conList;    // Connector list
+        
+        QHash<QString, Pin*> m_pinMap;    // Pin list
 
         QList<QDomDocument*> m_undoStack;
         QList<QDomDocument*> m_redoStack;

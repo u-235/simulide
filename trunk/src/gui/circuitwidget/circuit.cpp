@@ -287,14 +287,7 @@ QString Circuit::getCompId( QString name )
 
     QString compNum = nameSplit.takeFirst();
 
-    int num = 0;
-    for( int i=compNum.length(); i>0; i-- )
-    {
-        bool ok = false;
-        num = compNum.left(i).toInt(&ok);
-        if( ok ) break;
-    }
-    return compId+"-"+QString::number(num);
+    return compId+"-"+compNum;
 }
 
 Pin* Circuit::findPin( int x, int y, QString id )
@@ -328,7 +321,7 @@ void Circuit::loadDomDoc( QDomDocument* doc )
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
     
-    int firstSeqNumber = m_seqNumber+1;
+    //int firstSeqNumber = m_seqNumber+1;
 
     QDomElement root = doc->documentElement();
     QString docType = root.attribute("type");
@@ -351,7 +344,6 @@ void Circuit::loadDomDoc( QDomDocument* doc )
             QString itemId = element.attribute( "id"  );
 
             QString id = objNam.split("-").first()+"-"+newSceneId(); // Create new id
-            idMap[objNam] = id;                              // Map simu id to new id
 
             element.setAttribute( "objectName", id  );
 
@@ -362,34 +354,17 @@ void Circuit::loadDomDoc( QDomDocument* doc )
             {
                 Pin* startpin  = 0l;
                 Pin* endpin    = 0l;
-                QString startpinid = element.attribute( "startpinid" );
-                QString endpinid   = element.attribute( "endpinid" );
+                QString startpinid    = element.attribute( "startpinid" );
+                QString endpinid      = element.attribute( "endpinid" );
                 QString startCompName = getCompId( startpinid );
                 QString endCompName   = getCompId( endpinid );
 
-                QStringList keys = idMap.keys();
-                foreach( QString oldname, keys ) // Find new pin names
-                {
-                    if( startCompName == oldname ) startpinid.replace( oldname, idMap[oldname] );
-                    if( endCompName   == oldname ) endpinid.replace( oldname, idMap[oldname] );
-                }
-                QList<QGraphicsItem*> itemlist = items();
+                startpinid.replace( startCompName, idMap[startCompName] );
+                endpinid.replace( endCompName, idMap[endCompName] );
 
-                foreach( QGraphicsItem* item, itemlist )  // Look for start and end pins of this connector
-                {
-                    Pin* thispin =  qgraphicsitem_cast<Pin* >( item );
-
-                    if( thispin )
-                    {
-                        QString thispinid = thispin->objectName();
-
-                        int thisSeqNumber = thispinid.split("-").at(1).toInt();
-                        if( thisSeqNumber < firstSeqNumber ) continue; // Avoid connecting with "pre-paste" items
-
-                        if     ( thispinid == startpinid ) { startpin = thispin; }
-                        else if( thispinid == endpinid )   { endpin   = thispin; }
-                    }
-                }
+                startpin = m_pinMap[startpinid];
+                endpin   = m_pinMap[endpinid];
+                
                 if( !m_pasting )// When pasting we cannot find pins by pos, they are in this moment in same pos that originals
                 {
                     if( !startpin ) // Pin not found by name... find it by pos
@@ -455,6 +430,8 @@ void Circuit::loadDomDoc( QDomDocument* doc )
             }
             else if( type == "Node")
             {
+                idMap[objNam] = id;                              // Map simu id to new id
+                
                 Node* joint = new Node( this, type, id );
                 loadProperties( element, joint );
                 compList.append( joint );
@@ -464,6 +441,8 @@ void Circuit::loadDomDoc( QDomDocument* doc )
                                          // bcos is created inside another component, for example boards
             else
             {
+                idMap[objNam] = id;                              // Map simu id to new id
+                
                 Component* item = createItem( type, id );
                 if( item )
                 {
@@ -688,6 +667,16 @@ void Circuit::redo()
     loadDomDoc( &m_domDoc );
 
     if( pauseSim ) Simulator::self()->runContinuous();
+}
+
+void Circuit::addPin( Pin* pin, QString pinId )
+{
+    m_pinMap[ pinId ] = pin;
+}
+
+void Circuit::removePin( QString pinId )
+{
+    m_pinMap.remove( pinId );
 }
 
 Component* Circuit::createItem( QString type, QString id )
