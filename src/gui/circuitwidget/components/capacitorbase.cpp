@@ -20,11 +20,18 @@
 #include "capacitorbase.h"
 #include "pin.h"
 
+static const char* CapacitorBase_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Capacitance"),
+    QT_TRANSLATE_NOOP("App::Property","Show_Cap")
+};
+
 
 CapacitorBase::CapacitorBase( QObject* parent, QString type, QString id )
          : Component( parent, type, id )
          , eCapacitor( id.toStdString() )
 {
+    Q_UNUSED( CapacitorBase_properties );
+    
     m_ePin.resize(2);
     m_pin.resize(2);
     

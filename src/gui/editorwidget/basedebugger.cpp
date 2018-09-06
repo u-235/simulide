@@ -22,12 +22,19 @@
 #include "mainwindow.h"
 #include "simulator.h"
 
+static const char* BaseDebugger_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Drive Circuit"),
+    QT_TRANSLATE_NOOP("App::Property","Compiler Path")
+};
+
 bool BaseDebugger::m_loadStatus = false;
 
 BaseDebugger::BaseDebugger( QObject* parent, OutPanelText* outPane, QString filePath ) 
             : QObject( parent )
             , m_compProcess( 0l )
 {
+    Q_UNUSED( BaseDebugger_properties );
+    
     m_outPane = outPane;
     m_appPath   = QCoreApplication::applicationDirPath();
     

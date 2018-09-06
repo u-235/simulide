@@ -27,17 +27,24 @@
 
 int Component::m_error = 0;
 
+static const char* Component_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","id"),
+    QT_TRANSLATE_NOOP("App::Property","Show id"),
+    QT_TRANSLATE_NOOP("App::Property","Unit"),
+    QT_TRANSLATE_NOOP("App::Property","Color")
+};
+
 Component::Component( QObject* parent , QString type, QString id )
          : QObject(parent), QGraphicsItem()
          , multUnits( "TGMk munp" )
 {
+    Q_UNUSED( Component_properties );
     //setCacheMode(QGraphicsItem::DeviceCoordinateCache);
     /*if( ( type != "Connector" )&&( type != "Node" ) )
     {
         LibraryItem* li= ItemLibrary::self()->libraryItem( type );
         if( li ) m_help = li->help();
     }*/
-
     m_value    = 0;
     m_unitMult = 1;
     m_Hflip  = 1;
@@ -96,7 +103,6 @@ void Component::mousePressEvent(QGraphicsSceneMouseEvent* event)
         setCursor( Qt::ClosedHandCursor );
         grabMouse();
     }
-    if( event->button() == Qt::RightButton ) qDebug() << "Component::mousePressEvent Right";
 }
 
 void Component::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* event )

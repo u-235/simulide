@@ -24,6 +24,10 @@
 #include "itemlibrary.h"
 #include "circuitwidget.h"
 
+static const char* Probe_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","PlotterCh")
+};
+
 Component* Probe::construct( QObject* parent, QString type, QString id )
 { return new Probe( parent, type, id ); }
 
@@ -41,6 +45,8 @@ Probe::Probe( QObject* parent, QString type, QString id )
      : Component( parent, type, id )
      , eElement( id.toStdString() )
 {
+    Q_UNUSED( Probe_properties );
+    
     m_area = QRect( -8, -8, 16, 16 );
     m_readPin = 0l;
     m_readConn = 0l;

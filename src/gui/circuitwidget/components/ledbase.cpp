@@ -22,10 +22,17 @@
 #include "simulator.h"
 #include "pin.h"
 
+static const char* LedBase_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","MaxCurrent"),
+    QT_TRANSLATE_NOOP("App::Property","Grounded")
+};
+
 LedBase::LedBase( QObject* parent, QString type, QString id )
        : Component( parent, type, id )
        , eLed( id.toStdString() )
 {
+    Q_UNUSED( LedBase_properties );
+    
     m_overCurrent = false;
     m_grounded = false;
     m_ground   = 0l;

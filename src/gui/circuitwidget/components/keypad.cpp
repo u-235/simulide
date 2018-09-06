@@ -21,6 +21,9 @@
 #include "circuit.h"
 #include "itemlibrary.h"
 
+static const char* KeyPad_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Key Labels")
+};
 
 Component* KeyPad::construct( QObject* parent, QString type, QString id )
 { return new KeyPad( parent, type, id ); }
@@ -39,6 +42,8 @@ KeyPad::KeyPad( QObject* parent, QString type, QString id )
       : Component( parent, type, id )
       , eElement( id.toStdString() )
 {
+    Q_UNUSED( KeyPad_properties );
+    
     m_keyLabels = "123456789*0#";
     m_rows = 4;
     m_cols = 3;

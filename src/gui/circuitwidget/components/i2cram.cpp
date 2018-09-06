@@ -20,6 +20,11 @@
 #include "i2cram.h"
 #include "pin.h"
 
+static const char* I2CRam_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Control Code"),
+    QT_TRANSLATE_NOOP("App::Property","Size bytes")
+};
+
 Component* I2CRam::construct( QObject* parent, QString type, QString id )
 {
     return new I2CRam( parent, type, id );
@@ -39,6 +44,8 @@ I2CRam::I2CRam( QObject* parent, QString type, QString id )
       : LogicComponent( parent, type, id )
       , eI2C( id.toStdString() )
 {
+    Q_UNUSED( I2CRam_properties );
+    
     m_width  = 4;
     m_height = 4;
     

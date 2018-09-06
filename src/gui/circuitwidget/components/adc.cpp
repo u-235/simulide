@@ -20,6 +20,10 @@
 #include "connector.h"
 #include "adc.h"
 
+static const char* ADC_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Vref")
+};
+
 Component* ADC::construct( QObject* parent, QString type, QString id )
 {
         return new ADC( parent, type, id );
@@ -38,7 +42,9 @@ LibraryItem* ADC::libraryItem()
 ADC::ADC( QObject* parent, QString type, QString id )
        : LogicComponent( parent, type, id ),
          eInBus( id.toStdString() )
-{    
+{
+    Q_UNUSED( ADC_properties );
+    
     m_width  = 4;
     m_height = 9;
 

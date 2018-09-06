@@ -24,6 +24,12 @@
 #include "e-source.h"
 #include "pin.h"
 
+static const char* Mosfet_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","RDSon"),
+    QT_TRANSLATE_NOOP("App::Property","P Channel"),
+    QT_TRANSLATE_NOOP("App::Property","Depletion")
+};
+
 Component* Mosfet::construct( QObject* parent, QString type, QString id )
 { return new Mosfet( parent, type, id ); }
 
@@ -41,6 +47,8 @@ Mosfet::Mosfet( QObject* parent, QString type, QString id )
       : Component( parent, type, id )
       , eMosfet( id.toStdString() )
 {
+    Q_UNUSED( Mosfet_properties );
+    
     m_area =  QRectF( -12, -14, 28, 28 );
     
     QString newId = id;

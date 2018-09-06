@@ -34,12 +34,18 @@
 
 //#include "simuapi_apppath.h"
 
+static const char* McuComponent_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Program")
+};
+
 McuComponent* McuComponent::m_pSelf = 0l;
 bool McuComponent::m_canCreate = true;
 
 McuComponent::McuComponent( QObject* parent, QString type, QString id )
             : Package( parent, type, id )
-{    
+{
+    Q_UNUSED( McuComponent_properties );
+    
     qDebug() << "        Initializing"<<m_id<<"...";
     
     m_canCreate  = false;

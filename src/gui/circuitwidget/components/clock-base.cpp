@@ -21,10 +21,15 @@
 #include "pin.h"
 #include "simulator.h"
 
+static const char* ClockBase_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Freq")
+};
 
 ClockBase::ClockBase( QObject* parent, QString type, QString id )
          : LogicInput( parent, type, id )
 {
+    Q_UNUSED( ClockBase_properties );
+    
     m_area = QRect( -14, -8, 22, 16 );
     
     m_isRunning = false;
