@@ -23,6 +23,11 @@
 #include "hd44780.h"
 #include "utils.h"
 
+static const char* Hd44780_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Cols"),
+    QT_TRANSLATE_NOOP("App::Property","Rows")
+};
+
 Component* Hd44780::construct( QObject* parent, QString type, QString id )
 {
     return new Hd44780( parent, type, id );
@@ -43,6 +48,8 @@ Hd44780::Hd44780( QObject* parent, QString type, QString id )
        , eElement( (id+"-eElement").toStdString() )
        , m_fontImg(":font2.png")
 {
+    Q_UNUSED( Hd44780_properties );
+    
     m_rows = 2;
     m_cols = 16;
     

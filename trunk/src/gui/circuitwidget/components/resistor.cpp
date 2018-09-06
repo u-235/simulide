@@ -21,6 +21,10 @@
 #include "connector.h"
 #include "itemlibrary.h"
 
+static const char* Resistor_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Resistance"),
+    QT_TRANSLATE_NOOP("App::Property","Show res")
+};
 
 Component* Resistor::construct( QObject* parent, QString type, QString id )
 { return new Resistor( parent, type, id ); }
@@ -36,9 +40,11 @@ LibraryItem* Resistor::libraryItem()
 }
 
 Resistor::Resistor( QObject* parent, QString type, QString id )
-    : Component( parent, type, id ),
-      eResistor( id.toStdString() )
+        : Component( parent, type, id )
+        , eResistor( id.toStdString() )
 {
+    Q_UNUSED( Resistor_properties );
+    
     QString pinId = m_id;
     pinId.append(QString("-lPin"));
     QPoint pinPos = QPoint(-8-8,0);

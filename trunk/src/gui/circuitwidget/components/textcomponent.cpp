@@ -19,6 +19,12 @@
 
 #include "textcomponent.h"
 
+static const char* TextComponent_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Text"),
+    QT_TRANSLATE_NOOP("App::Property","Fixed Width"),
+    QT_TRANSLATE_NOOP("App::Property","Margin")
+};
+
 Component* TextComponent::construct( QObject* parent, QString type, QString id )
 {
     return new TextComponent( parent, type, id );
@@ -37,6 +43,8 @@ LibraryItem* TextComponent::libraryItem()
 TextComponent::TextComponent( QObject* parent, QString type, QString id )
              : Component( parent, type, id )
 {
+    Q_UNUSED( TextComponent_properties );
+    
     m_color = QColor( 255, 255, 220 );
 
     QFont sansFont( "Helvetica [Cronyx]", 10 );

@@ -4,12 +4,12 @@
 <context>
     <name>ADC</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/adc.cpp" line="31"/>
+        <location filename="../../src/gui/circuitwidget/components/adc.cpp" line="35"/>
         <source>ADC</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/adc.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/adc.cpp" line="36"/>
         <source>Logic</source>
         <translation>Logica</translation>
     </message>
@@ -17,22 +17,22 @@
 <context>
     <name>AVRComponent</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="28"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="30"/>
         <source>AVR</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="29"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="31"/>
         <source>Micro</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="54"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="53"/>
         <source>Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="55"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="54"/>
         <source>Only 1 Mcu allowed
  to be in the Circuit.</source>
         <translation>Solo puede haber
@@ -42,18 +42,18 @@
 <context>
     <name>AVRComponentPin</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponentpin.cpp" line="47"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponentpin.cpp" line="48"/>
         <source>Register descriptor file for this AVR processor %1 is corrupted - cannot attach pin</source>
         <translation>Archivo de registros del procesador %1 no valido - No se puede configurar pin</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponentpin.cpp" line="69"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponentpin.cpp" line="70"/>
         <source>Register descriptor file for this AVR processor %1 is corrupted - cannot attach pin 
 </source>
         <translation>Archivo de registros del procesador %1 no valido - No se puede configurar pin</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponentpin.cpp" line="135"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponentpin.cpp" line="136"/>
         <source>Pin is not initialized properly:</source>
         <translation>Inicializacion incorrecta del Pin:</translation>
     </message>
@@ -85,25 +85,475 @@
     </message>
 </context>
 <context>
+    <name>App::Property</name>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="31"/>
+        <source>id</source>
+        <translation>id</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="32"/>
+        <source>Show id</source>
+        <translation>Mostrar id</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="33"/>
+        <source>Unit</source>
+        <translation>Unidades</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="34"/>
+        <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="26"/>
+        <source>Color</source>
+        <translation>Color</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="28"/>
+        <location filename="../../src/gui/circuitwidget/components/servo.cpp" line="24"/>
+        <source>Speed</source>
+        <translation>Velocidad</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="29"/>
+        <source>ReactStep</source>
+        <translation>Paso React.</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="30"/>
+        <source>NoLinStep</source>
+        <translation>Paso No Lin.</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="31"/>
+        <source>NoLinAcc</source>
+        <translation>Precision No Lin.</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="32"/>
+        <source>Draw Grid</source>
+        <translation>Mostrar Rejilla</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="33"/>
+        <source>Show ScrollBars</source>
+        <translation>Mostrar ScrollBars</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="23"/>
+        <source>H size</source>
+        <translation>Tamaño Horiz.</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="24"/>
+        <source>V size</source>
+        <translation>Tamaño Vert.</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="25"/>
+        <source>Border</source>
+        <translation>Borde</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="27"/>
+        <source>Opacity</source>
+        <translation>Opacidad</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="28"/>
+        <source>Z Value</source>
+        <translation>Valor Z</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/adc.cpp" line="24"/>
+        <source>Vref</source>
+        <translation>Vref</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="38"/>
+        <source>Num Bits</source>
+        <translation>Mun Bits</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/audio_out.cpp" line="27"/>
+        <source>Impedance</source>
+        <translation>Impedancia</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/bincounter.cpp" line="24"/>
+        <source>Max Value</source>
+        <translation>Valor Max.</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/bjt.cpp" line="26"/>
+        <source>Gain</source>
+        <translation>Ganancia</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/bjt.cpp" line="27"/>
+        <source>PNP</source>
+        <translation>PNP</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/capacitorbase.cpp" line="24"/>
+        <source>Capacitance</source>
+        <translation>Capacidad</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/capacitorbase.cpp" line="25"/>
+        <source>Show_Cap</source>
+        <translation>Mostrar Cap.</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/clock-base.cpp" line="25"/>
+        <source>Freq</source>
+        <translation>Freq.</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/currsource.cpp" line="26"/>
+        <source>Current</source>
+        <translation>Corriente</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/currsource.cpp" line="27"/>
+        <source>Show Amp</source>
+        <translation>Mostrar Amp.</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/diode.cpp" line="25"/>
+        <source>Threshold</source>
+        <translation>Umbral</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/diode.cpp" line="26"/>
+        <source>Zener Volt</source>
+        <translation>Volt. Zener</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/hd44780.cpp" line="27"/>
+        <source>Cols</source>
+        <translation>Columnas</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/hd44780.cpp" line="28"/>
+        <source>Rows</source>
+        <translation>Filas</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="24"/>
+        <source>Control Code</source>
+        <translation>Codigo Control</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="25"/>
+        <source>Size bytes</source>
+        <translation>Tamaño Bytes</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/inductor.cpp" line="27"/>
+        <source>Inductance</source>
+        <translation>Inductancia</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/inductor.cpp" line="28"/>
+        <source>Show Ind</source>
+        <translation>Mostrar Inductancia</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/keypad.cpp" line="25"/>
+        <source>Key Labels</source>
+        <translation>Texto en Teclas</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/ks0108.cpp" line="26"/>
+        <source>CS Active Low</source>
+        <translation>DS Activo Bajo</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/ledbase.cpp" line="26"/>
+        <source>MaxCurrent</source>
+        <translation>Corriente Max.</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/ledbase.cpp" line="27"/>
+        <source>Grounded</source>
+        <translation>A Tierra</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="25"/>
+        <source>Input High V</source>
+        <translation>Volt. Alto Entrada</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="26"/>
+        <source>Input Low V</source>
+        <translation>Volt. Bajo Entrada</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="27"/>
+        <source>Input Imped</source>
+        <translation>Impedancia Entrada</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="28"/>
+        <source>Out High V</source>
+        <translation>Volt. Alto Salida</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="29"/>
+        <source>Out Low V</source>
+        <translation>Volt. Bajo Salida</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="30"/>
+        <source>Out Imped</source>
+        <translation>Impedancia Salida</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="31"/>
+        <source>Inverted</source>
+        <translation>Invertido</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="32"/>
+        <source>Tristate</source>
+        <translation>Tri-Estado</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="33"/>
+        <source>Clock Inverted</source>
+        <translation>Reloj Invertido</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="34"/>
+        <source>Reset Inverted</source>
+        <translation>Reset Invertido</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="35"/>
+        <source>Invert Inputs</source>
+        <translation>Invertir Entradas</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="36"/>
+        <source>S R Inverted</source>
+        <translation>R S Invertidos</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="37"/>
+        <source>Num Inputs</source>
+        <translation>Num. Entradas</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="39"/>
+        <source>Channels</source>
+        <translation>Canales</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logicinput.cpp" line="26"/>
+        <source>Voltage</source>
+        <translation>Voltaje</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/logicinput.cpp" line="27"/>
+        <source>Show Volt</source>
+        <translation>Mostrar Voltage</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/mosfet.cpp" line="28"/>
+        <source>RDSon</source>
+        <translation>RDSon</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/mosfet.cpp" line="29"/>
+        <source>P Channel</source>
+        <translation>Canal P</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/mosfet.cpp" line="30"/>
+        <source>Depletion</source>
+        <translation>Deplexion</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/op_amp.cpp" line="29"/>
+        <source>Power Pins</source>
+        <translation>Pines de Alimentacion</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/oscope.cpp" line="28"/>
+        <source>Filter</source>
+        <translation>Filtro</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/potentiometer.cpp" line="26"/>
+        <source>Value Ohm</source>
+        <translation>Valor Ohmios</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="28"/>
+        <source>PlotterCh</source>
+        <translation>Canal Plotter</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/relay_base.cpp" line="25"/>
+        <source>Rcoil</source>
+        <translation>Res. Bobina</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/relay_base.cpp" line="26"/>
+        <source>Itrig</source>
+        <translation>Int. Disparo</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/relay_base.cpp" line="27"/>
+        <source>Poles</source>
+        <translation>Polos</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/relay_base.cpp" line="28"/>
+        <source>DT</source>
+        <translation>DT</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/relay_base.cpp" line="29"/>
+        <source>Norm Close</source>
+        <translation>Norm. Cerrado</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/resistor.cpp" line="25"/>
+        <source>Resistance</source>
+        <translation>Resistencia</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/resistor.cpp" line="26"/>
+        <source>Show res</source>
+        <translation>Mostrar Resistencia</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/sevensegment.cpp" line="27"/>
+        <source>NumDisplays</source>
+        <translation>Num. Pantallas</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/sevensegment.cpp" line="28"/>
+        <source>CommonCathode</source>
+        <translation>Catodo comun</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/stepper.cpp" line="26"/>
+        <source>Steps</source>
+        <translation>Pasos</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="23"/>
+        <source>Text</source>
+        <translation>Texto</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="24"/>
+        <source>Fixed Width</source>
+        <translation>Ancho Fijo</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="25"/>
+        <source>Margin</source>
+        <translation>Margen</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/volt_reg.cpp" line="25"/>
+        <source>Volts</source>
+        <translation>Voltaje</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="25"/>
+        <source>Volt Base</source>
+        <translation>Volt. Base</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="26"/>
+        <source>Duty Square</source>
+        <translation>Ancho de Pulso Onda Cuadrada</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="27"/>
+        <source>Quality</source>
+        <translation>Calidad</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="28"/>
+        <source>Wave Type</source>
+        <translation>Tipo de Onda</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/avrasmdebugger.cpp" line="27"/>
+        <source>Avra Inc Path</source>
+        <translation>Ruta Avra Includes</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="26"/>
+        <source>Drive Circuit</source>
+        <translation>Controlar Circuito</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="27"/>
+        <source>Compiler Path</source>
+        <translation>Ruta Compilador</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="39"/>
+        <source>Font Size</source>
+        <translation>Tamaño Texto</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="40"/>
+        <source>Tab Size</source>
+        <translation>Tamaño Tab</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="41"/>
+        <source>Spaces Tabs</source>
+        <translation>Tabs de Espacios</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="42"/>
+        <source>Show Spaces</source>
+        <translation>Mostar Espacios</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/inodebugger.cpp" line="26"/>
+        <source>Board</source>
+        <translation>Placa</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/inodebugger.cpp" line="27"/>
+        <source>Custom Board</source>
+        <translation>Placa &quot;Custom&quot;</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="38"/>
+        <source>Program</source>
+        <translation>Programa</translation>
+    </message>
+</context>
+<context>
     <name>Arduino</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="29"/>
-        <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="30"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="33"/>
         <source>Arduino</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="30"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="31"/>
         <source>Micro</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="54"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="52"/>
         <source>Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="55"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="53"/>
         <source>Only 1 Mcu allowed
  to be in the Circuit.</source>
         <translation>Solo puede haber
@@ -113,12 +563,12 @@
 <context>
     <name>AudioOut</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/audio_out.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/audio_out.cpp" line="36"/>
         <source>Audio Out</source>
         <translation>Salida Audio</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/audio_out.cpp" line="33"/>
+        <location filename="../../src/gui/circuitwidget/components/audio_out.cpp" line="37"/>
         <source>Outputs</source>
         <translation>Salidas</translation>
     </message>
@@ -143,66 +593,82 @@
 </translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="119"/>
-        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="140"/>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="120"/>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="146"/>
         <source>Failed to load firmware: </source>
         <translation>No se pudo cargar el fimware: </translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="120"/>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="121"/>
         <source>File %1 is not in valid ELF format
 </source>
         <translation>El archivo %1 ino esta en formato ELF valido
 </translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="126"/>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="158"/>
+        <source>Unkown Error:</source>
+        <translation>Error no Especificado:</translation>
+    </message>
+    <message>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="159"/>
+        <source>Could not Create AVR Processor: &quot;%1&quot;</source>
+        <translation>No se pudo crear AVR Processor para: &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="179"/>
+        <source>Wrong firmware!!</source>
+        <translation>Firmware No Valido!!</translation>
+    </message>
+    <message>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="83"/>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="127"/>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="178"/>
         <source>Error:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="126"/>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="128"/>
         <source>%1 should be .hex or .elf
 </source>
         <translation>%1 deberia ser .hex o .elf
 </translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="134"/>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="137"/>
         <source>Warning on load firmware: </source>
         <translation>Aviso Cragando Firmware:</translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="135"/>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="138"/>
         <source>Incompatible firmware: compiled for %1 and your processor is %2
 </source>
         <translation>Firmware Incompatible: compilado para%1 y su procesador es %2
 </translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="141"/>
+        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="147"/>
         <source>The processor model is not specified.
 </source>
         <translation>Modelo de procesador no especificado.
 </translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/avrprocessor.cpp" line="153"/>
         <source>Simulation of this AVR processor model is not supported: %1
 </source>
-        <translation>Este modelo de procesador no esta soportado: %1
+        <translation type="vanished">Este modelo de procesador no esta soportado: %1
 </translation>
     </message>
 </context>
 <context>
     <name>BJT</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/bjt.cpp" line="34"/>
+        <location filename="../../src/gui/circuitwidget/components/bjt.cpp" line="39"/>
         <source>BJT</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/bjt.cpp" line="35"/>
+        <location filename="../../src/gui/circuitwidget/components/bjt.cpp" line="40"/>
         <source>Active</source>
         <translation>Activos</translation>
     </message>
@@ -210,42 +676,42 @@
 <context>
     <name>BaseDebugger</name>
     <message>
-        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="62"/>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="74"/>
         <source>Debugger already running</source>
         <translation>Depurador iniciado</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="62"/>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="74"/>
         <source>Stop active session</source>
         <translation>Detenga la sesion primero</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="66"/>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="78"/>
         <source>Uploading: </source>
         <translation>Cargando: </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="73"/>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="85"/>
         <source>FirmWare Uploaded to </source>
         <translation>FirmWare Cargado en </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="125"/>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="137"/>
         <source>Select Compiler toolchain directory</source>
         <translation>Seleccione directorio del Compilador</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="134"/>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="146"/>
         <source>Using Compiler Path: </source>
         <translation>Usando Ruta de Compilador: </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="146"/>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="172"/>
         <source>: ToolChain not found</source>
         <translation>: Compilador no encontrado</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="147"/>
+        <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="173"/>
         <source>Right-Click on Document Tab to set Path</source>
         <translation>Click-Derecho en pestaña de Documento para elegir Ruta</translation>
     </message>
@@ -266,12 +732,12 @@
 <context>
     <name>BinCounter</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/bincounter.cpp" line="31"/>
+        <location filename="../../src/gui/circuitwidget/components/bincounter.cpp" line="35"/>
         <source>Counter</source>
         <translation>Contador</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/bincounter.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/bincounter.cpp" line="36"/>
         <source>Logic</source>
         <translation>Logica</translation>
     </message>
@@ -305,39 +771,39 @@
 <context>
     <name>Circuit</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="207"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="254"/>
         <source>Load Circuit</source>
         <translation>Abrir Circuito</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="208"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="255"/>
         <source>Circuits (*.simu);;All files (*.*)</source>
         <translation>Circuitos (*.simu);;Todos (*.*)</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="224"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="271"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>No se pudo leer el archivo %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="232"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="279"/>
         <source>Cannot set file %1
 to DomDocument</source>
         <translation>No se pudo convertir el archivo %1
 a DomDocument</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="513"/>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="918"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="539"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="963"/>
         <source>Bill Of Materials</source>
         <translation>Lista de Materiales</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="492"/>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="534"/>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="927"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="518"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="560"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="972"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>No se pudo escribir el archivo %1:
@@ -347,72 +813,72 @@ a DomDocument</translation>
 <context>
     <name>CircuitView</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="174"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="184"/>
         <source>Paste</source>
         <translation>Pegar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="177"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="187"/>
         <source>Undo</source>
         <translation>Deshacer</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="180"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="190"/>
         <source>Redo</source>
         <translation>Rehacer</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="184"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="194"/>
         <source>Open Circuit</source>
         <translation>Abrir Circuito</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="187"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="197"/>
         <source>New Circuit</source>
         <translation>Nuevo Circuito</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="190"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="200"/>
         <source>Save Circuit</source>
         <translation>Guardar circuito</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="193"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="203"/>
         <source>Save Circuit As...</source>
         <translation>Guardar Circuito Como...</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="197"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="207"/>
         <source>Import Circuit</source>
         <translation>Importar Circuito</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="200"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="210"/>
         <source>Save Circuit as Image</source>
         <translation>Grabar Circuito como Imagen</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="203"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="213"/>
         <source>Create SubCircuit</source>
         <translation>Crear Subcircuito</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="206"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="216"/>
         <source>Bill of Materials</source>
         <translation>Lista de Materiales</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="226"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="236"/>
         <source>Save as Image</source>
         <translation>Grabar Como Imagen</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="238"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="248"/>
         <source>Circuit Name</source>
         <translation>Nombre del Circuito</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="239"/>
+        <location filename="../../src/gui/circuitwidget/circuitview.cpp" line="249"/>
         <source>Generated by SimulIDE</source>
         <translation>Generado por SimulIDE</translation>
     </message>
@@ -506,6 +972,21 @@ Quiere guardar los cambios?</translation>
         <source>Save Circuit</source>
         <translation>Guardar circuito</translation>
     </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="232"/>
+        <source>Real Speed: Debugger</source>
+        <translation>Velocidad Real: Depurador</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="243"/>
+        <source>Circuit ERROR!!!</source>
+        <translation>ERROR de Circuito!!!</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="245"/>
+        <source>Real Speed: </source>
+        <translation>Velocidad Real:</translation>
+    </message>
 </context>
 <context>
     <name>Clock</name>
@@ -523,72 +1004,81 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>CodeEditor</name>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="100"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="115"/>
         <source> File: </source>
         <translation> Archivo: </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="145"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="160"/>
         <source>File recognized as: </source>
         <translation>Archivo reconocido como: </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="237"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="260"/>
         <source>File type not supported</source>
         <translation>Tipo de archivo no soportado</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="245"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="268"/>
         <source>     SUCCESS!!! Compilation Ok</source>
         <translation>     SUCCESS!!! Compilacion Correcta</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="251"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="274"/>
         <source>     ERROR!!! Compilation Faliled</source>
         <translation>     ERROR!!! Compilacion Fallida</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="266"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="289"/>
         <source>Uploading: </source>
         <translation>Cargando: </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="366"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="353"/>
+        <source>
+Error:  Mcu Deleted while Debugging!!
+</source>
+        <translation>
+Error:  Mcu Borrado mientras se Depuraba!!
+</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="419"/>
         <source>Starting Debbuger...</source>
         <translation>Iniciando Depurador...</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="372"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="425"/>
         <source>Error: No Mcu in Simulator... </source>
         <translation>Error: No hay Mcu en el simulador... </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="377"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="430"/>
         <source>Error: No Debugger Suited for this File... </source>
         <translation>Error: No hay deprador para este tipo de archivo... </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="382"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="435"/>
         <source>Error: No File... </source>
         <translation>Error: No hay Archivo... </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="390"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="443"/>
         <source>Error Compiling... </source>
         <translation>Error Compilando... </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="403"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="456"/>
         <source>Error Loading Firmware... </source>
         <translation>Error Cargando Firmware... </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="411"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="472"/>
         <source>Debbuger Started </source>
         <translation>Depurador Iniciado </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="428"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="497"/>
         <source>Debbuger Stopped </source>
         <translation>Depurador Detenido </translation>
     </message>
@@ -612,42 +1102,42 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>Component</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="163"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="172"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="166"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="175"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="169"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="178"/>
         <source>Properties</source>
         <translation>Propiedades</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="173"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="182"/>
         <source>Rotate CW</source>
         <translation>Rotar Derecha</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="176"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="185"/>
         <source>Rotate CCW</source>
         <translation>Rotar Izquierda</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="179"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="188"/>
         <source>Rotate 180</source>
         <translation>Rotar 180</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="182"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="191"/>
         <source>Horizontal Flip</source>
         <translation>Espejo Horizontal</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="185"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="194"/>
         <source>Vertical Flip</source>
         <translation>Espejo Vertical</translation>
     </message>
@@ -695,12 +1185,12 @@ a DomDocument</translation>
 <context>
     <name>CurrSource</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/currsource.cpp" line="34"/>
+        <location filename="../../src/gui/circuitwidget/components/currsource.cpp" line="38"/>
         <source>Current Source</source>
         <translation>Fuente de Corriente</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/currsource.cpp" line="35"/>
+        <location filename="../../src/gui/circuitwidget/components/currsource.cpp" line="39"/>
         <source>Sources</source>
         <translation>Fuentes</translation>
     </message>
@@ -747,12 +1237,12 @@ a DomDocument</translation>
 <context>
     <name>Diode</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/diode.cpp" line="30"/>
+        <location filename="../../src/gui/circuitwidget/components/diode.cpp" line="35"/>
         <source>Diode</source>
         <translation>Diodo</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/diode.cpp" line="31"/>
+        <location filename="../../src/gui/circuitwidget/components/diode.cpp" line="36"/>
         <source>Active</source>
         <translation>Activos</translation>
     </message>
@@ -760,24 +1250,29 @@ a DomDocument</translation>
 <context>
     <name>EditorWindow</name>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="97"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="95"/>
         <source>Load File</source>
         <translation>Abrir Archivo</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="97"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="95"/>
         <source>All files (*)</source>
         <translation>Todos (*)</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="148"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="132"/>
+        <source>Save Document As</source>
+        <translation>Guardar Documento Como</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="146"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>No se pudo escribir el archivo %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="174"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="172"/>
         <source>
 The Document has been modified.
 Do you want to save your changes?
@@ -787,203 +1282,207 @@ El Documento ha sido modificado.
 Quiere guardar los cambios?</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="233"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="235"/>
         <source>set Compiler Path</source>
         <translation>Seleccionar Ruta del Compilador</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="284"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="286"/>
         <source>&amp;New	Ctrl+N</source>
         <translation>&amp;Nuevo	Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="285"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="287"/>
         <source>Create a new file</source>
         <translation>Crear nuevo documento</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="288"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="290"/>
         <source>&amp;Open...	Ctrl+O</source>
         <translation>Abrir...	Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="289"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="291"/>
         <source>Open an existing file</source>
         <translation>Abrir un Archivo existente</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="292"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="294"/>
         <source>&amp;Save	Ctrl+S</source>
         <translation>Guardar	Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="293"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="295"/>
         <source>Save the document to disk</source>
         <translation>Guardar el Documento a disco</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="297"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="299"/>
         <source>Save &amp;As...	Ctrl+Shift+S</source>
         <translation>Guardar Como...	Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="298"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="300"/>
         <source>Save the document under a new name</source>
         <translation>Guardar el documento con otro nombre</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="302"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="304"/>
         <source>E&amp;xit</source>
         <translation>Salir</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="303"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="305"/>
         <source>Exit the application</source>
         <translation>Salir de la aplicacion</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="306"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="308"/>
         <source>Cu&amp;t	Ctrl+X</source>
         <translation>Cortar	Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="307"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="309"/>
         <source>Cut the current selection&apos;s contents to the clipboard</source>
         <translation>Cortar la seleccion actual al portapapeles</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="311"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="313"/>
         <source>&amp;Copy	Ctrl+C</source>
         <translation>Copiar	Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="312"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="314"/>
         <source>Copy the current selection&apos;s contents to the clipboard</source>
         <translation>Copiarr la seleccion actual al portapapeles</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="316"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="318"/>
         <source>&amp;Paste	Ctrl+V</source>
         <translation>Pegar	Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="317"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="319"/>
         <source>Paste the clipboard&apos;s contents into the current selection</source>
         <translation>Pegar el contenido del portapapeles sobre la seleccion actual</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="321"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="323"/>
         <source>Undo	Ctrl+Z</source>
         <translation>Deshacer	Ctrl+Z</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="322"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="324"/>
         <source>Undo the last action</source>
         <translation>Deshacer la ultima accion</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="326"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="328"/>
         <source>Redo	Ctrl+Shift+Z</source>
         <translation>Rehacer	Ctrl+Shift+Z</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="327"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="329"/>
         <source>Redo the last action</source>
         <translation>Rehacer la ultima accion</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="331"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="333"/>
         <source>Run To Breakpoint</source>
         <translation>Ir hasta Breakpoint</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="332"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="334"/>
         <source>Run to next breakpoint</source>
         <translation>Ejecutar hasta siguiente punto de corte</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="336"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="338"/>
         <source>Step</source>
         <translation>Paso</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="337"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="339"/>
         <source>Step debugger</source>
         <translation>Avanzar un paso</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="341"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="343"/>
         <source>StepOver</source>
         <translation>Saltar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="342"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="344"/>
         <source>Step Over</source>
         <translation>Saltar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="346"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="348"/>
         <source>Pause</source>
         <translation>Pausar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="347"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="349"/>
         <source>Pause debugger</source>
         <translation>Pausar depurador</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="351"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="353"/>
         <source>Reset</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="352"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="354"/>
         <source>Reset debugger</source>
         <translation>Resetear depurador</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="356"/>
-        <source>Stop</source>
-        <translation>Terminar</translation>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="358"/>
+        <source>Stop Debugger</source>
+        <translation>Detener Depurador</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="357"/>
+        <source>Stop</source>
+        <translation type="vanished">Terminar</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="359"/>
         <source>Stop debugger</source>
         <translation>Terminar sesion de depuracion</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="361"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="363"/>
         <source>Compile</source>
         <translation>Compilar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="362"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="364"/>
         <source>Compile Source</source>
         <translation>Compilar el archivo actual</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="366"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="368"/>
         <source>UpLoad</source>
         <translation>Cargar firmware al Mcu</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="367"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="369"/>
         <source>Load Firmware</source>
         <translation>Cargar firmware al Mcu</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="382"/>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="383"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="384"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="385"/>
         <source>Find Replace</source>
         <translation>Buscar Reemplazar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="387"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="389"/>
         <source>Debug</source>
         <translation>Depurar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="388"/>
+        <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="390"/>
         <source>Start Debugger</source>
         <translation>Iniciar depurador</translation>
     </message>
@@ -1017,7 +1516,12 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>FileWidget</name>
     <message>
-        <location filename="../../src/gui/filebrowser/filewidget.cpp" line="178"/>
+        <location filename="../../src/gui/filebrowser/filewidget.cpp" line="43"/>
+        <source>cd Up</source>
+        <translation>Subir</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/filebrowser/filewidget.cpp" line="180"/>
         <source>Remove Bookmark</source>
         <translation>Eliminar Marcador</translation>
     </message>
@@ -1033,12 +1537,12 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>FindReplaceForm</name>
     <message>
-        <location filename="../../src/gui/editorwidget/findreplacedialog/findreplaceform.cpp" line="180"/>
+        <location filename="../../src/gui/editorwidget/findreplacedialog/findreplaceform.cpp" line="179"/>
         <source>no match found</source>
         <translation>No encontrado</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/findreplacedialog/findreplaceform.cpp" line="203"/>
+        <location filename="../../src/gui/editorwidget/findreplacedialog/findreplaceform.cpp" line="205"/>
         <source>Replaced %1 occurrence(s)</source>
         <translation>Reeplazadas %1 coincidencia(s)</translation>
     </message>
@@ -1173,12 +1677,12 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>Hd44780</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/hd44780.cpp" line="34"/>
+        <location filename="../../src/gui/circuitwidget/components/hd44780.cpp" line="39"/>
         <source>Hd44780</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/hd44780.cpp" line="35"/>
+        <location filename="../../src/gui/circuitwidget/components/hd44780.cpp" line="40"/>
         <source>Outputs</source>
         <translation>Salidas</translation>
     </message>
@@ -1186,12 +1690,25 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>I2CRam</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="31"/>
+        <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="36"/>
         <source>I2C Ram</source>
         <translation>Ram I2C</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="37"/>
+        <source>Logic</source>
+        <translation>Logica</translation>
+    </message>
+</context>
+<context>
+    <name>I2CToParallel</name>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/i2ctoparallel.cpp" line="31"/>
+        <source>I2C to Parallel</source>
+        <translation>I2C a Paralelo</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/i2ctoparallel.cpp" line="32"/>
         <source>Logic</source>
         <translation>Logica</translation>
     </message>
@@ -1212,12 +1729,12 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>Inductor</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/inductor.cpp" line="33"/>
+        <location filename="../../src/gui/circuitwidget/components/inductor.cpp" line="38"/>
         <source>Inductor</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/inductor.cpp" line="34"/>
+        <location filename="../../src/gui/circuitwidget/components/inductor.cpp" line="39"/>
         <source>Passive</source>
         <translation>Pasivos</translation>
     </message>
@@ -1225,7 +1742,7 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>InoDebugger</name>
     <message>
-        <location filename="../../src/gui/editorwidget/inodebugger.cpp" line="95"/>
+        <location filename="../../src/gui/editorwidget/inodebugger.cpp" line="90"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>No se pudo escribir el archivo %1:
@@ -1235,12 +1752,12 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>KeyPad</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/keypad.cpp" line="31"/>
+        <location filename="../../src/gui/circuitwidget/components/keypad.cpp" line="34"/>
         <source>KeyPad</source>
         <translation>Teclado</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/keypad.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/keypad.cpp" line="35"/>
         <source>Switches</source>
         <translation>Interruptores</translation>
     </message>
@@ -1248,12 +1765,12 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>Ks0108</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/ks0108.cpp" line="34"/>
+        <location filename="../../src/gui/circuitwidget/components/ks0108.cpp" line="38"/>
         <source>Ks0108</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/ks0108.cpp" line="35"/>
+        <location filename="../../src/gui/circuitwidget/components/ks0108.cpp" line="39"/>
         <source>Outputs</source>
         <translation>Salidas</translation>
     </message>
@@ -1326,12 +1843,12 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>LineNumberArea</name>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="783"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="852"/>
         <source>Add BreakPoint</source>
         <translation>Añadir Punto Ruptura</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="786"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="855"/>
         <source>Remove BreakPoint</source>
         <translation>Eliminar Punto Ruptura</translation>
     </message>
@@ -1339,12 +1856,12 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>LogicInput</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/logicinput.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/logicinput.cpp" line="37"/>
         <source>Fixed Volt.</source>
         <translation>Voltage Fijo.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/logicinput.cpp" line="33"/>
+        <location filename="../../src/gui/circuitwidget/components/logicinput.cpp" line="38"/>
         <source>Sources</source>
         <translation>Fuentes</translation>
     </message>
@@ -1352,37 +1869,37 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="95"/>
+        <location filename="../../src/mainwindow.cpp" line="99"/>
         <source>About Application</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="96"/>
+        <location filename="../../src/mainwindow.cpp" line="100"/>
         <source>Circuit simulationand IDE for mcu development</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="122"/>
+        <location filename="../../src/mainwindow.cpp" line="126"/>
         <source>Components</source>
         <translation>Componentes</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="130"/>
+        <location filename="../../src/mainwindow.cpp" line="134"/>
         <source>RamTable</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="134"/>
+        <location filename="../../src/mainwindow.cpp" line="138"/>
         <source>Properties</source>
         <translation>Propiedades</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="138"/>
+        <location filename="../../src/mainwindow.cpp" line="142"/>
         <source>File explorer</source>
         <translation>Explorador de Archivos</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="245"/>
+        <location filename="../../src/mainwindow.cpp" line="249"/>
         <source> Qt5SerialPort is not installed in your system
 
     Mcu SerialPort will not work
@@ -1395,7 +1912,7 @@ Quiere guardar los cambios?</translation>
     Para tener Mcu Serial Port funcionando</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="247"/>
+        <location filename="../../src/mainwindow.cpp" line="251"/>
         <source>Plugin Error:</source>
         <translation>Error en Plugin:</translation>
     </message>
@@ -1403,95 +1920,83 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>McuComponent</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="78"/>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="92"/>
-        <source>Error</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="79"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="86"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>No se pudo leer el archivo %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="93"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="94"/>
         <source>Cannot set file %1
 to DomDocument</source>
         <translation>No se pudo convertir el archivo %1
 a DomDocument</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="201"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="207"/>
         <source>Load firmware</source>
         <translation>Cargar firmware</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="204"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="210"/>
         <source>Reload firmware</source>
         <translation>Recargar firmware</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="207"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="213"/>
         <source>Open Serial Monitor.</source>
         <translation>Abrir Monitor.Serial </translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="210"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="216"/>
         <source>Close Serial Monitor</source>
         <translation>Cerrar Monitor.Serial </translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="213"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="219"/>
         <source>Open Serial Port.</source>
         <translation>Abrir Puerto Serie.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="216"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="222"/>
         <source>Close Serial Port</source>
         <translation>Cerrar Puerto Serie.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="253"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="263"/>
         <source>Load Firmware</source>
         <translation>Cargar firmware</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="254"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="264"/>
         <source>Hex Files (*.hex);;ELF Files (*.elf);;all files (*.*)</source>
         <translation>Hex (*.hex);;ELF (*.elf);;Todos (*.*)</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="265"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="275"/>
         <source>No File:</source>
         <translation>No hay Archivo</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="265"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="275"/>
         <source>No File to reload </source>
         <translation>No hay Archivo que recargar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="288"/>
-        <source>Error:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="288"/>
         <source>Could not load </source>
-        <translation>No se pudo abrir </translation>
+        <translation type="vanished">No se pudo abrir </translation>
     </message>
 </context>
 <context>
     <name>Mosfet</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mosfet.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/mosfet.cpp" line="39"/>
         <source>Mosfet</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mosfet.cpp" line="33"/>
+        <location filename="../../src/gui/circuitwidget/components/mosfet.cpp" line="40"/>
         <source>Active</source>
         <translation>Activos</translation>
     </message>
@@ -1512,12 +2017,12 @@ a DomDocument</translation>
 <context>
     <name>OpAmp</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/op_amp.cpp" line="37"/>
+        <location filename="../../src/gui/circuitwidget/components/op_amp.cpp" line="40"/>
         <source>OpAmp</source>
         <translation>Amplificador Operacional</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/op_amp.cpp" line="38"/>
+        <location filename="../../src/gui/circuitwidget/components/op_amp.cpp" line="41"/>
         <source>Active</source>
         <translation>Activos</translation>
     </message>
@@ -1538,12 +2043,12 @@ a DomDocument</translation>
 <context>
     <name>Oscope</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/oscope.cpp" line="35"/>
+        <location filename="../../src/gui/circuitwidget/components/oscope.cpp" line="39"/>
         <source>Oscope</source>
         <translation>Osciloscopio</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/oscope.cpp" line="36"/>
+        <location filename="../../src/gui/circuitwidget/components/oscope.cpp" line="40"/>
         <source>Meters</source>
         <translation>Medida</translation>
     </message>
@@ -1564,17 +2069,17 @@ a DomDocument</translation>
 <context>
     <name>PICComponent</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/piccomponent.cpp" line="30"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/piccomponent.cpp" line="31"/>
         <source>Micro</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/piccomponent.cpp" line="50"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/piccomponent.cpp" line="51"/>
         <source>Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/piccomponent.cpp" line="50"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/piccomponent.cpp" line="52"/>
         <source>Only 1 Mcu allowed
  to be in the Circuit.</source>
         <translation>Solo puede haber
@@ -1584,7 +2089,7 @@ a DomDocument</translation>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/package.cpp" line="46"/>
+        <location filename="../../src/gui/circuitwidget/package.cpp" line="47"/>
         <source>Cannot read file:
 %1:
 %2.</source>
@@ -1593,7 +2098,7 @@ a DomDocument</translation>
 %2.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/package.cpp" line="55"/>
+        <location filename="../../src/gui/circuitwidget/package.cpp" line="56"/>
         <source>Cannot set file:
 %1
 to DomDocument</source>
@@ -1602,7 +2107,7 @@ to DomDocument</source>
 a DomDocument</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/package.cpp" line="67"/>
+        <location filename="../../src/gui/circuitwidget/package.cpp" line="68"/>
         <source>Error reading Package file:
 %1
 No valid Package</source>
@@ -1627,28 +2132,32 @@ Package no valido</translation>
 <context>
     <name>PicProcessor</name>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="63"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="64"/>
         <source>File Not Found</source>
         <translation>Archivo No Encontrado</translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="63"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="65"/>
         <source>The file &quot;%1&quot; was not found.</source>
         <translation>No se encontro el archivo: &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="108"/>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="118"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="110"/>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="120"/>
         <source>Unkown Error:</source>
         <translation>Error no Especificado:</translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="109"/>
-        <source>Could not Create Pic Processor for: &quot;%1&quot;</source>
-        <translation>No se pudo crear Pic Processor para: &quot;%1&quot;</translation>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="111"/>
+        <source>Could not Create Pic Processor: &quot;%1&quot;</source>
+        <translation>No se pudo crear Pic Processor: &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="118"/>
+        <source>Could not Create Pic Processor for: &quot;%1&quot;</source>
+        <translation type="vanished">No se pudo crear Pic Processor para: &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../../src/simulator/elements/processors/picprocessor.cpp" line="121"/>
         <source>Could not Load: &quot;%1&quot;</source>
         <translation>No se pudo cargar: &quot;%1&quot;</translation>
     </message>
@@ -1656,12 +2165,12 @@ Package no valido</translation>
 <context>
     <name>Potentiometer</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/potentiometer.cpp" line="34"/>
+        <location filename="../../src/gui/circuitwidget/components/potentiometer.cpp" line="37"/>
         <source>Potentiometer</source>
         <translation>Potenciometro</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/potentiometer.cpp" line="35"/>
+        <location filename="../../src/gui/circuitwidget/components/potentiometer.cpp" line="38"/>
         <source>Passive</source>
         <translation>Pasivos</translation>
     </message>
@@ -1669,14 +2178,24 @@ Package no valido</translation>
 <context>
     <name>Probe</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="33"/>
+        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="37"/>
         <source>Probe</source>
         <translation>Sonda Voltaje.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="34"/>
+        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="38"/>
         <source>Meters</source>
         <translation>Medida</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="217"/>
+        <source>Add to Plotter</source>
+        <translation>Añadir al Plotter</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="220"/>
+        <source>Remove from Plotter</source>
+        <translation>Quitar del Plotter</translation>
     </message>
 </context>
 <context>
@@ -1695,12 +2214,12 @@ Package no valido</translation>
 <context>
     <name>QPropertyModel</name>
     <message>
-        <location filename="../../src/gui/QPropertyEditor/QPropertyModel.cpp" line="148"/>
+        <location filename="../../src/gui/QPropertyEditor/QPropertyModel.cpp" line="149"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../../src/gui/QPropertyEditor/QPropertyModel.cpp" line="149"/>
+        <location filename="../../src/gui/QPropertyEditor/QPropertyModel.cpp" line="150"/>
         <source>Value</source>
         <translation>Valor</translation>
     </message>
@@ -1716,6 +2235,19 @@ Package no valido</translation>
         <location filename="../../src/gui/circuitwidget/components/rail.cpp" line="32"/>
         <source>Sources</source>
         <translation>Fuentes</translation>
+    </message>
+</context>
+<context>
+    <name>Ram8bit</name>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/ram8bit.cpp" line="30"/>
+        <source>8bit Ram</source>
+        <translation>Ram 8 Bit</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/ram8bit.cpp" line="31"/>
+        <source>Logic</source>
+        <translation>Logica</translation>
     </message>
 </context>
 <context>
@@ -1790,12 +2322,12 @@ Package no valido</translation>
 <context>
     <name>Resistor</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/resistor.cpp" line="31"/>
+        <location filename="../../src/gui/circuitwidget/components/resistor.cpp" line="35"/>
         <source>Resistor</source>
         <translation>Reistencia</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/resistor.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/resistor.cpp" line="36"/>
         <source>Passive</source>
         <translation>Pasivos</translation>
     </message>
@@ -1821,59 +2353,59 @@ Package no valido</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="129"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="128"/>
         <source>Description: %1</source>
         <translation>Descripcion: %1</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="130"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="129"/>
         <source>Manufacturer: %1</source>
         <translation>Fabricante: %1</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="131"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="130"/>
         <source>Serial number: %1</source>
         <translation>Numero de Serie: %1</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="151"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="150"/>
         <source>Connected to %1 : %2, %3, %4, %5, %6</source>
         <translation>Connectado a %1 : %2, %3, %4, %5, %6</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="157"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="156"/>
         <source>Error</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="221"/>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="272"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="220"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="271"/>
         <source>Custom</source>
         <translation>Personalizado</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="229"/>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="241"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="228"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="240"/>
         <source>None</source>
         <translation>Ninguno</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="230"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="229"/>
         <source>Even</source>
         <translation>Par</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="231"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="230"/>
         <source>Odd</source>
         <translation>Impar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="232"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="231"/>
         <source>Mark</source>
         <translation>Marcar</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="233"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="232"/>
         <source>Space</source>
         <translation>Espacio</translation>
     </message>
@@ -1936,12 +2468,12 @@ Package no valido</translation>
 <context>
     <name>Servo</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/servo.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/servo.cpp" line="35"/>
         <source>Servo</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/servo.cpp" line="33"/>
+        <location filename="../../src/gui/circuitwidget/components/servo.cpp" line="36"/>
         <source>Outputs</source>
         <translation>Salidas</translation>
     </message>
@@ -1949,12 +2481,12 @@ Package no valido</translation>
 <context>
     <name>SevenSegment</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/sevensegment.cpp" line="35"/>
+        <location filename="../../src/gui/circuitwidget/components/sevensegment.cpp" line="39"/>
         <source>7 Segment</source>
         <translation>7 Segmentos</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/sevensegment.cpp" line="36"/>
+        <location filename="../../src/gui/circuitwidget/components/sevensegment.cpp" line="40"/>
         <source>Outputs</source>
         <translation>Salidas</translation>
     </message>
@@ -1988,12 +2520,12 @@ Package no valido</translation>
 <context>
     <name>Stepper</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/stepper.cpp" line="34"/>
+        <location filename="../../src/gui/circuitwidget/components/stepper.cpp" line="37"/>
         <source>Stepper</source>
         <translation>Motor de Pasos</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/stepper.cpp" line="35"/>
+        <location filename="../../src/gui/circuitwidget/components/stepper.cpp" line="38"/>
         <source>Outputs</source>
         <translation>Salidas</translation>
     </message>
@@ -2001,28 +2533,28 @@ Package no valido</translation>
 <context>
     <name>SubCircuit</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="66"/>
+        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="69"/>
         <source>Subcircuit</source>
         <translation>Subcircuito</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="94"/>
-        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="147"/>
+        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="97"/>
+        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="150"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>No se pudo leer el archivo %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="102"/>
-        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="155"/>
+        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="105"/>
+        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="158"/>
         <source>Cannot set file %1
 to DomDocument</source>
         <translation>No se pudo convertir el archivo %1
 a DomDocument</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="168"/>
+        <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="171"/>
         <source>Error reading Subcircuit file: %1
 </source>
         <translation>Error leyendo archivo de Subcircuito: %1
@@ -2053,12 +2585,12 @@ a DomDocument</translation>
 <context>
     <name>TextComponent</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="30"/>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="36"/>
         <source>Text</source>
         <translation>Texto</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="31"/>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="37"/>
         <source>Other</source>
         <translation>Otros</translation>
     </message>
@@ -2079,12 +2611,12 @@ a DomDocument</translation>
 <context>
     <name>VoltReg</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/volt_reg.cpp" line="33"/>
+        <location filename="../../src/gui/circuitwidget/components/volt_reg.cpp" line="36"/>
         <source>Volt. Regulator</source>
         <translation>Regulador Voltaje</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/volt_reg.cpp" line="34"/>
+        <location filename="../../src/gui/circuitwidget/components/volt_reg.cpp" line="37"/>
         <source>Active</source>
         <translation>Activos</translation>
     </message>
@@ -2118,12 +2650,12 @@ a DomDocument</translation>
 <context>
     <name>WaveGen</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="32"/>
+        <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="39"/>
         <source>Wave Gen.</source>
         <translation>Generador Onda</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="33"/>
+        <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="40"/>
         <source>Sources</source>
         <translation>Fuentes</translation>
     </message>

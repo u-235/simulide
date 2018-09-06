@@ -22,6 +22,9 @@
 #include "circuit.h"
 #include "itemlibrary.h"
 
+static const char* Potentiometer_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Value Ohm")
+};
 
 Component* Potentiometer::construct( QObject* parent, QString type, QString id )
 {
@@ -49,6 +52,8 @@ Potentiometer::Potentiometer( QObject* parent, QString type, QString id )
              , m_resA(  (id+"-resA").toStdString() )
              , m_resB(  (id+"-resB").toStdString() )
 {
+    Q_UNUSED( Potentiometer_properties );
+    
     m_area = QRectF( -12, -4.5, 24, 12.5 );
     
     m_dialW.setupWidget();

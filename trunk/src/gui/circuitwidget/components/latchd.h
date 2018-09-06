@@ -27,14 +27,14 @@
 class MAINMODULE_EXPORT LatchD : public LogicComponent, public eLatchD
 {
     Q_OBJECT
-    Q_PROPERTY( int    channels     READ channels   USER true )
-    Q_PROPERTY( bool   tristate     READ tristate   USER true )
     Q_PROPERTY( double Input_High_V READ inputHighV WRITE setInputHighV DESIGNABLE true USER true )
     Q_PROPERTY( double Input_Low_V  READ inputLowV  WRITE setInputLowV  DESIGNABLE true USER true )
     Q_PROPERTY( double Input_Imped  READ inputImp   WRITE setInputImp   DESIGNABLE true USER true )
     Q_PROPERTY( double Out_High_V   READ outHighV   WRITE setOutHighV   DESIGNABLE true USER true )
     Q_PROPERTY( double Out_Low_V    READ outLowV    WRITE setOutLowV    DESIGNABLE true USER true )
     Q_PROPERTY( double Out_Imped    READ outImp     WRITE setOutImp     DESIGNABLE true USER true )
+    Q_PROPERTY( int    Channels     READ channels   USER true )
+    Q_PROPERTY( bool   Tristate     READ tristate   USER true )
 
     public:
         LatchD( QObject* parent, QString type, QString id );

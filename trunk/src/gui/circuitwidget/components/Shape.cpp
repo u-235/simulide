@@ -19,9 +19,20 @@
 
 #include "shape.h"
 
+static const char* Shape_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","H size"),
+    QT_TRANSLATE_NOOP("App::Property","V size"),
+    QT_TRANSLATE_NOOP("App::Property","Border"),
+    QT_TRANSLATE_NOOP("App::Property","Color"),
+    QT_TRANSLATE_NOOP("App::Property","Opacity"),
+    QT_TRANSLATE_NOOP("App::Property","Z Value")
+};
+
 Shape::Shape( QObject* parent, QString type, QString id )
-    : Component( parent, type, id )
+     : Component( parent, type, id )
 {
+    Q_UNUSED( Shape_properties );
+    
     m_hSize = 50;
     m_vSize = 30;
     m_border = 2;

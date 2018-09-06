@@ -24,11 +24,22 @@
 #include "node.h"
 #include "utils.h"
 
+static const char* Circuit_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Speed"),
+    QT_TRANSLATE_NOOP("App::Property","ReactStep"),
+    QT_TRANSLATE_NOOP("App::Property","NoLinStep"),
+    QT_TRANSLATE_NOOP("App::Property","NoLinAcc"),
+    QT_TRANSLATE_NOOP("App::Property","Draw Grid"),
+    QT_TRANSLATE_NOOP("App::Property","Show ScrollBars")
+};
+
 Circuit*  Circuit::m_pSelf = 0l;
 
 Circuit::Circuit( qreal x, qreal y, qreal width, qreal height, QGraphicsView*  parent)
        : QGraphicsScene(x, y, width, height, parent)
 {
+    Q_UNUSED( Circuit_properties );
+    
     setObjectName( "Circuit" );
     setParent( parent );
     m_graphicView = parent;
@@ -709,14 +720,23 @@ void Circuit::loadProperties( QDomElement element, Component* Item )
     for( int i=0; i<count; ++i )
     {
         QMetaProperty metaproperty = metaobject->property(i);
-        const char* name = metaproperty.name();
+        const char* chName = metaproperty.name();
+        const char* name = chName;
+        
+        if( !element.hasAttribute( name ) ) // Take care of new capitalization in some properties
+        {
+            QString n = name;
+            n.replace(0, 1, n[0].toLower());
+            name = n.toLatin1();
+        }
         QVariant value( element.attribute( name ) );
+        
 
-        if     ( metaproperty.type() == QVariant::String ) Item->setProperty( name, value );
-        else if( metaproperty.type() == QVariant::Int    ) Item->setProperty( name, value.toInt() );
-        else if( metaproperty.type() == QVariant::Double ) Item->setProperty( name, value.toDouble() );
-        else if( metaproperty.type() == QVariant::PointF ) Item->setProperty( name, value.toPointF() );
-        else if( metaproperty.type() == QVariant::Bool   ) Item->setProperty( name, value.toBool() );
+        if     ( metaproperty.type() == QVariant::String ) Item->setProperty( chName, value );
+        else if( metaproperty.type() == QVariant::Int    ) Item->setProperty( chName, value.toInt() );
+        else if( metaproperty.type() == QVariant::Double ) Item->setProperty( chName, value.toDouble() );
+        else if( metaproperty.type() == QVariant::PointF ) Item->setProperty( chName, value.toPointF() );
+        else if( metaproperty.type() == QVariant::Bool   ) Item->setProperty( chName, value.toBool() );
         else if( metaproperty.type() == QVariant::StringList )
         {
             QStringList list= value.toString().split(",");

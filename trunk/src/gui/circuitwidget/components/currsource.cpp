@@ -22,6 +22,10 @@
 #include "circuit.h"
 #include "itemlibrary.h"
 
+static const char* CurrSource_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Current"),
+    QT_TRANSLATE_NOOP("App::Property","Show Amp")
+};
 
 Component* CurrSource::construct( QObject* parent, QString type, QString id )
 {
@@ -42,6 +46,8 @@ CurrSource::CurrSource( QObject* parent, QString type, QString id )
           : Component( parent, type, id )
           , eElement( id.toStdString() )
 {
+    Q_UNUSED( CurrSource_properties );
+    
     m_changed = false;
 
     m_voltw.setFixedSize( 46,70 );

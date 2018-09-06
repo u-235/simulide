@@ -19,6 +19,7 @@
 
 #include "e-gate.h"
 #include <QDebug>
+
 eGate::eGate( std::string id, int inputs )
      : eLogicDevice( id )
 {

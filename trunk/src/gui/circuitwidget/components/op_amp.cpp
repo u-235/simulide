@@ -25,6 +25,9 @@
 #include "connector.h"
 #include "pin.h"
 
+static const char* OpAmp_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Power Pins")
+};
 
 Component* OpAmp::construct( QObject* parent, QString type, QString id )
 {
@@ -45,6 +48,8 @@ OpAmp::OpAmp( QObject* parent, QString type, QString id )
      : Component( parent, type, id )
      , eOpAmp( id.toStdString() )
 {
+    Q_UNUSED( OpAmp_properties );
+    
     m_area = QRect( -18, -8*2, 36, 8*2*2 );
     
     setGain( 1000 );

@@ -20,6 +20,10 @@
 #include "bincounter.h"
 #include "pin.h"
 
+static const char* BinCounter_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Max Value")
+};
+
 Component *BinCounter::construct(QObject *parent, QString type, QString id)
 {
     return new BinCounter(parent, type, id);
@@ -36,8 +40,11 @@ LibraryItem* BinCounter::libraryItem()
 }
 
 BinCounter::BinCounter(QObject *parent, QString type, QString id) 
-          : LogicComponent( parent, type, id ), eBinCounter( id.toStdString() )
+          : LogicComponent( parent, type, id )
+          , eBinCounter( id.toStdString() )
 {
+    Q_UNUSED( BinCounter_properties );
+    
     m_width  = 4;
     m_height = 4;
 

@@ -35,6 +35,13 @@
 #include "editorwindow.h"
 #include "simuapi_apppath.h"
 
+static const char* CodeEditor_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Font Size"),
+    QT_TRANSLATE_NOOP("App::Property","Tab Size"),
+    QT_TRANSLATE_NOOP("App::Property","Spaces Tabs"),
+    QT_TRANSLATE_NOOP("App::Property","Show Spaces")
+};
+
 bool  CodeEditor::m_showSpaces = false;
 bool  CodeEditor::m_spaceTabs  = false;
 int   CodeEditor::m_fontSize = 9;
@@ -44,6 +51,8 @@ QFont CodeEditor::m_font;
 CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTable ) 
           : QPlainTextEdit( parent )
 {
+    Q_UNUSED( CodeEditor_properties );
+    
     setObjectName( "Editor" );
     
     m_outPane   = outPane;

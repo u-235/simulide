@@ -8,7 +8,7 @@
 class MAINMODULE_EXPORT TextComponent : public Component
 {
     Q_OBJECT
-    Q_PROPERTY( QString  text  READ getText WRITE setText )
+    Q_PROPERTY( QString  Text  READ getText WRITE setText )
     Q_PROPERTY( bool Fixed_Width READ fixedW WRITE setFixedW DESIGNABLE true USER true )
     Q_PROPERTY( int  Margin      READ margin WRITE setMargin DESIGNABLE true USER true )
     Q_PROPERTY( int  Border      READ border WRITE setBorder DESIGNABLE true USER true )

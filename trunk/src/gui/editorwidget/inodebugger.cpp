@@ -22,9 +22,16 @@
 #include "utils.h"
 #include "simuapi_apppath.h"
 
+static const char* InoDebugger_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Board"),
+    QT_TRANSLATE_NOOP("App::Property","Custom Board")
+};
+
 InoDebugger::InoDebugger( QObject* parent, OutPanelText* outPane, QString filePath ) 
            : BaseDebugger( parent, outPane, filePath )
 {
+    Q_UNUSED( InoDebugger_properties );
+    
     setObjectName( "Arduino Compiler" );
     
     m_compilerPath = "";

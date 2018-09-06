@@ -23,6 +23,10 @@
 #include "circuit.h"
 #include "pin.h"
 
+static const char* SevenSegment_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","NumDisplays"),
+    QT_TRANSLATE_NOOP("App::Property","CommonCathode")
+};
 
 Component* SevenSegment::construct( QObject* parent, QString type, QString id )
 {
@@ -43,6 +47,8 @@ SevenSegment::SevenSegment( QObject* parent, QString type, QString id )
             : Component( parent, type, id )
             , eElement( id.toStdString() )
 {
+    Q_UNUSED( SevenSegment_properties );
+    
     setId( id );
     m_idLabel->setPos( 30, -70);
 

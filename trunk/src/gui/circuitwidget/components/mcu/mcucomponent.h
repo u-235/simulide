@@ -30,7 +30,7 @@ class McuComponentPin;
 class MAINMODULE_EXPORT McuComponent : public Package
 {
     Q_OBJECT
-    Q_PROPERTY( QString  program     READ program WRITE setProgram DESIGNABLE true  USER true )
+    Q_PROPERTY( QString  Program     READ program WRITE setProgram DESIGNABLE true  USER true )
     Q_PROPERTY( int      Mhz         READ freq    WRITE setFreq    DESIGNABLE true  USER true )
     Q_PROPERTY( bool     Ser_Port    READ serPort WRITE setSerPort )
     Q_PROPERTY( bool     Ser_Monitor READ serMon  WRITE setSerMon )

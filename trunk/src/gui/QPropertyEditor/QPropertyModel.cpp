@@ -102,7 +102,7 @@ QVariant QPropertyModel::data ( const QModelIndex & index, int role /*= Qt::Disp
     case Qt::DecorationRole:
     case Qt::DisplayRole:
     case Qt::EditRole:
-        if( index.column() == 0 ) return item->objectName().replace('_', ' ');
+        if( index.column() == 0 ) { return item->propName(); }
         if( index.column() == 1 ) return item->value(role);
     case Qt::BackgroundRole:
         if( item->isRoot() ) return QApplication::palette("QTreeView").brush(QPalette::Normal, QPalette::Button).color();
@@ -114,6 +114,7 @@ QVariant QPropertyModel::data ( const QModelIndex & index, int role /*= Qt::Disp
 // edit methods
 bool QPropertyModel::setData( const QModelIndex & index, const QVariant & value, int role /*= Qt::EditRole*/ )
 {
+    //qDebug() <<"QPropertyModel::setData"<<value;
     if (index.isValid() && role == Qt::EditRole)
     {
         Property *item = static_cast<Property*>(index.internalPointer());

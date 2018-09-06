@@ -22,6 +22,11 @@
 #include "connector.h"
 #include "pin.h"
 
+static const char* BJT_properties[] = {
+    QT_TRANSLATE_NOOP("App::Property","Gain"),
+    QT_TRANSLATE_NOOP("App::Property","PNP")
+};
+
 
 Component* BJT::construct( QObject* parent, QString type, QString id )
 {
@@ -42,6 +47,8 @@ BJT::BJT( QObject* parent, QString type, QString id )
    : Component( parent, type, id )
    , eBJT( id.toStdString() )
 {
+    Q_UNUSED( BJT_properties );
+    
     m_area =  QRectF( -12, -14, 28, 28 );
     
     m_PNP = false;
