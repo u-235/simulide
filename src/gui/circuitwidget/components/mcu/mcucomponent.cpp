@@ -48,9 +48,11 @@ McuComponent::McuComponent( QObject* parent, QString type, QString id )
     
     qDebug() << "        Initializing"<<m_id<<"...";
     
-    m_canCreate  = false;
-    //m_serialTerm = false;
-    m_attached   = false;
+    m_canCreate = false;
+    m_serPort   = false;
+    m_serMon    = false;
+    m_attached  = false;
+    
     m_processor  = 0l;
     m_symbolFile = "";
     m_device     = "";
@@ -177,13 +179,6 @@ void McuComponent::terminate()
 
 void McuComponent::remove()
 {
-    /*if( Simulator::self()->isPaused() )
-    {
-        MessageBoxNB( tr("Warning")
-                    , tr("Removing an MCU while runnig \n  Is Not a Good Idea.") );
-        return;
-    }*/
-    
     foreach( McuComponentPin* mcupin, m_pinList )
     {
         Pin* pin = mcupin->pin(); 

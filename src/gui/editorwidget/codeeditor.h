@@ -145,6 +145,9 @@ class CodeEditor : public QPlainTextEdit
  static int   m_fontSize;
  static int   m_tabSize;
  static QFont m_font;
+ 
+ static QStringList m_picInstr;
+ static QStringList m_avrInstr;
 };
 
 

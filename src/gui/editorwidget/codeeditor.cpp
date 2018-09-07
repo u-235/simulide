@@ -42,6 +42,10 @@ static const char* CodeEditor_properties[] = {
     QT_TRANSLATE_NOOP("App::Property","Show Spaces")
 };
 
+QStringList CodeEditor::m_picInstr = QString("addlw addwf andlw andwf bcf bov bsf btfsc btg btfss clrf clrw clrwdt comf decf decfsz goto incf incfsz iorlw iorwf movf movlw movwf reset retfie retlw return rlf rrfsublw subwf swapf xorlw xorwf")
+                .split(" ");
+QStringList CodeEditor::m_avrInstr = QString("add adc adiw sub subi sbc sbci sbiw andi ori eor com neg sbr cbr dec tst clr ser mul rjmp ijmp jmp rcall icall ret reti cpse cp cpc cpi sbrc sbrs sbic sbis brbs brbc breq brne brcs brcc brsh brlo brmi brpl brge brlt brhs brhc brts brtc brvs brvc brie brid mov movw ldi lds ld ldd sts st std lpm in out push pop lsl lsr rol ror asr swap bset bclr sbi cbi bst bld sec clc sen cln sez clz sei cli ses cls sev clv set clt seh clh wdr")
+                .split(" ");
 bool  CodeEditor::m_showSpaces = false;
 bool  CodeEditor::m_spaceTabs  = false;
 int   CodeEditor::m_fontSize = 9;
@@ -144,22 +148,21 @@ void CodeEditor::setFile( const QString& filePath )
     {
         //m_appPath+"/data/codeeditor/cpp.sintax"
         QString path = sintaxPath + "cpp.sintax";
-        m_hlighter->readSintaxFile( path );
         m_hlighter->setMultiline( true );
-
+        m_hlighter->readSintaxFile( path );
+        
         if( m_file.endsWith(".ino") )
             m_debugger = new InoDebugger( this, m_outPane, filePath );
     }
     else if( m_file.endsWith(".asm") )
     {
         // We should identify if pic or avr asm
-        QStringList picInstr = QString("addlw addwf andlw andwf bcf bov bsf btfsc btg btfss clrf clrw clrwdt comf decf decfsz goto incf incfsz iorlw iorwf movf movlw movwf reset retfie retlw return rlf rrfsublw subwf swapf xorlw xorwf")
-                .split(" ");
-        QStringList avrInstr = QString("add adc adiw sub subi sbc sbci sbiw andi ori eor com neg sbr cbr dec tst clr ser mul rjmp ijmp jmp rcall icall ret reti cpse cp cpc cpi sbrc sbrs sbic sbis brbs brbc breq brne brcs brcc brsh brlo brmi brpl brge brlt brhs brhc brts brtc brvs brvc brie brid mov movw ldi lds ld ldd sts st std lpm in out push pop lsl lsr rol ror asr swap bset bclr sbi cbi bst bld sec clc sen cln sez clz sei cli ses cls sev clv set clt seh clh wdr")
-                .split(" ");
-
-        int isPic = getSintaxCoincidences( m_file, picInstr );
-        int isAvr = getSintaxCoincidences( m_file, avrInstr );
+        int isPic = 0;
+        int isAvr = 0;
+        
+        isPic = getSintaxCoincidences( m_file, m_picInstr );
+        
+        if( isPic<50 ) isAvr = getSintaxCoincidences( m_file, m_avrInstr );
 
         m_outPane->writeText( tr("File recognized as: ") );
 
@@ -172,7 +175,7 @@ void CodeEditor::setFile( const QString& filePath )
 
             m_debugger = new PicAsmDebugger( this, m_outPane, filePath );
         }
-        else                 // Is Avr
+        else if( isAvr > isPic )  // Is Avr
         {
             m_outPane->writeText( "Avr asm\n" );
 
@@ -181,6 +184,7 @@ void CodeEditor::setFile( const QString& filePath )
 
             m_debugger = new AvrAsmDebugger( this, m_outPane, filePath );
         }
+        else m_outPane->writeText( "Unknown\n" );
     }
     else if( m_file.endsWith(".xml") 
          ||  m_file.endsWith(".package") 
@@ -205,15 +209,16 @@ int CodeEditor::getSintaxCoincidences( QString& fileName, QStringList& instructi
 
     foreach( QString line, lines )
     {
-        if( line.startsWith(";")) continue;
+        if( line.isEmpty()      ) continue;
         if( line.startsWith("#")) continue;
+        if( line.startsWith(";")) continue;
         if( line.startsWith(".")) continue;
         foreach( QString instruction, instructions )
         {
             if( line.contains( QRegExp( "\\b"+instruction+"\\b" ) ))
-            {
                 coincidences++;
-            }
+            
+            if( coincidences > 50 ) break;
         }
     }
     return coincidences;
