@@ -137,11 +137,15 @@ void CodeEditor::setFile( const QString& filePath )
 
         m_debugger = new GcbDebugger( this, m_outPane, filePath );
     }
-    else if( m_file.endsWith(".cpp")|| m_file.endsWith(".ino") || m_file.endsWith(".h") )
+    else if( m_file.endsWith(".cpp")
+          || m_file.endsWith(".c") 
+          || m_file.endsWith(".ino") 
+          || m_file.endsWith(".h") )
     {
         //m_appPath+"/data/codeeditor/cpp.sintax"
         QString path = sintaxPath + "cpp.sintax";
         m_hlighter->readSintaxFile( path );
+        m_hlighter->setMultiline( true );
 
         if( m_file.endsWith(".ino") )
             m_debugger = new InoDebugger( this, m_outPane, filePath );
@@ -178,12 +182,18 @@ void CodeEditor::setFile( const QString& filePath )
             m_debugger = new AvrAsmDebugger( this, m_outPane, filePath );
         }
     }
-    else if(( m_file.endsWith(".xml") )
-         || ( m_file.endsWith(".package") )
-         || ( m_file.endsWith(".subcircuit") ))
+    else if( m_file.endsWith(".xml") 
+         ||  m_file.endsWith(".package") 
+         ||  m_file.endsWith(".subcircuit") )
     {
         QString path = sintaxPath + "xml.sintax";
          m_hlighter->readSintaxFile( path );
+    }
+    else if( m_file.endsWith("Makefile") 
+         ||  m_file.endsWith("makefile") )
+    {
+        QString path = sintaxPath + "makef.sintax";
+        m_hlighter->readSintaxFile( path );
     }
 }
 
@@ -231,7 +241,8 @@ void CodeEditor::compile()
     m_outPane->appendText( "-------------------------------------------------------\n" );
     m_outPane->appendText( "Exec: ");
 
-    if( m_file.endsWith("Makefile") )                          // Is a Makefile, make it
+    if( m_file.endsWith("Makefile") 
+    ||  m_file.endsWith("makefile") )          // Is a Makefile, make it
     {
         m_outPane->writeText( "make "+m_file+"\n" );
 
