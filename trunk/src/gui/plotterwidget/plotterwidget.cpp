@@ -26,6 +26,7 @@ PlotterWidget::PlotterWidget(  QWidget *parent  )
              : QWidget( parent )
 {
     m_pSelf = this;
+    setObjectName( "PlotterWidget" );
 
     this->setVisible( false );
 
@@ -148,6 +149,25 @@ void PlotterWidget::setPlotterTick( int tickUs )
     m_rArea->setTick( tickUs );
 }
 
+double PlotterWidget::maxVolt() 
+{ 
+    return m_maxVolt; 
+}
+
+void PlotterWidget::setMaxVolt( double volt ) 
+{ 
+    m_maxValue->setValue( volt/100 );
+}
+
+double PlotterWidget::minVolt() 
+{ 
+    return m_minVolt; 
+}
+void PlotterWidget::setMinVolt( double volt ) 
+{ 
+     m_minValue->setValue( volt/100 ); 
+}
+        
 void PlotterWidget::maxChanged( double value )
 {
     m_maxVolt = value*100;

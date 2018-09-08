@@ -83,17 +83,22 @@ SerialPortWidget::SerialPortWidget( QWidget *parent )
 
     connect( ui->openButton, &QPushButton::clicked,
                        this, &SerialPortWidget::open);
+                       
     connect( ui->closeButton, &QPushButton::clicked,
                         this, &SerialPortWidget::close);
+                        
     connect( ui->serialPortInfoListBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
                                   this, &SerialPortWidget::showPortInfo);
+                                  
     connect( ui->baudRateBox,  static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
                         this, &SerialPortWidget::checkCustomBaudRatePolicy);
+                        
     connect( ui->serialPortInfoListBox,  static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
                                   this, &SerialPortWidget::checkCustomDevicePathPolicy);
 
     connect( m_serial, &QSerialPort::readyRead, 
                  this, &SerialPortWidget::readData);
+                 
     connect( this, &SerialPortWidget::getData, 
              this, &SerialPortWidget::slotWriteData );
 
@@ -118,6 +123,36 @@ void SerialPortWidget::setVisible( bool visible )
 SerialPortWidget::Settings SerialPortWidget::settings() const
 {
     return currentSettings;
+}
+
+QStringList SerialPortWidget::settingsProp()
+{
+    QStringList s;
+    
+    s << currentSettings.name
+    << QString::number( ui->baudRateBox->currentIndex() )
+    << QString::number( ui->dataBitsBox->currentIndex() )
+    << QString::number( ui->parityBox->currentIndex() )
+    << QString::number( ui->stopBitsBox->currentIndex() )
+    << QString::number( ui->flowControlBox->currentIndex() ) ;
+    
+    return s;
+}
+
+void SerialPortWidget::setSettingsProp( QStringList s )
+{
+    ui->serialPortInfoListBox->setCurrentText( s.at(0) );
+
+    int baud = s.at(1).toInt();
+    if( baud == 5 ) ui->baudRateBox->setCurrentText( s.at(1) );
+    else            ui->baudRateBox->setCurrentIndex( baud );
+
+    ui->dataBitsBox->setCurrentIndex( s.at(2).toInt() );
+    ui->parityBox->setCurrentIndex( s.at(3).toInt() );
+    ui->stopBitsBox->setCurrentIndex( s.at(4).toInt() );
+    ui->flowControlBox->setCurrentIndex( s.at(5).toInt() );
+    
+    updateSettings();
 }
 
 void SerialPortWidget::showPortInfo( int idx )

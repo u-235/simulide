@@ -27,12 +27,18 @@ class RenderArea;
 class MAINMODULE_EXPORT PlotterWidget : public QWidget
 {
     Q_OBJECT
+    
+    Q_PROPERTY( QString  itemtype  READ itemType )
+    Q_PROPERTY( double MaxVolt READ maxVolt  WRITE setMaxVolt )
+    Q_PROPERTY( double MinVolt READ minVolt  WRITE setMinVolt )
 
     public:
         PlotterWidget( QWidget *parent );
         ~PlotterWidget();
 
  static PlotterWidget* self() { return m_pSelf; }
+ 
+        QString itemType(){ return "Plotter"; }
 
         int  getChannel();
         void addChannel( int channel );
@@ -44,6 +50,12 @@ class MAINMODULE_EXPORT PlotterWidget : public QWidget
         void setData( int channel, int data );
         void setTicksPs( int tps );
         void setPlotterTick( int tickUs );
+        
+        double maxVolt();
+        void setMaxVolt( double volt );
+        
+        double minVolt();
+        void setMinVolt( double volt );
 
     public slots:
         void maxChanged( double value );
