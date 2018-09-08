@@ -450,6 +450,14 @@ void Circuit::loadDomDoc( QDomDocument* doc )
             }
             else if( type == "LEDSMD" ); // TODO: this type shouldnt be saved to circuit
                                          // bcos is created inside another component, for example boards
+            else if( type == "Plotter")
+            {
+                loadObjectProperties( element, PlotterWidget::self() );
+            }
+            else if( type == "SerialPort")
+            {
+                loadObjectProperties( element, SerialPortWidget::self() );
+            }
             else
             {
                 idMap[objNam] = id;                              // Map simu id to new id
@@ -571,53 +579,6 @@ void Circuit::bom()
     file.close();
 }
 
-void Circuit::listToDom( QDomDocument* doc, QList<Component*>* complist )
-{
-    QDomElement root = doc->firstChild().toElement();
-
-    int count = complist->count();
-    for( int i=0; i<count; i++ )
-    {
-        Component* item = complist->at(i);
-
-        // Don't save internal items
-        bool isNumber = false;
-        item->objectName().split("-").last().toInt( &isNumber );
-
-        if( isNumber)
-        {
-            QDomElement pin = m_domDoc.createElement("item");
-            const QMetaObject* metaobject = item->metaObject();
-
-            int count = metaobject->propertyCount();
-            for( int i=0; i<count; i++ )
-            {
-                QMetaProperty metaproperty = metaobject->property(i);
-                const char* name = metaproperty.name();
-
-                QVariant value = item->property( name );
-                if( metaproperty.type() == QVariant::StringList )
-                {
-                    QStringList list= value.toStringList();
-                    pin.setAttribute( name, list.join(",") );
-                }
-                else  pin.setAttribute( name, value.toString() );
-
-                //qDebug() << "type" << value.type()<< "typename" << value.typeName()<< "name " << name
-                //         << "   value " << value << "saved" << value.toString();
-
-            }
-            QDomText blank = m_domDoc.createTextNode("\n \n");
-            QDomText objNme = m_domDoc.createTextNode(item->objectName());
-            root.appendChild(blank);
-            root.appendChild(objNme);
-            blank = m_domDoc.createTextNode(": \n");
-            root.appendChild(blank);
-            root.appendChild(pin);
-        }
-    }
-}
-
 void Circuit::circuitToDom()
 {
     m_domDoc.clear();
@@ -633,9 +594,59 @@ void Circuit::circuitToDom()
         con->remNullLines();
     }
     listToDom( &m_domDoc, &m_conList );
+    
+    objectToDom( &m_domDoc, PlotterWidget::self() );
+    objectToDom( &m_domDoc, SerialPortWidget::self() );
 
-    QDomText blank = m_domDoc.createTextNode("\n \n");
-    root.appendChild(blank);
+    root.appendChild( m_domDoc.createTextNode( "\n \n" ) );
+}
+
+void Circuit::listToDom( QDomDocument* doc, QList<Component*>* complist )
+{
+    int count = complist->count();
+    for( int i=0; i<count; i++ )
+    {
+        Component* item = complist->at(i);
+
+        // Don't save internal items
+        bool isNumber = false;
+        item->objectName().split("-").last().toInt( &isNumber );
+
+        if( isNumber ) objectToDom( doc, item );
+    }
+}
+
+void Circuit::objectToDom( QDomDocument* doc, QObject* object )
+{
+    QDomElement root = doc->firstChild().toElement();
+    QDomElement elm = m_domDoc.createElement("item");
+    const QMetaObject* metaobject = object->metaObject();
+
+    int count = metaobject->propertyCount();
+    for( int i=0; i<count; i++ )
+    {
+        QMetaProperty metaproperty = metaobject->property(i);
+        const char* name = metaproperty.name();
+
+        QVariant value = object->property( name );
+        if( metaproperty.type() == QVariant::StringList )
+        {
+            QStringList list= value.toStringList();
+            elm.setAttribute( name, list.join(",") );
+        }
+        else elm.setAttribute( name, value.toString() );
+
+        //qDebug() << "type" << value.type()<< "typename" << value.typeName()<< "name " << name
+        //         << "   value " << value << "saved" << value.toString();
+
+    }
+    QDomText blank = m_domDoc.createTextNode( "\n \n" );
+    QDomText objNme = m_domDoc.createTextNode( object->objectName() );
+    root.appendChild( blank );
+    root.appendChild( objNme );
+    blank = m_domDoc.createTextNode( ": \n" );
+    root.appendChild( blank );
+    root.appendChild( elm );
 }
 
 void Circuit::undo()
@@ -715,6 +726,20 @@ Component* Circuit::createItem( QString type, QString id )
 
 void Circuit::loadProperties( QDomElement element, Component* Item )
 {
+    loadObjectProperties( element, Item );
+    
+    Item->setLabelPos();
+    Item->setValLabelPos();
+
+    addItem(Item);
+
+    int number = Item->objectName().split("-").last().toInt();
+
+    if ( number > m_seqNumber ) m_seqNumber = number;               // Adjust item counter: m_seqNumber
+}
+
+void Circuit::loadObjectProperties( QDomElement element, QObject* Item )
+{
     const QMetaObject* metaobject = Item->metaObject();
     int count = metaobject->propertyCount();
     for( int i=0; i<count; ++i )
@@ -732,8 +757,7 @@ void Circuit::loadProperties( QDomElement element, Component* Item )
         QVariant value( element.attribute( name ) );
         
 
-        if     ( metaproperty.type() == QVariant::String ) Item->setProperty( chName, value );
-        else if( metaproperty.type() == QVariant::Int    ) Item->setProperty( chName, value.toInt() );
+        if     ( metaproperty.type() == QVariant::Int    ) Item->setProperty( chName, value.toInt() );
         else if( metaproperty.type() == QVariant::Double ) Item->setProperty( chName, value.toDouble() );
         else if( metaproperty.type() == QVariant::PointF ) Item->setProperty( chName, value.toPointF() );
         else if( metaproperty.type() == QVariant::Bool   ) Item->setProperty( chName, value.toBool() );
@@ -742,16 +766,9 @@ void Circuit::loadProperties( QDomElement element, Component* Item )
             QStringList list= value.toString().split(",");
             Item->setProperty( name, list );
         }
-        else qDebug() << "    ERROR!!! Circuit::LoadProperties\n  unknown type:  "<<"name "<<name<<"   value "<<value ;
+        else Item->setProperty( chName, value );
+        //else qDebug() << "    ERROR!!! Circuit::loadObjectProperties\n  unknown type:  "<<"name "<<name<<"   value "<<value ;
     }
-    Item->setLabelPos();
-    Item->setValLabelPos();
-
-    addItem(Item);
-
-    int number = Item->objectName().split("-").last().toInt();
-
-    if ( number > m_seqNumber ) m_seqNumber = number;               // Adjust item counter: m_seqNumber
 }
 
 void Circuit::copy( QPointF eventpoint )

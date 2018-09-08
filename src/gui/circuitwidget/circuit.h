@@ -36,11 +36,12 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
     Q_PROPERTY( int ReactStep READ reactStep WRITE setReactStep DESIGNABLE true USER true )
     Q_PROPERTY( int NoLinStep READ noLinStep WRITE setNoLinStep DESIGNABLE true USER true )
     Q_PROPERTY( int NoLinAcc  READ nlAcc     WRITE setNlAcc     DESIGNABLE true USER true )
+    
     Q_PROPERTY( bool Draw_Grid        READ drawGrid   WRITE setDrawGrid   DESIGNABLE true USER true )
     Q_PROPERTY( bool Show_ScrollBars  READ showScroll WRITE setShowScroll DESIGNABLE true USER true )
 
     public:
-        Circuit(qreal x, qreal y, qreal width, qreal height, QGraphicsView*  parent);
+        Circuit( qreal x, qreal y, qreal width, qreal height, QGraphicsView*  parent );
         ~Circuit();
 
  static Circuit*  self() { return m_pSelf; }
@@ -69,7 +70,7 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         void compRemoved( bool removed );
         void saveState();
 
-        void drawBackground(QPainter* painter, const QRectF &rect);
+        void drawBackground( QPainter* painter, const QRectF &rect );
 
         Pin* findPin( int x, int y, QString id );
 
@@ -108,17 +109,19 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         void bom();
 
     protected:
-        void mousePressEvent(QGraphicsSceneMouseEvent* event);
-        void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
-        void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
-        void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
+        void mousePressEvent( QGraphicsSceneMouseEvent* event );
+        void mouseReleaseEvent( QGraphicsSceneMouseEvent* event );
+        void mouseMoveEvent( QGraphicsSceneMouseEvent* event );
+        void contextMenuEvent( QGraphicsSceneContextMenuEvent* event );
         void keyPressEvent ( QKeyEvent * event );
 
     private:
+        void loadDomDoc( QDomDocument* doc );
         void loadProperties( QDomElement element, Component* Item );
-        void listToDom( QDomDocument* doc, QList<Component*>* complist );
-        void loadDomDoc(QDomDocument* doc );
+        void loadObjectProperties( QDomElement element, QObject* Item );
         void circuitToDom();
+        void listToDom( QDomDocument* doc, QList<Component*>* complist );
+        void objectToDom( QDomDocument* doc, QObject* object );
 
         QString getCompId( QString name );
 
