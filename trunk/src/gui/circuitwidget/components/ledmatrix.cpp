@@ -65,10 +65,17 @@ void LedMatrix::initialize()
 
 void LedMatrix::setupMatrix( int rows, int cols )
 {
+    bool pauseSim = Simulator::self()->isRunning();
+    if( pauseSim ) Simulator::self()->pauseSim();
+
     deleteMatrix();
     m_rows = rows;
     m_cols = cols;
     createMatrix();
+
+    Circuit::self()->update();
+
+    if( pauseSim ) Simulator::self()->runContinuous();
 }
 
 void LedMatrix::createMatrix()
