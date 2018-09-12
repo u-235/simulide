@@ -76,7 +76,7 @@ void eDiode::setVChanged()
     double deltaR = m_imped;
     double deltaV = m_threshold;
 
-    if( m_voltPN <= m_threshold )   // Not conducing
+    if( (m_threshold-m_voltPN) > 1e-6 )   // Not conducing
     {
         if( (m_zenerV > 0)&&(m_voltPN <-m_zenerV) )
             deltaV =-m_zenerV;
@@ -93,7 +93,7 @@ void eDiode::setVChanged()
     if( deltaR != m_resist )
     {
         m_resist = deltaR;
-        if( deltaR == high_imp ) eResistor::setAdmit( 1e-7 );
+        if( deltaR == high_imp ) eResistor::setAdmit( 0 );
         else                     eResistor::setAdmit( 1/m_resist );
         //m_converged = false;
     }

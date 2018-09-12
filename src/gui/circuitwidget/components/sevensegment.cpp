@@ -102,9 +102,13 @@ LedBase::LedColor SevenSegment::color()
 
 void SevenSegment::setNumDisplays( int displays )
 {
+    if( displays < 1 ) displays = 1;
     if( displays == m_numDisplays ) return;
 
     m_area = QRect( -16, -24-1, displays*32, 48+2 );
+
+    bool pauseSim = Simulator::self()->isRunning();
+    if( pauseSim ) Simulator::self()->pauseSim();
 
     if( displays > m_numDisplays )
     {
@@ -116,9 +120,11 @@ void SevenSegment::setNumDisplays( int displays )
         for( int i=displays; i<m_numDisplays; i++ ) deleteDisplay( i );
         resizeData( displays );
     }
-
     m_numDisplays = displays;
+    Circuit::self()->update();
     update();
+
+    if( pauseSim ) Simulator::self()->runContinuous();
 }
 
 void SevenSegment::resizeData( int displays )
@@ -189,10 +195,9 @@ void SevenSegment::deleteDisplay( int dispNumber )
 {
     Pin* pin = static_cast<Pin*>(m_commonPin[dispNumber]);
     if( pin->isConnected() ) pin->connector()->remove();
+    delete pin;
 
     for( int i=0; i<8; i++ ) Circuit::self()->removeComp( m_segment[dispNumber*8+i] );
-    Circuit::self()->update();
-    update();
 }
 
 void SevenSegment::createDisplay( int dispNumber )
