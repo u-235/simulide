@@ -74,7 +74,7 @@ CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTab
     
     m_font.setFamily("Monospace");
     m_font.setFixedPitch( true );
-    m_font.setPointSize( m_fontSize );
+    m_font.setPixelSize( m_fontSize );
     setFont( m_font );
     
     QSettings* settings = MainWindow::self()->settings();
@@ -636,7 +636,7 @@ int CodeEditor::fontSize()
 void CodeEditor::setFontSize( int size )
 {
     m_fontSize = size;
-    m_font.setPointSize( size );
+    m_font.setPixelSize( size );
     setFont( m_font );
     
     setTabSize( m_tabSize );

@@ -32,7 +32,7 @@
      setZero( 0 );
 
      QFont font;
-     font.setPointSize(7);
+     font.setPixelSize(9);
      pixmap = QPixmap( m_width, m_height );
      QPainter p( &pixmap );
      p.setFont( font );

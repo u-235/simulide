@@ -61,7 +61,8 @@ Meter::Meter( QObject* parent, QString type, QString id )
     m_idLabel->setPos(-12,-24);
     setLabelPos(-12,-24, 0);
 
-    const QFont f( "Helvetica [Cronyx]", 10, QFont::Bold );
+    QFont f( "Helvetica [Cronyx]", 10, QFont::Bold );
+    f.setPixelSize(12);
     m_display.setFont(f);
     m_display.setText( "Freq: 0 Hz" );
     m_display.setBrush(  Qt::yellow );

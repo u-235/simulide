@@ -222,7 +222,7 @@ void PicProcessor::reset()
 
 int PicProcessor::getRamValue( int address )
 { 
-    return m_pPicProcessor->rma[address].get_value(); 
+    return m_pPicProcessor->rma[address].get_value();
 }
 
 int PicProcessor::validate( int address ) { return address; }

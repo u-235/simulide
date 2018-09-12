@@ -21,6 +21,7 @@
 
 static const char* TextComponent_properties[] = {
     QT_TRANSLATE_NOOP("App::Property","Text"),
+    QT_TRANSLATE_NOOP("App::Property","Font Size"),
     QT_TRANSLATE_NOOP("App::Property","Fixed Width"),
     QT_TRANSLATE_NOOP("App::Property","Margin")
 };
@@ -68,6 +69,7 @@ TextComponent::TextComponent( QObject* parent, QString type, QString id )
     m_border = 1;
     updateGeometry( 0, 0, 0 );
     
+    setFontSize( 10 );
 
     connect(m_text->document(), SIGNAL( contentsChange(int, int, int )),
                           this, SLOT( updateGeometry(int, int, int )));
@@ -77,17 +79,24 @@ TextComponent::~TextComponent(){}
 void TextComponent::updateGeometry(int, int, int)
 {
     m_text->document()->setTextWidth(-1);
-    m_area = QRect( -m_margin, -m_margin, m_text->boundingRect().width()+m_margin*2, m_text->boundingRect().height()+m_margin*2 );
+    
+    int margin = m_margin;
+    
+    m_area = QRect( -margin, -margin, m_text->boundingRect().width()+margin*2, m_text->boundingRect().height()+margin*2 );
+    
     update();
 }
+
+int TextComponent::margin() { return m_margin; }
 
 void TextComponent::setMargin( int margin )
 {
     if( margin < 2 ) margin = 2;
     m_margin = margin;
     updateGeometry( 0, 0, 0 );
-    update();
 }
+
+bool TextComponent::fixedW() { return m_fixedW; }
 
 void TextComponent::setFixedW( bool fixedW ) 
 { 
@@ -101,8 +110,27 @@ void TextComponent::setFixedW( bool fixedW )
     sansFont.setFixedPitch( fixedW );
     m_text->setFont( sansFont );
     updateGeometry( 0, 0, 0 );
-    update();
 }
+
+int TextComponent::fontSize()
+{
+    return m_fontSize;
+}
+void TextComponent::setFontSize( int size )
+{
+    m_fontSize = size;
+    
+    QFont font = m_text->font();
+    font.setPixelSize( size );
+    m_text->setFont( font );
+    updateGeometry( 0, 0, 0 );
+}
+
+int TextComponent::border() { return m_border; }
+void TextComponent::setBorder( int border ) { m_border = border; }
+
+QString TextComponent::getText() { return m_text->toPlainText(); }
+void TextComponent::setText( QString text ) { m_text->document()->setPlainText( text ); }
 
 
 void TextComponent::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )

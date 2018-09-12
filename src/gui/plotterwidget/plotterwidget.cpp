@@ -209,7 +209,7 @@ void PlotterWidget::setupWidget()
     m_verticalLayout->setObjectName( "verticalLayout");
 
     QFont font;
-    font.setPointSize(12);
+    font.setPixelSize(14);
 
     for( int i=0; i<4; i++ )    // Create volt Labels
     {
