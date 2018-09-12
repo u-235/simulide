@@ -48,7 +48,7 @@ RamTable::RamTable( BaseProcessor *processor )
         }
         QFont font = item( 0, 0 )->font();
         font.setBold(true);
-        font.setPointSize( 10 );
+        font.setPixelSize(12);
         for( int col=0; col<3; col++ ) item( row, col )->setFont( font );
         
         item( row, 1 )->setText("---");

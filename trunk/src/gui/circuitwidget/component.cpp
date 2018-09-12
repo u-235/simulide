@@ -57,16 +57,20 @@ Component::Component( QObject* parent , QString type, QString id )
     m_moving = false;
     m_printable = false;
     
+    QFont f;
+    f.setPixelSize(10);
+    
     m_idLabel = new Label( this );
     m_idLabel->setDefaultTextColor( Qt::darkBlue );
+    m_idLabel->setFont(f);
     setLabelPos(-16,-24, 0);
     setShowId( false );
+    
     
     m_valLabel = new Label( this );
     m_valLabel->setDefaultTextColor( Qt::black );
     setValLabelPos( 0, 0, 0);
-    QFont f;
-    f.setPointSize(9);
+    f.setPixelSize(9);
     m_valLabel->setFont(f);
     setShowVal( false );
     

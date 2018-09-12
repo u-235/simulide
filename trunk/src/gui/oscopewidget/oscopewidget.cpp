@@ -328,7 +328,7 @@ void OscopeWidget::setupWidget(  int size  )
     m_freqLabel = new QLabel( "Freq: 0 Hz", this );
     
     QFont font = m_freqLabel->font();
-    font.setPointSize(8);
+    font.setPixelSize(10);
     font.setBold(true);
     
     m_freqLabel->setFont(font);
@@ -354,14 +354,14 @@ void OscopeWidget::setupWidget(  int size  )
     //m_autoCheck->setLayoutDirection(Qt::RightToLeft);
     m_autoCheck->setChecked( true );
     m_autoCheck->setFixedSize( 38, 16 );
-    font.setPointSize(7);
+    font.setPixelSize(9);
     m_autoCheck->setFont( font );
     row2Layout->addWidget( m_autoCheck );
     
     QLabel* HLabel = new QLabel( "H", this );
     HLabel->setAlignment( Qt::AlignBottom | Qt::AlignHCenter );
     HLabel->setFixedSize( 14, 16 );
-    font.setPointSize(8);
+    font.setPixelSize(10);
     HLabel->setFont( font );
     row2Layout->addWidget( HLabel );
     

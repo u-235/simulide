@@ -24,7 +24,7 @@
 #include "simulator.h"
 
 PICComponentPin::PICComponentPin( McuComponent* mcu, QString id, QString type, QString label, int pos, int xpos, int ypos, int angle )
-    : McuComponentPin( mcu, id, type, label, pos, xpos, ypos, angle )
+               : McuComponentPin( mcu, id, type, label, pos, xpos, ypos, angle )
 {
     m_pos = pos;
     //m_channel = -1;

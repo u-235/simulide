@@ -205,7 +205,7 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
         titulo = new QTreeWidgetItem(0);
         titulo->setFlags( QFlag(32) );
         QFont font = titulo->font(0);
-        font.setPointSize(11);
+        font.setPixelSize(13);
         font.setWeight(75);
         titulo->setIcon( 0, QIcon(":/null-0.png") );
         titulo->setFont( 0, font );
@@ -261,7 +261,7 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
 
     QTreeWidgetItem* item =  new QTreeWidgetItem(0);
     QFont font = item->font(0);
-    font.setPointSize(9);
+    font.setPixelSize(11);
     font.setWeight( QFont::Bold );
     item->setFont( 0, font );
     item->setText( 0, name );

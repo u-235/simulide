@@ -41,7 +41,7 @@ OutPanelText::OutPanelText( QWidget *parent )
     QFont font;
     font.setFamily("Monospace");
     font.setFixedPitch(true);
-    font.setPointSize( 10 );
+    font.setPixelSize(12);
     setFont(font);
 }
 OutPanelText::~OutPanelText(){ /*m_highlighter->deleteLater();*/ }
