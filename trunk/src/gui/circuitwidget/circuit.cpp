@@ -67,6 +67,10 @@ Circuit::~Circuit()
     {
         QPropertyEditorWidget::self()->removeObject( comp );
     }
+    foreach( QDomDocument* doc, m_redoStack ) delete doc;
+    foreach( QDomDocument* doc, m_undoStack ) delete doc;
+    m_undoStack.clear();
+    m_redoStack.clear();
 }
 
 QList<Component*>* Circuit::compList() { return &m_compList; }

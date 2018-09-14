@@ -39,6 +39,9 @@ class MAINMODULE_EXPORT eOpAmp : public eElement
         virtual bool hasPowerPins();
         virtual void setPowerPins( bool set );
         
+        virtual ePin* getEpin( QString pinName );
+        virtual void initEpins();
+        
     protected:
         eSource* m_output;
         

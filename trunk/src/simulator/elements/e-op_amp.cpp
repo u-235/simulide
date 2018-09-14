@@ -114,3 +114,19 @@ void   eOpAmp::setGain( double gain ){m_gain = gain;}
 
 bool eOpAmp::hasPowerPins()          {return m_powerPins;}
 void eOpAmp::setPowerPins( bool set ){m_powerPins = set;}
+
+ePin* eOpAmp::getEpin( QString pinName )
+{
+    ePin* pin = 0l;
+    if     ( pinName == "inputInv")  pin = m_ePin[0];
+    else if( pinName == "inputNinv") pin = m_ePin[1];
+    else if( pinName == "output")    pin = m_ePin[2];
+    else if( pinName == "powerPos")  pin = m_ePin[3];
+    else if( pinName == "powerNeg")  pin = m_ePin[4];
+    return pin;
+}
+
+void eOpAmp::initEpins()
+{
+    setNumEpins(5); 
+}
