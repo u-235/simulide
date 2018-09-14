@@ -157,3 +157,17 @@ void eMosfet::setThreshold( double th )
     m_kRDSon = m_RDSon*(10-m_threshold);
     m_Gth = m_threshold-m_threshold/4;
 }
+
+ePin* eMosfet::getEpin( QString pinName )
+{
+    ePin* pin = 0l;
+    if     ( pinName == "Dren") pin = m_ePin[0];
+    else if( pinName == "Sour") pin = m_ePin[1];
+    else if( pinName == "Gate") pin = m_ePin[2];
+    return pin;
+}
+
+void eMosfet::initEpins()
+{
+    setNumEpins(3); 
+}

@@ -382,7 +382,7 @@ void SubCircuit::initSubcircuit()
                 evoltreg->setVRef( volts );
                 ecomponent = evoltreg;
             }
-            else if( type == "eOpAmp" )
+            else if( type == "eopAmp" )
             {
                 double gain = 1000;
                 if( element.hasAttribute("Gain") ) gain = element.attribute( "Gain" ).toDouble();

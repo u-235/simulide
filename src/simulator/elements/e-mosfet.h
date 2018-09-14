@@ -46,6 +46,9 @@ class MAINMODULE_EXPORT eMosfet : public eResistor
         virtual double threshold();
         virtual void  setThreshold( double th );
         
+        virtual ePin* getEpin( QString pinName );
+        virtual void initEpins();
+        
     protected:
         double m_accuracy;
         double m_lastCurrent;
