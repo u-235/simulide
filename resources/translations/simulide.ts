@@ -448,12 +448,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="24"/>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="25"/>
         <source>Fixed Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="25"/>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="26"/>
         <source>Margin</source>
         <translation type="unfinished"></translation>
     </message>
@@ -498,6 +498,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="24"/>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="39"/>
         <source>Font Size</source>
         <translation type="unfinished"></translation>
@@ -758,37 +759,37 @@
 <context>
     <name>Circuit</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="254"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="258"/>
         <source>Load Circuit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="255"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="259"/>
         <source>Circuits (*.simu);;All files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="271"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="275"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="279"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="283"/>
         <source>Cannot set file %1
 to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="539"/>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="963"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="551"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="984"/>
         <source>Bill Of Materials</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="518"/>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="560"/>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="972"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="530"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="572"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="993"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation type="unfinished"></translation>
@@ -986,79 +987,79 @@ Do you want to save your changes?
 <context>
     <name>CodeEditor</name>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="115"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="119"/>
         <source> File: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="160"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="167"/>
         <source>File recognized as: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="260"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="276"/>
         <source>File type not supported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="268"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="284"/>
         <source>     SUCCESS!!! Compilation Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="274"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="290"/>
         <source>     ERROR!!! Compilation Faliled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="289"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="305"/>
         <source>Uploading: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="353"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="369"/>
         <source>
 Error:  Mcu Deleted while Debugging!!
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="419"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="435"/>
         <source>Starting Debbuger...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="425"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="441"/>
         <source>Error: No Mcu in Simulator... </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="430"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="446"/>
         <source>Error: No Debugger Suited for this File... </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="435"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="451"/>
         <source>Error: No File... </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="443"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="459"/>
         <source>Error Compiling... </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="456"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="472"/>
         <source>Error Loading Firmware... </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="472"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="488"/>
         <source>Debbuger Started </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="497"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="513"/>
         <source>Debbuger Stopped </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1082,42 +1083,42 @@ Error:  Mcu Deleted while Debugging!!
 <context>
     <name>Component</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="172"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="176"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="175"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="179"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="178"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="182"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="182"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="186"/>
         <source>Rotate CW</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="185"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="189"/>
         <source>Rotate CCW</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="188"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="192"/>
         <source>Rotate 180</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="191"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="195"/>
         <source>Horizontal Flip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="194"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="198"/>
         <source>Vertical Flip</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1813,13 +1814,26 @@ Do you want to save your changes?
 <context>
     <name>LineNumberArea</name>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="852"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="868"/>
         <source>Add BreakPoint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="855"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="871"/>
         <source>Remove BreakPoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Lm555</name>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/lm555.cpp" line="37"/>
+        <source>lm555</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/lm555.cpp" line="38"/>
+        <source>Logic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1886,64 +1900,64 @@ Do you want to save your changes?
 <context>
     <name>McuComponent</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="86"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="88"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="94"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="96"/>
         <source>Cannot set file %1
 to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="207"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="202"/>
         <source>Load firmware</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="210"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="205"/>
         <source>Reload firmware</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="213"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="208"/>
         <source>Open Serial Monitor.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="216"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="211"/>
         <source>Close Serial Monitor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="219"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="214"/>
         <source>Open Serial Port.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="222"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="217"/>
         <source>Close Serial Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="263"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="258"/>
         <source>Load Firmware</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="264"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="259"/>
         <source>Hex Files (*.hex);;ELF Files (*.elf);;all files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="275"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="270"/>
         <source>No File:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="275"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="270"/>
         <source>No File to reload </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2301,59 +2315,59 @@ No valid Package</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="128"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="163"/>
         <source>Description: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="129"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="164"/>
         <source>Manufacturer: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="130"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="165"/>
         <source>Serial number: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="150"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="185"/>
         <source>Connected to %1 : %2, %3, %4, %5, %6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="156"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="191"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="220"/>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="271"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="255"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="306"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="228"/>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="240"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="263"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="275"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="229"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="264"/>
         <source>Even</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="230"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="265"/>
         <source>Odd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="231"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="266"/>
         <source>Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="232"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="267"/>
         <source>Space</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2530,12 +2544,12 @@ to DomDocument</source>
 <context>
     <name>TextComponent</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="36"/>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="37"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="37"/>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="38"/>
         <source>Other</source>
         <translation type="unfinished"></translation>
     </message>

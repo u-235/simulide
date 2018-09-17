@@ -17,12 +17,13 @@
  #                                                                         #
  ###########################################################################
  
-VERSION     = "0.2.8"
+VERSION     = "0.2.9"
 
 TEMPLATE = app
 
 QT += svg
 QT += xml
+#QT += script
 QT += widgets
 QT += concurrent
 QT += serialport
@@ -67,7 +68,8 @@ HEADERS += ../src/*.h \
     ../src/simulator/elements/processors/*.h \
     ../src/simavr/sim/*.h \
     ../src/simavr/sim/avr/*.h  \
-    ../src/simavr/cores/*.h 
+    ../src/simavr/cores/*.h \
+    ../resources/data/*.xml
 
 INCLUDEPATH += ../src \
     ../src/gui \
@@ -94,7 +96,8 @@ INCLUDEPATH += ../src \
 
 TRANSLATIONS +=  \
     ../resources/translations/simulide.ts \
-    ../resources/translations/simulide_es.ts 
+    ../resources/translations/simulide_es.ts \
+    ../resources/translations/simulide_ru.ts 
 
     
 RESOURCES = ../src/application.qrc
