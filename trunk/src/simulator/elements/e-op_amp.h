@@ -21,7 +21,8 @@
 #define EOPAMP_H
 
 #include "e-element.h"
-#include "e-source.h"
+
+class eSource;
 
 class MAINMODULE_EXPORT eOpAmp : public eElement
 {

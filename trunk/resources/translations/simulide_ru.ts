@@ -24,7 +24,7 @@
     <message>
         <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="31"/>
         <source>Micro</source>
-        <translation>Микро</translation>
+        <translation>Микроконтроллеры</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mcu/avrcomponent.cpp" line="53"/>
@@ -90,449 +90,451 @@
     <message>
         <location filename="../../src/gui/circuitwidget/component.cpp" line="31"/>
         <source>id</source>
-        <translation type="unfinished"></translation>
+        <translation>Идентификатор</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/component.cpp" line="32"/>
         <source>Show id</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать идентификатор</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/component.cpp" line="33"/>
         <source>Unit</source>
-        <translation type="unfinished"></translation>
+        <translation>Единица измерения</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/component.cpp" line="34"/>
         <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="26"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuit.cpp" line="28"/>
         <location filename="../../src/gui/circuitwidget/components/servo.cpp" line="24"/>
         <source>Speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Скорость</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuit.cpp" line="29"/>
         <source>ReactStep</source>
-        <translation type="unfinished"></translation>
+        <translation>Шаг отклика</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuit.cpp" line="30"/>
         <source>NoLinStep</source>
-        <translation type="unfinished"></translation>
+        <translation>Шаг NoLin</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuit.cpp" line="31"/>
         <source>NoLinAcc</source>
-        <translation type="unfinished"></translation>
+        <translation>Накопление NoLin</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuit.cpp" line="32"/>
         <source>Draw Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Отобразить сетку</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuit.cpp" line="33"/>
         <source>Show ScrollBars</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать полосы прокрутки</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="23"/>
         <source>H size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер по горизонтали</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="24"/>
         <source>V size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер по вертикали</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="25"/>
         <source>Border</source>
-        <translation type="unfinished"></translation>
+        <translation>Кайма</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="27"/>
         <source>Opacity</source>
-        <translation type="unfinished"></translation>
+        <translation>Непрозрачность</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/Shape.cpp" line="28"/>
         <source>Z Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение Z</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/adc.cpp" line="24"/>
         <source>Vref</source>
-        <translation type="unfinished"></translation>
+        <translation>Опорное напряжение</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="38"/>
         <source>Num Bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер бита</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/audio_out.cpp" line="27"/>
         <source>Impedance</source>
-        <translation type="unfinished"></translation>
+        <translation>Импеданс</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/bincounter.cpp" line="24"/>
         <source>Max Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальное значение</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/bjt.cpp" line="26"/>
         <source>Gain</source>
-        <translation type="unfinished"></translation>
+        <translation>Усиление</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/bjt.cpp" line="27"/>
         <source>PNP</source>
-        <translation type="unfinished"></translation>
+        <translation>PNP</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/capacitorbase.cpp" line="24"/>
         <source>Capacitance</source>
-        <translation type="unfinished"></translation>
+        <translation>Ёмкость</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/capacitorbase.cpp" line="25"/>
         <source>Show_Cap</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать конденсатор</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/clock-base.cpp" line="25"/>
         <source>Freq</source>
-        <translation type="unfinished"></translation>
+        <translation>Частота</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/currsource.cpp" line="26"/>
         <source>Current</source>
-        <translation type="unfinished"></translation>
+        <translation>Ток</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/currsource.cpp" line="27"/>
         <source>Show Amp</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать усилитель</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/diode.cpp" line="25"/>
         <source>Threshold</source>
-        <translation type="unfinished"></translation>
+        <translation>Порог</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/diode.cpp" line="26"/>
         <source>Zener Volt</source>
-        <translation type="unfinished"></translation>
+        <translation>Напряжение стабилизации</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/hd44780.cpp" line="27"/>
         <source>Cols</source>
-        <translation type="unfinished"></translation>
+        <translation>Столбцы</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/hd44780.cpp" line="28"/>
         <source>Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Строки</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="24"/>
         <source>Control Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Контрольный код</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/i2cram.cpp" line="25"/>
         <source>Size bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер байтов</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/inductor.cpp" line="27"/>
         <source>Inductance</source>
-        <translation type="unfinished"></translation>
+        <translation>Индуктивность</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/inductor.cpp" line="28"/>
         <source>Show Ind</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать индуктивность</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/keypad.cpp" line="25"/>
         <source>Key Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Ключевые метки</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/ks0108.cpp" line="26"/>
         <source>CS Active Low</source>
-        <translation type="unfinished"></translation>
+        <translation>CS активный низкий</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/ledbase.cpp" line="26"/>
         <source>MaxCurrent</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальный ток</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/ledbase.cpp" line="27"/>
         <source>Grounded</source>
-        <translation type="unfinished"></translation>
+        <translation>Заземленный</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="25"/>
         <source>Input High V</source>
-        <translation type="unfinished"></translation>
+        <translation>Высокое входящее напряжение</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="26"/>
         <source>Input Low V</source>
-        <translation type="unfinished"></translation>
+        <translation>Низкое входящее напряжение</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="27"/>
         <source>Input Imped</source>
-        <translation type="unfinished"></translation>
+        <translation>Входящий импеданс</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="28"/>
         <source>Out High V</source>
-        <translation type="unfinished"></translation>
+        <translation>Высокое выходящее напряжение</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="29"/>
         <source>Out Low V</source>
-        <translation type="unfinished"></translation>
+        <translation>Низкое выходящее напряжение</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="30"/>
         <source>Out Imped</source>
-        <translation type="unfinished"></translation>
+        <translation>Выходящий импеданс</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="31"/>
         <source>Inverted</source>
-        <translation type="unfinished"></translation>
+        <translation>Инвертированный</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="32"/>
         <source>Tristate</source>
-        <translation type="unfinished"></translation>
+        <translation>Третье состояние</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="33"/>
         <source>Clock Inverted</source>
-        <translation type="unfinished"></translation>
+        <translation>Инвертировать такты</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="34"/>
         <source>Reset Inverted</source>
-        <translation type="unfinished"></translation>
+        <translation>Инвертировать сброс</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="35"/>
         <source>Invert Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Инвертировать входы</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="36"/>
         <source>S R Inverted</source>
-        <translation type="unfinished"></translation>
+        <translation>Инвертировать SR</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="37"/>
         <source>Num Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество входов</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logiccomponent.cpp" line="39"/>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Каналы</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logicinput.cpp" line="26"/>
         <source>Voltage</source>
-        <translation type="unfinished"></translation>
+        <translation>Напряжение</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/logicinput.cpp" line="27"/>
         <source>Show Volt</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать в вольтах</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mosfet.cpp" line="28"/>
         <source>RDSon</source>
-        <translation type="unfinished"></translation>
+        <translation>RD потомок</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mosfet.cpp" line="29"/>
         <source>P Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал P</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mosfet.cpp" line="30"/>
         <source>Depletion</source>
-        <translation type="unfinished"></translation>
+        <translation>Истощение</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/op_amp.cpp" line="29"/>
         <source>Power Pins</source>
-        <translation type="unfinished"></translation>
+        <translation>Силовые контакты</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/oscope.cpp" line="28"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильтр</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/potentiometer.cpp" line="26"/>
         <source>Value Ohm</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение Ом</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/probe.cpp" line="28"/>
         <source>PlotterCh</source>
-        <translation type="unfinished"></translation>
+        <translation>Графопостроитель Канал</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/relay_base.cpp" line="25"/>
         <source>Rcoil</source>
-        <translation type="unfinished"></translation>
+        <translation>Сопротивление обмотки</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/relay_base.cpp" line="26"/>
         <source>Itrig</source>
-        <translation type="unfinished"></translation>
+        <translation>Триггер</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/relay_base.cpp" line="27"/>
         <source>Poles</source>
-        <translation type="unfinished"></translation>
+        <translation>Полюса</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/relay_base.cpp" line="28"/>
         <source>DT</source>
-        <translation type="unfinished"></translation>
+        <translation>ДатаВремя</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/relay_base.cpp" line="29"/>
         <source>Norm Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть нормально</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/resistor.cpp" line="25"/>
         <source>Resistance</source>
-        <translation type="unfinished"></translation>
+        <translation>Сопротивление</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/resistor.cpp" line="26"/>
         <source>Show res</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать сопротивление</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/sevensegment.cpp" line="27"/>
         <source>NumDisplays</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество отображений</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/sevensegment.cpp" line="28"/>
         <source>CommonCathode</source>
-        <translation type="unfinished"></translation>
+        <translation>Общий катод</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/stepper.cpp" line="26"/>
         <source>Steps</source>
-        <translation type="unfinished"></translation>
+        <translation>Шаги</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="23"/>
         <source>Text</source>
-        <translation type="unfinished">Текст</translation>
-    </message>
-    <message>
-        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="24"/>
-        <source>Fixed Width</source>
-        <translation type="unfinished"></translation>
+        <translation>Текст</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="25"/>
+        <source>Fixed Width</source>
+        <translation>Фиксированная ширина</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="26"/>
         <source>Margin</source>
-        <translation type="unfinished"></translation>
+        <translation>Допустимый предел</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/volt_reg.cpp" line="25"/>
         <source>Volts</source>
-        <translation type="unfinished"></translation>
+        <translation>Вольты</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="25"/>
         <source>Volt Base</source>
-        <translation type="unfinished"></translation>
+        <translation>Базовое напряжение</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="26"/>
         <source>Duty Square</source>
-        <translation type="unfinished"></translation>
+        <translation>Обязательное поле</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="27"/>
         <source>Quality</source>
-        <translation type="unfinished"></translation>
+        <translation>Качество</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/wavegen.cpp" line="28"/>
         <source>Wave Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип волны</translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/avrasmdebugger.cpp" line="27"/>
         <source>Avra Inc Path</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Путь к Avra</translatorcomment>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="26"/>
         <source>Drive Circuit</source>
-        <translation type="unfinished"></translation>
+        <translation>Управляющая схема</translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/basedebugger.cpp" line="27"/>
         <source>Compiler Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь к компилятору</translation>
     </message>
     <message>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="24"/>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="39"/>
         <source>Font Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер шрифта</translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="40"/>
         <source>Tab Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Шаг табуляции</translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="41"/>
         <source>Spaces Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Интервалы вкладок</translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="42"/>
         <source>Show Spaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать интервалы</translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/inodebugger.cpp" line="26"/>
         <source>Board</source>
-        <translation type="unfinished"></translation>
+        <translation>Плата</translation>
     </message>
     <message>
         <location filename="../../src/gui/editorwidget/inodebugger.cpp" line="27"/>
         <source>Custom Board</source>
-        <translation type="unfinished"></translation>
+        <translation>Заказать плату</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="38"/>
         <source>Program</source>
-        <translation type="unfinished"></translation>
+        <translation>Программа</translation>
     </message>
 </context>
 <context>
@@ -546,7 +548,7 @@
     <message>
         <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="31"/>
         <source>Micro</source>
-        <translation>Микро</translation>
+        <translation>Микроконтроллеры</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mcu/arduino.cpp" line="52"/>
@@ -571,7 +573,7 @@
     <message>
         <location filename="../../src/gui/circuitwidget/components/audio_out.cpp" line="37"/>
         <source>Outputs</source>
-        <translation>Выводы</translation>
+        <translation>Выходы</translation>
     </message>
 </context>
 <context>
@@ -665,7 +667,7 @@
     <message>
         <location filename="../../src/gui/circuitwidget/components/bjt.cpp" line="40"/>
         <source>Active</source>
-        <translation>Активный</translation>
+        <translation>Активные элементы</translation>
     </message>
 </context>
 <context>
@@ -760,47 +762,47 @@
     <message>
         <location filename="../../src/gui/circuitwidget/components/capacitor.cpp" line="30"/>
         <source>Passive</source>
-        <translation>Пассивный</translation>
+        <translation>Пассивные элементы</translation>
     </message>
 </context>
 <context>
     <name>Circuit</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="254"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="258"/>
         <source>Load Circuit</source>
         <translation>Загрузить схему</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="255"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="259"/>
         <source>Circuits (*.simu);;All files (*.*)</source>
         <translation>Схемы (*.simu);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="271"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="275"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>Не удаётся прочитать файл %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="279"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="283"/>
         <source>Cannot set file %1
 to DomDocument</source>
         <translation>Не удаётся загрузить файл %1
 в DOMDocument</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="518"/>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="560"/>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="972"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="530"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="572"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="993"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>Не удаётся записать файл %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="539"/>
-        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="963"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="551"/>
+        <location filename="../../src/gui/circuitwidget/circuit.cpp" line="984"/>
         <source>Bill Of Materials</source>
         <translation>Спецификация материалов</translation>
     </message>
@@ -971,12 +973,12 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="232"/>
         <source>Real Speed: Debugger</source>
-        <translation type="unfinished"></translation>
+        <translation>Реальная скорость: Отладчик</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="243"/>
         <source>Circuit ERROR!!!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка в схеме!!!</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/circuitwidget.cpp" line="245"/>
@@ -1000,37 +1002,37 @@ Do you want to save your changes?
 <context>
     <name>CodeEditor</name>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="115"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="119"/>
         <source> File: </source>
-        <translation>Файл: </translation>
+        <translation> Файл: </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="160"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="167"/>
         <source>File recognized as: </source>
         <translation>Файл распознан как: </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="260"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="276"/>
         <source>File type not supported</source>
         <translation>Тип файла не поддерживается</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="268"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="284"/>
         <source>     SUCCESS!!! Compilation Ok</source>
         <translation>     УСПЕШНО!!! Компиляция завершена</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="274"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="290"/>
         <source>     ERROR!!! Compilation Faliled</source>
         <translation>     ОШИБКА!!! Компиляция не выполнена</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="289"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="305"/>
         <source>Uploading: </source>
         <translation>Загрузка: </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="353"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="369"/>
         <source>
 Error:  Mcu Deleted while Debugging!!
 </source>
@@ -1039,42 +1041,42 @@ Error:  Mcu Deleted while Debugging!!
 </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="419"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="435"/>
         <source>Starting Debbuger...</source>
         <translation>Запуск отладчика...</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="425"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="441"/>
         <source>Error: No Mcu in Simulator... </source>
         <translation>Ошибка: нет микроконтроллера в симуляторе... </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="430"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="446"/>
         <source>Error: No Debugger Suited for this File... </source>
         <translation>Ошибка: нет подходящего отладчика для этого файла... </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="435"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="451"/>
         <source>Error: No File... </source>
         <translation>Ошибка: нет файла... </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="443"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="459"/>
         <source>Error Compiling... </source>
         <translation>Ошибка компиляции... </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="456"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="472"/>
         <source>Error Loading Firmware... </source>
         <translation>Ошибка загрузки прошивки... </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="472"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="488"/>
         <source>Debbuger Started </source>
         <translation>Отладчик запущен </translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="497"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="513"/>
         <source>Debbuger Stopped </source>
         <translation>Отладчик остановлен </translation>
     </message>
@@ -1098,42 +1100,42 @@ Error:  Mcu Deleted while Debugging!!
 <context>
     <name>Component</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="172"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="176"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="175"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="179"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="178"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="182"/>
         <source>Properties</source>
         <translation>Свойства</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="182"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="186"/>
         <source>Rotate CW</source>
-        <translation>Повернуть на 90 градусов</translation>
+        <translation>Повернуть на 90 градусов вправо</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="185"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="189"/>
         <source>Rotate CCW</source>
-        <translation>Повернуть на 270 градусов</translation>
+        <translation>Повернуть на 90 градусов влево</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="188"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="192"/>
         <source>Rotate 180</source>
         <translation>Повернуть на 180 градусов</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="191"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="195"/>
         <source>Horizontal Flip</source>
         <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/component.cpp" line="194"/>
+        <location filename="../../src/gui/circuitwidget/component.cpp" line="198"/>
         <source>Vertical Flip</source>
         <translation>Отразить по вертикали</translation>
     </message>
@@ -1151,7 +1153,7 @@ Error:  Mcu Deleted while Debugging!!
     <message>
         <location filename="../../src/gui/componentselector/componentselector.cpp" line="88"/>
         <source>    Loading Component sets at:</source>
-        <translation>Загрузка набора компонентов в:</translation>
+        <translation>    Загрузка набора компонентов в:</translation>
     </message>
     <message>
         <location filename="../../src/gui/componentselector/componentselector.cpp" line="104"/>
@@ -1170,7 +1172,7 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/componentselector/componentselector.cpp" line="163"/>
         <source>        Loaded Component set:           </source>
-        <translation>Загружен набор компонентов:</translation>
+        <translation>        Загружен набор компонентов:           </translation>
     </message>
     <message>
         <location filename="../../src/gui/componentselector/componentselector.cpp" line="333"/>
@@ -1240,7 +1242,7 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/diode.cpp" line="36"/>
         <source>Active</source>
-        <translation>Активный</translation>
+        <translation>Активные элементы</translation>
     </message>
 </context>
 <context>
@@ -1436,7 +1438,7 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/editorwidget/editorwindow.cpp" line="358"/>
         <source>Stop Debugger</source>
-        <translation type="unfinished"></translation>
+        <translation>Остановить отладчик</translation>
     </message>
     <message>
         <source>Stop</source>
@@ -1515,7 +1517,7 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/filebrowser/filewidget.cpp" line="43"/>
         <source>cd Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Шаг вверх</translation>
     </message>
     <message>
         <location filename="../../src/gui/filebrowser/filewidget.cpp" line="180"/>
@@ -1681,7 +1683,7 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/circuitwidget/components/hd44780.cpp" line="40"/>
         <source>Outputs</source>
-        <translation>Выводы</translation>
+        <translation>Выходы</translation>
     </message>
 </context>
 <context>
@@ -1702,12 +1704,12 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/circuitwidget/components/i2ctoparallel.cpp" line="31"/>
         <source>I2C to Parallel</source>
-        <translation type="unfinished"></translation>
+        <translation>Конвертор I2C в Параллель</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/i2ctoparallel.cpp" line="32"/>
         <source>Logic</source>
-        <translation type="unfinished">Логика</translation>
+        <translation>Логика</translation>
     </message>
 </context>
 <context>
@@ -1733,7 +1735,7 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/circuitwidget/components/inductor.cpp" line="39"/>
         <source>Passive</source>
-        <translation>Пассивный</translation>
+        <translation>Пассивные элементы</translation>
     </message>
 </context>
 <context>
@@ -1769,7 +1771,7 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/circuitwidget/components/ks0108.cpp" line="39"/>
         <source>Outputs</source>
-        <translation>Выводы</translation>
+        <translation>Выходы</translation>
     </message>
 </context>
 <context>
@@ -1795,7 +1797,7 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/circuitwidget/components/led.cpp" line="30"/>
         <source>Outputs</source>
-        <translation>Выходы</translation>
+        <translation>Светодиоды</translation>
     </message>
 </context>
 <context>
@@ -1808,7 +1810,7 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/circuitwidget/components/ledbar.cpp" line="33"/>
         <source>Outputs</source>
-        <translation>Выходы</translation>
+        <translation>Светодиоды</translation>
     </message>
 </context>
 <context>
@@ -1821,7 +1823,7 @@ Do you want to save your changes?
     <message>
         <location filename="../../src/gui/circuitwidget/components/ledmatrix.cpp" line="33"/>
         <source>Outputs</source>
-        <translation>Выходы</translation>
+        <translation>Светодиоды</translation>
     </message>
 </context>
 <context>
@@ -1840,14 +1842,27 @@ Do you want to save your changes?
 <context>
     <name>LineNumberArea</name>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="852"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="868"/>
         <source>Add BreakPoint</source>
         <translation>Добавить точку останова</translation>
     </message>
     <message>
-        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="855"/>
+        <location filename="../../src/gui/editorwidget/codeeditor.cpp" line="871"/>
         <source>Remove BreakPoint</source>
         <translation>Удалить точку останова</translation>
+    </message>
+</context>
+<context>
+    <name>Lm555</name>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/lm555.cpp" line="37"/>
+        <source>lm555</source>
+        <translation>LM555</translation>
+    </message>
+    <message>
+        <location filename="../../src/gui/circuitwidget/components/lm555.cpp" line="38"/>
+        <source>Logic</source>
+        <translation>Логика</translation>
     </message>
 </context>
 <context>
@@ -1917,66 +1932,66 @@ Do you want to save your changes?
 <context>
     <name>McuComponent</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="86"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="88"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>Не удаётся прочитать файл %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="94"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="96"/>
         <source>Cannot set file %1
 to DomDocument</source>
         <translation>Не удаётся загрузить файл %1
 в DOMDocument</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="207"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="202"/>
         <source>Load firmware</source>
         <translation>Загрузить прошивку</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="210"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="205"/>
         <source>Reload firmware</source>
         <translation>Перезагрузить прошивку</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="213"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="208"/>
         <source>Open Serial Monitor.</source>
         <translation>Открыть Serial Monitor.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="216"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="211"/>
         <source>Close Serial Monitor</source>
         <translation>Закрыть Serial Monitor</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="219"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="214"/>
         <source>Open Serial Port.</source>
         <translation>Открыть Serial Port.</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="222"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="217"/>
         <source>Close Serial Port</source>
         <translation>Закрыть Serial Port</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="263"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="258"/>
         <source>Load Firmware</source>
         <translation>Загрузить прошивку</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="264"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="259"/>
         <source>Hex Files (*.hex);;ELF Files (*.elf);;all files (*.*)</source>
         <translation>Файлы HEX (*.hex);;Файлы ELF (*.elf);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="275"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="270"/>
         <source>No File:</source>
         <translation>Нет файла:</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="275"/>
+        <location filename="../../src/gui/circuitwidget/components/mcu/mcucomponent.cpp" line="270"/>
         <source>No File to reload </source>
         <translation>Нет файла для перезагрузки </translation>
     </message>
@@ -1991,7 +2006,7 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mosfet.cpp" line="40"/>
         <source>Active</source>
-        <translation>Активный</translation>
+        <translation>Активные элементы</translation>
     </message>
 </context>
 <context>
@@ -2017,7 +2032,7 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/op_amp.cpp" line="41"/>
         <source>Active</source>
-        <translation>Активный</translation>
+        <translation>Активные элементы</translation>
     </message>
 </context>
 <context>
@@ -2064,7 +2079,7 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mcu/piccomponent.cpp" line="31"/>
         <source>Micro</source>
-        <translation>Микро</translation>
+        <translation>Микроконтроллеры</translation>
     </message>
     <message>
         <location filename="../../src/gui/circuitwidget/components/mcu/piccomponent.cpp" line="51"/>
@@ -2119,7 +2134,7 @@ No valid Package</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/pcd8544.cpp" line="45"/>
         <source>Outputs</source>
-        <translation>Выводы</translation>
+        <translation>Выходы</translation>
     </message>
 </context>
 <context>
@@ -2161,7 +2176,7 @@ No valid Package</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/potentiometer.cpp" line="38"/>
         <source>Passive</source>
-        <translation>Пассивный</translation>
+        <translation>Пассивные элементы</translation>
     </message>
 </context>
 <context>
@@ -2318,7 +2333,7 @@ No valid Package</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/resistor.cpp" line="36"/>
         <source>Passive</source>
-        <translation>Пассивный</translation>
+        <translation>Пассивные элементы</translation>
     </message>
 </context>
 <context>
@@ -2331,7 +2346,7 @@ No valid Package</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/resistordip.cpp" line="33"/>
         <source>Passive</source>
-        <translation>Пассивный</translation>
+        <translation>Пассивные элементы</translation>
     </message>
 </context>
 <context>
@@ -2342,59 +2357,59 @@ No valid Package</source>
         <translation>Нет данных</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="128"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="163"/>
         <source>Description: %1</source>
         <translation>Описание: %1</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="129"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="164"/>
         <source>Manufacturer: %1</source>
         <translation>Изготовитель: %1</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="130"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="165"/>
         <source>Serial number: %1</source>
         <translation>Серийный номер: %1</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="150"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="185"/>
         <source>Connected to %1 : %2, %3, %4, %5, %6</source>
         <translation>Подключен к %1 : %2, %3, %4, %5, %6</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="156"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="191"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="220"/>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="271"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="255"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="306"/>
         <source>Custom</source>
         <translation>Настройка</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="228"/>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="240"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="263"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="275"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="229"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="264"/>
         <source>Even</source>
         <translation>Чётный</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="230"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="265"/>
         <source>Odd</source>
         <translation>Нечётный</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="231"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="266"/>
         <source>Mark</source>
         <translation>Маркер</translation>
     </message>
     <message>
-        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="232"/>
+        <location filename="../../src/gui/serialporwidget/serialportwidget.cpp" line="267"/>
         <source>Space</source>
         <translation>Пробел</translation>
     </message>
@@ -2464,7 +2479,7 @@ No valid Package</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/servo.cpp" line="36"/>
         <source>Outputs</source>
-        <translation>Выводы</translation>
+        <translation>Выходы</translation>
     </message>
 </context>
 <context>
@@ -2477,7 +2492,7 @@ No valid Package</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/sevensegment.cpp" line="40"/>
         <source>Outputs</source>
-        <translation>Выводы</translation>
+        <translation>Выходы</translation>
     </message>
 </context>
 <context>
@@ -2516,7 +2531,7 @@ No valid Package</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/stepper.cpp" line="38"/>
         <source>Outputs</source>
-        <translation>Выводы</translation>
+        <translation>Выходы</translation>
     </message>
 </context>
 <context>
@@ -2546,7 +2561,8 @@ to DomDocument</source>
         <location filename="../../src/gui/circuitwidget/subcircuit.cpp" line="171"/>
         <source>Error reading Subcircuit file: %1
 </source>
-        <translation>Ошибка чтения файла подсхемы: %1</translation>
+        <translation>Ошибка чтения файла подсхемы: %1
+</translation>
     </message>
 </context>
 <context>
@@ -2573,12 +2589,12 @@ to DomDocument</source>
 <context>
     <name>TextComponent</name>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="36"/>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="37"/>
         <source>Text</source>
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="37"/>
+        <location filename="../../src/gui/circuitwidget/components/textcomponent.cpp" line="38"/>
         <source>Other</source>
         <translation>Другое</translation>
     </message>
@@ -2606,7 +2622,7 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/volt_reg.cpp" line="37"/>
         <source>Active</source>
-        <translation>Активный</translation>
+        <translation>Активные элементы</translation>
     </message>
 </context>
 <context>
@@ -2671,7 +2687,7 @@ to DomDocument</source>
     <message>
         <location filename="../../src/gui/circuitwidget/components/elcapacitor.cpp" line="30"/>
         <source>Passive</source>
-        <translation>Пассивный</translation>
+        <translation>Пассивные элементы</translation>
     </message>
 </context>
 <context>

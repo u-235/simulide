@@ -62,8 +62,6 @@ class MAINMODULE_EXPORT eMosfet : public eResistor
         bool m_Pchannel;
         bool m_depletion;
         bool m_Sfollow;
-        
-        eSource* m_gate;
 };
 
 #endif

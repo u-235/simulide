@@ -176,7 +176,7 @@ void Package::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidge
     p->drawRoundedRect( m_area, 1, 1);
 
     p->setPen( QColor( 170, 170, 150 ) );
-    p->drawArc( boundingRect().width()/2-4, -4, 8, 8, 0, -2880 /* -16*180 */ );
+    p->drawArc( boundingRect().width()/2-6, -4, 8, 8, 0, -2880 /* -16*180 */ );
 }
 
 #include "moc_package.cpp"

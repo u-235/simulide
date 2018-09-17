@@ -20,7 +20,7 @@
  ***************************************************************************/
 
 #include "op_amp.h"
-
+#include "e-source.h"
 #include "itemlibrary.h"
 #include "connector.h"
 #include "pin.h"
@@ -100,9 +100,6 @@ OpAmp::OpAmp( QObject* parent, QString type, QString id )
 }
 OpAmp::~OpAmp()
 {
-    delete m_output;
-    //delete m_powerPos;
-    //delete m_powerNeg;
 }
 
 void OpAmp::setPowerPins( bool set )

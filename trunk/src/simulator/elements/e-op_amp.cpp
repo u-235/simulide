@@ -18,7 +18,10 @@
  ***************************************************************************/
 
 #include <math.h>   // fabs(x,y)
+#include <sstream>
+
 #include "e-op_amp.h"
+#include "e-source.h"
 #include "simulator.h"
 
 eOpAmp::eOpAmp( std::string id )
@@ -30,7 +33,8 @@ eOpAmp::eOpAmp( std::string id )
     //m_connected = false;
 }
 eOpAmp::~eOpAmp()
-{ 
+{
+    delete m_output;
 }
 
 void eOpAmp::initialize()
@@ -129,4 +133,10 @@ ePin* eOpAmp::getEpin( QString pinName )
 void eOpAmp::initEpins()
 {
     setNumEpins(5); 
+    
+    std::stringstream ss;
+    ss << m_elmId << "-eSource";
+    m_output = new eSource( ss.str(), m_ePin[2] );
+    //m_output->setImp( 40 );
+    m_output->setOut( true );
 }

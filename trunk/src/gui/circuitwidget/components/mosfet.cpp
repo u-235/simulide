@@ -57,9 +57,6 @@ Mosfet::Mosfet( QObject* parent, QString type, QString id )
     newPin->setLabelText( "" );
     newPin->setLabelColor( QColor( 0, 0, 0 ) );
     m_ePin[2] = newPin;
-    newId.append(QString("-eSource"));
-    m_gate = new eSource( newId.toStdString(), m_ePin[2] );
-    m_gate->setImp( 1e5 );
 
     // D,S pins m_ePin[0] m_ePin[1] 
     newId = id;
@@ -106,8 +103,6 @@ void Mosfet::remove()
     if( m_ePin[2]->isConnected() ) (static_cast<Pin*>(m_ePin[2]))->connector()->remove();
     
     Component::remove();
-    
-    delete m_gate;
 }
 
 void Mosfet::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
