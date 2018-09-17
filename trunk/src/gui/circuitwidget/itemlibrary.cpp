@@ -59,6 +59,7 @@
 #include "ledbar.h"
 #include "ledmatrix.h"
 #include "line.h"
+#include "lm555.h"
 #include "logicinput.h"
 #include "mosfet.h"
 #include "mux.h"
@@ -175,6 +176,7 @@ void ItemLibrary::loadItems()
     addItem( Ram8bit::libraryItem() );
     addItem( I2CRam::libraryItem() );
     addItem( I2CToParallel::libraryItem() );
+    addItem( Lm555::libraryItem() );
     // Subcircuits
     addItem( SubCircuit::libraryItem() );
     // Other
