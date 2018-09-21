@@ -46,9 +46,10 @@ QStringList CodeEditor::m_picInstr = QString("addlw addwf andlw andwf bcf bov bs
                 .split(" ");
 QStringList CodeEditor::m_avrInstr = QString("add adc adiw sub subi sbc sbci sbiw andi ori eor com neg sbr cbr dec tst clr ser mul rjmp ijmp jmp rcall icall ret reti cpse cp cpc cpi sbrc sbrs sbic sbis brbs brbc breq brne brcs brcc brsh brlo brmi brpl brge brlt brhs brhc brts brtc brvs brvc brie brid mov movw ldi lds ld ldd sts st std lpm in out push pop lsl lsr rol ror asr swap bset bclr sbi cbi bst bld sec clc sen cln sez clz sei cli ses cls sev clv set clt seh clh wdr")
                 .split(" ");
+ 
 bool  CodeEditor::m_showSpaces = false;
 bool  CodeEditor::m_spaceTabs  = false;
-int   CodeEditor::m_fontSize = 9;
+int   CodeEditor::m_fontSize = 11;
 int   CodeEditor::m_tabSize = 4;
 QFont CodeEditor::m_font;
 
@@ -109,7 +110,10 @@ CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTab
     highlightCurrentLine();
 }
 CodeEditor::~CodeEditor()
-{}
+{
+    QPropertyEditorWidget::self()->removeObject( this );
+    if( m_debugger ) QPropertyEditorWidget::self()->removeObject( m_debugger );
+}
 
 void CodeEditor::setFile( const QString& filePath )
 {
