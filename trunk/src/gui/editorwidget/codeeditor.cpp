@@ -656,6 +656,7 @@ void CodeEditor::setTabSize( int size )
     setTabStopWidth( m_tabSize*m_fontSize*2/3 );
     
     if( m_spaceTabs ) setSpaceTabs( true );
+    else              writeSettings();
 }
 
 bool CodeEditor::showSpaces()
@@ -673,12 +674,15 @@ void CodeEditor::setShowSpaces( bool on )
     else option.setFlags(option.flags() & ~QTextOption::ShowTabsAndSpaces);
 
     document()->setDefaultTextOption(option);
+    
+    writeSettings();
 }
 
 bool CodeEditor::spaceTabs()
 {
     return m_spaceTabs;
 }
+
 void CodeEditor::setSpaceTabs( bool on )
 {
     m_spaceTabs = on;
@@ -689,6 +693,8 @@ void CodeEditor::setSpaceTabs( bool on )
         for( int i=0; i<m_tabSize; i++) m_tab += " ";
     }
     else m_tab = "\t";
+    
+    writeSettings();
 }
 
 void CodeEditor::keyPressEvent( QKeyEvent* event )
