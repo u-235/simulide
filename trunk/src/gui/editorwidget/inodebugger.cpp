@@ -42,6 +42,7 @@ InoDebugger::InoDebugger( QObject* parent, OutPanelText* outPane, QString filePa
     boardList << "uno" << "megaADK" << "nano" << "diecimila" << "leonardo";
     
     m_board = Uno;
+    m_customBoard = "";
     
     m_typesList["char"]   = "int8";
     m_typesList["uchar"]  = "uint8";
