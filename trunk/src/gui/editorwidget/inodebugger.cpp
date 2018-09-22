@@ -42,7 +42,6 @@ InoDebugger::InoDebugger( QObject* parent, OutPanelText* outPane, QString filePa
     boardList << "uno" << "megaADK" << "nano" << "diecimila" << "leonardo";
     
     m_board = Uno;
-    m_customBoard = "";
     
     m_typesList["char"]   = "int8";
     m_typesList["uchar"]  = "uint8";
@@ -194,20 +193,21 @@ int InoDebugger::compile()
         compIno.setStandardOutputFile( buildPath+"/"+m_fileName+".ino.lst" );
         compIno.start( command );
         compIno.waitForFinished(-1);
-
-                             // Get variable addresses from .bss section
-        QProcess getBss( 0l );
-        command  = m_compilerPath+"hardware/tools/avr/bin/avr-objdump -t -j.bss "+elfPath;
+                             
+        QProcess getBss( 0l );      // Get var address from .bss section
+        command  = objdump+" -t -j.bss "+elfPath;
         getBss.start( command );
         getBss.waitForFinished(-1);
-        
+
         QString  p_stdout = getBss.readAllStandardOutput();
         QStringList lines = p_stdout.split("\n");
+        
         foreach( QString line, lines )
         {
             //qDebug() << line;
-            if( line.isEmpty() ) continue;
+            
             QStringList words = line.split(" ");
+            if( words.size() < 4 ) continue;
             QString addr      = words.takeFirst();
             QString symbol    = words.takeLast();
             
