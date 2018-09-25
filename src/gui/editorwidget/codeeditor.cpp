@@ -82,17 +82,19 @@ CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTab
     
     if( settings->contains( "Editor_show_spaces" ) )
         setShowSpaces( settings->value( "Editor_show_spaces" ).toBool() );
-
-    if( settings->contains( "Editor_spaces_tabs" ) )
-        setSpaceTabs( settings->value( "Editor_spaces_tabs" ).toBool() );
-
+        
     if( settings->contains( "Editor_tab_size" ) )
         setTabSize( settings->value( "Editor_tab_size" ).toInt() );
 
     if( settings->contains( "Editor_font_size" ) )
         setFontSize( settings->value( "Editor_font_size" ).toInt() );
 
-    
+    bool spacesTab = false;
+    if( settings->contains( "Editor_spaces_tabs" ) )
+        spacesTab = settings->value( "Editor_spaces_tabs" ).toBool();
+        
+    setSpaceTabs( spacesTab );
+
     QPalette p = palette();
     p.setColor( QPalette::Base, QColor( 255, 255, 249) );
     p.setColor( QPalette::Text, QColor( 0, 0, 0) );
