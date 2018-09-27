@@ -84,13 +84,12 @@ void Simulator::timerEvent( QTimerEvent* e )  //update at m_timerTick rate (50 m
         return;
     }
     //m_CircuitFuture.waitForFinished();
-    foreach( eElement* el, m_updateList ) el->updateStep();
-    m_CircuitFuture = QtConcurrent::run( this, &Simulator::runCircuit ); // Run Circuit in a parallel thread
-
     // Run Graphic Elements
     PlotterWidget::self()->step();
     TerminalWidget::self()->step();
-    
+    foreach( eElement* el, m_updateList ) el->updateStep();
+    m_CircuitFuture = QtConcurrent::run( this, &Simulator::runCircuit ); // Run Circuit in a parallel thread
+
     // Get Real Simulation Speed
     qint64 refTime      = m_RefTimer.nsecsElapsed();
     qint64 deltaRefTime = refTime-m_lastRefTime;

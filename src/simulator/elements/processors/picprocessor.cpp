@@ -142,7 +142,6 @@ bool PicProcessor::loadFirmware( QString fileN )
     }
     initialized();
     
-    m_lastTrmtBit = 0; // for usart
     m_pendingIpc = 0;
     m_nextCycle = m_mcuStepsPT/cpi;
     if( m_nextCycle == 0 ) m_nextCycle = 1;
@@ -156,6 +155,9 @@ bool PicProcessor::loadFirmware( QString fileN )
     address = getRegAddress( "TXSTA" );
     Register* txsta = m_pPicProcessor->rma.get_register( address );
     m_txsta = dynamic_cast<_TXSTA*>(txsta); 
+    
+    address = getRegAddress( "TXREG" );
+    m_txReg = m_pPicProcessor->rma.get_register( address );
     
     address = getRegAddress( "PIR1" );
     Register* pir1 = m_pPicProcessor->rma.get_register( address );
@@ -180,8 +182,8 @@ void PicProcessor::step()                 // Run 1 step
     for( int k=0; k<cycles; k++ ) 
     {
         m_pPicProcessor->step_cycle();
+        if( m_usartTerm ) readUsart();
     }
-    if( m_usartTerm ) readUsart();
 }
 
 void PicProcessor::stepOne() 
@@ -239,28 +241,16 @@ void PicProcessor::uartIn( uint32_t value ) // Receive one byte on Uart
 
 void PicProcessor::readUsart()
 {
-static int txreg;
-static int txreg0;
-
-    if( !(m_txsta->get_bit(5)) ) return;                           // TXEN bit
-
-    bool trmtBit = m_txsta->get_bit(1); //txstaReg & 2;
+    if( !(m_txsta->get_bit(5)) ) return;                     // TXEN bit
     
-    txreg = getRamValue( m_regsTable["TXREG"] );
-    //qDebug() << "PicProcessor::readUsart:.... " << txreg<<trmtBit;
-//qDebug() << "PicProcessor::readUsart:.... " << txreg<<m_lastTrmtBit<<trmtBit;
-    if( txreg != txreg0  )
+    bool txIf = m_pir->get_bit(4);
+    
+    if( !txIf & m_lastTxIf ) 
     {
-        if( !m_lastTrmtBit & !trmtBit ) BaseProcessor::uartOut( txreg );
-        txreg0 = txreg;
-        //qDebug() << "PicProcessor::readUsart:.... " << text;
+        int txreg = m_txReg->get_value();
+        if( txreg != 13 ) BaseProcessor::uartOut( txreg );
     }
-    if( m_lastTrmtBit != trmtBit ) 
-    {
-        if(  m_lastTrmtBit & !trmtBit ) BaseProcessor::uartOut( txreg0 );
-        m_lastTrmtBit = trmtBit;
-        //qDebug() << "PicProcessor::readUsart: " << text;
-    }
+    m_lastTxIf  = txIf;
 }
 
 void PicProcessor::bitChange( QString regName, int bit, bool value )

@@ -24,7 +24,7 @@
 
 #include "baseprocessor.h"
 
-//#include "gpsim/registers.h"
+#include "gpsim/registers.h"
 
 //class RegBitSink;
 class pic_processor;
@@ -70,7 +70,9 @@ class PicProcessor : public BaseProcessor
         pic_processor* m_pPicProcessor;
 
         bool m_DoneGpsimInit;
-        bool m_lastTrmtBit;
+        bool m_lastTxIf;
+        
+        Register* m_txReg;
         
         _RCREG* m_rcReg;
         _TXSTA* m_txsta;
