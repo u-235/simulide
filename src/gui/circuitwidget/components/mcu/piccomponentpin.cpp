@@ -17,7 +17,6 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef NO_PIC
 #include "piccomponentpin.h"
 #include "piccomponent.h"
 #include "baseprocessor.h"
@@ -33,7 +32,7 @@ PICComponentPin::PICComponentPin( McuComponent* mcu, QString id, QString type, Q
     m_pStimulusNode = 0l;
     m_pIOPIN        = 0l;
 }
-PICComponentPin::~PICComponentPin(){}
+PICComponentPin::~PICComponentPin(){ delete m_pStimulusNode; }
 
 void PICComponentPin::attach( pic_processor *PicProcessor )
 {
@@ -69,13 +68,11 @@ void PICComponentPin::attach( pic_processor *PicProcessor )
         m_pStimulusNode = new Stimulus_Node(m_id.toLatin1());
         m_pStimulusNode->attach_stimulus(iopin);
         m_pStimulusNode->attach_stimulus(this);
-
     }
     else if( m_id.startsWith("MCLR") )
     {
         m_pinType = 21;
     }
-    
     m_attached = true;
 }
 
@@ -139,4 +136,3 @@ double PICComponentPin::get_Vth( )                    // Called by Gpsim
     return m_ePin[0]->getVolt();
 }
 #include "moc_piccomponentpin.cpp"
-#endif

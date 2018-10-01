@@ -63,7 +63,7 @@ AVRComponent::AVRComponent( QObject* parent, QString type, QString id )
     m_dataFile = "avrs.xml";
     m_processor = AvrProcessor::self();
 
-    initPackage();
+    initChip();
     if( m_error == 0 )
     {
         setFreq( 16 );

@@ -17,7 +17,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef NO_PIC
   
 #ifndef PICPROCESSOR_H
 #define PICPROCESSOR_H
@@ -25,6 +24,7 @@
 #include "baseprocessor.h"
 
 #include "gpsim/registers.h"
+#include "gpsim/hexutils.h"
 
 //class RegBitSink;
 class pic_processor;
@@ -54,47 +54,20 @@ class PicProcessor : public BaseProcessor
 
         void uartIn( uint32_t value );
         
-        void readUsart();
-        
-        void bitChange( QString regName, int bit, bool value );
-        
         pic_processor* getCpu() { return m_pPicProcessor; }
 
     private:
- 
         virtual int  validate( int address );
         
         double m_ipc;
         double m_pendingIpc;
         
         pic_processor* m_pPicProcessor;
-
-        bool m_DoneGpsimInit;
-        bool m_lastTxIf;
         
-        Register* m_txReg;
+        IntelHexProgramFileType m_hexLoader;
         
         _RCREG* m_rcReg;
-        _TXSTA* m_txsta;
-        PIR* m_pir;
-        
-        //RegBitSink* m_tmrtBitSink;
 };
 
-/*class RegBitSink : public BitSink  // BitSink inform us about bit changes in a register
-{
 
-    public:
-        RegBitSink(PicProcessor* picProcessor, QString name, int bit );
-        ~RegBitSink();
-
-        void setSink(bool b);  // Called by gpsim when bit changes
-      
-    private:
-        PicProcessor* m_picProcessor;
-        
-        QString m_regName;
-        int     m_bit;
-};*/
-#endif
 #endif

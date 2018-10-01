@@ -17,7 +17,7 @@
  #                                                                         #
  ###########################################################################
  
-VERSION     = "0.2.9"
+VERSION     = "0.3.10"
 
 TEMPLATE = app
 
@@ -47,7 +47,9 @@ SOURCES += ../src/*.cpp \
     ../src/simulator/elements/*.cpp \
     ../src/simulator/elements/processors/*.cpp \
     ../src/simavr/sim/*.c \
-    ../src/simavr/cores/*.c 
+    ../src/simavr/cores/*.c \
+    ../src/gpsim/*.cc \
+    ../src/gpsim/devices/*.cc
 
 HEADERS += ../src/*.h \
     ../src/gui/*.h \
@@ -69,7 +71,9 @@ HEADERS += ../src/*.h \
     ../src/simavr/sim/*.h \
     ../src/simavr/sim/avr/*.h  \
     ../src/simavr/cores/*.h \
-    ../resources/data/*.xml
+    ../resources/data/*.xml \
+    ../src/gpsim/*.h \
+    ../src/gpsim/devices/*.h
 
 INCLUDEPATH += ../src \
     ../src/gui \
@@ -91,8 +95,9 @@ INCLUDEPATH += ../src \
     ../src/simavr \
     ../src/simavr/sim \
     ../src/simavr/sim/avr \
-    ../src/simavr/cores 
-
+    ../src/simavr/cores \
+    ../src/gpsim \
+    ../src/gpsim/devices
 
 TRANSLATIONS +=  \
     ../resources/translations/simulide.ts \
@@ -107,11 +112,12 @@ QMAKE_CXXFLAGS_DEBUG -= -O
 QMAKE_CXXFLAGS_DEBUG -= -O1
 QMAKE_CXXFLAGS_DEBUG -= -O2
 QMAKE_CXXFLAGS_DEBUG -= -O3
-QMAKE_CXXFLAGS_DEBUG += -O0
+QMAKE_CXXFLAGS_DEBUG += -O3
 QMAKE_CXXFLAGS_RELEASE -= -O
 QMAKE_CXXFLAGS_RELEASE -= -O1
 QMAKE_CXXFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS_RELEASE *= -O3
+QMAKE_CXXFLAGS_RELEASE -= -O3
+QMAKE_CXXFLAGS_RELEASE += -O3
 QMAKE_CXXFLAGS += -Wno-unused-parameter
 QMAKE_CXXFLAGS += -Wno-missing-field-initializers
 
@@ -122,19 +128,15 @@ QMAKE_CFLAGS += -Wno-missing-field-initializers
 QMAKE_CFLAGS += -Wno-implicit-function-declaration
 QMAKE_CFLAGS += -Wno-int-conversion
 QMAKE_CFLAGS += -Wno-sign-compare
-QMAKE_CFLAGS += -O2
+#QMAKE_CFLAGS += -O2
 QMAKE_CFLAGS += -fPIC
 
 QMAKE_LIBS += -lelf
-
-LIBS += -lgpsim
 
 CONFIG += qt 
 CONFIG += warn_on
 CONFIG += no_qml_debug
 CONFIG *= c++11
-CONFIG += link_pkgconfig
-PKGCONFIG += glib-2.0
 
 DEFINES += MAINMODULE_EXPORT=
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
@@ -178,10 +180,8 @@ QMAKE_EXTRA_TARGETS += copy2dest
 POST_TARGETDEPS     += copy2dest
 
 
-
 message( "-----------------------------" )
 message( "    " $$TARGET_NAME )
 message( "    TARGET_PREFIX=" $$TARGET_PREFIX )
 message( "-----------------------------" )
-
 

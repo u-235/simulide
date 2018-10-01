@@ -21,6 +21,8 @@
 #include "simulator.h"
 #include "circuit.h"
 
+#include <math.h>
+
 static const char* RelayBase_properties[] = {
     QT_TRANSLATE_NOOP("App::Property","Rcoil"),
     QT_TRANSLATE_NOOP("App::Property","Itrig"),

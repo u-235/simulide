@@ -240,7 +240,8 @@ void BaseProcessor::uartOut( uint32_t value ) // Send value to OutPanelText
 {
     if( m_usartTerm )
     {
-        TerminalWidget::self()->uartOut( value );
+        if( value != 13 ) // '\r'
+            TerminalWidget::self()->uartOut( value );
     }
     if( m_serialPort )
     {

@@ -24,6 +24,8 @@
 #include "itemlibrary.h"
 #include "circuitwidget.h"
 
+#include <math.h>
+
 static const char* Probe_properties[] = {
     QT_TRANSLATE_NOOP("App::Property","PlotterCh")
 };

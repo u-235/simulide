@@ -66,7 +66,7 @@ Arduino::Arduino( QObject* parent, QString type, QString id )
     
     setTransformOriginPoint( boundingRect().center() );
 
-    initPackage();
+    initChip();
     if( m_error == 0 )
     {
         initBoard();

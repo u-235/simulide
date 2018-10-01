@@ -25,6 +25,8 @@
 #include "utils.h"
 #include "simuapi_apppath.h"
 
+#include <math.h>
+
 int Component::m_error = 0;
 
 static const char* Component_properties[] = {

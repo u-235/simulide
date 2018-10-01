@@ -22,12 +22,12 @@
 
 #include <QtWidgets>
 
-#include "package.h"
+#include "chip.h"
 
 class BaseProcessor;
 class McuComponentPin;
 
-class MAINMODULE_EXPORT McuComponent : public Package
+class MAINMODULE_EXPORT McuComponent : public Chip
 {
     Q_OBJECT
     Q_PROPERTY( QString  Program     READ program WRITE setProgram DESIGNABLE true  USER true )
@@ -49,7 +49,7 @@ class MAINMODULE_EXPORT McuComponent : public Package
 
         int  freq();
         virtual void setFreq( int freq );
-        virtual void initPackage();
+        virtual void initChip();
         
         bool serPort();
         void setSerPort( bool set );
