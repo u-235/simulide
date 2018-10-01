@@ -17,7 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QDebug>
+//#include <QDebug>
+//#include <math.h>
 
 #include "e-diode.h"
 #include "e-node.h"

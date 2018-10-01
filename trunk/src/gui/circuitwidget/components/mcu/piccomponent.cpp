@@ -63,7 +63,7 @@ PICComponent::PICComponent( QObject* parent, QString type, QString id )
 
     //if( m_id.startsWith("PIC") ) m_id.replace( "PIC", "pic16f876" );
 
-    initPackage();
+    initChip();
     if( m_error == 0 )
     {
         setFreq( 20 );

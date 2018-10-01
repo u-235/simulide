@@ -74,17 +74,17 @@ LibraryItem* SubCircuit::libraryItem()
 }
 
 SubCircuit::SubCircuit( QObject* parent, QString type, QString id )
-          : Package( parent, type, id )
+          : Chip( parent, type, id )
 {
     m_numItems = 0;
 
-    initPackage();
+    initChip();
 }
 SubCircuit::~SubCircuit()
 {
 }
 
-void SubCircuit::initPackage()
+void SubCircuit::initChip()
 {
     QString compName = m_id.split("-").first(); // for example: "atmega328-1" to: "atmega328"
 
@@ -93,7 +93,7 @@ void SubCircuit::initPackage()
     QFile file( m_dataFile );
     if( !file.open(QFile::ReadOnly | QFile::Text) )
     {
-          MessageBoxNB( "SubCircuit::initPackage",
+          MessageBoxNB( "SubCircuit::initChip",
                     tr("Cannot read file %1:\n%2.").arg(m_dataFile).arg(file.errorString()));
           m_error = 21;
           return;
@@ -101,7 +101,7 @@ void SubCircuit::initPackage()
     QDomDocument domDoc;
     if( !domDoc.setContent(&file) )
     {
-         MessageBoxNB( "SubCircuit::initPackage",
+         MessageBoxNB( "SubCircuit::initChip",
                    tr("Cannot set file %1\nto DomDocument") .arg(m_dataFile));
          file.close();
          m_error = 22;
@@ -126,7 +126,7 @@ void SubCircuit::initPackage()
                 dataDir.cdUp();             // Indeed it doesn't cd, just take out file name
                 m_dataFile = dataDir.filePath( element.attribute( "package" ) );
 
-                Package::initPackage();
+                Chip::initChip();
                 if( m_error != 0 ) return;
 
                 m_dataFile = dataDir.filePath( element.attribute( "subcircuit" ) );
@@ -573,7 +573,7 @@ void SubCircuit::remove()
         delete el;
     }
 
-    Package::remove();
+    Chip::remove();
 }
 
 void SubCircuit::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )

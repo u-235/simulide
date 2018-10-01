@@ -42,7 +42,7 @@ McuComponent* McuComponent::m_pSelf = 0l;
 bool McuComponent::m_canCreate = true;
 
 McuComponent::McuComponent( QObject* parent, QString type, QString id )
-            : Package( parent, type, id )
+            : Chip( parent, type, id )
 {
     Q_UNUSED( McuComponent_properties );
     
@@ -58,7 +58,7 @@ McuComponent::McuComponent( QObject* parent, QString type, QString id )
     m_device     = "";
     m_error      = 0;
     
-    // Id Label Pos set in Package::initPackage
+    // Id Label Pos set in Chip::initChip
     m_color = QColor( 50, 50, 70 );
 
     QSettings* settings = MainWindow::self()->settings();
@@ -69,13 +69,13 @@ McuComponent::McuComponent( QObject* parent, QString type, QString id )
 }
 McuComponent::~McuComponent() {}
 
-void McuComponent::initPackage()
+void McuComponent::initChip()
 {
     QString compName = m_id.split("-").first(); // for example: "atmega328-1" to: "atmega328"
 
     m_dataFile = ComponentSelector::self()->getXmlFile( compName );
     
-    //qDebug() << "McuComponent::initPackage datafile: " << compName << " <= " << m_dataFile;
+    //qDebug() << "McuComponent::initChip datafile: " << compName << " <= " << m_dataFile;
     QFile file( m_dataFile );
     
     if(( m_dataFile == "" ) || ( !file.exists() ))
@@ -121,10 +121,10 @@ void McuComponent::initPackage()
                 
                 // Get device
                 m_device = element.attribute( "device" );
-                //qDebug()<<"McuComponent::initPackage" << "m_device" <<m_device;
+                //qDebug()<<"McuComponent::initChip" << "m_device" <<m_device;
                 
                 m_processor->setDevice( m_device );
-                //else qDebug() << compName << "ERROR!! McuComponent::initPackage m_processor: " << m_processor;
+                //else qDebug() << compName << "ERROR!! McuComponent::initChip m_processor: " << m_processor;
                 
                 // Get data file
                 QString dataFile = dataDir.filePath( element.attribute( "data" ) )+".data";
@@ -138,11 +138,11 @@ void McuComponent::initPackage()
         }
         rNode = rNode.nextSibling();
     }
-    if( m_device != "" ) Package::initPackage();
+    if( m_device != "" ) Chip::initChip();
     else 
     {
         m_error = 1;
-        qDebug() << compName << "ERROR!! McuComponent::initPackage Package not Found: " << package;
+        qDebug() << compName << "ERROR!! McuComponent::initChip Chip not Found: " << package;
     }
 }
 
@@ -334,7 +334,7 @@ void McuComponent::setSerMon( bool set )
 
 void McuComponent::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-    Package::paint( p, option, widget );
+    Chip::paint( p, option, widget );
 }
 
 #include "moc_mcucomponent.cpp"

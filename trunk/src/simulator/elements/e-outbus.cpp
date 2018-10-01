@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <math.h>
-#include <QDebug>
+//#include <QDebug>
 
 #include "e-outbus.h"
 

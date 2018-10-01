@@ -33,6 +33,7 @@ McuComponentPin::McuComponentPin( McuComponent *mcuComponent, QString id, QStrin
     m_mcuComponent = mcuComponent;
     
     m_attached = false;
+    m_isInput = true;
 
     Pin* pin = new Pin( angle, QPoint (xpos, ypos), mcuComponent->itemID()+"-"+id, pos, m_mcuComponent );
     pin->setLabelText( label );

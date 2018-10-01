@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <iostream>
-#include <cmath>
+#include <math.h>
 
 #include "circmatrix.h"
 #include "simulator.h"
