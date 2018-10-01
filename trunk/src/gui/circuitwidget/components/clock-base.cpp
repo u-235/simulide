@@ -46,8 +46,7 @@ void ClockBase::updateStep()
 {
     if( m_changed )
     {
-        if( m_isRunning )
-            Simulator::self()->addToSimuClockList( this );
+        if( m_isRunning ) Simulator::self()->addToSimuClockList( this );
         else
         {
             m_out->setOut( false );
@@ -61,7 +60,6 @@ int ClockBase::freq() { return m_freq; }
 
 void ClockBase::setFreq( int freq )
 {
-    //m_freq = freq;
     m_stepsPC = 1e6/(double)freq;
     
     if (m_stepsPC < 1) m_stepsPC = 1;
@@ -78,7 +76,7 @@ void ClockBase::setRunning( bool running )
     m_isRunning = running;
     m_step = 0;
     m_changed = true;
-    updateStep();
+    //updateStep();
     //qDebug() << m_stepsPC << m_isRunning ;
 }
 
