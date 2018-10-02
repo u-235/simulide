@@ -25,7 +25,7 @@ License along with this library; if not, see
 #include <string>
 #include <list>
 
-#include "../config.h"
+#include "config.h"
 #include "16bit-processors.h"
 #include "pic-instructions.h"
 #include "12bit-instructions.h"

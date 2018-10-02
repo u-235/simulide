@@ -26,7 +26,7 @@ License along with this library; if not, see
 
 #include <iostream>
 
-#include "../config.h"
+#include "config.h"
 #include "12bit-processors.h"
 #include "12bit-instructions.h"
 

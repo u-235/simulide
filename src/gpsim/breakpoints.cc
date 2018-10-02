@@ -22,7 +22,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <iomanip>
 
-#include "../config.h"
+#include "config.h"
 #include "pic-processor.h"
 #include "breakpoints.h"
 #include "14bit-processors.h"

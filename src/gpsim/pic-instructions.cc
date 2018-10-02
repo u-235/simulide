@@ -23,7 +23,7 @@ License along with this library; if not, see
 #include <iomanip>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 #include "pic-processor.h"
 #include "14bit-instructions.h"
 #include "registers.h"

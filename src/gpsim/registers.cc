@@ -23,7 +23,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <sstream>
 
-#include "../config.h"
+#include "config.h"
 #include "processor.h"
 #include "registers.h"
 //#include "ValueCollections.h"

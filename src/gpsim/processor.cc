@@ -37,7 +37,7 @@ License along with this library; if not, see
 #include <cstdio>
 #include <typeinfo>
 
-#include "../config.h"
+#include "config.h"
 #include "gpsim_classes.h"
 #include "processor.h"
 #include "pic-processor.h"

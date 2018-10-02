@@ -941,13 +941,9 @@ bool P16F630::set_config_word(uint address, uint cfg_word)
         {
             assignMCLRPin(4);  
         }
-        else
-        {
-            unassignMCLRPin();
-        }
+        else unassignMCLRPin();
 
         wdt.initialize((cfg_word & CFG_WDTE) == CFG_WDTE);
-
 
        set_int_osc(false);
 
@@ -965,32 +961,26 @@ bool P16F630::set_config_word(uint address, uint cfg_word)
                case 1:     // XT oscillator: crystal/resonator is on RA4 and RA5
                case 2:     // HS oscillator: crystal/resonator is on RA4 and RA5
             (&(*m_porta)[4])->AnalogReq((Register *)this, true, "OSC2");
-            (m_porta->getPin(5))->newGUIname("OSC1");
             valid_pins &= 0xcf;
             break;
 
         case 3:        // EC I/O on RA4 pin, CLKIN on RA5
-            (m_porta->getPin(5))->newGUIname("CLKIN");
             valid_pins &= 0xef;
             break;
-
             
         case 5: // INTOSC CLKOUT on RA4 pin
             (&(*m_porta)[4])->AnalogReq((Register *)this, true, "CLKOUT");
         case 4: // INTOSC
-            (m_porta->getPin(5))->newGUIname("porta5");
              set_int_osc(true);
              osccal.set_freq(4e6);
             break;
 
         case 6: //RC oscillator: I/O on RA4 pin, RC on RA5
-            (m_porta->getPin(5))->newGUIname("RC");
             valid_pins &= 0xdf;
             break;
 
         case 7: // RC oscillator: CLKOUT on RA4 pin, RC on RA5
             (&(*m_porta)[4])->AnalogReq((Register *)this, true, "CLKOUT");
-            (m_porta->getPin(5))->newGUIname("RC");
             valid_pins &= 0xdf;
             break;
         };
@@ -1001,16 +991,12 @@ bool P16F630::set_config_word(uint address, uint cfg_word)
             m_trisa->setEnableMask(valid_pins);
             }
         return(true);
-
     }
     return false;
 }
 
-
 //------------------------------------------------------------------------
 //
-//
-
 P16F676::P16F676(const char *_name, const char *desc)
    : P16F630(_name, desc),
     ansel(this,"ansel", "Analog Select"),
@@ -1018,7 +1004,6 @@ P16F676::P16F676(const char *_name, const char *desc)
     adcon1(this,"adcon1", "A2D Control 1"),
     adresh(this,"adresh", "A2D Result High"),
     adresl(this,"adresl", "A2D Result Low")
-
 {
 }
 P16F676::~P16F676()

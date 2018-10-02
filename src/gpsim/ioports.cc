@@ -26,7 +26,7 @@ License along with this library; if not, see
 #include <assert.h>
 #include <string.h>
 
-#include "../config.h"
+#include "config.h"
 #include "ioports.h"
 #include "modules.h"
 #include "stimuli.h"
@@ -50,6 +50,7 @@ License along with this library; if not, see
 SignalControl::~SignalControl()
 {
 }
+
 PeripheralSignalSource::PeripheralSignalSource(PinModule *_pin)
   : m_pin(_pin), m_cState('?')
 {
@@ -168,6 +169,7 @@ void PortSink::setSinkState(char cNewSinkState)
 
   m_PortRegister->setbit(m_iobit,cNewSinkState);
 }
+
 void PortSink::release()
 {
   //cout << "PortSink::release() ;" << this << endl;
@@ -203,7 +205,7 @@ void PortRegister::setEnableMask(uint newEnableMask)
   //uint maskDiff = getEnableMask() ^ newEnableMask;
   uint oldEnableMask = getEnableMask();
 
-  for (uint i=0, m=1; i<mNumIopins; i++, m<<= 1)
+    for (uint i=0, m=1; i<mNumIopins; i++, m<<= 1)
     if ((newEnableMask & m) && ! (oldEnableMask & m ))
     {
       PinModule *pmP = PortModule::getIOpins(i);
@@ -223,7 +225,7 @@ void PortRegister::setEnableMask(uint newEnableMask)
         }
       }
     }
-  mEnableMask = newEnableMask;
+   mEnableMask = newEnableMask;
 }
 
 void PortRegister::put(uint new_value)
@@ -521,7 +523,7 @@ void PinModule::updatePinModule()
   if( new_dir != old_dir )
   {
     m_cLastControlState = cCurrentControlState;
-    m_pin->update_direction(new_dir, false);
+    m_pin->update_direction( new_dir, false );
     bStateChange = true;
   }
   char cCurrentSourceState = getSourceState();
@@ -691,7 +693,7 @@ void PinModule::AnalogReq( Register * reg, bool analog, const char *newname )
             mask &= ~(1 << getPinNumber());
             m_port->setOutputMask(mask);
             Dprintf(("PinModule::UpAnalogCnt up %s  newname=%s mask=%x\n", getPin().name().c_str(), newname, mask));
-            getPin().newGUIname(newname);
+
             getPin().set_is_analog(true);
             getPin().set_Cth(5e-12);                // add analog pin input capacitance
          }
@@ -701,13 +703,11 @@ void PinModule::AnalogReq( Register * reg, bool analog, const char *newname )
         m_analog_active[index] = false;
         if (total_cnt == 1)
         {
-            const char *pt;
             uint mask = m_port->getOutputMask();
             mask |= (1 << getPinNumber());
             Dprintf(("PinModule::UpAnalogCnt down %s  newname=%s mask=%x\n", getPin().name().c_str(), newname, mask));
             m_port->setOutputMask(mask);
-            pt = strchr(newname, '.');
-            getPin().newGUIname(pt?pt+1:newname);
+
             getPin().set_is_analog(false);
             getPin().set_Cth(0.);
         }

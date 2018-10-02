@@ -56,7 +56,6 @@ void Clock::simuClockStep()
 
 void Clock::setFreq( int freq )
 {
-    //m_freq = freq;
     m_stepsPC = (int)1e6/freq;
     
     if (m_stepsPC < 1) m_stepsPC = 1;
@@ -68,10 +67,8 @@ void Clock::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget 
 {
     Component::paint( p, option, widget );
 
-    if (  m_isRunning )
-        p->setBrush( QColor( 250, 200, 50 ) );
-    else
-        p->setBrush( QColor( 230, 230, 255 ) );
+    if (  m_isRunning ) p->setBrush( QColor( 250, 200, 50 ) );
+    else                p->setBrush( QColor( 230, 230, 255 ) );
 
     p->drawRoundedRect( m_area,2 ,2 );
 

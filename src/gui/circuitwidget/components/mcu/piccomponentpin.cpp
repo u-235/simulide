@@ -16,29 +16,35 @@
  *   along with this program; if not, see <http://www.gnu.org/licenses/>.  *
  *                                                                         *
  ***************************************************************************/
- 
+
+#include <qstring.h>
+#include <stdint.h>
+
 #include "piccomponentpin.h"
 #include "piccomponent.h"
 #include "baseprocessor.h"
 #include "simulator.h"
 
+#include "gpsim/stimuli.h"
+#include "gpsim/ioports.h"
+#include "gpsim/pic-processor.h"
+
 PICComponentPin::PICComponentPin( McuComponent* mcu, QString id, QString type, QString label, int pos, int xpos, int ypos, int angle )
                : McuComponentPin( mcu, id, type, label, pos, xpos, ypos, angle )
 {
     m_pos = pos;
-    //m_channel = -1;
-    m_Vth = 0;
     m_PicProcessor  = 0l;
-    m_pStimulusNode = 0l;
     m_pIOPIN        = 0l;
 }
-PICComponentPin::~PICComponentPin(){ delete m_pStimulusNode; }
+PICComponentPin::~PICComponentPin(){}
 
 void PICComponentPin::attach( pic_processor *PicProcessor )
 {
     if( m_PicProcessor ) return;
     
     m_PicProcessor = PicProcessor;
+    
+    IOPIN* iopin = m_PicProcessor->get_pin( m_pos );
 
     if( m_id.startsWith("R") || m_id.startsWith("GP") )
     {
@@ -47,16 +53,9 @@ void PICComponentPin::attach( pic_processor *PicProcessor )
         m_port = m_id.at(1).toLatin1();
         m_pinN = m_id.mid(2,1).toInt();
 
-        IOPIN * iopin = m_PicProcessor->get_pin( m_pos );
-
         if( !iopin )
         {
             qDebug() << "PICComponentPin::attach : iopin is NULL: "<< m_id << endl;
-            return;
-        }
-        if( m_pStimulusNode )
-        {
-            qDebug() << "PICComponentPin::attach :Already have a node stimulus" << endl;
             return;
         }
         if( m_pIOPIN )
@@ -65,9 +64,7 @@ void PICComponentPin::attach( pic_processor *PicProcessor )
             return;
         }
         m_pIOPIN = iopin;
-        m_pStimulusNode = new Stimulus_Node(m_id.toLatin1());
-        m_pStimulusNode->attach_stimulus(iopin);
-        m_pStimulusNode->attach_stimulus(this);
+        m_pIOPIN->setPicPin( this );
     }
     else if( m_id.startsWith("MCLR") )
     {
@@ -78,14 +75,13 @@ void PICComponentPin::attach( pic_processor *PicProcessor )
 
 void PICComponentPin::setVChanged()
 {
-    //if(!m_PicProcessor) return;
-
-    if( m_imp!=high_imp ) return;      // Nothing to do if pin is output
+    if( !m_isInput ) return;      // Nothing to do if pin is output
 
     double volt = m_ePin[0]->getVolt();
+    //qDebug() << "PICComponentPin::setVChanged "<< m_id <<volt;
+    
     if( m_pinType == 1 )                                 // Is an IO Pin
     {
-        //if( m_pIOPIN ) 
         m_pIOPIN->set_nodeVoltage(volt);
     }
     else if( m_pinType == 21 ) // reset
@@ -95,17 +91,18 @@ void PICComponentPin::setVChanged()
     }
 }
 
-void PICComponentPin::set_nodeVoltage( double v )     // Called by Gpsim
+void PICComponentPin::update_direction( bool out )
 {
-    //qDebug() << "PICComponentPin::set_nodeVoltage "<< m_id << v;
-    if( !(m_ePin[0]->isConnected()) ) return;
+    //qDebug() << "PICComponentPin::update_direction "<< m_id << out;
+    m_isInput = !out;
     
-    if( v == m_Vth ) return;
-    m_Vth = v;
-    
-    //qDebug() << "PICComponentPin::set_nodeVoltage "<< m_id << v;
-    
-    if( m_pIOPIN->get_direction() == IOPIN::DIR_INPUT )
+    if( out )
+    {
+        eSource::setImp( 40 );
+        if( m_ePin[0]->isConnected() && m_attached )
+            m_ePin[0]->getEnode()->remFromChangedFast(this);
+    }
+    else
     {
         if( eSource::imp() != high_imp )
         {
@@ -113,16 +110,46 @@ void PICComponentPin::set_nodeVoltage( double v )     // Called by Gpsim
             if( m_ePin[0]->isConnected() && m_attached )
                 m_ePin[0]->getEnode()->addToChangedFast(this);
         }
-        return;      // Nothing to do if pin is input
     }
-    else if( eSource::imp() != 40 )
-    {
-        eSource::setImp( 40 );
-        if( m_ePin[0]->isConnected() && m_attached )
-            m_ePin[0]->getEnode()->remFromChangedFast(this);
-    }
+}
 
-    eSource::setOut( v > 2.5 );
+void PICComponentPin::update_pullup( bool pullup )
+{
+    if( !m_isInput ) return;
+    
+    //qDebug() << "PICComponentPin::update_pullup "<< m_id << pullup;
+
+    if( pullup )                         // Activate pullup
+    {
+        eSource::setImp( 1e5 );
+        m_voltOut = m_voltHigh;
+    }
+    else                                 // Deactivate pullup
+    {
+        eSource::setImp( high_imp );
+        m_voltOut = m_voltLow;
+    }
+    if( !(m_ePin[0]->isConnected()) ) 
+    {
+        m_pIOPIN->set_nodeVoltage( pullup ? 5:0);
+        return;
+    }
+    
+    m_ePin[0]->stampCurrent( m_voltOut/m_imp );
+    //if( m_ePin[0]->getEnode()->needFastUpdate() ) 
+    {
+        Simulator::self()->runExtraStep();
+    }
+}
+
+void PICComponentPin::update_state( bool state )
+{
+    //qDebug() << "PICComponentPin::update_state "<< m_id << state;
+    if( !(m_ePin[0]->isConnected()) ) return;
+    if( m_isInput )  return;
+    if( state == eSource::m_out ) return;
+    
+    eSource::setOut( state );
     eSource::stampOutput();
     //if( m_ePin[0]->getEnode()->needFastUpdate() ) 
     {
@@ -130,9 +157,4 @@ void PICComponentPin::set_nodeVoltage( double v )     // Called by Gpsim
     }
 }
 
-double PICComponentPin::get_Vth( )                    // Called by Gpsim
-{
-    //qDebug() << "PICComponentPin::get_Vth "<< m_id;
-    return m_ePin[0]->getVolt();
-}
 #include "moc_piccomponentpin.cpp"

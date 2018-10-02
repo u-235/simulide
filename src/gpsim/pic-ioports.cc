@@ -26,7 +26,7 @@ License along with this library; if not, see
 #include <string>
 
 
-#include "../config.h"
+#include "config.h"
 #include "pic-processor.h"
 #include "14bit-processors.h"  // %%% FIXME %%% remove the dependencies on this
 #include "pic-ioports.h"

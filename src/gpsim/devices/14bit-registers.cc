@@ -26,7 +26,7 @@ License along with this library; if not, see
 #include <assert.h>
 
 
-#include "../config.h"
+#include "config.h"
 #include "14bit-processors.h"
 #include "14bit-registers.h"
 #include "psp.h"     // needed for operator[] on WPU::wpu_gpio (not sure why)
@@ -104,10 +104,10 @@ void file_register::put_value(uint new_value)
       xref->update();
 
       if(cpu && address == cpu_pic->fsr->value)
-	{
-	  if(cpu_pic->indf->xref)
-	    cpu_pic->indf->xref->update();
-	}
+        {
+          if(cpu_pic->indf->xref)
+            cpu_pic->indf->xref->update();
+        }
     }
 }
 
@@ -234,7 +234,7 @@ void OSCCON::callback()
 
     case LFINTOSC:
       if (has_iofs_bit)
-	new_value |= IOFS;
+        new_value |= IOFS;
       else
       {
         new_value &= ~HTS;
@@ -274,11 +274,11 @@ bool OSCCON::internal_RC()
     uint scs = (value.get() & (SCS0|SCS1)) & write_mask;
     bool ret = false;
     if (scs == 0 && config_irc)
-	ret = true;
-    else if ((SCS1 & write_mask) && scs == 2)	// using SCS1 and SCS0
-	ret = true;
+        ret = true;
+    else if ((SCS1 & write_mask) && scs == 2)        // using SCS1 and SCS0
+        ret = true;
     else if (scs == 1)
-	ret = true;
+        ret = true;
 
     CDprintf(("OSCCON internal_RC ret %d osccon=0x%x\n", ret, value.get()));
     return ret;
@@ -312,7 +312,7 @@ void OSCCON::sleep()
 void OSCCON::wake()
 {
     if (!is_sleeping)
-	return;
+        return;
     is_sleeping = false;
     CDprintf(("OSCCON config_ieso %d int RC %d two_speed_clock=%d cpu=%s\n", config_ieso, internal_RC(), (config_xosc  && config_ieso), cpu_pic->name().c_str()));
     por_wake();
@@ -330,44 +330,44 @@ void OSCCON::por_wake()
     if (future_cycle)
     {
         get_cycles().clear_break(future_cycle);
-	future_cycle = 0;
+        future_cycle = 0;
     }
     // internal RC osc
     if (internal_RC())
     {
         if (has_iofs_bit)
         {
-	    new_value &= ~IOFS;
-	    clock_state = INTOSC;
+            new_value &= ~IOFS;
+            clock_state = INTOSC;
         }
         else if (new_value & (IRCF0 | IRCF1 | IRCF2 ))
         {
-	    new_value &= ~(HTS|LTS);
-	    clock_state = HFINTOSC;
+            new_value &= ~(HTS|LTS);
+            clock_state = HFINTOSC;
         }
-	else
+        else
         {
-	    new_value &= ~(HTS|LTS);
-	    clock_state = LFINTOSC;
+            new_value &= ~(HTS|LTS);
+            clock_state = LFINTOSC;
         }
         new_value |= OSTS;
         value.put(new_value);
-	CDprintf(("OSCCON internal RC clock_state %u osccon %x\n", clock_state, new_value));
-//RRR	set_rc_frequency();
-	if (future_cycle)
-	    get_cycles().clear_break(future_cycle);
-	future_cycle = get_cycles().get() + irc_por_time();
+        CDprintf(("OSCCON internal RC clock_state %u osccon %x\n", clock_state, new_value));
+//RRR        set_rc_frequency();
+        if (future_cycle)
+            get_cycles().clear_break(future_cycle);
+        future_cycle = get_cycles().get() + irc_por_time();
         get_cycles().set_break(future_cycle, this);
         return;
     }
     if (two_speed_clock)
     {
         if (has_iofs_bit)
-	    new_value &= ~(IOFS | OSTS);
-	else
-	    new_value &= ~( HTS | LTS | OSTS);
+            new_value &= ~(IOFS | OSTS);
+        else
+            new_value &= ~( HTS | LTS | OSTS);
         value.put(new_value);
-	set_rc_frequency(true);
+        set_rc_frequency(true);
         CDprintf(("OSCCON  2 speed, set osccon 0x%x \n", value.get()));
         clock_state = OST;
         future_cycle = 1024 + get_cycles().get();
@@ -390,36 +390,36 @@ bool OSCCON::set_rc_frequency(bool override)
     switch (new_IRCF)
     {
     case 0:
-	base_frequency = 31.e3;
-	break;
+        base_frequency = 31.e3;
+        break;
 
     case 1:
-	base_frequency = 125e3;
-	break;
+        base_frequency = 125e3;
+        break;
 
     case 2:
-	base_frequency = 250e3;
-	break;
+        base_frequency = 250e3;
+        break;
 
     case 3:
-	base_frequency = 500e3;
-	break;
+        base_frequency = 500e3;
+        break;
 
     case 4:
-	base_frequency = 1e6;
-	break;
+        base_frequency = 1e6;
+        break;
 
     case 5:
-	base_frequency = 2e6;
-	break;
+        base_frequency = 2e6;
+        break;
 
     case 6:
-	base_frequency = 4e6;
-	break;
+        base_frequency = 4e6;
+        break;
 
     case 7:
-	base_frequency = 8e6;
-	break;
+        base_frequency = 8e6;
+        break;
    }
    if (osctune)
    {
@@ -434,31 +434,31 @@ bool OSCCON::set_rc_frequency(bool override)
    clock_state = new_IRCF ? HFINTOSC : LFINTOSC;
    if (old_clock_state != clock_state)
    {
-	if ((old_clock_state == LFINTOSC) && clock_state != LFINTOSC)
-	{
-	    if (has_iofs_bit)
-	       value.put(value.get() & ~(IOFS));
-	    else
-	       value.put(value.get() & ~(LTS|HTS));
-	    if (future_cycle) get_cycles().clear_break(future_cycle);
+        if ((old_clock_state == LFINTOSC) && clock_state != LFINTOSC)
+        {
+            if (has_iofs_bit)
+               value.put(value.get() & ~(IOFS));
+            else
+               value.put(value.get() & ~(LTS|HTS));
+            if (future_cycle) get_cycles().clear_break(future_cycle);
 
             future_cycle = get_cycles().get() + irc_lh_time();
-	    get_cycles().set_break(future_cycle, this);
-	    CDprintf(("OSCCON future_cycle %" PRINTF_GINT64_MODIFIER "d now %" PRINTF_GINT64_MODIFIER "d\n", future_cycle, get_cycles().get()));
-	}
-	else
-	{
+            get_cycles().set_break(future_cycle, this);
+            CDprintf(("OSCCON future_cycle %" PRINTF_GINT64_MODIFIER "d now %" PRINTF_GINT64_MODIFIER "d\n", future_cycle, get_cycles().get()));
+        }
+        else
+        {
 /*RRR
-	    uint current = value.get();
-	    if (clock_state == HFINTOSC)
-	    {
-		if (has_iofs_bit) current &= ~LTS;
-		current |= HTS;
-		value.put(current);
-	    }
+            uint current = value.get();
+            if (clock_state == HFINTOSC)
+            {
+                if (has_iofs_bit) current &= ~LTS;
+                current |= HTS;
+                value.put(current);
+            }
 */
-	    callback();
-	}
+            callback();
+        }
    }
    CDprintf(("OSCCON new_ircf %u  %4.1f \n", new_IRCF, cpu_pic->get_frequency()));
 
@@ -474,7 +474,7 @@ void  OSCCON::put(uint new_value)
 
   value.put(new_value);
   CDprintf(("OSCCON org_value=0x%02x new_value=0x%02x diff=0x%02x state %u\n",
-	org_value, new_value, diff, clock_state));
+        org_value, new_value, diff, clock_state));
   if (diff == 0) return;
 
   if(internal_RC())
@@ -488,18 +488,18 @@ void  OSCCON::put(uint new_value)
           set_rc_frequency();
           CDprintf(("OSCCON change of IRCF old_clock %u new_clock %u\n", old_clock_state, clock_state));
       }
-	// switching to intrc
+        // switching to intrc
       else if (diff & (SCS0 | SCS1)) // still OK if SCS1 is non-writtabe LTS
       {
- 	  set_rc_frequency(true);
-	  CDprintf(("OSCCON diff 0x%x old_clock_state %u clock_state %u\n", (diff & (SCS0 | SCS1)), old_clock_state, clock_state));
+           set_rc_frequency(true);
+          CDprintf(("OSCCON diff 0x%x old_clock_state %u clock_state %u\n", (diff & (SCS0 | SCS1)), old_clock_state, clock_state));
       }
   }
   else  // not Internal RC clock
   {
-	clock_state = EXCSTABLE;
-   	cpu_pic->set_RCfreq_active(false);
-	callback();
+        clock_state = EXCSTABLE;
+           cpu_pic->set_RCfreq_active(false);
+        callback();
       CDprintf(("OSCCON not RC osccon=0x%x\n", new_value));
   }
 }
@@ -546,32 +546,32 @@ void OSCCON_2::callback()
     CDprintf(("OSCCON_2 oscstat = 0x%x\n", val));
 
     if (clock_state & PLL)
-	add_bits = OSCSTAT::PLLR;
+        add_bits = OSCSTAT::PLLR;
 
     switch(clock_state & ~PLL)
     {
     case OST:
-	add_bits = OSCSTAT::OSTS;
-	cpu_pic->set_RCfreq_active(false);
-	break;
+        add_bits = OSCSTAT::OSTS;
+        cpu_pic->set_RCfreq_active(false);
+        break;
 
     case LFINTOSC:
-	add_bits = OSCSTAT::LFIOFR;
-	val &= ~(OSCSTAT::HFIOFL | OSCSTAT::HFIOFR  | OSCSTAT::HFIOFS | OSCSTAT::MFIOFR);
-	break;
+        add_bits = OSCSTAT::LFIOFR;
+        val &= ~(OSCSTAT::HFIOFL | OSCSTAT::HFIOFR  | OSCSTAT::HFIOFS | OSCSTAT::MFIOFR);
+        break;
 
     case MFINTOSC:
-	add_bits = OSCSTAT::MFIOFR;
-	val &= ~(OSCSTAT::HFIOFL | OSCSTAT::HFIOFR  | OSCSTAT::HFIOFS | OSCSTAT::LFIOFR);
-	break;
+        add_bits = OSCSTAT::MFIOFR;
+        val &= ~(OSCSTAT::HFIOFL | OSCSTAT::HFIOFR  | OSCSTAT::HFIOFS | OSCSTAT::LFIOFR);
+        break;
 
     case HFINTOSC:
-	add_bits = OSCSTAT::HFIOFL | OSCSTAT::HFIOFR  | OSCSTAT::HFIOFS;
-	val &= ~(OSCSTAT::MFIOFR | OSCSTAT::LFIOFR);
-	break;
+        add_bits = OSCSTAT::HFIOFL | OSCSTAT::HFIOFR  | OSCSTAT::HFIOFS;
+        val &= ~(OSCSTAT::MFIOFR | OSCSTAT::LFIOFR);
+        break;
 
     case T1OSC:
-	break;
+        break;
     }
     val |= add_bits;
     oscstat->value.put(val);
@@ -589,31 +589,31 @@ bool OSCCON_2::set_rc_frequency(bool override)
 
   if ((sys_clock == 0) && !config_irc) // Not internal oscillator
   {
-	if (!config_xosc ) // always run at full speed
-	{
+        if (!config_xosc ) // always run at full speed
+        {
 
-  	    uint oscstat_reg = (oscstat->value.get() & 0x1f);
-	    oscstat->value.put(oscstat_reg | OSCSTAT::OSTS);
-	    clock_state = EC;
-	}
-	else if (config_ieso) // internal/external switchover
-	{
-	    clock_state = OST;
+              uint oscstat_reg = (oscstat->value.get() & 0x1f);
+            oscstat->value.put(oscstat_reg | OSCSTAT::OSTS);
+            clock_state = EC;
+        }
+        else if (config_ieso) // internal/external switchover
+        {
+            clock_state = OST;
         }
   }
 
   if((osccon_pplx4 && !config_pplx4) && sys_clock == 0)
   {
-	clock_state |= PLL;
-	return true;
+        clock_state |= PLL;
+        return true;
   }
   if (!cpu_pic->get_int_osc() && (sys_clock == 0) && !override)
      return false;
 
   if (sys_clock == 1) // T1OSC
   {
-	base_frequency = 32.e3;
-	clock_state = T1OSC;
+        base_frequency = 32.e3;
+        clock_state = T1OSC;
   }
   else if (sys_clock > 1 || config_irc || override)
   {
@@ -622,88 +622,88 @@ bool OSCCON_2::set_rc_frequency(bool override)
     {
     case 0:
     case 1:
-	base_frequency = 30.e3;
-	clock_state = LFINTOSC;
-	break;
+        base_frequency = 30.e3;
+        clock_state = LFINTOSC;
+        break;
 
     case 2:
-	clock_state = MFINTOSC;
-	base_frequency = 31.25e3;
-	break;
+        clock_state = MFINTOSC;
+        base_frequency = 31.25e3;
+        break;
 
     case 3:
-	clock_state = HFINTOSC;
-	base_frequency = 31.25e3;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 31.25e3;
+        break;
 
     case 4:
-	clock_state = HFINTOSC;
-	base_frequency = 62.5e3;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 62.5e3;
+        break;
 
     case 5:
-	clock_state = HFINTOSC;
-	base_frequency = 125e3;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 125e3;
+        break;
 
     case 6:
-	clock_state = HFINTOSC;
-	base_frequency = 250e3;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 250e3;
+        break;
 
     case 7:
-	clock_state = HFINTOSC;
-	base_frequency = 500e3;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 500e3;
+        break;
 
     case 8:
-	clock_state = HFINTOSC;
-	base_frequency = 125e3;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 125e3;
+        break;
 
     case 9:
-	clock_state = HFINTOSC;
-	base_frequency = 250e3;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 250e3;
+        break;
 
     case 10:
-	clock_state = HFINTOSC;
-	base_frequency = 500e3;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 500e3;
+        break;
 
     case 11:
-	clock_state = HFINTOSC;
-	base_frequency = 1e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 1e6;
+        break;
 
     case 12:
-	clock_state = HFINTOSC;
-	base_frequency = 2e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 2e6;
+        break;
 
     case 13:
-	clock_state = HFINTOSC;
-	base_frequency = 4e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 4e6;
+        break;
 
     case 14:
-	// The treatment for PPL based on Fig 5-1 of P12f1822 ref manual
-	if (osccon_pplx4 || config_pplx4)
-	{
-	   clock_state = PLL;
-	   base_frequency = 32e6;
-	}
-	else
-	{
-	   clock_state = HFINTOSC;
-	   base_frequency = 8e6;
-	}
-	break;
+        // The treatment for PPL based on Fig 5-1 of P12f1822 ref manual
+        if (osccon_pplx4 || config_pplx4)
+        {
+           clock_state = PLL;
+           base_frequency = 32e6;
+        }
+        else
+        {
+           clock_state = HFINTOSC;
+           base_frequency = 8e6;
+        }
+        break;
 
     case 15:
-	clock_state = HFINTOSC;
-	base_frequency = 16e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 16e6;
+        break;
     }
    }
    if (osctune)
@@ -729,27 +729,27 @@ void OSCCON_2::por_wake()
     if (future_cycle)
     {
         get_cycles().clear_break(future_cycle);
-	future_cycle = 0;
-	clock_state = UNDEF;
+        future_cycle = 0;
+        clock_state = UNDEF;
     }
     // internal RC osc
     if (internal_RC())
     {
-	CDprintf(("OSCCON_2 internal RC clock_state %u\n", clock_state));
+        CDprintf(("OSCCON_2 internal RC clock_state %u\n", clock_state));
         oscstat->value.put(OSCSTAT::OSTS);
-	set_rc_frequency();
-	future_cycle = get_cycles().get() + irc_por_time();
+        set_rc_frequency();
+        future_cycle = get_cycles().get() + irc_por_time();
         get_cycles().set_break(future_cycle, this);
         return;
     }
     if (two_speed_clock)
     {
-	bool config_pplx4 = cpu_pic->get_pplx4_osc();
+        bool config_pplx4 = cpu_pic->get_pplx4_osc();
         oscstat->value.put(0);
         set_rc_frequency(true);
         clock_state = OST;
         if (config_pplx4)
-	     clock_state |= PLL;
+             clock_state |= PLL;
         CDprintf(("OSCCON_2  2 speed, set osccon 0x%x \n", value.get()));
         future_cycle = 1024 + get_cycles().get();
         get_cycles().set_break(future_cycle, this);
@@ -779,62 +779,62 @@ void  OSCCON_2::put(uint new_value)
 
   oscstat_reg = oscstat->value.get();
   oscstat_new = oscstat_reg;
-	if (((new_value & (SCS0 | SCS1))==0) && !cpu_pic->get_int_osc())
-		oscstat_new |= OSCSTAT::OSTS;
-	else
-		oscstat_new &= ~OSCSTAT::OSTS;
+        if (((new_value & (SCS0 | SCS1))==0) && !cpu_pic->get_int_osc())
+                oscstat_new |= OSCSTAT::OSTS;
+        else
+                oscstat_new &= ~OSCSTAT::OSTS;
 
   CDprintf(("OSCCON_2 0x%x\n", new_value));
 
 
   if (set_rc_frequency())  // using internal RC Oscillator
-	set_callback();
+        set_callback();
 }
 
 void OSCCON_2::set_callback()
 {
-	uint oscstat_reg = oscstat->value.get();;
-	uint oscstat_new = oscstat_reg;
-	uint64_t settle = 0;
+        uint oscstat_reg = oscstat->value.get();;
+        uint oscstat_new = oscstat_reg;
+        uint64_t settle = 0;
 
         CDprintf(("OSCCON_2 clock_state 0x%x\n", clock_state));
 
-	switch(clock_state &~ PLL)
-	{
-	case LFINTOSC:
-		oscstat_new &= ~(OSCSTAT::OSTS | OSCSTAT::PLLR | OSCSTAT::T1OSCR);
-		settle = get_cycles().get() + 2;
-		break;
+        switch(clock_state &~ PLL)
+        {
+        case LFINTOSC:
+                oscstat_new &= ~(OSCSTAT::OSTS | OSCSTAT::PLLR | OSCSTAT::T1OSCR);
+                settle = get_cycles().get() + 2;
+                break;
 
-	case MFINTOSC:
-		oscstat_new &= ~(OSCSTAT::OSTS | OSCSTAT::PLLR | OSCSTAT::T1OSCR);
-		settle = get_cycles().get(2e-6); // 2us settle time
-		break;
+        case MFINTOSC:
+                oscstat_new &= ~(OSCSTAT::OSTS | OSCSTAT::PLLR | OSCSTAT::T1OSCR);
+                settle = get_cycles().get(2e-6); // 2us settle time
+                break;
 
-	case HFINTOSC:
-		oscstat_new &= ~(OSCSTAT::OSTS | OSCSTAT::PLLR | OSCSTAT::T1OSCR);
-		settle = get_cycles().get(2e-6); // 2us settle time
-		CDprintf(("OSCCON_2 settle %" PRINTF_GINT64_MODIFIER "d\n", settle));
-		break;
+        case HFINTOSC:
+                oscstat_new &= ~(OSCSTAT::OSTS | OSCSTAT::PLLR | OSCSTAT::T1OSCR);
+                settle = get_cycles().get(2e-6); // 2us settle time
+                CDprintf(("OSCCON_2 settle %" PRINTF_GINT64_MODIFIER "d\n", settle));
+                break;
 
-	case T1OSC:
-		settle = get_cycles().get() + 1024/4;
-		break;
-	}
-  	if((clock_state & PLL) && (oscstat_reg & OSCSTAT::PLLR) == 0)
-		settle = get_cycles().get(2e-3); // 2ms
+        case T1OSC:
+                settle = get_cycles().get() + 1024/4;
+                break;
+        }
+          if((clock_state & PLL) && (oscstat_reg & OSCSTAT::PLLR) == 0)
+                settle = get_cycles().get(2e-3); // 2ms
 
-	if (settle)
-	{
-		settle += get_cycles().get();
-		if (future_cycle > get_cycles().get())
-		    get_cycles().clear_break(future_cycle);
+        if (settle)
+        {
+                settle += get_cycles().get();
+                if (future_cycle > get_cycles().get())
+                    get_cycles().clear_break(future_cycle);
 
-	        get_cycles().set_break(settle, this);
-		future_cycle = settle;
-	}
-	if(oscstat && (oscstat_new != oscstat_reg))
-		oscstat->put(oscstat_new);
+                get_cycles().set_break(settle, this);
+                future_cycle = settle;
+        }
+        if(oscstat && (oscstat_new != oscstat_reg))
+                oscstat->put(oscstat_new);
 }
 
 void OSCCON2::put(uint new_value)
@@ -857,38 +857,38 @@ void OSCCON_HS::callback()
     switch(clock_state)
     {
    case OST:
-	val_osccon &= ~ HFIOFS;
-	val_osccon |= OSTS;
-	val_osccon2 &= ~(OSCCON2::LFIOFS | OSCCON2::MFIOFS);
+        val_osccon &= ~ HFIOFS;
+        val_osccon |= OSTS;
+        val_osccon2 &= ~(OSCCON2::LFIOFS | OSCCON2::MFIOFS);
         cpu_pic->set_RCfreq_active(false);
-	clock_state = EXCSTABLE;
+        clock_state = EXCSTABLE;
         break;
 
     case LFINTOSC:
-	val_osccon &= ~HFIOFS;
-	val_osccon2 &= ~OSCCON2::MFIOFS;
-	val_osccon2 |= OSCCON2::LFIOFS;
+        val_osccon &= ~HFIOFS;
+        val_osccon2 &= ~OSCCON2::MFIOFS;
+        val_osccon2 |= OSCCON2::LFIOFS;
         break;
 
     case MFINTOSC:
-	val_osccon &= ~HFIOFS;
-	val_osccon2 &= ~OSCCON2::LFIOFS;
-	val_osccon2 |= OSCCON2::MFIOFS;
+        val_osccon &= ~HFIOFS;
+        val_osccon2 &= ~OSCCON2::LFIOFS;
+        val_osccon2 |= OSCCON2::MFIOFS;
         break;
 
     case HFINTOSC:
-	val_osccon |= HFIOFS;
-	val_osccon2 &= ~(OSCCON2::LFIOFS|OSCCON2::MFIOFS);
+        val_osccon |= HFIOFS;
+        val_osccon2 &= ~(OSCCON2::LFIOFS|OSCCON2::MFIOFS);
         break;
 
     case T1OSC:
         break;
 
     case EXCSTABLE:
-	val_osccon &= ~HFIOFS;
-	val_osccon |= OSTS;
-	val_osccon2 &= ~(OSCCON2::LFIOFS|OSCCON2::MFIOFS);
-	break;
+        val_osccon &= ~HFIOFS;
+        val_osccon |= OSTS;
+        val_osccon2 &= ~(OSCCON2::LFIOFS|OSCCON2::MFIOFS);
+        break;
     }
     value.put(val_osccon);
     CDprintf(("OSCCON_HS osccon 0x%x val_osccon 0x%x\n", value.get(), val_osccon));
@@ -899,8 +899,8 @@ bool OSCCON_HS::set_rc_frequency(bool override)
   double base_frequency = 31.e3;
   bool config_pplx4 = cpu_pic->get_pplx4_osc();
   bool osccon_pplx4 = (osctune)?osctune->value.get() & OSCTUNE::PLLEN:0;
-  bool intsrc	    = (osctune) ? osctune->value.get() & OSCTUNE::INTSRC : false;
-  bool mfiosel	    = (osccon2) ? osccon2->value.get() & OSCCON2::MFIOSEL : false;
+  bool intsrc            = (osctune) ? osctune->value.get() & OSCTUNE::INTSRC : false;
+  bool mfiosel            = (osccon2) ? osccon2->value.get() & OSCCON2::MFIOSEL : false;
 
   uint old_clock_state = clock_state;
 
@@ -914,47 +914,47 @@ bool OSCCON_HS::set_rc_frequency(bool override)
     switch (new_IRCF)
     {
     case 0:
-	base_frequency = 31.e3;
+        base_frequency = 31.e3;
         if (mfiosel)
             clock_state = intsrc ? MFINTOSC : LFINTOSC;
-	else
+        else
             clock_state = intsrc ? HFINTOSC : LFINTOSC;
-	break;
+        break;
 
     case 1:
-	clock_state = mfiosel ? MFINTOSC : HFINTOSC;
-	base_frequency = 125e3;
-	break;
+        clock_state = mfiosel ? MFINTOSC : HFINTOSC;
+        base_frequency = 125e3;
+        break;
 
     case 2:
-	clock_state = mfiosel ? MFINTOSC : HFINTOSC;
-	base_frequency = 250e3;
-	break;
+        clock_state = mfiosel ? MFINTOSC : HFINTOSC;
+        base_frequency = 250e3;
+        break;
 
     case 3:
-	clock_state = HFINTOSC;
-	base_frequency = 1e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 1e6;
+        break;
 
     case 4:
-	clock_state = HFINTOSC;
-	base_frequency = 2e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 2e6;
+        break;
 
     case 5:
-	clock_state = HFINTOSC;
-	base_frequency = 4e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 4e6;
+        break;
 
     case 6:
-	clock_state = HFINTOSC;
-	base_frequency = 8e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 8e6;
+        break;
 
     case 7:
-	clock_state = HFINTOSC;
+        clock_state = HFINTOSC;
         base_frequency = 16e6;
-	break;
+        break;
    }
    if ( (new_IRCF>=minValPLL) && (osccon_pplx4 || config_pplx4) )
        base_frequency *= 4;
@@ -973,17 +973,17 @@ bool OSCCON_HS::set_rc_frequency(bool override)
        cpu_pic->set_RCfreq_active(true);
        if (old_clock_state != clock_state)
        {
-	    if ((old_clock_state == LFINTOSC) && clock_state != LFINTOSC)
-	    {
-	    	if (future_cycle) get_cycles().clear_break(future_cycle);
+            if ((old_clock_state == LFINTOSC) && clock_state != LFINTOSC)
+            {
+                    if (future_cycle) get_cycles().clear_break(future_cycle);
 
-            	future_cycle = get_cycles().get() + irc_lh_time();
-		get_cycles().set_break(future_cycle, this);
-		CDprintf(("OSCCON_HS future_cycle %" PRINTF_GINT64_MODIFIER "d now %" PRINTF_GINT64_MODIFIER "d\n", future_cycle, get_cycles().get()));
-	    }
-	    else
-		callback();
-	}
+                    future_cycle = get_cycles().get() + irc_lh_time();
+                get_cycles().set_break(future_cycle, this);
+                CDprintf(("OSCCON_HS future_cycle %" PRINTF_GINT64_MODIFIER "d now %" PRINTF_GINT64_MODIFIER "d\n", future_cycle, get_cycles().get()));
+            }
+            else
+                callback();
+        }
    }
    return true;
 }
@@ -1010,30 +1010,30 @@ void OSCCON_HS::por_wake()
     if (future_cycle)
     {
         get_cycles().clear_break(future_cycle);
-	future_cycle = 0;
+        future_cycle = 0;
     }
     // internal RC osc
     if (internal_RC())
     {
-	CDprintf(("OSCCON_HS internal RC clock_state %u osccon %x osccon2 %x\n", clock_state, val_osccon, val_osccon2));
-	set_rc_frequency();
-	if (future_cycle)
-	    get_cycles().clear_break(future_cycle);
-	future_cycle = get_cycles().get() + irc_por_time();
+        CDprintf(("OSCCON_HS internal RC clock_state %u osccon %x osccon2 %x\n", clock_state, val_osccon, val_osccon2));
+        set_rc_frequency();
+        if (future_cycle)
+            get_cycles().clear_break(future_cycle);
+        future_cycle = get_cycles().get() + irc_por_time();
         get_cycles().set_break(future_cycle, this);
         return;
     }
     if (two_speed_clock)
     {
-	val_osccon &= ~ (HFIOFS | OSTS);
-	val_osccon2 &= ~(OSCCON2::LFIOFS | OSCCON2::MFIOFS);
+        val_osccon &= ~ (HFIOFS | OSTS);
+        val_osccon2 &= ~(OSCCON2::LFIOFS | OSCCON2::MFIOFS);
         value.put(val_osccon);
         osccon2->value.put(val_osccon2);
-	set_rc_frequency(true);
-	cpu_pic->set_RCfreq_active(true);
+        set_rc_frequency(true);
+        cpu_pic->set_RCfreq_active(true);
         CDprintf(("OSCCON_HS 2 speed, set osccon 0x%x \n", value.get()));
-	if (future_cycle)
-	    get_cycles().clear_break(future_cycle);
+        if (future_cycle)
+            get_cycles().clear_break(future_cycle);
         clock_state = OST;
         future_cycle = 1024 + get_cycles().get();
         get_cycles().set_break(future_cycle, this);
@@ -1050,7 +1050,7 @@ void  OSCCON_HS2::put(uint new_value)
 
   value.put(new_value);
   CDprintf(("OSCCON org_value=0x%02x new_value=0x%02x diff=0x%02x state %u\n",
-	org_value, new_value, diff, clock_state));
+        org_value, new_value, diff, clock_state));
   if (diff == 0) return;
 
   if(internal_RC())
@@ -1082,46 +1082,46 @@ bool OSCCON_HS2::set_rc_frequency(bool override)
     switch (new_IRCF)
     {
     case 0:
-	base_frequency = 31.e3;
-	clock_state = LFINTOSC;
-	break;
+        base_frequency = 31.e3;
+        clock_state = LFINTOSC;
+        break;
 
     case 1:
-	clock_state = HFINTOSC;
-	base_frequency = 250e3;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 250e3;
+        break;
 
 
     case 2:
-	clock_state = HFINTOSC;
-	base_frequency = 500e3;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 500e3;
+        break;
 
 
     case 3:
-	clock_state = HFINTOSC;
-	base_frequency = 1e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 1e6;
+        break;
 
     case 4:
-	clock_state = HFINTOSC;
-	base_frequency = 2e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 2e6;
+        break;
 
     case 5:
-	clock_state = HFINTOSC;
-	base_frequency = 4e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 4e6;
+        break;
 
     case 6:
-	clock_state = HFINTOSC;
-	base_frequency = 8e6;
-	break;
+        clock_state = HFINTOSC;
+        base_frequency = 8e6;
+        break;
 
     case 7:
-	clock_state = HFINTOSC;
+        clock_state = HFINTOSC;
         base_frequency = 16e6;
-	break;
+        break;
    }
    cpu_pic->set_frequency_rc(base_frequency);
    if (cpu_pic->get_int_osc())
@@ -1130,17 +1130,17 @@ bool OSCCON_HS2::set_rc_frequency(bool override)
        cpu_pic->set_RCfreq_active(true);
        if (old_clock_state != clock_state)
        {
-	    if ((old_clock_state == LFINTOSC) && clock_state != LFINTOSC)
-	    {
-	    	if (future_cycle) get_cycles().clear_break(future_cycle);
+            if ((old_clock_state == LFINTOSC) && clock_state != LFINTOSC)
+            {
+                    if (future_cycle) get_cycles().clear_break(future_cycle);
 
-            	future_cycle = get_cycles().get() + irc_lh_time();
-		get_cycles().set_break(future_cycle, this);
-		CDprintf(("OSCCON_HS2 future_cycle %" PRINTF_GINT64_MODIFIER "d now %" PRINTF_GINT64_MODIFIER "d\n", future_cycle, get_cycles().get()));
-	    }
-	    else
-		callback();
-	}
+                    future_cycle = get_cycles().get() + irc_lh_time();
+                get_cycles().set_break(future_cycle, this);
+                CDprintf(("OSCCON_HS2 future_cycle %" PRINTF_GINT64_MODIFIER "d now %" PRINTF_GINT64_MODIFIER "d\n", future_cycle, get_cycles().get()));
+            }
+            else
+                callback();
+        }
    }
    return true;
 }
@@ -1160,11 +1160,11 @@ void OSCCON_HS2::callback()
     switch(clock_state)
     {
     case LFINTOSC:
-	val_osccon |= LFIOFR;
+        val_osccon |= LFIOFR;
         break;
 
     case HFINTOSC:
-	val_osccon |= HFIOFS|HFIOFR;
+        val_osccon |= HFIOFS|HFIOFR;
         break;
 
     }
@@ -1181,16 +1181,16 @@ void OSCCON_HS2::por_wake()
     if (future_cycle)
     {
         get_cycles().clear_break(future_cycle);
-	future_cycle = 0;
+        future_cycle = 0;
     }
     // internal RC osc
     if (internal_RC())
     {
-	CDprintf(("OSCCON_HS2internal RC clock_state %u osccon %x \n", clock_state, val_osccon));
-	set_rc_frequency();
-	if (future_cycle)
-	    get_cycles().clear_break(future_cycle);
-	future_cycle = get_cycles().get() + irc_por_time();
+        CDprintf(("OSCCON_HS2internal RC clock_state %u osccon %x \n", clock_state, val_osccon));
+        set_rc_frequency();
+        if (future_cycle)
+            get_cycles().clear_break(future_cycle);
+        future_cycle = get_cycles().get() + irc_por_time();
         get_cycles().set_break(future_cycle, this);
         return;
     }
@@ -1410,7 +1410,7 @@ void INDF::put(uint new_value)
 {
     
   int reg = (cpu_pic->fsr->get_value() + //cpu_pic->fsr->value +
-	     ((cpu_pic->status->value.get() & base_address_mask1)<<1) ) &  base_address_mask2;
+             ((cpu_pic->status->value.get() & base_address_mask1)<<1) ) &  base_address_mask2;
 
   // if the fsr is 0x00 or 0x80, then it points to the indf
   if(reg & fsr_mask){
@@ -1435,7 +1435,7 @@ void INDF::put_value(uint new_value)
 
   update();
   int r = (cpu_pic->fsr->get_value() + //cpu_pic->fsr->value +
-	   (((cpu_pic->status->value.get() & base_address_mask1)<<1)& base_address_mask2));
+           (((cpu_pic->status->value.get() & base_address_mask1)<<1)& base_address_mask2));
   if(r & fsr_mask)
     cpu_pic->registers[r]->update();
 
@@ -1446,7 +1446,7 @@ uint INDF::get()
 {
     
   int reg = (cpu_pic->fsr->get_value() +
-	     ((cpu_pic->status->value.get() & base_address_mask1)<<1) ) &  base_address_mask2;
+             ((cpu_pic->status->value.get() & base_address_mask1)<<1) ) &  base_address_mask2;
   if(reg & fsr_mask)
     return(cpu_pic->registers[reg]->get());
   else
@@ -1456,7 +1456,7 @@ uint INDF::get()
 uint INDF::get_value()
 {
   int reg = (cpu_pic->fsr->get_value() +
-	       ((cpu_pic->status->value.get() & base_address_mask1)<<1) ) &  base_address_mask2;
+               ((cpu_pic->status->value.get() & base_address_mask1)<<1) ) &  base_address_mask2;
   if(reg & fsr_mask)
     return(cpu_pic->registers[reg]->get_value());
   else
@@ -1543,7 +1543,7 @@ uint PCLATH::get()
 //--------------------------------------------------
 //
 PCON::PCON(Processor *pCpu, const char *pName, const char *pDesc,
-	uint bitMask)
+        uint bitMask)
   : sfr_register(pCpu, pName, pDesc)
 {
   valid_bits = bitMask;
@@ -1581,24 +1581,24 @@ void Indirect_Addressing14::put(uint new_value)
 {
     uint fsr_adj = fsr_value + fsr_delta;
 
-    if (fsr_adj < 0x1000) 	// Traditional Data Memory
+    if (fsr_adj < 0x1000)         // Traditional Data Memory
     {
-	if(is_indirect_register(fsr_adj))
-	    return;
-	cpu_pic->registers[fsr_adj]->put(new_value);
+        if(is_indirect_register(fsr_adj))
+            return;
+        cpu_pic->registers[fsr_adj]->put(new_value);
     }
     else if (fsr_adj >= 0x2000 && fsr_adj < 0x29b0) // Linear GPR region
     {
-	uint bank = (fsr_adj & 0xfff) / 0x50;
-	uint low_bits = ((fsr_adj & 0xfff) % 0x50) + 0x20;
+        uint bank = (fsr_adj & 0xfff) / 0x50;
+        uint low_bits = ((fsr_adj & 0xfff) % 0x50) + 0x20;
         Dprintf(("fsr_adj %x bank %x low_bits %x add %x\n", fsr_adj, bank, low_bits, (bank*0x80 + low_bits)));
         cpu_pic->registers[bank * 0x80 + low_bits]->put(new_value);
     }
     else if (fsr_adj >= 0x8000 && fsr_adj <= 0xffff) // program memory
     {
-	cout << "WARNING cannot write via FSR/INDF to program memory address 0x"
-		<<hex << fsr_adj << endl;
-	return;	// Not writable
+        cout << "WARNING cannot write via FSR/INDF to program memory address 0x"
+                <<hex << fsr_adj << endl;
+        return;        // Not writable
     }
 
 }
@@ -1614,26 +1614,26 @@ uint Indirect_Addressing14::get()
 
     if (fsr_adj < 0x1000) // Traditional Data Memory
     {
-	if(is_indirect_register(fsr_adj))
-	    return 0;
-	return cpu_pic->registers[fsr_adj]->get();
+        if(is_indirect_register(fsr_adj))
+            return 0;
+        return cpu_pic->registers[fsr_adj]->get();
     }
     else if (fsr_adj >= 0x2000 && fsr_adj < 0x29b0) // Linear GPR region
     {
-	uint bank = (fsr_adj & 0xfff) / 0x50;
-	uint low_bits = ((fsr_adj & 0xfff) % 0x50) + 0x20;
+        uint bank = (fsr_adj & 0xfff) / 0x50;
+        uint low_bits = ((fsr_adj & 0xfff) % 0x50) + 0x20;
         return(cpu_pic->registers[bank * 0x80 + low_bits]->get());
     }
     else if (fsr_adj >= 0x8000 && fsr_adj <= 0xffff) // program memory
     {
-	uint pm;
-	unsigned address = fsr_adj - 0x8000;
+        uint pm;
+        unsigned address = fsr_adj - 0x8000;
 
-  	if (address <= cpu_pic->program_memory_size())
+          if (address <= cpu_pic->program_memory_size())
         {
-	  pm = cpu_pic->get_program_memory_at_address(address);
+          pm = cpu_pic->get_program_memory_at_address(address);
           Dprintf((" address %x max %x value %x\n",address, cpu_pic->program_memory_size(), pm));
-	    return pm & 0xff;
+            return pm & 0xff;
         }
     }
     return 0;
@@ -1647,29 +1647,29 @@ uint Indirect_Addressing14::get()
 uint Indirect_Addressing14::get_value()
 {
     uint fsr_adj = fsr_value + fsr_delta;
-    if (fsr_adj < 0x1000)	// Traditional Data Memory
+    if (fsr_adj < 0x1000)        // Traditional Data Memory
     {
-	if(is_indirect_register(fsr_adj))
-	    return 0;
+        if(is_indirect_register(fsr_adj))
+            return 0;
 
-	return cpu_pic->registers[fsr_adj]->get_value();
+        return cpu_pic->registers[fsr_adj]->get_value();
     }
     else if (fsr_adj >= 0x2000 && fsr_adj < 0x29b0) // Linear GPR region
     {
-	uint bank = (fsr_adj & 0xfff) / 0x50;
-	uint low_bits = ((fsr_adj & 0xfff) % 0x50) + 0x20;
+        uint bank = (fsr_adj & 0xfff) / 0x50;
+        uint low_bits = ((fsr_adj & 0xfff) % 0x50) + 0x20;
 
         return(cpu_pic->registers[bank * 0x80 + low_bits]->get_value());
     }
     else if (fsr_adj >= 0x8000 && fsr_adj <= 0xffff) // program memory
     {
-	uint pm;
-	unsigned address = fsr_adj - 0x8000;
+        uint pm;
+        unsigned address = fsr_adj - 0x8000;
 
-  	if (address <= cpu_pic->program_memory_size())
+          if (address <= cpu_pic->program_memory_size())
         {
-	  pm = cpu_pic->get_program_memory_at_address(address);
-	    return pm & 0xff;
+          pm = cpu_pic->get_program_memory_at_address(address);
+            return pm & 0xff;
         }
     }
     return 0;
@@ -1827,8 +1827,8 @@ bool Stack::push(uint address)
   // for them to ignore the warnings.
 
   if(pointer > (int)stack_mask) {
-	stack_overflow();
-	return false;
+        stack_overflow();
+        return false;
   }
   contents[pointer++ & stack_mask] = address;
 
@@ -1855,8 +1855,8 @@ uint Stack::pop()
   // First decrement the stack pointer.
 
   if(--pointer < 0)  {
-	stack_underflow();
-	return 0;
+        stack_underflow();
+        return 0;
   }
 
 
@@ -1962,9 +1962,9 @@ void Stack14E::reset(RESET_TYPE r)
 {
     pointer = NO_ENTRY;
     if (STVREN)
-	contents[stack_mask] = 0;
+        contents[stack_mask] = 0;
     else
-	contents[pointer-1] = contents[stack_mask];
+        contents[pointer-1] = contents[stack_mask];
 
     Dprintf((" pointer 0x%x\n", pointer));
     stkptr.put(pointer-1);
@@ -1977,7 +1977,7 @@ bool Stack14E::push(uint address)
   // implicitly handles the stack wrap around.
 
   if(pointer == NO_ENTRY)
-	pointer = 0;
+        pointer = 0;
 
   contents[pointer & stack_mask] = address;
 
@@ -1986,7 +1986,7 @@ bool Stack14E::push(uint address)
   // for them to ignore the warnings.
 
   if(pointer++ > (int)stack_mask) {
-	return stack_overflow();
+        return stack_overflow();
   }
   stkptr.put(pointer-1);
   return true;
@@ -1998,12 +1998,12 @@ uint  Stack14E::pop()
 
     if (pointer == NO_ENTRY)
     {
-	return stack_underflow();
+        return stack_underflow();
     }
     pointer--;
     ret = contents[pointer];
     if (pointer <= 0)
-	pointer = NO_ENTRY;
+        pointer = NO_ENTRY;
 
     stkptr.put(pointer-1);
     return(ret);
@@ -2013,12 +2013,12 @@ bool Stack14E::stack_overflow()
     cpu14e->pcon.put(cpu14e->pcon.get() | PCON::STKOVF);
     if(STVREN)
     {
-	cpu->reset(STKOVF_RESET);
-	return false;
+        cpu->reset(STKOVF_RESET);
+        return false;
     }
     else
     {
-	cout << "Stack overflow\n";
+        cout << "Stack overflow\n";
     }
     return true;
 }
@@ -2028,12 +2028,12 @@ bool Stack14E::stack_underflow()
     cpu14e->pcon.put(cpu14e->pcon.get() | PCON::STKUNF);
     if(STVREN)
     {
-	cpu->reset(STKUNF_RESET);
-    	return false;
+        cpu->reset(STKUNF_RESET);
+            return false;
     }
     else
     {
-	cout << "Stack underflow\n";
+        cout << "Stack underflow\n";
     }
     return true;
 
@@ -2154,7 +2154,7 @@ void WPU::set_wpu_pu(bool pullup_enable)
     if (pullup_enable != wpu_pu)
     {
         wpu_pu = pullup_enable;
-        put(value.get());	// change pull-ups based on value of WPU and gpio_pu
+        put(value.get());        // change pull-ups based on value of WPU and gpio_pu
     }
 }
 
@@ -2170,7 +2170,7 @@ CPSCON0::CPSCON0(Processor *pCpu, const char *pName, const char *pDesc)
 CPSCON0::~CPSCON0()
 {
     if (cps_stimulus)
-	delete cps_stimulus;
+        delete cps_stimulus;
 }
 
 void CPSCON0::put(uint new_value)
@@ -2199,20 +2199,20 @@ void CPSCON0::calculate_freq()
     switch((value.get() & (CPSRNG0 | CPSRNG1)) >> 2)
     {
     case 1:
-	current = (value.get() & CPSRM) ? 9e-6 : 0.1e-6;
-	break;
+        current = (value.get() & CPSRM) ? 9e-6 : 0.1e-6;
+        break;
 
     case 2:
-	current = (value.get() & CPSRM) ? 30e-6 : 1.2e-6;
-	break;
+        current = (value.get() & CPSRM) ? 30e-6 : 1.2e-6;
+        break;
 
     case 3:
-	current = (value.get() & CPSRM) ? 100e-6 : 18e-6;
-	break;
+        current = (value.get() & CPSRM) ? 100e-6 : 18e-6;
+        break;
     };
 
     if (current < 1e-12)
-	return;
+        return;
     // deltat is the time required to charge the capacitance on the pin
     // from a constant current source for the specified voltage swing.
     // The voltage swing for the internal reference is not specified
@@ -2224,29 +2224,29 @@ void CPSCON0::calculate_freq()
     if (value.get() & CPSRM)
     {
         deltat = (FVR_voltage - DAC_voltage)*cap/current;
-	if (deltat <= 0.)
-	{
-	    cout << "CPSCON FVR must be greater than DAC for high range to work\n";
-	    return;
-	}
+        if (deltat <= 0.)
+        {
+            cout << "CPSCON FVR must be greater than DAC for high range to work\n";
+            return;
+        }
     }
     else
     {
-	deltat = (p_cpu->get_Vdd() - 1.2) * cap / current;
+        deltat = (p_cpu->get_Vdd() - 1.2) * cap / current;
     }
 
     period = (p_cpu->get_frequency() * deltat + 2) / 4;
 
     if (period <= 0)
     {
-	cout << "CPSCON Oscillator > Fosc/4, setting to Fosc/4\n";
-	period = 1;
+        cout << "CPSCON Oscillator > Fosc/4, setting to Fosc/4\n";
+        period = 1;
     }
     uint64_t fc = get_cycles().get() + period;
 
     if (future_cycle > get_cycles().get())
     {
-	get_cycles().reassign_break(future_cycle, fc, this);
+        get_cycles().reassign_break(future_cycle, fc, this);
     }
     else
         get_cycles().set_break(fc, this);
@@ -2263,28 +2263,28 @@ void CPSCON0::callback()
     Dprintf(("now=0x%" PRINTF_GINT64_MODIFIER "x\n",get_cycles().get()));
 
     if (!(value.get() & CPSON))
-	return;
+        return;
 
     if (value.get() & CPSOUT) // High to low transition
     {
-	value.put(value.get() & ~CPSOUT);
-	if (m_tmr0 && (value.get() & T0XCS) &&
-	    m_tmr0->get_t0se() && m_tmr0->get_t0cs())
-	{
-		m_tmr0->increment();
-	}
+        value.put(value.get() & ~CPSOUT);
+        if (m_tmr0 && (value.get() & T0XCS) &&
+            m_tmr0->get_t0se() && m_tmr0->get_t0cs())
+        {
+                m_tmr0->increment();
+        }
 
     }
-    else			// Low to high transition
+    else                        // Low to high transition
     {
-	value.put(value.get() | CPSOUT);
-	if (m_tmr0 && (value.get() & T0XCS) &&
-	    !m_tmr0->get_t0se() && m_tmr0->get_t0cs())
-	{
-		m_tmr0->increment();
-	}
-	if (m_t1con_g)
-	    m_t1con_g->t1_cap_increment();
+        value.put(value.get() | CPSOUT);
+        if (m_tmr0 && (value.get() & T0XCS) &&
+            !m_tmr0->get_t0se() && m_tmr0->get_t0cs())
+        {
+                m_tmr0->increment();
+        }
+        if (m_t1con_g)
+            m_t1con_g->t1_cap_increment();
     }
 
 
@@ -2294,24 +2294,24 @@ void CPSCON0::callback()
 void CPSCON0::set_chan(uint _chan)
 {
     if (_chan == chan)
-	return;
+        return;
 
     if (!pin[_chan])
     {
-	cout << "CPSCON Channel " << _chan << " reserved\n";
-	return;
+        cout << "CPSCON Channel " << _chan << " reserved\n";
+        return;
     }
     if (!pin[_chan]->getPin().snode)
     {
-	cout << "CPSCON Channel " << pin[_chan]->getPin().name() << " requires a node attached\n";
-	chan = _chan;
-	return;
+        cout << "CPSCON Channel " << pin[_chan]->getPin().name() << " requires a node attached\n";
+        chan = _chan;
+        return;
     }
     if (!cps_stimulus)
-	cps_stimulus = new CPS_stimulus(this, "cps_stimulus");
+        cps_stimulus = new CPS_stimulus(this, "cps_stimulus");
     else if (pin[_chan]->getPin().snode)
     {
-	(pin[_chan]->getPin().snode)->detach_stimulus(cps_stimulus);
+        (pin[_chan]->getPin().snode)->detach_stimulus(cps_stimulus);
     }
 
     chan = _chan;
@@ -2323,13 +2323,13 @@ void CPSCON0::set_DAC_volt(double volt)
 {
     DAC_voltage = volt;
     if ((value.get() & (CPSON|CPSRM)) == (CPSON|CPSRM))
-	calculate_freq();
+        calculate_freq();
 }
 void CPSCON0::set_FVR_volt(double volt)
 {
     FVR_voltage = volt;
     if ((value.get() & (CPSON|CPSRM)) == (CPSON|CPSRM))
-	calculate_freq();
+        calculate_freq();
 }
 
 CPS_stimulus::CPS_stimulus(CPSCON0 * arg, const char *cPname,double _Vth, double _Zth)
@@ -2342,9 +2342,9 @@ CPS_stimulus::CPS_stimulus(CPSCON0 * arg, const char *cPname,double _Vth, double
 // not just when the voltage changes
 void   CPS_stimulus::set_nodeVoltage(double v)
 {
-	Dprintf(("set_nodeVoltage =%.1f\n", v));
- 	nodeVoltage = v;
-	m_cpscon0->calculate_freq();
+        Dprintf(("set_nodeVoltage =%.1f\n", v));
+         nodeVoltage = v;
+        m_cpscon0->calculate_freq();
 }
 
 void CPSCON1::put(uint new_value)
@@ -2358,7 +2358,7 @@ void CPSCON1::put(uint new_value)
 
 SRCON0::SRCON0(Processor *pCpu, const char *pName, const char *pDesc, SR_MODULE *_sr_module)
     : sfr_register(pCpu, pName, pDesc),
-	m_sr_module(_sr_module)
+        m_sr_module(_sr_module)
 {
 }
 void SRCON0::put(uint new_value)
@@ -2387,7 +2387,7 @@ void SRCON0::put(uint new_value)
 
 SRCON1::SRCON1(Processor *pCpu, const char *pName, const char *pDesc, SR_MODULE *_sr_module)
     : sfr_register(pCpu, pName, pDesc),
-	m_sr_module(_sr_module), mValidBits(0xdd)
+        m_sr_module(_sr_module), mValidBits(0xdd)
 {
 }
 
@@ -2402,10 +2402,10 @@ void SRCON1::put(uint new_value)
 
     if (diff & (SRRCKE | SRSCKE))
     {
-	if (!(new_value & (SRRCKE | SRSCKE)))	// all clocks off
-	    m_sr_module->clock_disable(); // turn off clock
-	else
-	    m_sr_module->clock_enable(); // turn on clock
+        if (!(new_value & (SRRCKE | SRSCKE)))        // all clocks off
+            m_sr_module->clock_disable(); // turn off clock
+        else
+            m_sr_module->clock_enable(); // turn on clock
     }
     m_sr_module->update();
 }
@@ -2419,7 +2419,7 @@ public:
 
   virtual void setSinkState(char new3State)
   {
-	sr_module->setState(new3State);
+        sr_module->setState(new3State);
   }
   virtual void release() { delete this; }
 private:
@@ -2432,8 +2432,8 @@ class SRnSource : public PeripheralSignalSource
 public:
 
   SRnSource(PinModule *_pin, SR_MODULE *_sr_module, int _index) :
-	PeripheralSignalSource(_pin), sr_module(_sr_module),
-	index(_index)
+        PeripheralSignalSource(_pin), sr_module(_sr_module),
+        index(_index)
   { ;}
   virtual void release() { sr_module->releasePin(index); }
 private:
@@ -2442,8 +2442,8 @@ private:
 };
 
 enum {
-	SRQ = 0,
-	SRNQ
+        SRQ = 0,
+        SRNQ
 };
 SR_MODULE::SR_MODULE(Processor *_cpu) :
     srcon0(_cpu, "srcon0", "SR Latch Control 0 Register", this),
@@ -2458,13 +2458,13 @@ SR_MODULE::SR_MODULE(Processor *_cpu) :
 SR_MODULE::~SR_MODULE()
 {
     if (m_SRQsource_active)
-	SRQ_pin->setSource(0);
+        SRQ_pin->setSource(0);
     if ( m_SRQsource)
-	delete  m_SRQsource;
+        delete  m_SRQsource;
     if (m_SRNQsource_active)
-	SRNQ_pin->setSource(0);
+        SRNQ_pin->setSource(0);
     if ( m_SRNQsource)
-	delete  m_SRNQsource;
+        delete  m_SRNQsource;
 }
 
 // determine output state of RS flip-flop
@@ -2475,40 +2475,40 @@ void SR_MODULE::update()
 {
 
     if ((srcon1.value.get() & SRCON1::SRSC1E) && syncc1out)
-	state_set = true;
+        state_set = true;
 
     if ((srcon1.value.get() & SRCON1::SRSC2E) && syncc2out)
-	state_set = true;
+        state_set = true;
 
     if ((srcon1.value.get() & SRCON1::SRSPE) && SRI_pin->getPin().getState())
-	state_set = true;
+        state_set = true;
 
     if ((srcon1.value.get() & SRCON1::SRRC1E) && syncc1out)
-	state_reset = true;
+        state_reset = true;
 
     if ((srcon1.value.get() & SRCON1::SRRC2E) && syncc2out)
-	state_reset = true;
+        state_reset = true;
 
     if ((srcon1.value.get() & SRCON1::SRRPE) && SRI_pin->getPin().getState())
-	state_reset = true;
+        state_reset = true;
     if (state_set)
-	state_Q = true;
+        state_Q = true;
 
     // reset overrides a set
     if (state_reset)
-	state_Q = false;
+        state_Q = false;
 
 
     state_set = state_reset = false;
 
     if (!(srcon0.value.get() & SRCON0::SRLEN))
-	return;
+        return;
 
     if ((srcon0.value.get() & SRCON0::SRQEN))
-	m_SRQsource->putState(state_Q ? '1' : '0');
+        m_SRQsource->putState(state_Q ? '1' : '0');
 
     if ((srcon0.value.get() & SRCON0::SRNQEN))
-	m_SRNQsource->putState(!state_Q ? '1' : '0');
+        m_SRNQsource->putState(!state_Q ? '1' : '0');
 
 }
 
@@ -2517,8 +2517,8 @@ void SR_MODULE::clock_disable()
 {
     if (future_cycle> get_cycles().get())
     {
-	get_cycles().clear_break(this);
-	future_cycle = 0;
+        get_cycles().clear_break(this);
+        future_cycle = 0;
     }
     future_cycle = 0;
 }
@@ -2531,8 +2531,8 @@ void SR_MODULE::clock_enable()
 {
     if (!future_cycle)
     {
-	future_cycle = get_cycles().get() + (1 << srclk);
-	get_cycles().set_break(future_cycle, this);
+        future_cycle = get_cycles().get() + (1 << srclk);
+        get_cycles().set_break(future_cycle, this);
     }
 }
 
@@ -2545,7 +2545,7 @@ void SR_MODULE::clock_diff(uint _srclk)
 
     if (srcon1.value.get() & (SRCON1::SRSCKE | SRCON1::SRRCKE))
     {
-	clock_enable();
+        clock_enable();
     }
 }
 
@@ -2555,19 +2555,19 @@ void SR_MODULE::callback()
 
     if (srcon1.value.get() & (SRCON1::SRSCKE)) //Set clock enabled
     {
-	active = true;
-	pulse_set();
+        active = true;
+        pulse_set();
     }
 
     if (srcon1.value.get() & (SRCON1::SRRCKE)) //Reset clock enabled
     {
-	active = true;
-	pulse_reset();
+        active = true;
+        pulse_reset();
     }
     if (active)
     {
-	future_cycle = 0;
-	clock_enable();
+        future_cycle = 0;
+        clock_enable();
     }
     update();
 
@@ -2577,17 +2577,17 @@ void SR_MODULE::setPins(PinModule *sri, PinModule *srq, PinModule *srnq)
 
     if(!SRI_pin)
     {
-	m_SRinSink = new SRinSink(this);
-	sri->addSink(m_SRinSink);
+        m_SRinSink = new SRinSink(this);
+        sri->addSink(m_SRinSink);
     }
     else if (SRI_pin != sri)
     {
-	SRI_pin->removeSink(m_SRinSink);
-	sri->addSink(m_SRinSink);
+        SRI_pin->removeSink(m_SRinSink);
+        sri->addSink(m_SRinSink);
     }
     SRI_pin = sri;
-	SRQ_pin = srq;
-	SRNQ_pin = srnq;
+        SRQ_pin = srq;
+        SRNQ_pin = srnq;
 
 }
 
@@ -2595,29 +2595,29 @@ void SR_MODULE::setPins(PinModule *sri, PinModule *srq, PinModule *srnq)
 void SR_MODULE::setState(char IOin)
 {
     if (srcon1.value.get() & (SRCON1::SRSPE | SRCON1::SRRPE))
-	update();
+        update();
 }
 
 void SR_MODULE::syncC1out(bool val)
 {
     if (syncc1out != val)
     {
-	syncc1out = val;
-	if (srcon1.value.get() & (SRCON1::SRSC1E | SRCON1::SRRC1E))
-	{
-		update();
-	}
+        syncc1out = val;
+        if (srcon1.value.get() & (SRCON1::SRSC1E | SRCON1::SRRC1E))
+        {
+                update();
+        }
     }
 }
 void SR_MODULE::syncC2out(bool val)
 {
     if (syncc2out != val)
     {
-	syncc2out = val;
-	if (srcon1.value.get() & (SRCON1::SRSC2E | SRCON1::SRRC2E))
-	{
-		update();
-	}
+        syncc2out = val;
+        if (srcon1.value.get() & (SRCON1::SRSC2E | SRCON1::SRRC2E))
+        {
+                update();
+        }
     }
 }
 
@@ -2626,46 +2626,34 @@ void SR_MODULE::syncC2out(bool val)
 void SR_MODULE::Qoutput()
 {
     if ((srcon0.value.get() & (SRCON0::SRLEN | SRCON0::SRQEN)) ==
-	(SRCON0::SRLEN | SRCON0::SRQEN))
+        (SRCON0::SRLEN | SRCON0::SRQEN))
     {
-	if (!m_SRQsource)
-	    m_SRQsource = new SRnSource(SRQ_pin, this, SRQ);
+        if (!m_SRQsource)
+            m_SRQsource = new SRnSource(SRQ_pin, this, SRQ);
 
-	SRQ_pin->setSource(m_SRQsource);
-	SRQ_pin->getPin().newGUIname("SRQ");
-	m_SRQsource_active = true;
+        SRQ_pin->setSource(m_SRQsource);
+
+        m_SRQsource_active = true;
     }
-    else
-    {
-	SRQ_pin->setSource(0);
-	if (strcmp("SRQ", SRQ_pin->getPin().GUIname().c_str()) == 0)
-	{
-	    SRQ_pin->getPin().newGUIname(SRQ_pin->getPin().name().c_str());
-	}
-    }
+    else SRQ_pin->setSource(0);
+
 }
+
 // Setup or tear down RSNQ output pin
 // This is only call if SRLEN OR SRNQEN has changed
 void SR_MODULE::NQoutput()
 {
     if ((srcon0.value.get() & (SRCON0::SRLEN | SRCON0::SRNQEN)) ==
-	(SRCON0::SRLEN | SRCON0::SRNQEN))
+        (SRCON0::SRLEN | SRCON0::SRNQEN))
     {
-	if (!m_SRNQsource)
-	    m_SRNQsource = new SRnSource(SRNQ_pin, this, SRNQ);
+        if (!m_SRNQsource) m_SRNQsource = new SRnSource(SRNQ_pin, this, SRNQ);
 
-	SRNQ_pin->setSource(m_SRNQsource);
-	SRNQ_pin->getPin().newGUIname("SRNQ");
-	m_SRNQsource_active = true;
+        SRNQ_pin->setSource(m_SRNQsource);
+
+        m_SRNQsource_active = true;
     }
-    else
-    {
-	SRNQ_pin->setSource(0);
-	if (strcmp("SRNQ", SRNQ_pin->getPin().GUIname().c_str()) == 0)
-	{
-	    SRNQ_pin->getPin().newGUIname(SRNQ_pin->getPin().name().c_str());
-	}
-    }
+    else SRNQ_pin->setSource(0);
+
 }
 
 void SR_MODULE::releasePin(int index)
@@ -2673,12 +2661,12 @@ void SR_MODULE::releasePin(int index)
     switch(index)
     {
     case SRQ:
-	m_SRQsource_active = false;
-	break;
+        m_SRQsource_active = false;
+        break;
 
     case SRNQ:
-	m_SRNQsource_active = false;
-	break;
+        m_SRNQsource_active = false;
+        break;
     }
 }
 

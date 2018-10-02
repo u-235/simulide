@@ -34,7 +34,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 #include "stimuli.h"
 #include "eeprom.h"
 #include "p16x8x.h"

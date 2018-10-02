@@ -28,7 +28,7 @@ using namespace std;
 
 //#include <glib.h>
 
-#include "../config.h"
+#include "config.h"
 #include "pic-processor.h"
 #include "eeprom.h"
 #include "pir.h"

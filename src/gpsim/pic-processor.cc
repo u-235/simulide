@@ -34,7 +34,7 @@ License along with this library; if not, see
 #include <iomanip>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 
 #include "exports.h"
 #include "pic-processor.h"
@@ -1139,7 +1139,6 @@ void pic_processor::assignMCLRPin(int pkgPinNumber)
 
         m_MCLRMonitor = new MCLRPinMonitor(this);
         m_MCLR->setMonitor(m_MCLRMonitor);
-        m_MCLR->newGUIname("MCLR");
     }
     else if (m_MCLR != package->get_pin(pkgPinNumber))
     {
@@ -1155,15 +1154,13 @@ void pic_processor::unassignMCLRPin()
 {
     if (package && m_MCLR_Save)
     {
-        size_t l = m_MCLR_Save->name().find_first_of('.');
         package->assign_pin(m_MCLR_pin,m_MCLR_Save, false);
 
-        if (l == string::npos) m_MCLR_Save->newGUIname(m_MCLR_Save->name().c_str());
-        else                   m_MCLR_Save->newGUIname(m_MCLR_Save->name().substr(l+1).c_str());
         if (m_MCLR)
         {
             m_MCLR->setMonitor(0);
             m_MCLR = NULL;
+            
             if (m_MCLRMonitor)
             {
                 delete m_MCLRMonitor;
@@ -1198,11 +1195,6 @@ void pic_processor::set_clk_pin(uint pkg_Pin_Number,
                 PicTrisRegister *m_tris,
                 PicLatchRegister *m_lat)
 {
-    IOPIN *m_pin = package->get_pin(pkg_Pin_Number);
-  
-    if (name) m_pin->newGUIname(name);
-    else      m_pin->newGUIname(package->get_pin_name(pkg_Pin_Number).c_str());
-  
     if (PinMod)
     {
         if (m_port)
@@ -1232,8 +1224,6 @@ void pic_processor::clr_clk_pin(uint pkg_Pin_Number,
                 PicTrisRegister *m_tris,
                 PicLatchRegister *m_lat)
 {
-    IOPIN *m_pin = package->get_pin(pkg_Pin_Number);
-    m_pin->newGUIname(package->get_pin_name(pkg_Pin_Number).c_str());
     if (PinMod)
     {
         if (m_port)

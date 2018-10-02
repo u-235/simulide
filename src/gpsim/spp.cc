@@ -20,7 +20,7 @@ License along with this library; if not, see
 
 #include <stdio.h>
 #include <iostream>
-#include "../config.h"
+#include "config.h"
 #include "stimuli.h"
 #include "spp.h"
 
@@ -32,7 +32,7 @@ License along with this library; if not, see
 #endif
 
 /*
- * 	Streaming Parallel Port
+ *         Streaming Parallel Port
  */
 //--------------------------------------------------
 //
@@ -73,9 +73,9 @@ void SPPCON::put(uint new_value)
 
   value.data = (new_value & mask);
   if ((old ^ value.data) && value.data == mask)
-	cout << "Warning USB functionality of SPP not supported\n";
+        cout << "Warning USB functionality of SPP not supported\n";
   else
-  	spp->enabled(value.data & SPP::SPPEN);
+          spp->enabled(value.data & SPP::SPPEN);
 }
 
 void SPPCON::put_value(uint new_value)
@@ -137,8 +137,8 @@ uint SPPDATA::get()
     return(value.data);
 }
 void SPP::initialize( PIR_SET *_pir_set, PicPSP_PortRegister *_port_set,
-	PicTrisRegister *_port_tris,
-	SPPCON *_sppcon, SPPCFG *_sppcfg, SPPEPS *_sppeps, 
+        PicTrisRegister *_port_tris,
+        SPPCON *_sppcon, SPPCFG *_sppcfg, SPPEPS *_sppeps, 
        SPPDATA *_sppdata, PinModule   *_clk1spp, PinModule  *_clk2spp, 
         PinModule  *_oespp, PinModule  *_csspp )
 {
@@ -177,9 +177,9 @@ SPP::~SPP()
 void SPP::data_write(uint data)
 {
     if((sppcon->get_value() & SPPEN) == 0)
-	return;
+        return;
 
-    parallel_tris->put(0);		// set port for write
+    parallel_tris->put(0);                // set port for write
     data_value = data;
     parallel_port->put_value(data);
     eps_value |= SPPBUSY;
@@ -191,8 +191,8 @@ void SPP::data_write(uint data)
     if (cfg_value & CSEN)
     {
 
-	sig_csspp->setState('1');
-	pin_csspp->updatePinModule();
+        sig_csspp->setState('1');
+        pin_csspp->updatePinModule();
     }
     get_cycles().set_break(get_cycles().get() + (cfg_value & 0x0f) + 1 , this);
 }
@@ -205,7 +205,7 @@ void SPP::eps_write(uint data)
     if((sppcon->get_value() & SPPEN) == 0 || !(old ^ eps_value))
         return;
     
-    parallel_tris->put(0);		// set port for write
+    parallel_tris->put(0);                // set port for write
     parallel_port->put_value(data & 0x0f);
     eps_value |= SPPBUSY;
     sppeps->put_value(eps_value);
@@ -226,47 +226,40 @@ void SPP::cfg_write(uint data)
 {
     uint diff = cfg_value ^ data;
     cfg_value = data;
-    if((sppcon->get_value() & SPPEN) == 0)
-	return;
+    
+    if((sppcon->get_value() & SPPEN) == 0) return;
 
-    if (diff & CLK1EN)	// CLK1EN state change
+    if (diff & CLK1EN)        // CLK1EN state change
     {
-	if (cfg_value & CLK1EN)
-	{
-	    pin_clk1spp->getPin().newGUIname("CK1SPP");
-
-	    if (!sig_clk1spp) sig_clk1spp = new SppSignalSource();
-	    pin_clk1spp->setSource(sig_clk1spp);
-	    active_sig_clk1 = true;
-	    sig_clk1spp->setState('0');
-	    pin_clk1spp->updatePinModule();
-	}
-	else
-	{
-	    pin_clk1spp->setSource(0);
-	    active_sig_clk1 = false;
-	    pin_clk1spp->getPin().newGUIname(
-		pin_clk1spp->getPin().name().c_str());
-	}
+        if (cfg_value & CLK1EN)
+        {
+            if (!sig_clk1spp) sig_clk1spp = new SppSignalSource();
+            pin_clk1spp->setSource(sig_clk1spp);
+            active_sig_clk1 = true;
+            sig_clk1spp->setState('0');
+            pin_clk1spp->updatePinModule();
+        }
+        else
+        {
+            pin_clk1spp->setSource(0);
+            active_sig_clk1 = false;
+        }
     }
-    if (diff & CSEN)	// CSEN state change
+    if (diff & CSEN)        // CSEN state change
     {
-	if (cfg_value & CSEN)
-	{
-	    pin_csspp->getPin().newGUIname("CSSPP");
-	    if (!sig_csspp) sig_csspp = new SppSignalSource();
-	    pin_csspp->setSource(sig_csspp);
-	    active_sig_cs = true;
-	    sig_csspp->setState('0');
-	    pin_csspp->updatePinModule();
-	}
-	else
-	{
-	    active_sig_cs = false;
-	    pin_csspp->setSource(0);
-	    pin_csspp->getPin().newGUIname(
-		pin_csspp->getPin().name().c_str());
-	}
+        if (cfg_value & CSEN)
+        {
+            if (!sig_csspp) sig_csspp = new SppSignalSource();
+            pin_csspp->setSource(sig_csspp);
+            active_sig_cs = true;
+            sig_csspp->setState('0');
+            pin_csspp->updatePinModule();
+        }
+        else
+        {
+            active_sig_cs = false;
+            pin_csspp->setSource(0);
+        }
     }
 }
 
@@ -275,7 +268,7 @@ uint SPP::data_read()
 {
     if((sppcon->get_value() & SPPEN) == 0) return(0);
 
-    parallel_tris->put(0xff);		// set port for read
+    parallel_tris->put(0xff);                // set port for read
     eps_value |= SPPBUSY;
     sppeps->put_value(eps_value);
     cycle_state = ST_CYCLE1;
@@ -284,9 +277,8 @@ uint SPP::data_read()
     pin_oespp->updatePinModule();
     if (cfg_value & CSEN)
     {
-
-	sig_csspp->setState('1');
-	pin_csspp->updatePinModule();
+        sig_csspp->setState('1');
+        pin_csspp->updatePinModule();
     }
     get_cycles().set_break(get_cycles().get() + (cfg_value & 0x0f) + 1 , this);
     return data_value;
@@ -295,94 +287,64 @@ void SPP::enabled(bool _enabled)
 {
     if (state_enabled ^ _enabled)
     {
-	state_enabled = _enabled;
-	if (state_enabled)
-	{
-	    (parallel_port->getPin(0))->newGUIname("SPP0");
-	    (parallel_port->getPin(1))->newGUIname("SPP1");
-	    (parallel_port->getPin(2))->newGUIname("SPP2");
-	    (parallel_port->getPin(3))->newGUIname("SPP3");
-	    (parallel_port->getPin(4))->newGUIname("SPP4");
-	    (parallel_port->getPin(5))->newGUIname("SPP5");
-	    (parallel_port->getPin(6))->newGUIname("SPP6");
-	    (parallel_port->getPin(7))->newGUIname("SPP7");
+        state_enabled = _enabled;
+        if (state_enabled)
+        {
+            if (!sig_oespp) sig_oespp = new SppSignalSource();
+            pin_oespp->setSource(sig_oespp);
+            active_sig_oe = true;
+            sig_oespp->setState('1');
+            pin_oespp->updatePinModule();
 
-	    pin_oespp->getPin().newGUIname("OESPP");
-	    if (!sig_oespp) sig_oespp = new SppSignalSource();
-	    pin_oespp->setSource(sig_oespp);
-	    active_sig_oe = true;
-	    sig_oespp->setState('1');
-	    pin_oespp->updatePinModule();
+            if (!sig_clk2spp) sig_clk2spp = new SppSignalSource();
+            pin_clk2spp->setSource(sig_clk2spp);
+            active_sig_clk2 = true;
+            sig_clk2spp->setState('0');
+            pin_clk2spp->updatePinModule();
 
-	    pin_clk2spp->getPin().newGUIname("CK2SPP");
-	    if (!sig_clk2spp) sig_clk2spp = new SppSignalSource();
-	    pin_clk2spp->setSource(sig_clk2spp);
-	    active_sig_clk2 = true;
-	    sig_clk2spp->setState('0');
-	    pin_clk2spp->updatePinModule();
+            if (cfg_value & CLK1EN)
+            {
+                if (!sig_clk1spp) sig_clk1spp = new SppSignalSource();
+                pin_clk1spp->setSource(sig_clk1spp);
+                active_sig_clk1 = true;
+                sig_clk1spp->setState('0');
+                pin_clk1spp->updatePinModule();
+            }
+            if (cfg_value & CSEN)
+            {
 
-	    if (cfg_value & CLK1EN)
-	    {
-	       	pin_clk1spp->getPin().newGUIname("CK1SPP");
-	    	if (!sig_clk1spp) sig_clk1spp = new SppSignalSource();
-	    	pin_clk1spp->setSource(sig_clk1spp);
-	    	active_sig_clk1 = true;
-	    	sig_clk1spp->setState('0');
-	    	pin_clk1spp->updatePinModule();
-	    }
-	    if (cfg_value & CSEN)
-	    {
-	       	pin_csspp->getPin().newGUIname("CSSPP");
-	       	if (!sig_csspp) sig_csspp = new SppSignalSource();
-	    	pin_csspp->setSource(sig_csspp);
-	    	active_sig_cs = true;
-	    	sig_csspp->setState('0');
-	    	pin_csspp->updatePinModule();
-	    }
-	    cycle_state = ST_IDLE;
-	}
-	else
-	{
-	    for(int i = 0; i < 8; i++)
-	    {
-	        (parallel_port->getPin(i))->newGUIname(
-		    (parallel_port->getPin(i))->name().c_str());
-	    }
-	    pin_oespp->getPin().newGUIname(pin_oespp->getPin().name().c_str());
-	    if (active_sig_oe)
-	    {
-		pin_oespp->setSource(0);
-		active_sig_oe = false;
-	    }
-	    pin_clk2spp->getPin().newGUIname(
-		pin_clk2spp->getPin().name().c_str());
-	    if (active_sig_clk2) 
-	    {
-		pin_clk2spp->setSource(0);
-		active_sig_clk2 = false;
-	    }
-	    if (cfg_value & CLK1EN)
-	    {
-	       pin_clk1spp->getPin().newGUIname(
-		    pin_clk1spp->getPin().name().c_str());
-	    }
-	    if (active_sig_clk1) 
-	    {
-		pin_clk1spp->setSource(0);
-		active_sig_clk1 = false;
-	    }
-	    if (cfg_value & CSEN)
-	    {
-	       pin_csspp->getPin().newGUIname(
-		    pin_csspp->getPin().name().c_str());
-	    }
-	    if (active_sig_cs) 
-	    {
-		pin_csspp->setSource(0);
-		active_sig_cs = false;
-	    }
-	}
+                if (!sig_csspp) sig_csspp = new SppSignalSource();
+                pin_csspp->setSource(sig_csspp);
+                active_sig_cs = true;
+                sig_csspp->setState('0');
+                pin_csspp->updatePinModule();
+            }
+            cycle_state = ST_IDLE;
+        }
+        else
+        {
+            if (active_sig_oe)
+            {
+                pin_oespp->setSource(0);
+                active_sig_oe = false;
+            }
+            if (active_sig_clk2) 
+            {
+                pin_clk2spp->setSource(0);
+                active_sig_clk2 = false;
+            }
+            if (active_sig_clk1) 
+            {
+                pin_clk1spp->setSource(0);
+                active_sig_clk1 = false;
+            }
 
+            if (active_sig_cs) 
+            {
+                pin_csspp->setSource(0);
+                active_sig_cs = false;
+            }
+        }
     }
 } 
 void SPP::callback()
@@ -390,86 +352,86 @@ void SPP::callback()
     switch(cycle_state)
     {
     case ST_CYCLE1:
-	cycle_state = ST_CYCLE2;
+        cycle_state = ST_CYCLE2;
         if(io_operation == DATA_READ)
-    	    data_value = parallel_port->get();
-	switch ((cfg_value & (CLKCFG1|CLKCFG0)) >> 6)
+                data_value = parallel_port->get();
+        switch ((cfg_value & (CLKCFG1|CLKCFG0)) >> 6)
         {
-	case 3:
+        case 3:
         case 2:
-	    if (eps_value & ADDR0)	// odd address
-	    {
-		if (cfg_value & CLK1EN)
-		{
-    	            sig_clk1spp->setState('1');
-    	            pin_clk1spp->updatePinModule();
-		}
-	    }
-	    else
-	    {
-    	        sig_clk2spp->setState('1');
-    	        pin_clk2spp->updatePinModule();
-	    } 
-	    break;
+            if (eps_value & ADDR0)        // odd address
+            {
+                if (cfg_value & CLK1EN)
+                {
+                        sig_clk1spp->setState('1');
+                        pin_clk1spp->updatePinModule();
+                }
+            }
+            else
+            {
+                    sig_clk2spp->setState('1');
+                    pin_clk2spp->updatePinModule();
+            } 
+            break;
 
-	case 1:
-	    if (io_operation == ADDR_WRITE || io_operation == DATA_WRITE)
-	    {
-		if (cfg_value & CLK1EN)
-		{
-    	            sig_clk1spp->setState('1');
-    	            pin_clk1spp->updatePinModule();
-		}
-	    }
-	    else if (io_operation == DATA_READ)
-	    {
-    	        sig_clk2spp->setState('1');
-    	        pin_clk2spp->updatePinModule();
-	    } 
+        case 1:
+            if (io_operation == ADDR_WRITE || io_operation == DATA_WRITE)
+            {
+                if (cfg_value & CLK1EN)
+                {
+                        sig_clk1spp->setState('1');
+                        pin_clk1spp->updatePinModule();
+                }
+            }
+            else if (io_operation == DATA_READ)
+            {
+                    sig_clk2spp->setState('1');
+                    pin_clk2spp->updatePinModule();
+            } 
 
-	    break;
+            break;
 
-	case 0:
-	    if ((cfg_value & CLK1EN) && io_operation == ADDR_WRITE)
-	    {
-    	        sig_clk1spp->setState('1');
-    	        pin_clk1spp->updatePinModule();
-	    }
-	    if (io_operation == DATA_WRITE || io_operation == DATA_READ)
-	    {
-    	        sig_clk2spp->setState('1');
-    	        pin_clk2spp->updatePinModule();
-	    }
-	    break;
-	}
+        case 0:
+            if ((cfg_value & CLK1EN) && io_operation == ADDR_WRITE)
+            {
+                    sig_clk1spp->setState('1');
+                    pin_clk1spp->updatePinModule();
+            }
+            if (io_operation == DATA_WRITE || io_operation == DATA_READ)
+            {
+                    sig_clk2spp->setState('1');
+                    pin_clk2spp->updatePinModule();
+            }
+            break;
+        }
         get_cycles().set_break(get_cycles().get() + (cfg_value & 0x0f) + 1 , this);
-	break;
+        break;
 
     case ST_CYCLE2:
-	cycle_state = ST_IDLE;
-	eps_value &= ~SPPBUSY;
-	sppeps->put_value(eps_value);
-    	sig_oespp->setState('1');
-    	pin_oespp->updatePinModule();
-    	sig_clk2spp->setState('0');
-    	pin_clk2spp->updatePinModule();
-	if (cfg_value & CSEN)
-	{
-    	    sig_csspp->setState('0');
-    	    pin_csspp->updatePinModule();
-	}
-	if (cfg_value & CLK1EN)
-	{
-    	    sig_clk1spp->setState('0');
-    	    pin_clk1spp->updatePinModule();
-	}
-	if (!(sppcon->get_value() & SPPOWN))
-	    pir_set->set_sppif();
-	break;
+        cycle_state = ST_IDLE;
+        eps_value &= ~SPPBUSY;
+        sppeps->put_value(eps_value);
+            sig_oespp->setState('1');
+            pin_oespp->updatePinModule();
+            sig_clk2spp->setState('0');
+            pin_clk2spp->updatePinModule();
+        if (cfg_value & CSEN)
+        {
+                sig_csspp->setState('0');
+                pin_csspp->updatePinModule();
+        }
+        if (cfg_value & CLK1EN)
+        {
+                sig_clk1spp->setState('0');
+                pin_clk1spp->updatePinModule();
+        }
+        if (!(sppcon->get_value() & SPPOWN))
+            pir_set->set_sppif();
+        break;
 
     case ST_IDLE:
     default:
-	printf("SPP::callback unexpected callback state=%d\n", cycle_state);
-	break;
+        printf("SPP::callback unexpected callback state=%d\n", cycle_state);
+        break;
     }
 }

@@ -31,7 +31,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 #include "p16f87x.h"
 #include "pic-ioports.h"
 #include "stimuli.h"

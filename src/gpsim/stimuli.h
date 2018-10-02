@@ -29,6 +29,8 @@ using namespace std;
 #include "gpsim_classes.h"
 #include "breakpoints.h"
 
+#include "piccomponentpin.h"
+
 /* forward references: */
 class Stimulus_Node;
 class stimulus;
@@ -146,85 +148,80 @@ protected:
 //
 class stimulus : public Value
 {
-public:
+    public:
 
-  Stimulus_Node *snode;      // Node to which this stimulus is attached
-  stimulus *next;            // next stimulus that's on the snode
+      Stimulus_Node *snode;      // Node to which this stimulus is attached
+      stimulus *next;            // next stimulus that's on the snode
 
-  stimulus(const char *n=0,
-           double _Vth=5.0,
-           double _Zth=1e3
-           );
-  virtual ~stimulus();
+      stimulus(const char *n=0, double _Vth=5.0, double _Zth=1e3 );
+      virtual ~stimulus();
 
-  // When a stimulus is given a name, it is also added to the symbol
-  // table. If bClearableSymbol is true, then the symbol can be
-  // automatically removed when the symbol table is cleared.
-  virtual void new_name(const char *, bool bClearableSymbol=true);
-  virtual void new_name(string &, bool bClearableSymbol=true);
+      // When a stimulus is given a name, it is also added to the symbol
+      // table. If bClearableSymbol is true, then the symbol can be
+      // automatically removed when the symbol table is cleared.
+      virtual void new_name(const char *, bool bClearableSymbol=true);
+      virtual void new_name(string &, bool bClearableSymbol=true);
 
-  // Functions for accessing/manipulating the thevenin voltage and impedance.
-  virtual void   getThevenin(double &v, double &z, double &c);
-  virtual double get_Vth() { return Vth; }
-  virtual void   set_Vth(double v) { Vth = v; }
-  virtual double get_Zth() { return Zth; }
-  virtual void   set_Zth(double z) { Zth = z; }
-  virtual double get_Cth() { return Cth; }
-  virtual void   set_Cth(double c) { Cth = c; }
+      // Functions for accessing/manipulating the thevenin voltage and impedance.
+      virtual void   getThevenin(double &v, double &z, double &c);
+      virtual double get_Vth() { return Vth; }
+      virtual void   set_Vth(double v) { Vth = v; }
+      virtual double get_Zth() { return Zth; }
+      virtual void   set_Zth(double z) { Zth = z; }
+      virtual double get_Cth() { return Cth; }
+      virtual void   set_Cth(double c) { Cth = c; }
 
-  virtual double get_nodeVoltage() { return nodeVoltage; }
-  virtual void   set_nodeVoltage(double v) { nodeVoltage = v; }
+      virtual double get_nodeVoltage() { return nodeVoltage; }
+      virtual void   set_nodeVoltage(double v) { nodeVoltage = v; }
 
-  virtual bool getDriving() { return bDriving; }
-  virtual void setDriving(bool bNewDriving) { bDriving=bNewDriving; }
+      virtual bool getDriving() { return bDriving; }
+      virtual void setDriving(bool bNewDriving) { bDriving = bNewDriving; }
 
-  // Functions for accessing/manipulating the stimulus state
+      // Functions for accessing/manipulating the stimulus state
 
-  // Control the driving state, i.e. the state this stimulus wishes to drive
-  virtual bool getDrivingState(void) {return bDrivingState;};
-  virtual void setDrivingState(bool new_dstate) { bDrivingState = new_dstate;};
-  virtual void setDrivingState(char new3State)
-  { bDrivingState = new3State=='1';};
+      // Control the driving state, i.e. the state this stimulus wishes to drive
+      virtual bool getDrivingState(void) {return bDrivingState;};
+      virtual void setDrivingState(bool new_dstate) { bDrivingState = new_dstate;};
+      virtual void setDrivingState(char new3State) { bDrivingState = new3State=='1';};
 
-  // Control the driven state, i.e. the state some external node wishes to
-  // drive this stimulus.
-  virtual bool getDrivenState(void) { return getDrivingState(); }
-  virtual void setDrivenState(bool new_dstate) { setDrivingState(new_dstate);}
+      // Control the driven state, i.e. the state some external node wishes to
+      // drive this stimulus.
+      virtual bool getDrivenState(void) { return getDrivingState(); }
+      virtual void setDrivenState(bool new_dstate) { setDrivingState(new_dstate);}
 
-  // Control the 'state' of the node.
-  virtual bool getState() { return getDrivingState(); }
-  virtual void putState(bool new_dstate) { setDrivingState(new_dstate);}
+      // Control the 'state' of the node.
+      virtual bool getState() { return getDrivingState(); }
+      virtual void putState(bool new_dstate) { setDrivingState(new_dstate);}
 
-  // getBitChar - this complements the Register class' getBitStr function
-  virtual char getBitChar() { return getState() ? '1':'0'; }
-  virtual void attach(Stimulus_Node *s);
-  virtual void detach(Stimulus_Node *s);
+      // getBitChar - this complements the Register class' getBitStr function
+      virtual char getBitChar() { return getState() ? '1':'0'; }
+      virtual void attach(Stimulus_Node *s);
+      virtual void detach(Stimulus_Node *s);
 
-  // If a stimulus changes its state, it can signal this change to
-  // any other stimuli that are connected to it.
-  virtual void updateNode(void) { if(snode) snode->update();}
+      // If a stimulus changes its state, it can signal this change to
+      // any other stimuli that are connected to it.
+      virtual void updateNode(void) { if(snode) snode->update();}
 
-  // Display info about the stimulus.
-  virtual void show();
-  virtual string toString();
+      // Display info about the stimulus.
+      virtual void show();
+      virtual string toString();
 
-protected:
-  bool bDrivingState;        // 0/1 digitization of the analog state we're driving
-  bool bDriving;             // True if this stimulus is a driver
+    protected:
+      bool bDrivingState;        // 0/1 digitization of the analog state we're driving
+      bool bDriving;             // True if this stimulus is a driver
 
+      double Vth;                // Open-circuit or Thevenin voltage
+      double Zth;                // Input or Thevenin resistance
+      double Cth;                // Stimulus capacitance.
 
-  double Vth;                // Open-circuit or Thevenin voltage
-  double Zth;                // Input or Thevenin resistance
-  double Cth;                // Stimulus capacitance.
+      double nodeVoltage;        // The voltage driven on to this stimulus by the snode
 
-  double nodeVoltage;        // The voltage driven on to this stimulus by the snode
+      // These are only here because they're pure virtual functions in the parent class.
+      virtual uint get_value(void) { return 0;}
+      virtual void put_value(uint new_value) {}
 
-  // These are only here because they're pure virtual functions in the parent class.
-  virtual uint get_value(void) { return 0;}
-  virtual void put_value(uint new_value) {}
-
-  // factory function
-  static stimulus * construct(const char * psName);
+      // factory function
+      static stimulus * construct(const char * psName);
 };
 
 
@@ -291,179 +288,177 @@ class PinMonitor
       list <AnalogSink *> analogSinks;
 };
 
+class PICComponentPin;
 class IOPIN : public stimulus
 {
- public:
+     public:
 
-  enum IOPIN_TYPE
-    {
-      INPUT_ONLY,          // e.g. MCLR
-      BI_DIRECTIONAL,      // most iopins
-      BI_DIRECTIONAL_PU,   // same as bi_directional, but with pullup resistor. e.g. portb
-      OPEN_COLLECTOR       // bit4 in porta on the 18 pin midrange devices.
-    };
+      enum IOPIN_TYPE
+        {
+          INPUT_ONLY,          // e.g. MCLR
+          BI_DIRECTIONAL,      // most iopins
+          BI_DIRECTIONAL_PU,   // same as bi_directional, but with pullup resistor. e.g. portb
+          OPEN_COLLECTOR       // bit4 in porta on the 18 pin midrange devices.
+        };
 
-  enum IOPIN_DIRECTION
-    {
-      DIR_INPUT,
-      DIR_OUTPUT
-    };
+      enum IOPIN_DIRECTION
+        {
+          DIR_INPUT,
+          DIR_OUTPUT
+        };
 
-  IOPIN(const char *n=0,
-        double _Vth=5.0,
-        double _Zth=1e8,
-        double _ZthWeak = 1e6,
-        double _ZthFloating = 1e7
-        );
+      IOPIN(const char *n=0,
+            double _Vth=5.0,
+            double _Zth=1e8,
+            double _ZthWeak = 1e6,
+            double _ZthFloating = 1e7
+            );
 
-  ~IOPIN();
+      ~IOPIN();
 
-  virtual void setMonitor(PinMonitor *);
-  virtual PinMonitor *getMonitor() { return m_monitor; }
-  virtual void set_nodeVoltage(double v);
-  virtual bool getDrivingState(void);
-  virtual void setDrivingState(bool new_dstate);
-  virtual void setDrivingState(char);
-  virtual bool getDrivenState(void);
-  virtual void setDrivenState(bool new_dstate);
-  virtual void forceDrivenState(char);
-  virtual char getForcedDrivenState();
-  virtual bool getState();
-  virtual void putState(bool new_dstate);
-  virtual void putState(double new_Vth);
-  virtual void set_digital_threshold(double vdd);
-  virtual void get(char *return_str, int len);
+      virtual void setMonitor(PinMonitor *);
+      virtual PinMonitor *getMonitor() { return m_monitor; }
+      
+      virtual void set_nodeVoltage(double v);
+      
+      virtual bool getDrivingState(void);
+      virtual void setDrivingState(bool new_dstate);
+      virtual void setDrivingState(char);
+      virtual bool getDrivenState(void);
+      virtual void setDrivenState(bool new_dstate);
+      
+      virtual bool getState();
+      virtual void putState(bool new_dstate);
+      virtual void putState(double new_Vth);
+      
+      virtual void set_digital_threshold(double vdd);
+      virtual void get(char *return_str, int len);
 
-  virtual void set_ZthWeak(double Z) { ZthWeak=Z;}
-  virtual double get_ZthWeak() { return ZthWeak;}
-  virtual void set_ZthFloating(double Z) { ZthFloating=Z;}
-  virtual double get_ZthFloating() { return ZthFloating;}
+      virtual void set_ZthWeak(double Z)     { ZthWeak=Z;}
+      virtual double get_ZthWeak()           { return ZthWeak;}
+      virtual void set_ZthFloating(double Z) { ZthFloating=Z;}
+      virtual double get_ZthFloating()       { return ZthFloating;}
 
-  virtual void set_l2h_threshold(double V) {l2h_threshold=V;}
-  virtual double get_l2h_threshold() { return l2h_threshold;}
-  virtual void set_h2l_threshold(double V) {h2l_threshold=V;}
-  virtual double get_h2l_threshold() { return h2l_threshold;}
+      virtual void set_l2h_threshold(double V) { l2h_threshold=V; }
+      virtual double get_l2h_threshold()       { return l2h_threshold;}
+      virtual void set_h2l_threshold(double V) { h2l_threshold=V; }
+      virtual double get_h2l_threshold()       { return h2l_threshold;}
 
-  virtual void toggle(void);
-  virtual void attach(Stimulus_Node *s);
+      virtual void toggle(void);
+      virtual void attach(Stimulus_Node *s);
 
-  // These functions don't apply to Inputs, but provide an
-  // interface for the derived classes.
-  virtual void update_direction(uint x, bool refresh){ };
-  virtual IOPIN_DIRECTION  get_direction(void) {return DIR_INPUT; };
-  virtual void update_pullup(char new_state, bool refresh) {}
-  virtual void set_is_analog(bool flag) {}
+      // These functions don't apply to Inputs, but provide an
+      // interface for the derived classes.
+      virtual IOPIN_DIRECTION  get_direction(void) {return DIR_INPUT; };
+      virtual void update_direction( uint x, bool refresh ){ };
+      virtual void update_pullup( char new_state, bool refresh ) {}
+      virtual void set_is_analog( bool flag ) {}
 
-  virtual double get_Vth();
+      virtual double get_Vth();
 
-  virtual char getBitChar();
-  virtual void show();
- /// Change object name without affecting stimulus
-  virtual void newGUIname(const char *);
-  virtual string &GUIname(void) const;
-  virtual bool is_newGUIname(void) { return gui_name_updated; }
-  virtual void clr_is_newGUIname(void) { gui_name_updated = false; }
+      virtual char getBitChar();
+      virtual void show();
+            
+      void setPicPin( PICComponentPin* pin ){ m_picPin = pin; }
 
-protected:
-  bool   is_analog;  		  // Pin is in analog mode
-  bool    gui_name_updated;       // True if object name has changed
-  string  gui_name;               //
+    protected:
+      bool is_analog;                         // Pin is in analog mode
 
-  bool bDrivenState;       // binary state we're being driven to
-  char cForcedDrivenState; // forced state when no snode is attached.
+      bool bDrivenState;       // binary state we're being driven to
 
-  PinMonitor *m_monitor;
+      PinMonitor *m_monitor;
 
-  // When connected to a node, these are thresholds used to determine whether
-  // we're being driven by a weak driver or not.
-  double ZthWeak;
-  double ZthFloating;
+      // When connected to a node, these are thresholds used to determine whether
+      // we're being driven by a weak driver or not.
+      double ZthWeak;
+      double ZthFloating;
 
-  // These are the low to high and high to low input thresholds. The
-  // units are volts.
-  double l2h_threshold;
-  double h2l_threshold;
-  double Vdrive_high;
-  double Vdrive_low;
-
+      // These are the low to high and high to low input thresholds. The
+      // units are volts.
+      double l2h_threshold;
+      double h2l_threshold;
+      double Vdrive_high;
+      double Vdrive_low;
+      
+      PICComponentPin* m_picPin;
 };
 
 class IO_bi_directional : public IOPIN
 {
-public:
+    public:
 
-  IO_bi_directional(const char *n=0,
-                    double _Vth=5.0,
-                    double _Zth=150,
-                    double _ZthWeak = 1e6,
-                    double _ZthFloating = 1e7,
-                    double _VthIn = 0.3,
-                    double _ZthIn = 1e10);
-  virtual double get_Zth();
-  virtual double get_Vth();
-  virtual double get_VthIn() { return VthIn;}
-  virtual double get_ZthIn() { return ZthIn;}
-  virtual void set_VthIn(double _VthIn) { VthIn = _VthIn;}
-  virtual void set_ZthIn(double _ZthIn) { ZthIn = _ZthIn;}
-  virtual char getBitChar();
+      IO_bi_directional(const char *n=0,
+                        double _Vth=5.0,
+                        double _Zth=150,
+                        double _ZthWeak = 1e6,
+                        double _ZthFloating = 1e7,
+                        double _VthIn = 0.3,
+                        double _ZthIn = 1e10);
+      virtual double get_Zth();
+      virtual double get_Vth();
+      virtual double get_VthIn() { return VthIn;}
+      virtual double get_ZthIn() { return ZthIn;}
+      virtual void set_VthIn(double _VthIn) { VthIn = _VthIn;}
+      virtual void set_ZthIn(double _ZthIn) { ZthIn = _ZthIn;}
+      virtual char getBitChar();
 
-  virtual void set_nodeVoltage(double new_nodeVoltage);
-  virtual void putState(bool new_state);
-  virtual void putState(double new_Vth);
+      virtual void set_nodeVoltage(double new_nodeVoltage);
+      virtual void putState(bool new_state);
+      virtual void putState(double new_Vth);
 
-  virtual void update_direction(uint,bool refresh);
-  virtual IOPIN_DIRECTION  get_direction(void)
-  {return ((getDriving()) ? DIR_OUTPUT : DIR_INPUT);}
+      virtual void update_direction(uint,bool refresh);
+      virtual IOPIN_DIRECTION  get_direction(void) {return ((getDriving()) ? DIR_OUTPUT : DIR_INPUT);}
 
-protected:
-  /// Impedance of the IOPIN when it's not driving.
-  double ZthIn;
+    protected:
+      /// Impedance of the IOPIN when it's not driving.
+      double ZthIn;
 
-  /// Voltage of the IOPIN when it's not driving
-  /// (this is the voltage the I/O pin floats to when there's
-  /// nothing connected to it)
-  double VthIn;
+      /// Voltage of the IOPIN when it's not driving
+      /// (this is the voltage the I/O pin floats to when there's
+      /// nothing connected to it)
+      double VthIn;
 };
 
 class IO_bi_directional_pu : public IO_bi_directional
 {
-public:
-  IO_bi_directional_pu(const char *n=0,
-                       double _Vth=5.0,
-                       double _Zth=150,
-                       double _ZthWeak = 1e6,
-                       double _ZthFloating = 1e7,
-                       double _VthIn = 0.3,
-                       double _ZthIn = 1e8,
-                       double _Zpullup = 20e3
-                       );
+    public:
+      IO_bi_directional_pu(const char *n=0,
+                           double _Vth=5.0,
+                           double _Zth=150,
+                           double _ZthWeak = 1e6,
+                           double _ZthFloating = 1e7,
+                           double _VthIn = 0.3,
+                           double _ZthIn = 1e8,
+                           double _Zpullup = 20e3
+                           );
 
-  ~IO_bi_directional_pu();
-  virtual double get_Vth();
-  virtual double get_Zth();
+      ~IO_bi_directional_pu();
+      virtual double get_Vth();
+      virtual double get_Zth();
 
-  virtual void set_Zpullup(double Z) { Zpullup = Z; }
-  virtual double get_Zpullup() { return Zpullup; }
-  virtual void set_Vpullup(double V) { Vpullup = V; }
-  virtual double get_Vpullup() { return Vpullup; }
+      virtual void set_Zpullup(double Z) { Zpullup = Z; }
+      virtual double get_Zpullup()       { return Zpullup; }
+      virtual void set_Vpullup(double V) { Vpullup = V; }
+      virtual double get_Vpullup()       { return Vpullup; }
 
-  virtual char getBitChar();
-  virtual void update_pullup(char new3State, bool refresh);
-  virtual void set_is_analog(bool flag);
-protected:
-  bool   bPullUp;  // True when pullup is enabled
-  double Zpullup;  // resistance of the pullup
-  double Vpullup;  // Voltage the pullup resistor is tied to.
+      virtual char getBitChar();
+      virtual void update_pullup(char new3State, bool refresh);
+      virtual void set_is_analog(bool flag);
+      
+    protected:
+      bool   bPullUp;  // True when pullup is enabled
+      double Zpullup;  // resistance of the pullup
+      double Vpullup;  // Voltage the pullup resistor is tied to.
 };
 
 
 class IO_open_collector : public IO_bi_directional_pu
 {
-public:
-  explicit IO_open_collector(const char *n = 0);
-  virtual double get_Vth();
-  virtual double get_Zth();
-  virtual char getBitChar();
+    public:
+      explicit IO_open_collector(const char *n = 0);
+      virtual double get_Vth();
+      virtual double get_Zth();
+      virtual char getBitChar();
 };
 
 #endif  // __STIMULI_H__

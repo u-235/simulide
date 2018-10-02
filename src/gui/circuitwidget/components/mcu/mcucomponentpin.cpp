@@ -24,16 +24,16 @@ McuComponentPin::McuComponentPin( McuComponent *mcuComponent, QString id, QStrin
                : QObject( mcuComponent )
                , eSource( id.toStdString(), 0l )
 {
-    m_id   = id;
-    m_Rth  = high_imp;
-    m_Vth  = cero_doub;
-    m_type = type;
-    m_pinType = 0;
+    m_id    = id;
+    m_type  = type;
     m_angle = angle;
+    
+    m_pinType = 0;
+    
     m_mcuComponent = mcuComponent;
     
     m_attached = false;
-    m_isInput = true;
+    m_isInput  = true;
 
     Pin* pin = new Pin( angle, QPoint (xpos, ypos), mcuComponent->itemID()+"-"+id, pos, m_mcuComponent );
     pin->setLabelText( label );
@@ -65,6 +65,8 @@ void McuComponentPin::resetState()
 
 void McuComponentPin::initialize()
 {
+    eSource::setImp( high_imp );// All  IO Pins should be inputs at start-up
+    
     if( m_ePin[0]->isConnected() && m_attached )
         m_ePin[0]->getEnode()->addToChangedFast(this);
         

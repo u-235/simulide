@@ -55,9 +55,6 @@ class MAINMODULE_EXPORT McuComponentPin : public QObject, public eSource
         char m_port;
         int  m_pinN;
 
-        double m_Rth;
-        double m_Vth;
-        
         int m_pinType;
         int m_angle;
 

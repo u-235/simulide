@@ -33,7 +33,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 #include "packages.h"
 #include "stimuli.h"
 #include "i2c-ee.h"
@@ -225,12 +225,10 @@ void  P12bitBase::updateGP2Source()
   {
     printf("OPTION_REG::T0CS forcing GPIO2 as input, TRIS disabled\n");
     pmGP2->setControl(m_IN_SignalControl);
-    pmGP2->getPin().newGUIname("T0CS");
   }
   else
   {
     cout << "TRIS now controlling gpio2\n";
-    pmGP2->getPin().newGUIname("gpio2");
     pmGP2->setControl(0);
   }
 }
@@ -292,12 +290,7 @@ void  P12bitBase::setConfigWord(uint val, uint diff)
     configWord = val;
     if (diff & WDTEN)  wdt.initialize((val & WDTEN) == WDTEN);
 
-    if ((val & MCLRE) == MCLRE)
-    {
-                pmGP3->getPin().update_pullup('1', true);
-                pmGP3->getPin().newGUIname("MCLR");
-    }
-    else    pmGP3->getPin().newGUIname("gpio3");
+    if ((val & MCLRE) == MCLRE) pmGP3->getPin().update_pullup('1', true);
 }
 
 void P12bitBase::tris_instruction(uint tris_register)
@@ -733,17 +726,14 @@ void P10F200::updateGP2Source()
 
   if (osccal.value.get() & P12_OSCCON::FOSC4 )
   {
-
     pmGP2->setSource(m_OUT_DriveControl);
     printf("OSCCON::FOSC4 forcing GPIO2 high on output, TODO FOSC4 toggle output\n");
-    pmGP2->getPin().newGUIname("FOSC4");
   }
   else if(option_reg->value.get() & OPTION_REG::T0CS)
   {
     printf("OPTION_REG::T0CS forcing GPIO2 as input, TRIS disabled\n");
     pmGP2->setControl(m_IN_SignalControl);
     pmGP2->setSource(0);
-    pmGP2->getPin().newGUIname("T0CS");
   }
   else
   {
@@ -751,7 +741,6 @@ void P10F200::updateGP2Source()
     pmGP2->setControl(0);
     pmGP2->setSource(0);
     cout << "TRIS now controlling gpio2\n";
-    pmGP2->getPin().newGUIname("gpio2");
   }
   pmGP2->updatePinModule();
 }
@@ -1055,27 +1044,23 @@ void P10F204::updateGP2Source()
 
     pmGP2->setSource(m_OUT_DriveControl);
     printf("OSCCON::FOSC4 forcing GPIO2 high on output, TODO FOSC4 toggle output\n");
-    pmGP2->getPin().newGUIname("FOSC4");
   }
   else if (m_cmcon0->isEnabled()) 
   {
     pmGP2->setControl(m_cmcon0->getGPDirectionControl());
     pmGP2->setSource(m_cmcon0->getSource());
     cout << "comparator is controlling the output of GPIO2\n";
-    pmGP2->getPin().newGUIname("COUT");
   }
   else if(option_reg->get() & OPTION_REG::T0CS)
   {
     printf("OPTION_REG::T0CS forcing GPIO2 as input, TRIS disabled\n");
     pmGP2->setControl(m_IN_SignalControl);
     pmGP2->setSource(0);
-    pmGP2->getPin().newGUIname("T0CS");
   }
   else 
   {
     pmGP2->setControl(0);
     pmGP2->setSource(0);
-    pmGP2->getPin().newGUIname("gpio2");
   }
   pmGP2->updatePinModule();
 }
@@ -1170,10 +1155,7 @@ void  P10F220::setConfigWord(uint val, uint diff)
     if ((val & MCLRE))
     {
         if (!(val & NOT_MCPU)) pmGP3->getPin().update_pullup('1', true);
-        pmGP3->getPin().newGUIname("MCLR");
     }
-    else pmGP3->getPin().newGUIname("gpio3");
-
     if ((val & IOSCFS)) set_frequency(8e6);
 }
 //========================================================================
@@ -1424,15 +1406,9 @@ void  P16F505::setConfigWord(uint val, uint diff)
 
     configWord = val;
 
-    if( diff & WDTEN )
-        wdt.initialize((val & WDTEN) == WDTEN);
+    if( diff & WDTEN ) wdt.initialize((val & WDTEN) == WDTEN);
 
-    if( (val & MCLRE) == MCLRE )
-    {
-        pmRB3->getPin().update_pullup('1', true);
-        pmRB3->getPin().newGUIname("MCLR");
-    }
-    else pmRB3->getPin().newGUIname("portb3");
+    if( (val & MCLRE) == MCLRE ) pmRB3->getPin().update_pullup('1', true);
 }
 
 void  P16F505::updateGP2Source()
@@ -1443,12 +1419,10 @@ void  P16F505::updateGP2Source()
   {
     printf("OPTION_REG::T0CS forcing PORTC5 as input, TRIS disabled\n");
     pmPC5->setControl(m_IN_SignalControl);
-    pmPC5->getPin().newGUIname("T0CS");
   }
   else
   {
     cout << "TRIS now controlling PORTC5\n";
-    pmPC5->getPin().newGUIname("portc5");
     pmPC5->setControl(0);
   }
 }

@@ -31,7 +31,7 @@ static PinModule AnInvalidAnalogInput;
 
 //#define DEBUG
 #if defined(DEBUG)
-#include "../config.h"
+#include "config.h"
 #define Dprintf(arg) {printf("%s:%d ",__FILE__,__LINE__); printf arg; }
 #else
 #define Dprintf(arg) {}
@@ -1049,15 +1049,15 @@ void ADCON0_32X::put(uint new_value)
 a2d_stimulus::a2d_stimulus(ADCON1 * arg, int chan, const char *cPname,double _Vth, double _Zth)
   : stimulus(cPname, _Vth, _Zth)
 {
-        _adcon1 = arg;
-        channel = chan;
+    _adcon1 = arg;
+    channel = chan;
 }
 
 void   a2d_stimulus::set_nodeVoltage(double v)
 {
-        Dprintf(("nodeVoltage =%.1f\n", v));
-        nodeVoltage = v;
-        _adcon1->setVoltRef(channel, v);
+    Dprintf(("nodeVoltage =%.1f\n", v));
+    nodeVoltage = v;
+    _adcon1->setVoltRef(channel, v);
 }
 //
 //--------------------------------------------------
@@ -1215,12 +1215,10 @@ void DACCON0::set_dacoutpin(bool output_enabled, int chan, double Vout)
         if (!Pin_Active[chan])        // DACOUT going to active
         {
             std::string pin_name = name().substr(0, 4);
-            if (pin_name == "dacc")
-                pin_name = "dacout";
-            else if (chan == 0)
-                pin_name += "-1";
-            else
-                pin_name += "-2";
+            
+            if (pin_name == "dacc") pin_name = "dacout";
+            else if (chan == 0)     pin_name += "-1";
+            else                    pin_name += "-2";
 
             output_pin[chan]->AnalogReq(this, true, pin_name.c_str());
             Pin_Active[chan] = true;
@@ -1230,7 +1228,6 @@ void DACCON0::set_dacoutpin(bool output_enabled, int chan, double Vout)
             out_pin->set_ZthIn(150e3);
             out_pin->setDriving(false);
         }
-
         out_pin->set_VthIn(Vout);
         out_pin->updateNode();
     }
