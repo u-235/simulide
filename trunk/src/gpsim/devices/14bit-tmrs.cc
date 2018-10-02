@@ -25,7 +25,7 @@ License along with this library; if not, see
 #include <iomanip>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 #include "14bit-tmrs.h"
 #include "stimuli.h"
 #include "a2dconverter.h"
@@ -196,31 +196,31 @@ private:
 
 class CCPSignalSink : public SignalSink
 {
-public:
-  CCPSignalSink(CCPCON *_ccp, int _index)
-    : m_ccp(_ccp), index(_index)
-  {
-    assert(_ccp);
-  }
+    public:
+      CCPSignalSink(CCPCON *_ccp, int _index)
+        : m_ccp(_ccp), index(_index)
+      {
+        assert(_ccp);
+      }
 
-  virtual ~CCPSignalSink(){}
-  virtual void release() { m_ccp->releaseSink(); }
-  void setSinkState(char new3State)
-  {
-    m_ccp->new_edge( new3State=='1' || new3State=='W');
-  }
-private:
-  CCPCON *m_ccp;
-  int index;
-};
+      virtual ~CCPSignalSink(){}
+      virtual void release() { m_ccp->releaseSink(); }
+      void setSinkState(char new3State)
+      {
+        m_ccp->new_edge( new3State=='1' || new3State=='W');
+      }
+    private:
+      CCPCON *m_ccp;
+      int index;
+    };
 
-class Tristate : public SignalControl
-{
-public:
-  Tristate() { }
-  ~Tristate() { }
-  char getState() { return '1'; }        // set port to high impedance by setting it to input
-  virtual void release() { }
+    class Tristate : public SignalControl
+    {
+    public:
+      Tristate() { }
+      ~Tristate() { }
+      char getState() { return '1'; }        // set port to high impedance by setting it to input
+      virtual void release() { }
 };
 //--------------------------------------------------
 // CCPCON
@@ -1129,52 +1129,31 @@ void DATACCP::put(uint new_value)
   value.put(new_value);
 }
 
-/*class TMR1_Interface : public Interface
-{
-  public:
-
-    TMR1_Interface(TMRL *_tmr1) : Interface((gpointer *)_tmr1)
-    {
-        tmr1 = _tmr1;
-    }
-     virtual void SimulationHasStopped (gpointer object)
-    {
-        tmr1->current_value();
-    }
-    virtual void Update  (gpointer object)
-    {
-        SimulationHasStopped(object);
-    }
-
-  private:
-        TMRL *tmr1;
-};*/
-
 // Attribute for frequency of external Timer1 oscillator
 class TMR1_Freq_Attribute : public Float
 {
-public:
-  TMR1_Freq_Attribute(Processor * _cpu, double freq, const char *name = "tmr1_freq");
+    public:
+      TMR1_Freq_Attribute(Processor * _cpu, double freq, const char *name = "tmr1_freq");
 
-  virtual void set(double d);
-  double get_freq();
+      virtual void set(double d);
+      double get_freq();
 
-private:
-  Processor * cpu;
+    private:
+      Processor * cpu;
 };
 
 TMR1_Freq_Attribute::TMR1_Freq_Attribute(Processor * _cpu, double freq, const char *name)
   : Float(name, freq, " Tmr oscillator frequency."),
     cpu(_cpu)
 {
-}
 
+}
 
 double TMR1_Freq_Attribute::get_freq()
 {
-        double d;
-        Float::get(d);
-        return(d);
+    double d;
+    Float::get(d);
+    return(d);
 }
 void TMR1_Freq_Attribute::set(double d)
 {
@@ -1188,6 +1167,9 @@ T1CON::T1CON(Processor *pCpu, const char *pName, const char *pDesc)
   : sfr_register(pCpu, pName, pDesc),
     tmrl(0), cpu(pCpu)
 {
+    char freq_name[] = "tmr1_freq";
+    if (*(pName+1) >= '1' && *(pName+1) <= '9') freq_name[3] = *(pName+1);
+    freq_attribute = new TMR1_Freq_Attribute(pCpu, 32768., freq_name);
 }
 T1CON::~T1CON()
 {
@@ -1220,7 +1202,6 @@ uint T1CON::get_prescale()
 {
   return( ((value.get() &(T1CKPS0 | T1CKPS1)) >> 4) );
 }
-
 
 double T1CON::t1osc()
 {
@@ -1594,13 +1575,13 @@ private:
 
 class TMR1CapComRef
 {
-public:
-    TMR1CapComRef * next;
+    public:
+        TMR1CapComRef * next;
 
-    CCPCON * ccpcon;
-    uint value;
+        CCPCON * ccpcon;
+        uint value;
 
-    TMR1CapComRef ( CCPCON * c, uint v ) : ccpcon(c), value(v) {};
+        TMR1CapComRef ( CCPCON * c, uint v ) : ccpcon(c), value(v) {};
 };
 
 //--------------------------------------------------
@@ -1613,7 +1594,6 @@ TMRL::TMRL(Processor *pCpu, const char *pName, const char *pDesc)
     m_io_GateState(true), m_bExtClkEnabled(false),
     m_sleeping(false), m_t1gss(true), m_Interrupt(0)
 {
-
   value.put(0);
   synchronized_cycle = 0;
   prescale_counter = prescale = 1;
@@ -1625,16 +1605,12 @@ TMRL::TMRL(Processor *pCpu, const char *pName, const char *pDesc)
   tmrh    = 0;
   t1con   = 0;
   compare_queue = 0;
-  for (int i = 0; i < 4; i++)
-      m_clc[i] = 0;
+  for (int i = 0; i < 4; i++) m_clc[i] = 0;
 }
 
 TMRL::~TMRL()
 {
-  if (m_Interrupt)
-    m_Interrupt->release();
-  /*if (tmr1_interface)
-        delete tmr1_interface;*/
+  if (m_Interrupt) m_Interrupt->release();
 }
 /*
  * If we are similating an external RTC crystal for timer1,
@@ -1646,26 +1622,21 @@ TMRL::~TMRL()
 void TMRL::set_ext_scale()
 {
     current_value();
-    if (t1con->get_t1oscen()  && (t1con->get_tmr1cs() == 2)) // external clock
+    if (t1con->get_t1oscen() && (t1con->get_tmr1cs() == 2)) // external clock
     {
-            ext_scale = get_cycles().instruction_cps()/
-                    t1con->freq_attribute->get_freq();
+        ext_scale = get_cycles().instruction_cps()/
+        t1con->freq_attribute->get_freq();
     }
     else if (t1con->get_tmr1cs() == 1) // Fosc
-        ext_scale = 0.25;
-    else
-        ext_scale = 1.;
+         ext_scale = 0.25;
+    else ext_scale = 1.;
 
     if (future_cycle)
-    {
-      last_cycle = get_cycles().get()
-                        - (int64_t)(value_16bit *( prescale * ext_scale) + 0.5);
-    }
+      last_cycle = get_cycles().get() - (int64_t)(value_16bit *( prescale * ext_scale) + 0.5);
 }
 
 void TMRL::release()
 {
-
 }
 
 void TMRL::setIOpin(PinModule *extClkSource)

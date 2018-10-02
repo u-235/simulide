@@ -31,7 +31,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 #include "p16f91x.h"
 #include "pic-ioports.h"
 #include "stimuli.h"
@@ -208,37 +208,30 @@ bool P16F91X::set_config_word(uint address, uint cfg_word)
 
                switch(fosc)
         {
-
-               case 0:  // LP oscillator: low power crystal is on RA4 and RA5
-               case 1:     // XT oscillator: crystal/resonator is on RA4 and RA5
-               case 2:     // HS oscillator: crystal/resonator is on RA4 and RA5
+        case 0:  // LP oscillator: low power crystal is on RA4 and RA5
+        case 1:     // XT oscillator: crystal/resonator is on RA4 and RA5
+        case 2:     // HS oscillator: crystal/resonator is on RA4 and RA5
             (&(*m_porta)[6])->AnalogReq((Register *)this, true, "OSC2");
-            (m_porta->getPin(7))->newGUIname("OSC1");
             valid_pins &= 0xcf;
             break;
 
         case 3:        // EC I/O on RA4 pin, CLKIN on RA5
-            (m_porta->getPin(7))->newGUIname("CLKIN");
             valid_pins &= 0xef;
             break;
-
             
         case 5: // INTOSC CLKOUT on RA4 pin
             (&(*m_porta)[6])->AnalogReq((Register *)this, true, "CLKOUT");
         case 4: // INTOSC
-            (m_porta->getPin(7))->newGUIname("porta7");
              set_int_osc(true);
             osccon->set_rc_frequency();
             break;
 
         case 6: //RC oscillator: I/O on RA4 pin, RC on RA5
-            (m_porta->getPin(5))->newGUIname("RC");
             valid_pins &= 0xdf;
             break;
 
         case 7: // RC oscillator: CLKOUT on RA4 pin, RC on RA5
             (&(*m_porta)[4])->AnalogReq((Register *)this, true, "CLKOUT");
-            (m_porta->getPin(5))->newGUIname("RC");
             valid_pins &= 0xdf;
             break;
         };

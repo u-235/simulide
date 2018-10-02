@@ -26,7 +26,7 @@ License along with this library; if not, see
 #include <string>
 #include "stimuli.h"
 #include "errors.h"
-#include "../config.h"
+#include "config.h"
 #include "protocol.h"
 
 //#define __DEBUG_CYCLE_COUNTER__
@@ -213,7 +213,6 @@ uint64_t Cycle_Counter::get( double future_time_from_now )
 
 bool Cycle_Counter::set_break(uint64_t future_cycle, TriggerObject *f, uint bpn)
 {
-
   Cycle_Counter_breakpoint_list  *l1 = &active, *l2;
   static uint CallBackID_Sequence=1;
 
@@ -242,7 +241,7 @@ bool Cycle_Counter::set_break(uint64_t future_cycle, TriggerObject *f, uint bpn)
     } 
     else if(future_cycle <= value)
     {
-      cout << "Cycle break point "<< future_cycle << "ignored: has already gone\n";
+      cout << "Cycle break point "<< future_cycle << " ignored: has already gone\n";
       cout << "current cycle is " << value << '\n';
       return 0;
     } 

@@ -30,7 +30,7 @@ License along with this library; if not, see
 #include <vector>
 #include <typeinfo>
 
-#include "../config.h"
+#include "config.h"
 
 #ifndef _WIN32
 #include <dlfcn.h>

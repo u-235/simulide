@@ -36,7 +36,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 
 #include "stimuli.h"
 #include "eeprom.h"
@@ -46,7 +46,7 @@ License along with this library; if not, see
 
 //#define DEBUG
 #if defined(DEBUG)
-#include "../config.h"
+#include "config.h"
 #define Dprintf(arg) {printf("%s:%d ",__FILE__,__LINE__); printf arg; }
 #else
 #define Dprintf(arg) {}
@@ -833,61 +833,33 @@ void P12F1822::oscillator_select(uint cfg_word1, bool clkout)
     case 0:        //LP oscillator: low power crystal
     case 1:        //XT oscillator: Crystal/resonator
     case 2:        //HS oscillator: High-speed crystal/resonator
-        (m_porta->getPin(4))->newGUIname("OSC2");
-        (m_porta->getPin(5))->newGUIname("OSC1");
         mask = 0x0f;
-
         break;
 
     case 3:        //EXTRC oscillator External RC circuit connected to CLKIN pin
-        (m_porta->getPin(5))->newGUIname("CLKIN");
         mask = 0x1f;
-        if(clkout)
-        {
-            (m_porta->getPin(4))->newGUIname("CLKOUT");
-            mask = 0x0f;
-        }
+        if(clkout) mask = 0x0f;
         break;
 
     case 4:        //INTOSC oscillator: I/O function on CLKIN pin
         set_int_osc(true);
         mask = 0x3f;
-        if(clkout)
-        {
-            (m_porta->getPin(4))->newGUIname("CLKOUT");
-            mask = 0x2f;
-        }
-        (m_porta->getPin(5))->newGUIname((m_porta->getPin(5))->name().c_str());
+        if(clkout) mask = 0x2f;
         break;
 
     case 5:        //ECL: External Clock, Low-Power mode (0-0.5 MHz): on CLKIN pin
         mask = 0x1f;
-        if(clkout)
-        {
-            (m_porta->getPin(4))->newGUIname("CLKOUT");
-            mask = 0x0f;
-        }
-        (m_porta->getPin(5))->newGUIname("CLKIN");
+        if(clkout) mask = 0x0f;
         break;
 
     case 6:        //ECM: External Clock, Medium-Power mode (0.5-4 MHz): on CLKIN pin
         mask = 0x1f;
-        if(clkout)
-        {
-            (m_porta->getPin(4))->newGUIname("CLKOUT");
-            mask = 0x0f;
-        }
-        (m_porta->getPin(5))->newGUIname("CLKIN");
+        if(clkout) mask = 0x0f;
         break;
 
     case 7:        //ECH: External Clock, High-Power mode (4-32 MHz): on CLKIN pin
         mask = 0x1f;
-        if(clkout)
-        {
-            (m_porta->getPin(4))->newGUIname("CLKOUT");
-            mask = 0x0f;
-        }
-        (m_porta->getPin(5))->newGUIname("CLKIN");
+        if(clkout) mask = 0x0f;
         break;
     };
     ansela.setValidBits(0x17 & mask);
@@ -1640,61 +1612,34 @@ void P16F1503::oscillator_select(uint cfg_word1, bool clkout)
     case 0:        //LP oscillator: low power crystal
     case 1:        //XT oscillator: Crystal/resonator
     case 2:        //HS oscillator: High-speed crystal/resonator
-        (m_porta->getPin(4))->newGUIname("OSC2");
-        (m_porta->getPin(5))->newGUIname("OSC1");
         mask = 0x0f;
-
         break;
 
     case 3:        //EXTRC oscillator External RC circuit connected to CLKIN pin
-        (m_porta->getPin(5))->newGUIname("CLKIN");
         mask = 0x1f;
-        if(clkout)
-        {
-            (m_porta->getPin(4))->newGUIname("CLKOUT");
-            mask = 0x0f;
-        }
+        if(clkout) mask = 0x0f;
         break;
 
     case 4:        //INTOSC oscillator: I/O function on CLKIN pin
         set_int_osc(true);
         mask = 0x3f;
-        if(clkout)
-        {
-            (m_porta->getPin(4))->newGUIname("CLKOUT");
-            mask = 0x2f;
-        }
-        (m_porta->getPin(5))->newGUIname((m_porta->getPin(5))->name().c_str());
+        if(clkout) mask = 0x2f;
+
         break;
 
     case 5:        //ECL: External Clock, Low-Power mode (0-0.5 MHz): on CLKIN pin
         mask = 0x1f;
-        if(clkout)
-        {
-            (m_porta->getPin(4))->newGUIname("CLKOUT");
-            mask = 0x0f;
-        }
-        (m_porta->getPin(5))->newGUIname("CLKIN");
+        if(clkout) mask = 0x0f;
         break;
 
     case 6:        //ECM: External Clock, Medium-Power mode (0.5-4 MHz): on CLKIN pin
         mask = 0x1f;
-        if(clkout)
-        {
-            (m_porta->getPin(4))->newGUIname("CLKOUT");
-            mask = 0x0f;
-        }
-        (m_porta->getPin(5))->newGUIname("CLKIN");
+        if(clkout) mask = 0x0f;
         break;
 
     case 7:        //ECH: External Clock, High-Power mode (4-32 MHz): on CLKIN pin
         mask = 0x1f;
-        if(clkout)
-        {
-            (m_porta->getPin(4))->newGUIname("CLKOUT");
-            mask = 0x0f;
-        }
-        (m_porta->getPin(5))->newGUIname("CLKIN");
+        if(clkout) mask = 0x0f;
         break;
     };
     ansela.setValidBits(0x17 & mask);
@@ -2368,85 +2313,44 @@ void P16F178x::oscillator_select(uint cfg_word1, bool clkout)
     case 0:        //LP oscillator: low power crystal
     case 1:        //XT oscillator: Crystal/resonator
     case 2:        //HS oscillator: High-speed crystal/resonator
-        (m_porta->getPin(6))->newGUIname("OSC2");
-        (m_porta->getPin(7))->newGUIname("OSC1");
         mask &= 0x3f;
-
         break;
 
     case 3:        //EXTRC oscillator External RC circuit connected to CLKIN pin
-        (m_porta->getPin(7))->newGUIname("CLKIN");
         mask &= 0x7f;
-        if(clkout)
-        {
-            (m_porta->getPin(6))->newGUIname("CLKOUT");
-            mask &= 0xbf;
-        }
-        else
-        {
-            (m_porta->getPin(6))->newGUIname((m_porta->getPin(6))->name().c_str());
-                mask |= 0x40;
-        }
+        if(clkout) mask &= 0xbf;
+        else       mask |= 0x40;
+
         break;
 
     case 4:        //INTOSC oscillator: I/O function on CLKIN pin
         set_int_osc(true);
-        if(clkout)
-        {
-            (m_porta->getPin(6))->newGUIname("CLKOUT");
-            mask &= 0xbf;
-        }
-        else
-        {
-            (m_porta->getPin(6))->newGUIname((m_porta->getPin(6))->name().c_str());
-            mask |= 0x40;
-        }
+        
+        if(clkout) mask &= 0xbf;
+        else       mask |= 0x40;
+
         mask |= 0x80;
-        (m_porta->getPin(7))->newGUIname((m_porta->getPin(7))->name().c_str());
+ 
         break;
 
     case 5:        //ECL: External Clock, Low-Power mode (0-0.5 MHz): on CLKIN pin
-        if(clkout)
-        {
-            (m_porta->getPin(6))->newGUIname("CLKOUT");
-            mask &= 0xbf;
-        }
-        else
-        {
-            (m_porta->getPin(6))->newGUIname((m_porta->getPin(6))->name().c_str());
-            mask |= 0x40;
-        }
+        if(clkout) mask &= 0xbf;
+        else       mask |= 0x40;
+
         mask &= 0x7f;
-        (m_porta->getPin(7))->newGUIname("CLKIN");
         break;
 
     case 6:        //ECM: External Clock, Medium-Power mode (0.5-4 MHz): on CLKIN pin
-        if(clkout)
-        {
-            (m_porta->getPin(6))->newGUIname("CLKOUT");
-            mask &= 0xbf;
-        }
-        else
-        {
-            mask |= 0x40;
-            (m_porta->getPin(6))->newGUIname((m_porta->getPin(6))->name().c_str());
-        }
-        (m_porta->getPin(7))->newGUIname("CLKIN");
+        if(clkout) mask &= 0xbf;
+        else       mask |= 0x40;
+
         mask &= 0x7f;
         break;
 
     case 7:        //ECH: External Clock, High-Power mode (4-32 MHz): on CLKIN pin
-        if(clkout)
-        {
-            (m_porta->getPin(6))->newGUIname("CLKOUT");
-            mask &= 0xbf;
-        }
-        else
-        {
-            mask |= 0x40;
-            (m_porta->getPin(6))->newGUIname((m_porta->getPin(6))->name().c_str());
-        }
-        (m_porta->getPin(7))->newGUIname("CLKIN");
+        if(clkout) mask &= 0xbf;
+        else       mask |= 0x40;
+
         mask &= 0x7f;
         break;
     };

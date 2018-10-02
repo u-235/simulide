@@ -22,7 +22,7 @@ License along with this library; if not, see
 
 //#define DEBUG
 #if defined(DEBUG)
-#include "../config.h"
+#include "config.h"
 #define Dprintf(arg) {printf("%s:%d ",__FILE__,__LINE__); printf arg; }
 #else
 #define Dprintf(arg) {}
@@ -176,8 +176,6 @@ void CWG::oeA()
     {
         if (!pinAactive)
         {
-            Agui = pinA->getPin().GUIname();
-            pinA->getPin().newGUIname("CWGA");
             Atri->set_pin_direction('0');
             pinA->setControl(Atri);
             pinA->setSource(Asrc);
@@ -188,10 +186,6 @@ void CWG::oeA()
     }
     else if (pinAactive)
     {
-        if (Agui.length())
-            pinA->getPin().newGUIname(Agui.c_str());
-        else
-            pinA->getPin().newGUIname(pinA->getPin().name().c_str());
         pinA->setControl(0);
         pinA->setSource(0);
         pinA->updatePinModule();
@@ -206,8 +200,6 @@ void CWG::oeB()
     {
         if (!pinBactive)
         {
-            Bgui = pinB->getPin().GUIname();
-            pinB->getPin().newGUIname("CWGB");
             Btri->set_pin_direction('0');
             pinB->setControl(Btri);
             pinB->setSource(Bsrc);
@@ -218,10 +210,6 @@ void CWG::oeB()
     }
     else if (pinBactive)
     {
-        if (Bgui.length())
-            pinB->getPin().newGUIname(Bgui.c_str());
-        else
-            pinB->getPin().newGUIname(pinB->getPin().name().c_str());
         pinB->setControl(0);
         pinB->setSource(0);
         pinB->updatePinModule();
@@ -337,8 +325,6 @@ void CWG::enableAutoShutPin(bool on)
 {
     if (on)
     {
-        FLTgui = pinFLT->getPin().GUIname();
-        pinFLT->getPin().newGUIname("_FLT");
         if (!FLTsink)
         {
             FLTsink = new  FLTSignalSink(this);
@@ -349,9 +335,6 @@ void CWG::enableAutoShutPin(bool on)
     }
     else
     {
-        if (FLTgui.length()) pinFLT->getPin().newGUIname(FLTgui.c_str());
-        else pinFLT->getPin().newGUIname(pinFLT->getPin().name().c_str());
-
         if (FLTsink)
         {
             pinFLT->removeSink(FLTsink);
@@ -366,7 +349,6 @@ void CWG::releasePin(PinModule *pin)
     if (pin)
     {
         Dprintf(("CWG::releasePin %s pinAactive %d pinBactive %d\n", pin->getPin().name().c_str(), pinAactive, pinBactive));
-        pin->getPin().newGUIname(pin->getPin().name().c_str());
         pin->setControl(0);
         if (pin == pinA) pinAactive = false;
         if (pin == pinB) pinBactive = false;

@@ -33,7 +33,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 #include "stimuli.h"
 #include "eeprom.h"
 #include "p12f6xx.h"
@@ -43,7 +43,7 @@ License along with this library; if not, see
 
 //#define DEBUG
 #if defined(DEBUG)
-#include "../config.h"
+#include "config.h"
 #define Dprintf(arg) {printf("%s:%d ",__FILE__,__LINE__); printf arg; }
 #else
 #define Dprintf(arg) {}
@@ -62,7 +62,7 @@ public:
     Dprintf(("Config12F6::Config12F6 %p\n", m_pCpu));
     if (m_pCpu) 
     {
-	m_pCpu->set_config_word(0x2007, 0x3fff);
+        m_pCpu->set_config_word(0x2007, 0x3fff);
     }
   }
 
@@ -76,13 +76,13 @@ class PIR1v12f : public PIR
 public:
 
   enum {
-	TMR1IF 	= 1 << 0,
-	TMR2IF  = 1 << 1,	//For 12F683
-	CMIF	= 1 << 3,
-	CLC1IF  = 1 << 3,	// For 10F32x
-	NCO1IF  = 1 << 4,	// For 10F32x
-	ADIF	= 1 << 6,
-	EEIF	= 1 << 7
+        TMR1IF         = 1 << 0,
+        TMR2IF  = 1 << 1,        //For 12F683
+        CMIF        = 1 << 3,
+        CLC1IF  = 1 << 3,        // For 10F32x
+        NCO1IF  = 1 << 4,        // For 10F32x
+        ADIF        = 1 << 6,
+        EEIF        = 1 << 7
   };
 
 //------------------------------------------------------------------------
@@ -130,7 +130,7 @@ PIR1v12f(Processor *pCpu, const char *pName, const char *pDesc,INTCON *_intcon, 
 
   virtual void set_c1if()
   {
-	set_cmif();
+        set_cmif();
   }
 
   virtual void set_eeif()
@@ -180,17 +180,17 @@ bool P12F629::set_config_word(uint address,uint cfg_word)
     if(address == config_word_address())
     {
         if ((cfg_word & MCLRE) == MCLRE)
-	    assignMCLRPin(4);	// package pin 4
+            assignMCLRPin(4);        // package pin 4
         else
-	    unassignMCLRPin();
+            unassignMCLRPin();
      
- 	wdt.initialize((cfg_word & WDTEN) == WDTEN);
+         wdt.initialize((cfg_word & WDTEN) == WDTEN);
         if ((cfg_word & (FOSC2 | FOSC1 )) == 0x04) // internal RC OSC
-	  osccal.set_freq(4e6);
+          osccal.set_freq(4e6);
        
 
-	return(_14bit_processor::set_config_word(address, cfg_word));
-	
+        return(_14bit_processor::set_config_word(address, cfg_word));
+        
     }
     return false;
 }
@@ -318,9 +318,9 @@ void P12F629::create_sfr_map()
 
   // Link the comparator and voltage ref to porta
   comparator.initialize(get_pir_set(), NULL, 
-	&(*m_gpio)[0], &(*m_gpio)[1], 
-	NULL, NULL,
-	&(*m_gpio)[2], NULL);
+        &(*m_gpio)[0], &(*m_gpio)[1], 
+        NULL, NULL,
+        &(*m_gpio)[2], NULL);
 
   comparator.cmcon.set_configuration(1, 0, AN0, AN1, AN0, AN1, ZERO);
   comparator.cmcon.set_configuration(1, 1, AN0, AN1, AN0, AN1, OUT0);
@@ -400,21 +400,21 @@ void  P12F629::create(int _ram_top, int eeprom_size)
 //-------------------------------------------------------------------
 void P12F629::enter_sleep()
 {
-	tmr1l.sleep();
-	_14bit_processor::enter_sleep();
+        tmr1l.sleep();
+        _14bit_processor::enter_sleep();
 }
 
 //-------------------------------------------------------------------
 void P12F629::exit_sleep()
 {
-	tmr1l.wake();
-	_14bit_processor::exit_sleep();
+        tmr1l.wake();
+        _14bit_processor::exit_sleep();
 }
 
 //-------------------------------------------------------------------
 void P12F629::option_new_bits_6_7(uint bits)
 {
-	Dprintf(("P12F629::option_new_bits_6_7 bits=%x\n", bits));
+        Dprintf(("P12F629::option_new_bits_6_7 bits=%x\n", bits));
   m_gpio->setIntEdge ( (bits & OPTION_REG::BIT6) == OPTION_REG::BIT6); 
   m_wpu->set_wpu_pu ( (bits & OPTION_REG::BIT7) != OPTION_REG::BIT7); 
 }
@@ -907,34 +907,27 @@ bool P10F32X::set_config_word(uint address,uint cfg_word)
     Dprintf(("P10F32X::set_config_word address 0x%x cfg=0x%x\n", address, cfg_word));
     if(address == config_word_address())
     {
-        if ((cfg_word & MCLRE))
-	    assignMCLRPin(8);	// package pin 8
-        else
-	    unassignMCLRPin();
+        if ((cfg_word & MCLRE)) assignMCLRPin(8);    // package pin 8
+        else                    unassignMCLRPin();
      
         wdt_flag = (cfg_word & (WDTEN0|WDTEN1)) >> 3;
- 	wdt.set_timeout(1./31000.);
-	wdt.initialize(wdt_flag & 2, false);
+        wdt.set_timeout(1./31000.);
+        wdt.initialize(wdt_flag & 2, false);
 
         if (cfg_word & FOSC) // EC on CLKIN
-	{
-	    m_porta->getPin(1)->newGUIname("CKIN");
-	    set_int_osc(false);
-	}
-	else		     // INTRC
-	{
-	    m_porta->getPin(1)->newGUIname(m_porta->getPin(1)->name().c_str());
-	    set_int_osc(true);
-	    osccon->set_rc_frequency();
-	}
-       
-
-	return(_14bit_processor::set_config_word(address, cfg_word));
-	
+        {
+            set_int_osc(false);
+        }
+        else                     // INTRC
+        {
+            set_int_osc(true);
+            osccon->set_rc_frequency();
+        }
+        return(_14bit_processor::set_config_word(address, cfg_word));        
     }
     return false;
 }
-//-------------------------------------------------------------------
+
 void P10F32X::enter_sleep()
 {
     tmr0.sleep();
@@ -942,6 +935,7 @@ void P10F32X::enter_sleep()
         wdt.initialize(false);
     pic_processor::enter_sleep();
 }
+
 void P10F32X::exit_sleep()
 {
   if (m_ActivityState == ePASleeping)
@@ -951,7 +945,6 @@ void P10F32X::exit_sleep()
         wdt.initialize(true);
     pic_processor::exit_sleep();
   }
-
 }
 
 

@@ -22,7 +22,7 @@ License along with this library; if not, see
 #include <stdio.h>
 #include <iostream>
 
-#include "../config.h"
+#include "config.h"
 #include "stimuli.h"
 #include "uart.h"
 #include "14bit-processors.h"
@@ -332,7 +332,7 @@ void _TXSTA::disableTXPin()
     {
         m_PinModule->setSource(0);
         m_PinModule->setControl(0);
-        m_PinModule->getPin().newGUIname(m_PinModule->getPin().name().c_str());
+
         if (m_clkSink)
         {
             m_PinModule->removeSink(m_clkSink);
@@ -348,16 +348,8 @@ void _TXSTA::enableTXPin()
 
   if (m_PinModule && !SourceActive)
   {
-        char reg_no = *(name().c_str() + 5);
         if (bSYNC())
         {
-            char ck[4] = "CK";
-            if (reg_no)
-            {
-                ck[2] = reg_no;
-                ck[3] = 0;
-            }
-            m_PinModule->getPin().newGUIname(ck);
             out = '0';
             if (!bCSRC())        // slave clock
             {
@@ -371,17 +363,8 @@ void _TXSTA::enableTXPin()
                 return;
             }
         }
-        else
-        {
-            char tx[4] = "TX";
-            if (reg_no)
-            {
-                tx[2] = reg_no;
-                tx[3] = 0;
-            }
-            m_PinModule->getPin().newGUIname(tx);
-            out = '1';
-        }
+        else out = '1';
+
         m_PinModule->setSource(m_source);
 #ifdef EUSART_PIN
         if(mUSART->IsEUSART())
@@ -399,7 +382,6 @@ void _TXSTA::releasePin()
 {
     if (m_PinModule && SourceActive)
     {
-        m_PinModule->getPin().newGUIname(m_PinModule->getPin().name().c_str());
         m_PinModule->setControl(0);
         SourceActive = false;
     }
@@ -715,9 +697,6 @@ void _RCSTA::put(uint new_value)
           }
           else                 // RX off, check TX
           {
-              if (m_PinModule)
-                  m_PinModule->getPin().newGUIname(
-                                m_PinModule->getPin().name().c_str());
               stop_receiving();
               state = RCSTA_DISABLED;
 
@@ -773,8 +752,6 @@ void _RCSTA::put(uint new_value)
           {
               if (m_PinModule)
               {
-                  m_PinModule->getPin().newGUIname(
-                                m_PinModule->getPin().name().c_str());
                   if (m_sink)
                   {
                       m_PinModule->removeSink(m_sink);
@@ -792,7 +769,6 @@ void _RCSTA::enableRCPin(char direction)
 {
   if (m_PinModule)
   {
-      char reg_no = *(name().c_str() + 5);
       if (txsta->bSYNC()) // Synchronous case
       {
           if (!m_source)
@@ -818,21 +794,9 @@ void _RCSTA::enableRCPin(char direction)
               {
                   m_PinModule->setSource(0);
                   m_PinModule->setControl(0);
-                        m_PinModule->updatePinModule();
+                  m_PinModule->updatePinModule();
               }
           }
-          char dt[4] = "DT";
-          dt[2] = reg_no;
-          dt[3] = 0;
-          m_PinModule->getPin().newGUIname(dt);
-
-      }
-      else                // Asynchronous case
-      {
-          char rx[4] = "RX";
-          rx[2] = reg_no;
-          rx[3] = 0;
-          m_PinModule->getPin().newGUIname(rx);
       }
   }
 }
@@ -844,7 +808,6 @@ void _RCSTA::releasePin()
 {
     if (m_PinModule && SourceActive)
     {
-        m_PinModule->getPin().newGUIname(m_PinModule->getPin().name().c_str());
         m_PinModule->setControl(0);
         SourceActive = false;
     }
@@ -875,12 +838,7 @@ void _RCSTA::setIOpin(PinModule *newPinModule)
 {
   if (m_sink) 
   {
-    if (m_PinModule)
-    {
-      m_PinModule->removeSink(m_sink);
-      if(value.get() & SPEN)
-          m_PinModule->getPin().newGUIname(m_PinModule->getPin().name().c_str());
-    }
+    if (m_PinModule) m_PinModule->removeSink(m_sink);
   }
   else m_sink = new RXSignalSink(this);
 
@@ -889,7 +847,6 @@ void _RCSTA::setIOpin(PinModule *newPinModule)
   {
     m_PinModule->addSink(m_sink);
     old_clock_state = m_PinModule->getPin().getState();
-    if(value.get() & SPEN) m_PinModule->getPin().newGUIname("RX/DT");
   }
 }
 

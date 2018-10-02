@@ -24,7 +24,7 @@ License along with this library; if not, see
 #include <iomanip>
 
 
-#include "../config.h"
+#include "config.h"
 #include "14bit-processors.h"
 //#include "interface.h"
 #include "pic-registers.h"

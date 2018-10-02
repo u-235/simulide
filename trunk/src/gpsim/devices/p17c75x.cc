@@ -23,7 +23,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 #include "p17c75x.h"
 
 #if 0

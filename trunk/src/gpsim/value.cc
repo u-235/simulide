@@ -29,7 +29,7 @@ License along with this library; if not, see
 #include "value.h"
 #include "errors.h"
 #include "protocol.h"
-#include "../config.h"
+#include "config.h"
 
 
 

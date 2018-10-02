@@ -20,7 +20,7 @@ License along with this library; if not, see
 
 
 #include "trigger.h"
-#include "../config.h"
+#include "config.h"
 #include "value.h"
 #include "errors.h"
 #include "breakpoints.h"

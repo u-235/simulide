@@ -28,15 +28,12 @@ License along with this library; if not, see
 #include <list>
 #include <vector>
 #include <sstream>
-
 #include <math.h>
 
-#include "../config.h"
+#include "config.h"
 #include "pic-processor.h"
 #include "stimuli.h"
-//#include "symbol.h"
 #include "errors.h"
-
 
 //#define DEBUG
 #if defined(DEBUG)
@@ -46,9 +43,6 @@ License along with this library; if not, see
 #endif
 
 static char num_nodes = 'a';
-//static int num_stimuli = 1;
-//void  gpsim_set_break_delta(uint64_t delta, TriggerObject *f=0);
-
 
 /*
  * stimulus.cc
@@ -66,94 +60,81 @@ static char num_nodes = 'a';
  * the stimuli would be the external clock and the pic I/O pin.
  */
 
-//------------------------------------------------------------------
-
-void Stimulus_Node::new_name(const char *cPname, bool bClearableSymbol)
-{
-  cout << " Warning ignoring stimulus node name change from " 
-       << name() << " to " << cPname <<endl;
-}
-void Stimulus_Node::new_name(string &rName, bool bClearableSymbol)
-{
-  new_name(rName.c_str(), bClearableSymbol);
-}
-
-double Stimulus_Node::get_nodeVoltage()
-{
-  if (future_cycle > cap_start_cycle) // RC calculation in progress, get current value
-    callback();
-  return(voltage);
-}
-
-string Stimulus_Node::toString()
-{
-        string out = name() + " : " + showType();
-
-        for(stimulus *pt = stimuli; pt; pt = pt->next)
-        {
-                out += "\n\n " + pt->name() + pt->toString();
-        }
-        
-        return out;
-}
-
-//========================================================================
-
 Stimulus_Node::Stimulus_Node(const char *n)
   : TriggerObject(0)
 {
-  warned  = 0;
-  voltage = 0;
-  Cth = 0.0;
-  Zth = 0.0;
-  current_time_constant = 0.0;
-  delta_voltage = 0.0;
-  minThreshold = 0.1; // volts
-  cap_start_cycle = 0;
-  future_cycle = 0;
-  initial_voltage = 0.0;
-  DCVoltage = 0.0;
-  bSettling = false;  
-  stimuli = 0;
-  nStimuli = 0;
-  settlingTimeStep = 0;
+    warned  = 0;
+    voltage = 0;
+    Cth = 0.0;
+    Zth = 0.0;
+    current_time_constant = 0.0;
+    delta_voltage = 0.0;
+    minThreshold = 0.1; // volts
+    cap_start_cycle = 0;
+    future_cycle = 0;
+    initial_voltage = 0.0;
+    DCVoltage = 0.0;
+    bSettling = false;  
+    stimuli = 0;
+    nStimuli = 0;
+    settlingTimeStep = 0;
 
-  if(n) gpsimObject::new_name(n);
-  else 
-  {
-    char name_str[100];
-    snprintf(name_str,sizeof(name_str),"node%d",num_nodes);
-    num_nodes++;    // %%% FIX ME %%%
-    gpsimObject::new_name(name_str);
-  }
-//  globalSymbolTable().addSymbol(this);
+    if(n) gpsimObject::new_name(n);
+    else 
+    {
+        char name_str[100];
+        snprintf(name_str,sizeof(name_str),"node%d",num_nodes);
+        num_nodes++;    // %%% FIX ME %%%
+        gpsimObject::new_name(name_str);
+    }
 }
 
 Stimulus_Node::~Stimulus_Node()
 {
-  //cout << "~Stimulus_Node\n";
-  stimulus *sptr;
+    stimulus *sptr;
 
-  sptr = stimuli;
-  while(sptr) 
-  {
-    sptr->detach(this);
-    sptr = sptr->next;
-  }
-//  globalSymbolTable().removeSymbol(this);
+    sptr = stimuli;
+    while(sptr) 
+    {
+        sptr->detach(this);
+        sptr = sptr->next;
+    }
+
 }
 
 Stimulus_Node * Stimulus_Node::construct(const char * psName)
 {
-  /*gpsimObject *psn = globalSymbolTable().find(psName);
+    return new Stimulus_Node(psName);
+}
 
-  //cout << "constructing stimulus node " << psName << endl;
-  if(psn) {
-    cout << "Warning ignoring node creation. A symbol with the name `" << psName
-         << "' is already in the sybmol table.\n";
-    return 0;
-  }*/
-  return new Stimulus_Node(psName);
+void Stimulus_Node::new_name(const char *cPname, bool bClearableSymbol)
+{
+    cout << " Warning ignoring stimulus node name change from " 
+         << name() << " to " << cPname <<endl;
+}
+
+void Stimulus_Node::new_name(string &rName, bool bClearableSymbol)
+{
+    new_name(rName.c_str(), bClearableSymbol);
+}
+
+double Stimulus_Node::get_nodeVoltage()
+{
+    if (future_cycle > cap_start_cycle) // RC calculation in progress, get current value
+        callback();
+        
+    return(voltage);
+}
+
+string Stimulus_Node::toString()
+{
+    string out = name() + " : " + showType();
+
+    for(stimulus *pt = stimuli; pt; pt = pt->next)
+    {
+        out += "\n\n " + pt->name() + pt->toString();
+    }
+    return out;
 }
 
 //
@@ -161,11 +142,10 @@ Stimulus_Node * Stimulus_Node::construct(const char * psName)
 //
 void Stimulus_Node::attach_stimulus(stimulus *s)
 {
-  if (!s) return;
+    if (!s) return;
 
-  stimulus *sptr;
-
-  warned = 0;
+    stimulus *sptr;
+    warned = 0;
 
     if(stimuli)
     {
@@ -192,55 +172,52 @@ void Stimulus_Node::attach_stimulus(stimulus *s)
         stimuli = s;     // This is the first stimulus attached to this node.
         nStimuli = 1;
     }
-  // If we reach this point, then it means that the stimulus that we're
-  // trying to attach has just been placed at the end of the the stimulus
-  // list for this node. So we need to 0 terminate the singly-linked list.
+    // If we reach this point, then it means that the stimulus that we're
+    // trying to attach has just been placed at the end of the the stimulus
+    // list for this node. So we need to 0 terminate the singly-linked list.
 
-  s->next = 0;
+    s->next = 0;
 
-  // Now tell the stimulus to attach itself to the node too (If it hasn't already.)
-  s->attach(this);
+    // Now tell the stimulus to attach itself to the node too (If it hasn't already.)
+    s->attach(this);
 }
 
 //
 // Search for the stimulus 's' in the stimulus list for this node.
 // If it is found, then remove it from the list.
 //
-
-void Stimulus_Node::detach_stimulus(stimulus *s)
+void Stimulus_Node::detach_stimulus( stimulus* s )
 {
+  if(!s) return;        // You can't remove a non-existant stimulus
+  
   stimulus *sptr;
-
-
-  if(!s)          // You can't remove a non-existant stimulus
-    return;
-
-  if(stimuli) {
-    if(s == stimuli) {
-
+    
+  if(stimuli) 
+  {
+    if(s == stimuli) 
+    {
       // This was the first stimulus in the list.
 
       stimuli = s->next;
       s->detach(this);
       nStimuli--;
-
-    } else {
-
+    } 
+    else 
+    {
       sptr = stimuli;
 
-      do {
-        if(s == sptr->next) {
-
+      do 
+      {
+        if(s == sptr->next) 
+        {
           sptr->next = s->next;
           s->detach(this);
           nStimuli--;
           //gi.node_configuration_changed(this);
           return;
         }
-
         sptr = sptr->next;
       } while(sptr);
-
     } 
   }
 }
@@ -249,13 +226,11 @@ void Stimulus_Node::detach_stimulus(stimulus *s)
 //
 // Stimulus_Node::update(uint64_t current_time)
 //
-// update() is called whenever a stimulus attached to this node changes
-// states. 
-
-void Stimulus_Node::update(uint64_t current_time)
+// update() is called whenever a stimulus attached to this node changes states.
+//  
+void Stimulus_Node::update( uint64_t current_time )
 {
-  // So far, 'update' only applies to the current time. 
-  update();
+    update(); // So far, 'update' only applies to the current time. 
 }
 
 //------------------------------------------------------------------------
@@ -263,13 +238,14 @@ void Stimulus_Node::update(uint64_t current_time)
 //
 void Stimulus_Node::refresh()
 {
-  if(stimuli) {
+  if(stimuli) 
+  {
     stimulus *sptr = stimuli;
 
     initial_voltage = get_nodeVoltage();
 
-    switch (nStimuli) {
-
+    switch (nStimuli) 
+    {
     case 0:
       // hmm, strange nStimuli is 0, but the stimuli pointer is non null.
       break;
@@ -340,7 +316,6 @@ void Stimulus_Node::refresh()
       DCVoltage *= Zth;
       }
     }
-
     current_time_constant = Cth * Zth;
     Dprintf(("%s DCVoltage %.3f voltage %.3f Cth=%.2e Zth=%2e time_constant %fsec or %" PRINTF_GINT64_MODIFIER "d cycles now=%" PRINTF_GINT64_MODIFIER "d \n",name().c_str(), DCVoltage, voltage, Cth, Zth, current_time_constant, (uint64_t)(current_time_constant*get_cycles().instruction_cps()), get_cycles().get()));
     
@@ -358,10 +333,10 @@ void Stimulus_Node::refresh()
     {
         settlingTimeStep = calc_settlingTimeStep();
         voltage = initial_voltage;
-  /*
-        If future_cycle is not 0 we are in the middle of an RC
-        calculation, but an input condition has changed.
-  */
+        
+        // If future_cycle is not 0 we are in the middle of an RC
+        // calculation, but an input condition has changed.
+        
       if (future_cycle && (get_cycles().get() > cap_start_cycle)) callback();
       else
       {
@@ -376,23 +351,24 @@ void Stimulus_Node::refresh()
 
 uint64_t Stimulus_Node::calc_settlingTimeStep()
 {
-        /* Select a time interval where the voltage does not change more
-           than about 0.125 volts in each step(unless timestep < 1).
-           First we calculate dt_dv = CR/V with dt in cpu cycles to
-           determine settling time step
-        */
-        uint64_t TimeStep;
-        double dv = fabs(DCVoltage - voltage);
-        // avoid divide by zero
-        if (dv < 0.000001)
-            dv = 0.000001;
-        double dt_dv = get_cycles().instruction_cps()*current_time_constant/dv;
-        TimeStep = (uint64_t) (0.125 * dt_dv);
-        TimeStep = (TimeStep) ? TimeStep : 1;
+    /* Select a time interval where the voltage does not change more
+       than about 0.125 volts in each step(unless timestep < 1).
+       First we calculate dt_dv = CR/V with dt in cpu cycles to
+       determine settling time step
+    */
+    uint64_t TimeStep;
+    double dv = fabs(DCVoltage - voltage);
+    
+    // avoid divide by zero
+    if (dv < 0.000001) dv = 0.000001;
+    
+    double dt_dv = get_cycles().instruction_cps()*current_time_constant/dv;
+    TimeStep = (uint64_t) (0.125 * dt_dv);
+    TimeStep = (TimeStep) ? TimeStep : 1;
 
-        Dprintf(("%s dt_dv = %.2f TimeStep 0x%" PRINTF_GINT64_MODIFIER "x now 0x%" PRINTF_GINT64_MODIFIER "x\n", __FUNCTION__, dt_dv, TimeStep, get_cycles().get()));
+    Dprintf(("%s dt_dv = %.2f TimeStep 0x%" PRINTF_GINT64_MODIFIER "x now 0x%" PRINTF_GINT64_MODIFIER "x\n", __FUNCTION__, dt_dv, TimeStep, get_cycles().get()));
 
-        return(TimeStep);
+    return(TimeStep);
 }
 
 //------------------------------------------------------------------------
@@ -401,90 +377,85 @@ uint64_t Stimulus_Node::calc_settlingTimeStep()
 
 void Stimulus_Node::updateStimuli()
 {
-  stimulus *sptr = stimuli;
+    stimulus *sptr = stimuli;
 
-  while(sptr) 
-  {
-    sptr->set_nodeVoltage(voltage);
-    sptr = sptr->next;
-  }
+    while(sptr) 
+    {
+        sptr->set_nodeVoltage(voltage);
+        sptr = sptr->next;
+    }
 }
 
 void Stimulus_Node::update()
 {
-  if(stimuli) 
-  {
-    refresh();
-    //stimulus *sptr = stimuli;
-    //voltage = sptr->get_Vth();
-    updateStimuli();
-  }
+    if(stimuli) 
+    {
+        refresh();
+        updateStimuli();
+    }
 }
 
 void Stimulus_Node::set_nodeVoltage(double v)
 {
-  voltage = v;
-  updateStimuli();
+    voltage = v;
+    updateStimuli();
 }
 
-//------------------------------------------------------------------------
 void Stimulus_Node::callback()
 {
     initial_voltage = voltage;
     double Time_Step;
     double expz;
-      //
-      // increase time step as capacitor charges more slowly as final
-      // voltage is approached.
-      //
-                                                                            
-      //
-      // The following is an exact calculation, assuming no circuit
-      // changes,  regardless of time step.
-      //
-      Time_Step = (get_cycles().get() - cap_start_cycle)/
-        (get_cycles().instruction_cps()*current_time_constant);
-      expz = exp(-Time_Step);
-      voltage = DCVoltage - (DCVoltage - voltage)*expz;
+    //
+    // increase time step as capacitor charges more slowly as final
+    // voltage is approached.
+    //
+                                                                        
+    //
+    // The following is an exact calculation, assuming no circuit
+    // changes,  regardless of time step.
+    //
+    Time_Step = (get_cycles().get() - cap_start_cycle)/
+    (get_cycles().instruction_cps()*current_time_constant);
+    expz = exp(-Time_Step);
+    voltage = DCVoltage - (DCVoltage - voltage)*expz;
 
-      if (fabs(DCVoltage - voltage) < minThreshold)
-      {
-            voltage = DCVoltage;
-        if (future_cycle)
-            get_cycles().clear_break(this);
+    if (fabs(DCVoltage - voltage) < minThreshold)
+    {
+        voltage = DCVoltage;
+        if (future_cycle) get_cycles().clear_break(this);
         future_cycle = 0;
 
-          Dprintf(("%s DC Voltage %.2f reached at 0x%" PRINTF_GINT64_MODIFIER "x cycles\n", name().c_str(), DCVoltage, get_cycles().get()));
-      } 
-      else if(get_cycles().get() >= future_cycle) // got here via break
-      {
+        Dprintf(("%s DC Voltage %.2f reached at 0x%" PRINTF_GINT64_MODIFIER "x cycles\n", name().c_str(), DCVoltage, get_cycles().get()));
+    } 
+    else if(get_cycles().get() >= future_cycle) // got here via break
+    {
         settlingTimeStep = calc_settlingTimeStep();
         cap_start_cycle = get_cycles().get();
         get_cycles().clear_break(this);
         future_cycle = cap_start_cycle + settlingTimeStep;
-            get_cycles().set_break(future_cycle, this);
+        get_cycles().set_break(future_cycle, this);
 
-      }
-      else        // updating value before break don't increase step size
-      {
+    }
+    else        // updating value before break don't increase step size
+    {
         cap_start_cycle = get_cycles().get();
         get_cycles().reassign_break(future_cycle, 
-                cap_start_cycle + settlingTimeStep, this);
+        cap_start_cycle + settlingTimeStep, this);
         future_cycle = get_cycles().get() + settlingTimeStep;
-      }
-
-  updateStimuli();
+    }
+    updateStimuli();
 }
 
-//------------------------------------------------------------------------
 void Stimulus_Node::callback_print()
 {
-  cout << "Node: " << name() ;
-  TriggerObject::callback_print();
+    cout << "Node: " << name() ;
+    TriggerObject::callback_print();
 }
 
 //------------------------------------------------------------------------
-stimulus::stimulus(const char *cPname,double _Vth, double _Zth)
+
+stimulus::stimulus( const char *cPname, double _Vth, double _Zth)
   : Value(cPname, "", 0),snode(0), next(0),
     bDrivingState(false), bDriving(false),
     Vth(_Vth), Zth(_Zth), 
@@ -492,33 +463,20 @@ stimulus::stimulus(const char *cPname,double _Vth, double _Zth)
     nodeVoltage(0.0) // volts
 {
 }
+
 void stimulus::new_name(const char *cPname, bool bClearableSymbol)
 {
-  //globalSymbolTable().removeSymbol(this);
-  gpsimObject::new_name(cPname);
-  //globalSymbolTable().addSymbol(this);
-
-  /*stimulus *psn = dynamic_cast<stimulus *>(globalSymbolTable().find(name()));
-  if (psn) 
-  {
-    if (psn == this)
-      ; //cout << "Successfully added " << name() << " to symbol table\n";
-    else
-      cout << "Successfully added " << name() << " but it's not equal to this node\n";
-  } 
-  else out << "Failed to add " << name() << " to symbol table\n";*/
+    gpsimObject::new_name( cPname );
 }
+
 void stimulus::new_name(string &rName, bool bClearableSymbol)
 {
-  new_name(rName.c_str(),bClearableSymbol);
+    new_name(rName.c_str(),bClearableSymbol);
 }
 
 stimulus::~stimulus(void)
 {
-  if(snode) snode->detach_stimulus(this);
-
-  //globalSymbolTable().removeSymbol(this);
-  //cout << "Removing " << name() << " from ST\n";
+    if(snode) snode->detach_stimulus(this);
 }
 
 void stimulus::show()
@@ -527,40 +485,39 @@ void stimulus::show()
 
 string stimulus::toString() 
 {
-  ostringstream s;
+    ostringstream s;
 
-  s << " stimulus ";
-  if(snode)
-    s << " attached to " << snode->name();
-  s << endl
-    << " Vth=" << get_Vth() << "V"
-    << " Zth=" << get_Zth() << " ohms"
-    << " Cth=" << get_Cth() << "F"
-    << " nodeVoltage= " << get_nodeVoltage() << "V"
-    << endl 
-    << " Driving=" << getDriving()
-    << " drivingState=" << getDrivingState()
-    << " drivenState=" << getDrivenState()
-    << " bitState=" << getBitChar();
+    s << " stimulus ";
+    if(snode)
+        s << " attached to " << snode->name();
+        s << endl
+        << " Vth=" << get_Vth() << "V"
+        << " Zth=" << get_Zth() << " ohms"
+        << " Cth=" << get_Cth() << "F"
+        << " nodeVoltage= " << get_nodeVoltage() << "V"
+        << endl 
+        << " Driving=" << getDriving()
+        << " drivingState=" << getDrivingState()
+        << " drivenState=" << getDrivenState()
+        << " bitState=" << getBitChar();
 
-  return s.str();
+    return s.str();
 }
 void stimulus::attach(Stimulus_Node *s)
 {
-  detach(snode);
-  snode = s;
+    detach(snode);
+    snode = s;
 }
-void stimulus::detach(Stimulus_Node *s)
+void stimulus::detach( Stimulus_Node *s )
 {
-  if(snode == s)
-    snode = 0; 
+    if( snode == s ) snode = 0; 
 }
 
 void stimulus::getThevenin(double &v, double &z, double &c)
 {
-  v = get_Vth();
-  z = get_Zth();
-  c = get_Cth();
+    v = get_Vth();
+    z = get_Zth();
+    c = get_Cth();
 }
 
 //========================================================================
@@ -571,42 +528,42 @@ PinMonitor::PinMonitor()
 
 PinMonitor::~PinMonitor()
 {
-  // Release all of the sinks:
-  list <SignalSink *> :: iterator ssi = sinks.begin();
-  while (ssi != sinks.end()) 
-  {
-    Dprintf(("release sink %p\n", *ssi));
-    fflush(stdout);
-    (*ssi)->release();
-    ++ssi;
-  }
+    // Release all of the sinks:
+    list <SignalSink *> :: iterator ssi = sinks.begin();
+    while (ssi != sinks.end()) 
+    {
+        Dprintf(("release sink %p\n", *ssi));
+        fflush(stdout);
+        (*ssi)->release();
+        ++ssi;
+    }
 
-  list <AnalogSink *> :: iterator asi = analogSinks.begin();
-  while (asi != analogSinks.end()) 
-  {
-    (*asi)->release();
-    ++asi;
-  }
+    list <AnalogSink *> :: iterator asi = analogSinks.begin();
+    while (asi != analogSinks.end()) 
+    {
+        (*asi)->release();
+        ++asi;
+    }
 }
 
 void PinMonitor::addSink(SignalSink *new_sink)
 {
-  if(new_sink) sinks.push_back(new_sink);
+    if(new_sink) sinks.push_back(new_sink);
 }
 
 void PinMonitor::removeSink(SignalSink *pSink)
 {
-  if(pSink) sinks.remove(pSink);
+    if(pSink) sinks.remove(pSink);
 }
 
 void PinMonitor::addSink(AnalogSink *new_sink)
 {
-  if(new_sink) analogSinks.push_back(new_sink);
+    if(new_sink) analogSinks.push_back(new_sink);
 }
 
 void PinMonitor::removeSink(AnalogSink *pSink)
 {
-  if(pSink) analogSinks.remove(pSink);
+    if(pSink) analogSinks.remove(pSink);
 }
 
 //========================================================================
@@ -618,9 +575,7 @@ IOPIN::IOPIN(const char *_name,
              double _ZthFloating
              )
   : stimulus(_name,_Vth, _Zth),
-    gui_name_updated(false),
     bDrivenState(false),
-    cForcedDrivenState('Z'),
     m_monitor(0),
     ZthWeak(_ZthWeak), ZthFloating(_ZthFloating),
     l2h_threshold(2.0),       // PICs are CMOS and use CMOS-like thresholds
@@ -628,7 +583,8 @@ IOPIN::IOPIN(const char *_name,
     Vdrive_high(4.4),
     Vdrive_low(0.6)
 {
-  is_analog = false;
+    is_analog = false;
+    m_picPin = 0l;
 }
 
 void IOPIN::set_digital_threshold(double vdd)
@@ -638,10 +594,11 @@ void IOPIN::set_digital_threshold(double vdd)
     Vdrive_high = vdd - 0.6;
     Vdrive_low = 0.6;
 }
+
 void IOPIN::setMonitor(PinMonitor *new_pinMonitor)
 {
-  if (m_monitor && new_pinMonitor) cout << "IOPIN already has a monitor!" << endl;
-  else  m_monitor = new_pinMonitor;
+    if (m_monitor && new_pinMonitor) cout << "IOPIN already has a monitor!" << endl;
+    else  m_monitor = new_pinMonitor;
 }
 
 IOPIN::~IOPIN()
@@ -659,28 +616,23 @@ void IOPIN::get(char *return_str, int len)
             strncpy(return_str, IOPIN::getState()?"1": "0", len);
     }
 }
+
 void IOPIN::attach(Stimulus_Node *s)
 {
-  snode = s;
+    snode = s;
 }
 
 void IOPIN::show()
 {
-  stimulus::show();
+    stimulus::show();
 }
 
 void IOPIN::set_nodeVoltage( double new_nodeVoltage )
 {
-  nodeVoltage = new_nodeVoltage;
+    nodeVoltage = new_nodeVoltage;
 
-  if( nodeVoltage < h2l_threshold)
-  {
-    setDrivenState(false); // The voltage is below the low threshold
-  } 
-  else if(nodeVoltage > l2h_threshold) 
-  {
-    setDrivenState(true); // The voltage is above the high threshold
-  }
+    if     ( nodeVoltage < h2l_threshold ) setDrivenState(false); // The voltage is below the low threshold
+    else if( nodeVoltage > l2h_threshold ) setDrivenState(true); // The voltage is above the high threshold
 }
 
 //------------------------------------------------------------
@@ -689,53 +641,55 @@ void IOPIN::set_nodeVoltage( double new_nodeVoltage )
 
 void IOPIN::putState(bool new_state)
 {
-  if(new_state != bDrivingState) {
-    bDrivingState = new_state;
-    Vth = bDrivingState ? Vdrive_high : Vdrive_low;
+    if(new_state != bDrivingState) 
+    {
+        bDrivingState = new_state;
+        Vth = bDrivingState ? Vdrive_high : Vdrive_low;
 
-    // If this pin is tied to a node, then update the node.
-    // Note that when the node is updated, then the I/O port
-    // (if there is one) holding this I/O pin will get updated.
-    // If this pin is not tied to a node, then try to update
-    // the I/O port directly.
+        // If this pin is tied to a node, then update the node.
+        // Note that when the node is updated, then the I/O port
+        // (if there is one) holding this I/O pin will get updated.
+        // If this pin is not tied to a node, then try to update
+        // the I/O port directly.
 
-    if(snode) snode->update();
-  }
-  if(m_monitor) m_monitor->putState(new_state?'1':'0');
+        if(snode) snode->update();
+    }
+    if(m_monitor) m_monitor->putState(new_state?'1':'0');
 }
 
 void IOPIN::putState(double new_Vth)
 {
-  if(new_Vth != Vth) 
-  {
-    Vth = new_Vth;
+    if( new_Vth != Vth ) 
+    {
+        Vth = new_Vth;
 
-    if (Vth <= 0.3) bDrivingState = false;
-    else            bDrivingState = true;
-    
-    // If this pin is tied to a node, then update the node.
-    if(snode) snode->update();
-  }
-  if(m_monitor) m_monitor->putState(bDrivingState?'1':'0');
+        if (Vth <= 0.3) bDrivingState = false;
+        else            bDrivingState = true;
+
+        // If this pin is tied to a node, then update the node.
+        if(snode) snode->update();
+    }
+    if(m_monitor) m_monitor->putState(bDrivingState?'1':'0');
 }
 
-//------------------------------------------------------------
 bool IOPIN::getState()
 {
-  return getDriving() ? getDrivingState() : getDrivenState();
+    return getDriving() ? getDrivingState() : getDrivenState();
 }
 
 void IOPIN::setDrivingState(bool new_state)
 { 
-  bDrivingState = new_state;
-  if(m_monitor) m_monitor->setDrivingState(bDrivingState?'1':'0');
+    bDrivingState = new_state;
+    if(m_monitor) m_monitor->setDrivingState(bDrivingState?'1':'0');
 }
 
 void IOPIN::setDrivingState(char new3State)
 {
-  bDrivingState = (new3State=='1' || new3State=='W');
+    bDrivingState = (new3State=='1' || new3State=='W');
 
-  if(m_monitor) m_monitor->setDrivingState(new3State);
+    if( m_picPin ) m_picPin->update_state( bDrivingState ); // SimulIDE Pic pin
+
+    if( m_monitor ) m_monitor->setDrivingState( new3State );
 }
 
 bool IOPIN::getDrivingState(void)
@@ -767,31 +721,6 @@ void IOPIN::setDrivenState(bool new_state)
   }
 }
 
-//------------------------------------------------------------------------
-// forceDrivenState() - allows the 'driven state' to be manipulated whenever
-// there is no snode attached. The primary purpose of this is to allow the
-// UI to toggle I/O pin states.
-// 
-void IOPIN::forceDrivenState(char newForcedState)
-{
-  if (cForcedDrivenState != newForcedState) 
-  {
-    cForcedDrivenState = newForcedState;
-
-    bDrivenState = cForcedDrivenState=='1' || cForcedDrivenState=='W';
-    
-    if(m_monitor) {
-      m_monitor->setDrivenState(getBitChar());
-      m_monitor->updateUI();
-    }
-  }
-}
-
-char IOPIN::getForcedDrivenState()
-{
-  return cForcedDrivenState;
-}
-
 void IOPIN::toggle()
 {
   putState((bool) (getState() ^ true));
@@ -816,28 +745,14 @@ double IOPIN::get_Vth()
 
 char IOPIN::getBitChar()
 {
-  if( !snode ) return getForcedDrivenState();      // RCP - Changed to match IO_bi_directional
-                                                //  was  return 'Z';  // High impedance - unknown state.
-  if( snode->get_nodeZth() > ZthFloating )
-    return 'Z';
-
-  if( snode->get_nodeZth() > ZthWeak )
-    return getDrivenState() ? 'W' : 'w';
-
+  if(snode )
+  {                                              //  was  return 'Z';  // High impedance - unknown state.
+      if( snode->get_nodeZth() > ZthFloating ) return 'Z';
+      if( snode->get_nodeZth() > ZthWeak )     return getDrivenState() ? 'W' : 'w';
+  }
   return getDrivenState() ? '1' : '0';
 }
-void IOPIN::newGUIname(const char *s)
-{
-  if(s)
-  {
-    gui_name_updated = true;
-    gui_name = string(s);
-  }
-}
-string &IOPIN::GUIname(void) const
-{
-  return (string &)gui_name;
-}
+
 //========================================================================
 //
 IO_bi_directional::IO_bi_directional(const char *_name,
@@ -859,9 +774,8 @@ void IO_bi_directional::set_nodeVoltage( double new_nodeVoltage)
 
 double IO_bi_directional::get_Vth()
 {
-  if(getDriving()) return getDrivingState() ? Vth : 0;
+  if( getDriving() ) return getDrivingState() ? Vth : 0;
 
-  //return getDrivingState() ? VthIn : 0;
   return VthIn;
 }
 
@@ -887,8 +801,6 @@ double IO_bi_directional::get_Zth()
 
 char IO_bi_directional::getBitChar()
 {
-  if(!snode && !getDriving() ) return getForcedDrivenState();
-
   if(snode) 
   {
     if (!getDriving())                // input pin
@@ -902,31 +814,35 @@ char IO_bi_directional::getBitChar()
   return getDrivenState() ? '1' : '0';
 }
 
-
 //---------------
 //::update_direction(uint new_direction)
 //
 //  This is called when a new value is written to the tris register
 // with which this bi-direction pin is associated.
 
-void IO_bi_directional::update_direction(uint new_direction, bool refresh)
+void IO_bi_directional::update_direction( uint new_direction, bool refresh )
 {
-  setDriving(new_direction ? true : false);
+    bool out = new_direction ? true : false;
 
-  // If this pin is not associated with an IO Port, but it's tied
-  // to a stimulus, then we need to update the stimulus.
-  if(refresh && snode) snode->update();
+    setDriving( out );
+
+    // If this pin is not associated with an IO Port, but it's tied
+    // to a stimulus, then we need to update the stimulus.
+
+    if( m_picPin ) m_picPin->update_direction( out ); // SimulIDE Pic pin
+
+    if( refresh && snode ) snode->update();
 }
 
 void IO_bi_directional::putState(bool new_state)
 {
-  IOPIN::putState(new_state);
+    IOPIN::putState(new_state);
 }
 
 void IO_bi_directional::putState(double new_Vth)
 {
-  VthIn = new_Vth;
-  IOPIN::putState(new_Vth);
+    VthIn = new_Vth;
+    IOPIN::putState(new_Vth);
 }
 
 IO_bi_directional_pu::IO_bi_directional_pu(const char *_name,
@@ -953,20 +869,21 @@ void IO_bi_directional_pu::set_is_analog(bool flag)
 {
     if (is_analog != flag)
     {
-      is_analog = flag;
+        is_analog = flag;
 
-      if (snode) snode->update();
-      else if (!getDriving()) setDrivenState(bPullUp && ! is_analog);
+        if (snode) snode->update();
+        else if (!getDriving()) setDrivenState( bPullUp && ! is_analog );
     }
 }
 
-void IO_bi_directional_pu::update_pullup(char new_state, bool refresh)
+void IO_bi_directional_pu::update_pullup( char new_state, bool refresh )
 {
   bool bNewPullupState = new_state == '1' || new_state == 'W';
   if (bPullUp != bNewPullupState)  
   {
     bPullUp = bNewPullupState;
-    if (refresh) {
+    if (refresh) 
+    {
       // If there is a node attached to the pin, then we already 
       // know the driven state. If there is no node attached and 
       // this pin is configured as an input, then let the drivenState
@@ -974,6 +891,7 @@ void IO_bi_directional_pu::update_pullup(char new_state, bool refresh)
       if (snode) snode->update();
       else if (!getDriving()) setDrivenState(bPullUp && ! is_analog);
     }
+    if( m_picPin ) m_picPin->update_pullup( bPullUp ); // SimulIDE Pic pin
   }
 }
 
@@ -1012,11 +930,6 @@ double IO_bi_directional_pu::get_Vth()
 
 char IO_bi_directional_pu::getBitChar()
 {
-  if(!snode && !getDriving() ) {
-    char cForced=getForcedDrivenState();
-    return (cForced=='Z' && bPullUp) ? 'W' : cForced;
-  }
-
   if(snode) 
   {
     if (!getDriving())                // input pin
@@ -1046,18 +959,13 @@ double IO_open_collector::get_Vth()
 
 double IO_open_collector::get_Zth()
 {
-  if(getDriving() && !getDrivingState())
-    return Zth;
+  if(getDriving() && !getDrivingState()) return Zth;
 
   return bPullUp ? Zpullup : ZthIn;
 }
 
 char IO_open_collector::getBitChar()
 {
-  if(!snode && !getDriving() ){
-    char cForced=getForcedDrivenState();
-    return (cForced=='Z' && bPullUp) ? 'W' : cForced;
-  }
   if(snode) 
   {
     if(snode->get_nodeZth() > ZthFloating)

@@ -24,7 +24,7 @@ License along with this library; if not, see
 #include <iomanip>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 #include "16bit-tmrs.h"
 #include "stimuli.h"
 

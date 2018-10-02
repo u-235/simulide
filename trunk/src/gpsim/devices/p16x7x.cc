@@ -36,7 +36,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 #include "packages.h"
 #include "p16x7x.h"
 #include "pic-ioports.h"

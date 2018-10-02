@@ -242,23 +242,24 @@ public:
 // A 12CE518 is like a 12c508
 class P12CE518 : public P12C508
 {
-  public:
+    public:
 
-  virtual PROCESSOR_TYPE isa(){return _P12CE518_;};
-  virtual void tris_instruction(uint tris_register);
+      virtual PROCESSOR_TYPE isa(){return _P12CE518_;};
+      virtual void tris_instruction(uint tris_register);
 
-  P12CE518(const char *_name=0, const char *desc=0);
-  ~P12CE518();
-  static Processor *construct(const char *name);
-  virtual void create();
-  virtual void create_iopin_map();
-  virtual void freqCalibration();
-private:
-  P12_I2C_EE *m_eeprom;
-  Stimulus_Node *scl;
-  Stimulus_Node	*sda;
-  IO_bi_directional_pu *io_scl;
-  IO_open_collector *io_sda;
+      P12CE518(const char *_name=0, const char *desc=0);
+      ~P12CE518();
+      static Processor *construct(const char *name);
+      virtual void create();
+      virtual void create_iopin_map();
+      virtual void freqCalibration();
+      
+    private:
+      P12_I2C_EE *m_eeprom;
+      Stimulus_Node *scl;
+      Stimulus_Node	*sda;
+      IO_bi_directional_pu *io_scl;
+      IO_open_collector *io_sda;
   
 };
 

@@ -36,7 +36,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <string>
 
-//#include "../config.h"
+//#include "config.h"
 
 #include "stimuli.h"
 
@@ -512,33 +512,23 @@ bool P16F88x::set_config_word(uint address, uint cfg_word)
     case 0:  // LP oscillator: low power crystal is on RA6 and RA7
     case 1:     // XT oscillator: crystal/resonator is on RA6 and RA7
     case 2:     // HS oscillator: crystal/resonator is on RA6 and RA7
-        (m_porta->getPin(6))->newGUIname("OSC2");
-        (m_porta->getPin(7))->newGUIname("OSC1");
         break;
 
     case 0x13:  // ER oscillator: RA6 is CLKOUT, resistor (?) on RA7 
-        (m_porta->getPin(6))->newGUIname("CLKOUT");
-        (m_porta->getPin(7))->newGUIname("OSC1");
         break;
 
     case 3:     // EC:  RA6 is an I/O, RA7 is a CLKIN
     case 0x12:  // ER oscillator: RA6 is an I/O, RA7 is a CLKIN
-        (m_porta->getPin(6))->newGUIname("porta6");
-        (m_porta->getPin(7))->newGUIname("CLKIN");
         valid_pins =  (valid_pins & 0x7f)|0x40;
         break;
 
     case 0x10:  // INTRC: Internal Oscillator, RA6 and RA7 are I/O's
         set_int_osc(true);
-        (m_porta->getPin(6))->newGUIname("porta6");
-        (m_porta->getPin(7))->newGUIname("porta7");
         valid_pins |= 0xc0;
         break;
 
     case 0x11:  // INTRC: Internal Oscillator, RA7 is an I/O, RA6 is CLKOUT
         set_int_osc(true);
-        (m_porta->getPin(6))->newGUIname("CLKOUT");
-        (m_porta->getPin(7))->newGUIname("porta7");
         valid_pins = (valid_pins & 0xbf)|0x80;
         break;
 
@@ -1273,31 +1263,28 @@ bool P16F631::set_config_word(uint address, uint cfg_word)
                case 1:     // XT oscillator: crystal/resonator is on RA4 and RA5
                case 2:     // HS oscillator: crystal/resonator is on RA4 and RA5
             (&(*m_porta)[4])->AnalogReq((Register *)this, true, "OSC2");
-            (m_porta->getPin(5))->newGUIname("OSC1");
+
             valid_pins &= 0xcf;
             break;
 
         case 3:        // EC I/O on RA4 pin, CLKIN on RA5
-            (m_porta->getPin(5))->newGUIname("CLKIN");
             valid_pins &= 0xef;
             break;
             
         case 5: // INTOSC CLKOUT on RA4 pin
             (&(*m_porta)[4])->AnalogReq((Register *)this, true, "CLKOUT");
         case 4: // INTOSC
-            (m_porta->getPin(5))->newGUIname("porta5");
              set_int_osc(true);
             osccon->set_rc_frequency();
             break;
 
         case 6: //RC oscillator: I/O on RA4 pin, RC on RA5
-            (m_porta->getPin(5))->newGUIname("RC");
             valid_pins &= 0xdf;
             break;
 
         case 7: // RC oscillator: CLKOUT on RA4 pin, RC on RA5
             (&(*m_porta)[4])->AnalogReq((Register *)this, true, "CLKOUT");
-            (m_porta->getPin(5))->newGUIname("RC");
+
             valid_pins &= 0xdf;
             break;
         };
@@ -1692,12 +1679,10 @@ bool P16F684::set_config_word(uint address, uint cfg_word)
                case 1:     // XT oscillator: crystal/resonator is on RA4 and RA5
                case 2:     // HS oscillator: crystal/resonator is on RA4 and RA5
             (&(*m_porta)[4])->AnalogReq((Register *)this, true, "OSC2");
-            (m_porta->getPin(5))->newGUIname("OSC1");
             valid_pins &= 0xcf;
             break;
 
         case 3:        // EC I/O on RA4 pin, CLKIN on RA5
-            (m_porta->getPin(5))->newGUIname("CLKIN");
             valid_pins &= 0xef;
             break;
 
@@ -1705,19 +1690,16 @@ bool P16F684::set_config_word(uint address, uint cfg_word)
         case 5: // INTOSC CLKOUT on RA4 pin
             (&(*m_porta)[4])->AnalogReq((Register *)this, true, "CLKOUT");
         case 4: // INTOSC
-            (m_porta->getPin(5))->newGUIname("porta5");
              set_int_osc(true);
             osccon->set_rc_frequency();
             break;
 
         case 6: //RC oscillator: I/O on RA4 pin, RC on RA5
-            (m_porta->getPin(5))->newGUIname("RC");
             valid_pins &= 0xdf;
             break;
 
         case 7: // RC oscillator: CLKOUT on RA4 pin, RC on RA5
             (&(*m_porta)[4])->AnalogReq((Register *)this, true, "CLKOUT");
-            (m_porta->getPin(5))->newGUIname("RC");
             valid_pins &= 0xdf;
             break;
         };
@@ -1811,11 +1793,11 @@ void P16F677::create_sfr_map()
   adcon1.setIOPin(11, &(*m_portb)[5]);
   adcon1.setVoltRef(12, 0.0);
   adcon1.setVoltRef(13, 0.0);
-  m_cvref = new a2d_stimulus(&adcon1, 12, "a2d_cvref");
+  
+  m_cvref  = new a2d_stimulus(&adcon1, 12, "a2d_cvref");
   m_v06ref = new a2d_stimulus(&adcon1, 13, "a2d_v06ref");
-  ((Processor *)this)->CVREF->attach_stimulus(m_cvref);
-  ((Processor *)this)->V06REF->attach_stimulus(m_v06ref);
-
+  ((Processor*)this)->CVREF->attach_stimulus(m_cvref);
+  ((Processor*)this)->V06REF->attach_stimulus(m_v06ref);
 
   // set a2d modes where an1 is Vref+ 
   adcon1.setVrefHiConfiguration(2, 1);

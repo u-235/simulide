@@ -24,7 +24,7 @@ License along with this library; if not, see
 #include <string>
 #include <cstdio>
 
-#include "../config.h"
+#include "config.h"
 #include "pic-processor.h"
 #include "14bit-registers.h"
 

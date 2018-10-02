@@ -22,7 +22,7 @@ License along with this library; if not, see
 
 //#define DEBUG
 #if defined(DEBUG)
-#include "../config.h"
+#include "config.h"
 #define Dprintf(arg) {printf("%s:%d ",__FILE__,__LINE__); printf arg; }
 #else
 #define Dprintf(arg) {}
@@ -357,10 +357,8 @@ void NCO::oeNCO1 (bool on)
     {
         if (!srcNCO1active)
         {
-            NCO1gui = pinNCO1->getPin ().GUIname ();
-            pinNCO1->getPin ().newGUIname ("NCO1");
-            if (!NCO1src)
-                NCO1src = new NCOSigSource (this, pinNCO1);
+            if (!NCO1src) NCO1src = new NCOSigSource (this, pinNCO1);
+            
             pinNCO1->setSource (NCO1src);
             srcNCO1active = true;
             NCO1src->setState ((nco1con.value.get () & NxOUT) ? '1' : '0');
@@ -369,10 +367,6 @@ void NCO::oeNCO1 (bool on)
     }
     else if (srcNCO1active)
     {
-        if (NCO1gui.length ())
-            pinNCO1->getPin ().newGUIname (NCO1gui.c_str ());
-        else
-            pinNCO1->getPin ().newGUIname (pinNCO1->getPin ().name ().c_str ());
         pinNCO1->setSource (0);
         srcNCO1active = false;
         pinNCO1->updatePinModule ();
@@ -383,22 +377,14 @@ void NCO::enableCLKpin (bool on)
 {
     if (on)
     {
-        CLKgui = pinNCOclk->getPin ().GUIname ();
-        pinNCOclk->getPin ().newGUIname ("NCLK");
-        if (!CLKsink)
-            CLKsink = new ncoCLKSignalSink (this);
+        if (!CLKsink) CLKsink = new ncoCLKSignalSink (this);
+        
         pinNCOclk->addSink (CLKsink);
         CLKstate = pinNCOclk->getPin ().getState ();
     }
     else
     {
-        if (CLKgui.length ())
-            pinNCOclk->getPin ().newGUIname (CLKgui.c_str ());
-        else
-            pinNCOclk->getPin ().newGUIname (pinNCOclk->getPin ().name ().
-                                             c_str ());
-        if (CLKsink)
-            pinNCOclk->removeSink (CLKsink);
+        if (CLKsink) pinNCOclk->removeSink (CLKsink);
     }
 }
 

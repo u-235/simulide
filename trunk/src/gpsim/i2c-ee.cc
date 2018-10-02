@@ -28,7 +28,7 @@ using namespace std;
 
 //#include <glib.h>
 
-#include "../config.h"
+#include "config.h"
 
 //#include "trace.h"
 #include "pic-processor.h"
@@ -38,7 +38,7 @@ using namespace std;
 
 //#define DEBUG
 #if defined(DEBUG)
-#include "../config.h"
+#include "config.h"
 #define Dprintf(arg) {printf("%s:%d ",__FILE__,__LINE__); printf arg; }
 #else
 #define Dprintf(arg) {}
@@ -69,83 +69,79 @@ void PromAddress::get(char *buffer, int buf_size)
 
 class I2C_SLAVE_SDA : public IO_open_collector
 {
-public:
-    i2c_slave *pEE;
+    public:
+        i2c_slave *pEE;
 
-    I2C_SLAVE_SDA(i2c_slave *_pEE, const char *_name) :
-        IO_open_collector(_name), pEE(_pEE)
-    {
-        bDrivingState = true;
+        I2C_SLAVE_SDA(i2c_slave *_pEE, const char *_name) :
+            IO_open_collector(_name), pEE(_pEE)
+        {
+            bDrivingState = true;
             bDrivenState = true;
 
-            // Make the pin an output.
-        update_direction(IO_bi_directional::DIR_OUTPUT,true);
+                // Make the pin an output.
+            update_direction( IO_bi_directional::DIR_OUTPUT, true );
 
-    };
+        };
 
-  void setDrivenState(bool new_dstate)
-  {
+        void setDrivenState(bool new_dstate)
+        {
+            bool diff = new_dstate ^ bDrivenState;
 
-    bool diff = new_dstate ^ bDrivenState;
+            Dprintf(("i2c_slave sda setDrivenState %d\n", new_dstate));
+            if( pEE && diff ) 
+            {
+              bDrivenState = new_dstate;
+              pEE->new_sda_edge(new_dstate);
+            }
+        }
+        void setDrivingState(bool new_state)
+        {
+            bDrivingState = new_state;
+            bDrivenState = new_state;
 
-    Dprintf(("i2c_slave sda setDrivenState %d\n", new_dstate));
-    if( pEE && diff ) {
-      bDrivenState = new_dstate;
-      pEE->new_sda_edge(new_dstate);
-    }
-  }
-    void setDrivingState(bool new_state)
-    {
-        bDrivingState = new_state;
-        bDrivenState = new_state;
+            if (!new_state) update_direction( IO_bi_directional::DIR_OUTPUT,true );
+            else            update_direction( IO_bi_directional::DIR_INPUT,true );
 
-        if (!new_state)
-            update_direction(IO_bi_directional::DIR_OUTPUT,true);
-        else
-            update_direction(IO_bi_directional::DIR_INPUT,true);
-
-            if(snode)
-                snode->update();
-
-    }
+            if(snode) snode->update();
+        }
 };
 
 
 class I2C_SLAVE_SCL : public IO_open_collector
 {
-public:
-    i2c_slave *pEE;
+    public:
+        i2c_slave *pEE;
 
-    I2C_SLAVE_SCL(i2c_slave *_pEE, const char *_name) :
-        IO_open_collector(_name), pEE(_pEE)
-    {
-        bDrivingState = true;
-            bDrivenState = true;
+        I2C_SLAVE_SCL(i2c_slave *_pEE, const char *_name) :
+            IO_open_collector(_name), pEE(_pEE)
+        {
+            bDrivingState = true;
+            bDrivenState  = true;
 
-            // Make the pin an output.
-        update_direction(IO_bi_directional::DIR_INPUT,true);
+                // Make the pin an output.
+            update_direction(IO_bi_directional::DIR_INPUT,true);
 
-    };
+        };
 
-  void setDrivenState(bool new_state)
-  {
+      void setDrivenState(bool new_state)
+      {
 
-    bool diff = new_state ^ bDrivenState;
+        bool diff = new_state ^ bDrivenState;
 
-    Dprintf(("i2c_slave scl setDrivenState %d\n", new_state));
-    if( pEE && diff ) {
-      bDrivenState = new_state;
-      pEE->new_scl_edge(bDrivenState);
-    }
-  }
-    void setDrivingState(bool new_state)
-    {
-        bDrivingState = new_state;
-        bDrivenState = new_state;
+        Dprintf(("i2c_slave scl setDrivenState %d\n", new_state));
+        if( pEE && diff ) 
+        {
+          bDrivenState = new_state;
+          pEE->new_scl_edge(bDrivenState);
+        }
+      }
+        void setDrivingState(bool new_state)
+        {
+            bDrivingState = new_state;
+            bDrivenState = new_state;
 
-            if(snode)
-                snode->update();
-    }
+            if(snode) snode->update();
+        }
 };
 
 i2c_slave::i2c_slave()
@@ -160,8 +156,8 @@ i2c_slave::i2c_slave()
 
 i2c_slave::~i2c_slave()
 {
-        if (sda) delete sda;
-        if (scl) delete scl;
+    if (sda) delete sda;
+    if (scl) delete scl;
 }
 void i2c_slave::new_scl_edge(bool level)
 {
@@ -258,14 +254,8 @@ void i2c_slave::callback()
                 bus_state = ACK_WR;
                 // Check the R/W bit of the address byte
 
-                if ( xfr_data & 0x01 )
-                {
-                    slave_transmit(true);
-                }
-                else
-                {
-                    slave_transmit(false);
-                }
+                if ( xfr_data & 0x01 ) slave_transmit(true);
+                else                   slave_transmit(false);
                 break;
 
             case TX_DATA :        // send data to master
@@ -274,10 +264,8 @@ void i2c_slave::callback()
                     sda->setDrivingState ( true );     // Release the bus
                     bus_state = ACK_RD;
                 }
-                else
-                {
-                    sda->setDrivingState ( shift_write_bit() );
-                }
+                else sda->setDrivingState ( shift_write_bit() );
+
                 break;
 
             case ACK_RX :        // Send ACK read data

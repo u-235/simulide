@@ -22,7 +22,7 @@ License along with this library; if not, see
 
 //#define DEBUG
 #if defined(DEBUG)
-#include "../config.h"
+#include "config.h"
 #define Dprintf(arg) {printf("%s:%d ",__FILE__,__LINE__); printf arg; }
 #else
 #define Dprintf(arg) {}
@@ -628,32 +628,20 @@ void CLC::setState (char new3State, int id)
 void CLC::enableINxpin (int i, bool on)
 {
     if (on)
-      {
-          if (!INxactive[i])
-            {
-                char name[7] = "LCyINx";
-                if (!INxgui[i].length ())
-                    INxgui[i] = pinCLCxIN[i]->getPin ().GUIname ();
-                name[2] = '0' + index;
-                name[5] = '0' + i;
-                pinCLCxIN[i]->getPin ().newGUIname (name);
-                if (!INxsink[i])
-                    INxsink[i] = new INxSignalSink (this, i);
-                pinCLCxIN[i]->addSink (INxsink[i]);
-                setState (pinCLCxIN[i]->getPin ().getState ()? '1' : '0', i);
-            }
-          INxactive[i]++;
-      }
+    {
+        if (!INxactive[i])
+        {
+            if( !INxsink[i]) INxsink[i] = new INxSignalSink (this, i);
+            
+            pinCLCxIN[i]->addSink (INxsink[i]);
+            setState (pinCLCxIN[i]->getPin ().getState ()? '1' : '0', i);
+        }
+        INxactive[i]++;
+    }
     else if (!--INxactive[i])
-      {
-          if (INxgui[i].length ())
-              pinCLCxIN[i]->getPin ().newGUIname (INxgui[i].c_str ());
-          else
-              pinCLCxIN[i]->getPin ().newGUIname (pinCLCxIN[i]->getPin ().
-                                                  name ().c_str ());
-          if (INxsink[i])
-              pinCLCxIN[i]->removeSink (INxsink[i]);
-      }
+    {
+        if (INxsink[i]) pinCLCxIN[i]->removeSink (INxsink[i]);
+    }
 }
 
 // Enable/disable output pin
@@ -663,12 +651,7 @@ void CLC::oeCLCx (bool on)
       {
           if (!srcCLCxactive)
             {
-                char name[] = "CLCx";
-                name[3] = '1' + index;
-                CLCxgui = pinCLCx->getPin ().GUIname ();
-                pinCLCx->getPin ().newGUIname (name);
-                if (!CLCxsrc)
-                    CLCxsrc = new CLCSigSource (this, pinCLCx);
+                if (!CLCxsrc) CLCxsrc = new CLCSigSource (this, pinCLCx);
                 pinCLCx->setSource (CLCxsrc);
                 srcCLCxactive = true;
                 CLCxsrc->setState ((clcxcon.value.get () & LCxOE) ? '1' : '0');
@@ -676,21 +659,16 @@ void CLC::oeCLCx (bool on)
             }
       }
     else if (srcCLCxactive)
-      {
-          if (CLCxgui.length ())
-              pinCLCx->getPin ().newGUIname (CLCxgui.c_str ());
-          else
-              pinCLCx->getPin ().newGUIname (pinCLCx->getPin ().name ().
-                                             c_str ());
-          pinCLCx->setSource (0);
-          if (CLCxsrc)
-            {
-                delete CLCxsrc;
-                CLCxsrc = 0;
-            }
-          srcCLCxactive = false;
-          pinCLCx->updatePinModule ();
-      }
+    {
+        pinCLCx->setSource (0);
+        if (CLCxsrc)
+        {
+            delete CLCxsrc;
+            CLCxsrc = 0;
+        }
+        srcCLCxactive = false;
+        pinCLCx->updatePinModule ();
+    }
 }
 
 // Update the output value of each of the 4 Data Gates

@@ -18,7 +18,7 @@ License along with this library; if not, see
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
 
-#include "../config.h"
+#include "config.h"
 #include "14bit-processors.h"
 #include "14bit-registers.h"
 #include "a2d_v2.h"
@@ -28,7 +28,7 @@ License along with this library; if not, see
 
 //#define DEBUG
 #if defined(DEBUG)
-#include "../config.h"
+#include "config.h"
 #define Dprintf(arg) {printf("%s:%d ",__FILE__,__LINE__); printf arg; }
 #else
 #define Dprintf(arg) {}
@@ -229,7 +229,6 @@ void CTMU::stat_change()
             adcon1->ctmu_trigger();
         }
     }
-        
 }
 #define EDG1_SEL(x) ((x) & (CTMUCONL::EDG1SEL0 | CTMUCONL::EDG1SEL1))
 #define EDG2_SEL(x) ((x) & (CTMUCONL::EDG2SEL0 | CTMUCONL::EDG2SEL1))
@@ -255,17 +254,14 @@ void CTMU::new_edge()
             // positive edge active 
             if (value & CTMUCONL::EDG1POL)
             {
-                if (state1)
-                    value |= CTMUCONL::EDG1STAT;
+                if (state1) value |= CTMUCONL::EDG1STAT;
             }
             // negative edge
             else
             {
-                if (!state1)
-                    value |= CTMUCONL::EDG1STAT;
+                if (!state1) value |= CTMUCONL::EDG1STAT;
             }
             ctmuconl->put(value);
-        
         }
         //using CTED1
         if (EDG2_SEL(value) == (CTMUCONL::EDG2SEL0 | CTMUCONL::EDG2SEL1))
@@ -273,17 +269,14 @@ void CTMU::new_edge()
             // positive edge active 
             if (value & CTMUCONL::EDG2POL)
             {
-                if (state1)
-                    value |= CTMUCONL::EDG2STAT;
+                if (state1) value |= CTMUCONL::EDG2STAT;
             }
             // negative edge
             else
             {
-                if (!state1)
-                    value |= CTMUCONL::EDG2STAT;
+                if (!state1) value |= CTMUCONL::EDG2STAT;
             }
             ctmuconl->put(value);
-        
         }
         cted1_state = state1;
    }
@@ -295,17 +288,14 @@ void CTMU::new_edge()
             // positive edge active 
             if (value & CTMUCONL::EDG1POL)
             {
-                if (state2)
-                    value |= CTMUCONL::EDG1STAT;
+                if (state2) value |= CTMUCONL::EDG1STAT;
             }
             // negative edge
             else
             {
-                if (!state2)
-                    value |= CTMUCONL::EDG1STAT;
+                if (!state2) value |= CTMUCONL::EDG1STAT;
             }
             ctmuconl->put(value);
-        
         }
         //using CTED2
         if (EDG2_SEL(value) == (CTMUCONL::EDG2SEL1))
@@ -313,17 +303,14 @@ void CTMU::new_edge()
             // positive edge active 
             if (value & CTMUCONL::EDG2POL)
             {
-                if (state2)
-                    value |= CTMUCONL::EDG2STAT;
+                if (state2) value |= CTMUCONL::EDG2STAT;
             }
             // negative edge
             else
             {
-                if (!state2)
-                    value |= CTMUCONL::EDG2STAT;
+                if (!state2) value |= CTMUCONL::EDG2STAT;
             }
             ctmuconl->put(value);
-        
         }
         cted2_state = state2;
    }
@@ -338,43 +325,34 @@ void CTMU::syncC2out(bool high)
         value |= CTMUCONL::EDG2STAT;
         ctmuconl->put(value);
     }
-
 }
 
 void CTMU::tgen_on()
 {
     cm2con1->set_ctmu_stim(ctmu_stim, this);
-    m_ctpls->getPin().newGUIname("ctpls");
-    if (!ctpls_source)
-        ctpls_source = new PeripheralSignalSource(m_ctpls);
+
+    if (!ctpls_source) ctpls_source = new PeripheralSignalSource(m_ctpls);
     m_ctpls->setSource(ctpls_source);
 }
 
 void CTMU::tgen_off()
 {
     cm2con1->set_ctmu_stim(0, 0);
-    m_ctpls->getPin().newGUIname(m_ctpls->getPin().name().c_str());
-    if (ctpls_source)
-        m_ctpls->setSource(0);
-}
 
+    if (ctpls_source) m_ctpls->setSource(0);
+}
 
 void CTMU::idissen(bool ground)
 {
     // Don't do anything is CTMU not enables
-    if (! (ctmuconh->value.get() & CTMUCONH::CTMUEN))
-        return;
+    if (! (ctmuconh->value.get() & CTMUCONH::CTMUEN)) return;
 
     if (ground)
     {
         ctmu_stim->set_Vth(0.);
         ctmu_stim->set_Zth(300.0);
         ctmu_stim->updateNode();
-
     }
-    else
-    {
-        stat_change();
-    }
+    else stat_change();
 }
 

@@ -24,7 +24,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <string>
 
-#include "../config.h"
+#include "config.h"
 #include "p18x.h"
 #include "p18fk.h"
 #include "pic-ioports.h"

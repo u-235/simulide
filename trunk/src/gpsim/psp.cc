@@ -20,7 +20,7 @@ License along with this library; if not, see
 
 #include <stdio.h>
 #include <iostream>
-#include "../config.h"
+#include "config.h"
 #include "stimuli.h"
 #include "psp.h"
 

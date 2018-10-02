@@ -31,7 +31,7 @@ License along with this library; if not, see
 #include <iostream>
 #include <string>
 
-//#include "../config.h"
+//#include "config.h"
 
 #include "stimuli.h"
 #include "p16f62x.h"
@@ -182,60 +182,48 @@ bool P16F62x::set_config_word(uint address, uint cfg_word)
   };
   // Let the base class do most of the work:
 
-  if (pic_processor::set_config_word(address, cfg_word)) {
-
+  if (pic_processor::set_config_word(address, cfg_word)) 
+  {
     uint valid_pins = m_porta->getEnableMask();
 
     set_int_osc(false);
     // Careful these bits not adjacent
-    switch(cfg_word & (CFG_FOSC0 | CFG_FOSC1 | CFG_FOSC2)) {
-
+    switch(cfg_word & (CFG_FOSC0 | CFG_FOSC1 | CFG_FOSC2)) 
+    {
     case 0:  // LP oscillator: low power crystal is on RA6 and RA7
     case 1:     // XT oscillator: crystal/resonator is on RA6 and RA7
     case 2:     // HS oscillator: crystal/resonator is on RA6 and RA7
-        (m_porta->getPin(6))->newGUIname("OSC2");
-        (m_porta->getPin(7))->newGUIname("OSC1");
         break;
 
     case 0x13:  // ER oscillator: RA6 is CLKOUT, resistor (?) on RA7
-        (m_porta->getPin(6))->newGUIname("CLKOUT");
-        (m_porta->getPin(7))->newGUIname("OSC1");
         break;
 
     case 3:     // EC:  RA6 is an I/O, RA7 is a CLKIN
     case 0x12:  // ER oscillator: RA6 is an I/O, RA7 is a CLKIN
-        (m_porta->getPin(7))->newGUIname("CLKIN");
         valid_pins =  (valid_pins & 0x7f)|0x40;
         break;
 
     case 0x10:  // INTRC: Internal Oscillator, RA6 and RA7 are I/O's
-	set_int_osc(true);
-        (m_porta->getPin(6))->newGUIname("porta6");
-        (m_porta->getPin(7))->newGUIname("porta7");
+        set_int_osc(true);
         valid_pins |= 0xc0;
         break;
 
     case 0x11:  // INTRC: Internal Oscillator, RA7 is an I/O, RA6 is CLKOUT
-	set_int_osc(true);
-	(m_porta->getPin(6))->newGUIname("CLKOUT");
-        (m_porta->getPin(7))->newGUIname("porta7");
+        set_int_osc(true);
 
         valid_pins = (valid_pins & 0xbf)|0x80;
         break;
-
     }
 
     // If the /MCLRE bit is set then RA5 is the MCLR pin, otherwise it's
     // a general purpose I/O pin.
 
-    if (! (cfg_word & CFG_MCLRE)) {
+    if (! (cfg_word & CFG_MCLRE)) 
+    {
       unassignMCLRPin();
       valid_pins |= ( 1<< 5);           // porta5 IO port
     }
-    else
-    {
-	assignMCLRPin(4); 	// pin 4
-    }
+    else assignMCLRPin(4);         // pin 4
 
     //cout << " porta valid_iopins " << porta->valid_iopins <<
     //   "  tris valid io " << trisa.valid_iopins << '\n';
@@ -247,7 +235,6 @@ bool P16F62x::set_config_word(uint address, uint cfg_word)
     }
     return true;
   }
-
   return false;
 }
 
