@@ -26,9 +26,13 @@
 #include "component.h"
 #include "utils.h"
 
+CircuitView*  CircuitView::m_pSelf = 0l;
+
 CircuitView::CircuitView( QWidget *parent )
            : QGraphicsView( parent )
 {
+    m_pSelf = this;
+    
     m_circuit     = 0l;
     m_enterItem   = 0l;
 
@@ -126,48 +130,41 @@ void CircuitView::resizeEvent( QResizeEvent *event )
     QGraphicsView::resizeEvent(event);
 }
 
-void CircuitView::keyPressEvent( QKeyEvent *event )
-{
-    if( event->key() == Qt::Key_Shift )
-        setDragMode( QGraphicsView::ScrollHandDrag );
-    
-    QGraphicsView::keyPressEvent( event );
-}
-
-void CircuitView::keyReleaseEvent( QKeyEvent *event )
-{
-    //if( event->key() == Qt::Key_Shift )
-        setDragMode( QGraphicsView::RubberBandDrag );
-        
-    QGraphicsView::keyReleaseEvent( event );
-}
-
-void CircuitView::mousePressEvent( QMouseEvent *event )
+void CircuitView::mousePressEvent( QMouseEvent* event )
 {
     if( event->button() == Qt::MidButton )
     {
+        event->accept();
         setDragMode( QGraphicsView::ScrollHandDrag );
-        
+
         QMouseEvent eve( QEvent::MouseButtonPress, event->pos(), 
-        Qt::LeftButton, Qt::LeftButton, Qt::NoModifier   );
+            Qt::LeftButton, Qt::LeftButton, Qt::NoModifier   );
 
         QGraphicsView::mousePressEvent( &eve );
     }
-    QGraphicsView::mousePressEvent( event );
+    else  
+    {
+        QGraphicsView::mousePressEvent( event );
+        viewport()->setCursor( Qt::ArrowCursor );
+    }
 }
 
-void CircuitView::mouseReleaseEvent(QMouseEvent *event )
+void CircuitView::mouseReleaseEvent( QMouseEvent* event )
 {
     if( event->button() == Qt::MidButton )
     {
-        setDragMode( QGraphicsView::RubberBandDrag );
-        
+        event->accept();
         QMouseEvent eve( QEvent::MouseButtonRelease, event->pos(), 
-        Qt::LeftButton, Qt::LeftButton, Qt::NoModifier   );
+            Qt::LeftButton, Qt::LeftButton, Qt::NoModifier   );
 
         QGraphicsView::mouseReleaseEvent( &eve );
     }
-    QGraphicsView::mouseReleaseEvent( event );
+    else 
+    {
+        QGraphicsView::mouseReleaseEvent( event );
+        viewport()->setCursor( Qt::ArrowCursor );
+    }
+    setDragMode( QGraphicsView::RubberBandDrag );
 }
 
 void CircuitView::contextMenuEvent(QContextMenuEvent* event)

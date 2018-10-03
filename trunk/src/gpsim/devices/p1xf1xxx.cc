@@ -2593,7 +2593,6 @@ Processor * P16F1823::construct(const char *name)
 
 void  P16F1823::create(int ram_top, int eeprom_size, int dev_id)
 {
-
   create_iopin_map();
   e = new EEPROM_EXTND(this, pir2);
   set_eeprom(e);
@@ -2692,7 +2691,6 @@ P16LF1823::~P16LF1823()
 
 void  P16LF1823::create(int ram_top, int eeprom_size, int dev_id)
 {
-
   P16F1823::create(ram_top, eeprom_size, dev_id);
 }
 
@@ -2711,7 +2709,7 @@ Processor * P16F1825::construct(const char *name)
 {
   P16F1825 *p = new P16F1825(name);
 
-  p->create(0x7f, 256, 0x2760);
+  p->create( 0x7f, 256, 0x2760 );
   p->create_invalid_registers ();
 
   return p;
@@ -2720,6 +2718,7 @@ P16F1825::P16F1825(const char *_name, const char *desc) :
         P16F1823(_name, desc)
 {
 }
+
 P16F1825::~P16F1825()
 {
   delete_file_registers(0xc0, 0xef);
@@ -2735,7 +2734,7 @@ P16F1825::~P16F1825()
 }
 void  P16F1825::create(int ram_top, int eeprom_size, int dev_id)
 {
-  P16F1823::create(ram_top, eeprom_size, dev_id);
+  P16F1823::create( ram_top, eeprom_size, dev_id );
   add_file_registers(0xc0, 0xef, 0x00);
   add_file_registers(0x120, 0x16f, 0x00);
   add_file_registers(0x1a0, 0x1ef, 0x00);

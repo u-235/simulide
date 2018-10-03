@@ -58,7 +58,7 @@ enum
   inline void set_bits(uint b) { valid_bits |= b; }
   inline void clear_bits(uint b) { valid_bits &= ~b; }
 
-  uint valid_bits;
+  uint valid_bits = 0;
   PM_RD *pm_rd;
 };
 

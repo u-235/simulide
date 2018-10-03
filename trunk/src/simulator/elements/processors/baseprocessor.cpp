@@ -219,8 +219,10 @@ void BaseProcessor::setRegisters() // get register addresses from data file
             int address   = 0;
             bool isNumber = false;
 
-            line.remove("EQU");
-            QStringList wordList = line.split(" "); // Split in words
+            line.remove(" ");
+            QStringList wordList = line.split("EQU"); // Split in words
+            if( wordList.size() < 2 ) continue;
+
             name    = wordList.takeFirst();
             while( addrtxt.isEmpty() ) addrtxt = wordList.takeFirst();
 

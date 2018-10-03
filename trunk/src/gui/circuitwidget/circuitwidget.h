@@ -45,8 +45,6 @@ class MAINMODULE_EXPORT CircuitWidget : public QWidget
         
         void setRate( int rate );
 
-        //void setSerialPortWidget( QWidget* serialPortWidget );
-
         void showSerialPortWidget( bool showIt );
         
         void writeSerialPortWidget( const QByteArray &data );
@@ -74,14 +72,13 @@ class MAINMODULE_EXPORT CircuitWidget : public QWidget
         QVBoxLayout    m_verticalLayout;
         QHBoxLayout    m_horizontLayout;
         CircuitView    m_circView;
-        TerminalWidget m_terminal;
-        PlotterWidget  m_plotter;
         
+        TerminalWidget    m_terminal;
+        PlotterWidget     m_plotter;
         SerialPortWidget  m_serial;
-        //QWidget*       m_serialPortWidget;
         
-        QToolBar       m_circToolBar;
-        QLabel*        m_rateLabel;
+        QToolBar m_circToolBar;
+        QLabel*  m_rateLabel;
         
         QAction* newCircAct;
         QAction* openCircAct;
@@ -90,9 +87,8 @@ class MAINMODULE_EXPORT CircuitWidget : public QWidget
         QAction* powerCircAct;
         QAction* infoAct;
         
-        QString     m_curCirc;
-        QString     m_lastCircDir;
-        
+        QString m_curCirc;
+        QString m_lastCircDir;
 };
 
 #endif

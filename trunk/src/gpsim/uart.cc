@@ -140,45 +140,44 @@ class RXSignalSink : public SignalSink
 // Report state changes on incoming Clock pin for Synchronous slave mode
 class CLKSignalSink : public SignalSink
 {
-public:
-  CLKSignalSink(_RCSTA *_rcsta)
-    : m_rcsta(_rcsta)
-  {
-    assert(_rcsta);
-  }
+    public:
+      CLKSignalSink(_RCSTA *_rcsta) : m_rcsta(_rcsta)
+      { assert(_rcsta); }
 
-  virtual void setSinkState(char new3State) { m_rcsta->clock_edge(new3State); }
-//  virtual void release() { delete this; }
-  virtual void release() {delete this; }
-private:
-  _RCSTA *m_rcsta;
+      virtual void setSinkState(char new3State) { m_rcsta->clock_edge(new3State); }
+    //  virtual void release() { delete this; }
+      virtual void release() {delete this; }
+      
+    private:
+      _RCSTA *m_rcsta;
 };
 
 //-----------------------------------------------------------
 _RCSTA::_RCSTA(Processor *pCpu, const char *pName, const char *pDesc, USART_MODULE *pUSART)
-  : sfr_register(pCpu, pName, pDesc), rcreg(0), spbrg(0),
-    txsta(0),
-    state(_RCSTA::RCSTA_DISABLED),
+  : sfr_register(pCpu, pName, pDesc),
+    rcreg(0), spbrg(0),
+    txsta(0), txreg(nullptr), sync_next_clock_edge_high(false),
+    rsr(0), bit_count(0), rx_bit(0), sample(0),
+    state(_RCSTA::RCSTA_DISABLED), sample_state(0),
+    future_cycle(0), last_cycle(0),
     mUSART(pUSART),
     m_PinModule(0), m_sink(0), m_cRxState('?'),
-    SourceActive(false), m_control(0), m_source(0), m_DTdirection('0'),
-    old_clock_state('?')
+    SourceActive(false), m_control(0), m_source(0), m_cTxState('\0'),
+    m_DTdirection('0'), bInvertPin(false),
+    old_clock_state(true)
 {
   assert(mUSART);
 }
 
 _RCSTA::~_RCSTA()
 {
-    if (SourceActive && m_PinModule)
+    if( SourceActive && m_PinModule )
     {
         m_PinModule->setSource(0);
         m_PinModule->setControl(0);
     }
-    if (m_control)
-    {
-        delete m_source;
-        delete m_control;
-    }
+    delete m_source;
+    delete m_control;
 }
 
 //-----------------------------------------------------------

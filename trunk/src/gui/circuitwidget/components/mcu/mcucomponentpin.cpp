@@ -65,7 +65,7 @@ void McuComponentPin::resetState()
 
 void McuComponentPin::initialize()
 {
-    eSource::setImp( high_imp );// All  IO Pins should be inputs at start-up
+    if( m_pinType == 1 ) eSource::setImp( high_imp );// All  IO Pins should be inputs at start-up
     
     if( m_ePin[0]->isConnected() && m_attached )
         m_ePin[0]->getEnode()->addToChangedFast(this);

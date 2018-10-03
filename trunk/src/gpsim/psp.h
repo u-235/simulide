@@ -44,8 +44,8 @@ class PSP
 {
 public:
   void initialize( PIR_SET *pir_set, PicPSP_PortRegister *port_set, 
-	PicTrisRegister *port_tris, sfr_register *PSPcon,
-	PinModule *pin_RD, PinModule *pin_CS, PinModule *pin_WR);
+        PicTrisRegister *port_tris, sfr_register *PSPcon,
+        PinModule *pin_RD, PinModule *pin_CS, PinModule *pin_WR);
   void setRD_State(char new3State);
   void setCS_State(char new3State);
   void setWR_State(char new3State);
@@ -67,27 +67,31 @@ public:
 protected:
 
   enum {
-	ST_INACTIVE = 0,
-	ST_READ,
-	ST_WRITE
-	};
+        ST_INACTIVE = 0,
+        ST_READ,
+        ST_WRITE
+        };
 
-  uint	put_value;
-  uint	get_value;
-  int		state;
-  bool		rd;
-  bool		cs;
-  bool		wr;
-  PIR_SET 	*pir_set;
-  PicPSP_PortRegister *parallel_port;
-  PicTrisRegister *parallel_tris;
-  sfr_register   *cntl_tris;
-  PinModule 	*Not_RD;
-  PinModule 	*Not_CS;
-  PinModule 	*Not_WR;
-  RD_SignalSink *m_rd_sink;
-  CS_SignalSink *m_cs_sink;
-  WR_SignalSink *m_wr_sink;
+  uint put_value = 0;
+  uint get_value = 0;
+  int state = 0;
+  
+  bool rd = false;
+  bool cs = false;
+  bool wr = false;
+  
+  PIR_SET             *pir_set = nullptr;
+  PicPSP_PortRegister *parallel_port = nullptr;
+  PicTrisRegister     *parallel_tris = nullptr;
+  sfr_register        *cntl_tris = nullptr;
+  
+  PinModule         *Not_RD = nullptr;
+  PinModule         *Not_CS = nullptr;
+  PinModule         *Not_WR = nullptr;
+  
+  RD_SignalSink     *m_rd_sink = nullptr;
+  CS_SignalSink     *m_cs_sink = nullptr;
+  WR_SignalSink     *m_wr_sink = nullptr;
 };
 
-#endif	// __PSP_H__
+#endif        // __PSP_H__

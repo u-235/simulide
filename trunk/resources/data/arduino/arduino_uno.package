@@ -39,8 +39,6 @@
     <pin side="left" pos="17" type="gnd"   id="GND0" label=" GND   "/>
     <pin side="left" pos="18" type="aref"  id="AREF" label=" Aref  "/>
     
-    
-    
     <pin side="right"   pos="2"  type="adc5"  id="PC5"  label="A5 "/>
     <pin side="right"   pos="3"  type="adc4"  id="PC4"  label="A4 "/>
     <pin side="right"   pos="4"  type="adc3"  id="PC3"  label="A3 "/>

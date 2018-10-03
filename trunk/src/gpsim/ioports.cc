@@ -659,12 +659,12 @@ void PinModule::updateUI()
 //        and is taken out of analog mode when all modules have
 //        requested analog mode to be released (up=false);
 //
-void PinModule::AnalogReq( Register * reg, bool analog, const char *newname )
+void PinModule::AnalogReq( Register* reg, bool analog, const char* newname )
 {
+    if (!m_port) return;
+    
     int i, index;
     uint total_cnt = 0;
-
-    if (!m_port) return;
 
     // is the calling register in the table and what is the current
     // count of modules requesting analog mode

@@ -22,11 +22,9 @@
 
 #include <QtWidgets>
 
-#include "connector.h"
-
 class Connector;
  
- class MAINMODULE_EXPORT ConnectorLine : public QGraphicsObject
+class MAINMODULE_EXPORT ConnectorLine : public QGraphicsObject
 {
     Q_OBJECT
 
@@ -36,32 +34,30 @@ public:
 
     virtual QRectF boundingRect() const;
 
-    void setConnector( Connector* con ) { m_pConnector = con; }
+    void setConnector( Connector* con );
+    Connector* connector();
 
     void setP1( QPoint );
     void setP2( QPoint );
 
-    QPoint p1() { return QPoint( m_p1X, m_p1Y ); }
-    QPoint p2() { return QPoint( m_p2X, m_p2Y ); }
+    QPoint p1();
+    QPoint p2();
 
-    int dx() { return (m_p2X - m_p1X);}
-    int dy() { return (m_p2Y - m_p1Y);}
-
-    Connector* connector() const { return m_pConnector; }
+    int dx();
+    int dy();
 
     void move( QPointF delta );
-
     void moveLine( QPoint delta );
 
     void updatePos();
     
     void setIsBus( bool bus );
 
-    void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
-    //void wheelEvent(QGraphicsSceneWheelEvent* event);
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
+    void mousePressEvent( QGraphicsSceneMouseEvent* event );
+    void mouseMoveEvent( QGraphicsSceneMouseEvent* event );
+    void mouseReleaseEvent( QGraphicsSceneMouseEvent* event );
+
+    void contextMenuEvent( QGraphicsSceneContextMenuEvent* event );
     virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget );
 
 signals:

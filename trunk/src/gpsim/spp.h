@@ -40,7 +40,7 @@ public:
   void set_spp(SPP *_spp) { spp = _spp; }
 
 private:
-  SPP	*spp;
+  SPP        *spp;
 };
 
 class SPPCFG : public sfr_register, public TriggerObject
@@ -52,7 +52,7 @@ public:
   void set_spp(SPP *_spp) { spp = _spp; }
 
 private:
-  SPP	*spp;
+  SPP        *spp;
 };
 
 class SPPEPS : public sfr_register, public TriggerObject
@@ -64,7 +64,7 @@ public:
   void set_spp(SPP *_spp) { spp = _spp; }
 
 private:
-  SPP	*spp;
+  SPP        *spp;
 };
 
 class SPPDATA : public sfr_register, public TriggerObject
@@ -77,7 +77,7 @@ public:
   void set_spp(SPP *_spp) { spp = _spp; }
 
 private:
-  SPP	*spp;
+  SPP        *spp;
 };
 
 class SPP : public TriggerObject
@@ -85,11 +85,11 @@ class SPP : public TriggerObject
 public:
 
   void initialize( PIR_SET *pir_set, PicPSP_PortRegister *port_set, 
-	PicTrisRegister *port_tris,
-	SPPCON *_sppcon, SPPCFG *_sppcfg, SPPEPS *_sppeps, 
-	SPPDATA *_sppdata, PinModule  *pin_clk1spp, PinModule *pin_clk2spp,
-  	PinModule  *pin_oespp, PinModule *pin_csspp
-	);
+        PicTrisRegister *port_tris,
+        SPPCON *_sppcon, SPPCFG *_sppcfg, SPPEPS *_sppeps, 
+        SPPDATA *_sppdata, PinModule  *pin_clk1spp, PinModule *pin_clk2spp,
+          PinModule  *pin_oespp, PinModule *pin_csspp
+        );
   void data_write(uint data);
   uint data_read();
   void eps_write(uint data);
@@ -97,74 +97,74 @@ public:
   void enabled(bool state);
   virtual void callback();
   
-  SPP() : sppcon(0), sppcfg(0), sppeps(0), sppdata(0), state_enabled(0),
-	cfg_value(0), eps_value(0), 
-	sig_oespp(0), sig_csspp(0), sig_clk1spp(0), sig_clk2spp(0),
-        active_sig_oe(false), active_sig_cs(false), active_sig_clk1(false),
-          active_sig_clk2(false)
-  { 
-  }
+  SPP() { }
   ~SPP();
 
   enum {
-	SPPEN	= 1<<0,		// SPPCON
-	SPPOWN	= 1<<1,
-	WS0	= 1<<0,		// SPPCFG
-	WS1	= 1<<1,
-	WS2	= 1<<2,
-	WS3	= 1<<3,
-	CLK1EN	= 1<<4,
-	CSEN	= 1<<5,
-	CLKCFG0 = 1<<6,
-	CLKCFG1 = 1<<7,
-	ADDR0	= 1<<0,		//SPPEPS
-	ADDR1	= 1<<1,
-	ADDR2	= 1<<2,
-	ADDR3	= 1<<3,
-	SPPBUSY = 1<<4,
-	WRSPP	= 1<<6,
-	RDSPP	= 1<<7
+        SPPEN        = 1<<0,                // SPPCON
+        SPPOWN        = 1<<1,
+        WS0        = 1<<0,                // SPPCFG
+        WS1        = 1<<1,
+        WS2        = 1<<2,
+        WS3        = 1<<3,
+        CLK1EN        = 1<<4,
+        CSEN        = 1<<5,
+        CLKCFG0 = 1<<6,
+        CLKCFG1 = 1<<7,
+        ADDR0        = 1<<0,                //SPPEPS
+        ADDR1        = 1<<1,
+        ADDR2        = 1<<2,
+        ADDR3        = 1<<3,
+        SPPBUSY = 1<<4,
+        WRSPP        = 1<<6,
+        RDSPP        = 1<<7
         };
 protected:
 
   // cycle States
   enum {
-	ST_IDLE = 0,
-	ST_CYCLE1,
-	ST_CYCLE2,
-	};
+        ST_IDLE = 0,
+        ST_CYCLE1,
+        ST_CYCLE2,
+        };
   // I/O operatiom
   enum {
-	ADDR_WRITE = 1,
-	DATA_WRITE,
-	DATA_READ
-	};
+        ADDR_WRITE = 1,
+        DATA_WRITE,
+        DATA_READ
+        };
+  
+  SPPCON   *sppcon = nullptr;
+  SPPCFG   *sppcfg = nullptr;
+  SPPEPS   *sppeps = nullptr;
+  SPPDATA  *sppdata = nullptr;
+  bool state_enabled = false;
+  
+  uint  cfg_value = 0;
+  uint  eps_value = 0;
+  uint  data_value = 0;
 
-  SPPCON	*sppcon;
-  SPPCFG	*sppcfg;
-  SPPEPS	*sppeps;
-  SPPDATA	*sppdata;
-  bool		state_enabled;
-  uint  cfg_value;
-  uint  eps_value;
-  uint  data_value;
-  PinModule 	*pin_clk1spp;
-  PinModule 	*pin_clk2spp;
-  PinModule 	*pin_oespp;
-  PinModule 	*pin_csspp;
-  int		cycle_state;
-  uint  io_operation;
-  SppSignalSource *sig_oespp;
-  SppSignalSource *sig_csspp;
-  SppSignalSource *sig_clk1spp;
-  SppSignalSource *sig_clk2spp;
-  bool		active_sig_oe;
-  bool		active_sig_cs;
-  bool		active_sig_clk1;
-  bool		active_sig_clk2;
-  PIR_SET 	*pir_set;
-  PicPSP_PortRegister *parallel_port;
-  PicTrisRegister *parallel_tris;
+  PinModule *pin_clk1spp = nullptr;
+  PinModule *pin_clk2spp = nullptr;
+  PinModule *pin_oespp = nullptr;
+  PinModule *pin_csspp = nullptr;
+  
+  int  cycle_state = 0;
+  uint io_operation = 0;
+  
+  SppSignalSource *sig_oespp = nullptr;
+  SppSignalSource *sig_csspp = nullptr;
+  SppSignalSource *sig_clk1spp = nullptr;
+  SppSignalSource *sig_clk2spp = nullptr;
+  
+  bool active_sig_oe = false;
+  bool active_sig_cs = false;
+  bool active_sig_clk1 = false;
+  bool active_sig_clk2 = false;
+  
+  PIR_SET             *pir_set = nullptr;
+  PicPSP_PortRegister *parallel_port = nullptr;
+  PicTrisRegister     *parallel_tris = nullptr;
 };
 
-#endif	// __SPP_H__
+#endif        // __SPP_H__

@@ -194,7 +194,7 @@ public:
 class ADDWF16 : public ADDWF
 {
 public:
-  int i;
+  int i = 0;
 
   ADDWF16(Processor *new_cpu, uint new_opcode, uint address) 
     : ADDWF(new_cpu,new_opcode,address){};
@@ -343,7 +343,7 @@ public:
 class BSF16 : public BSF
 {
 public:
-  int i;
+  int i = 0;
 
   BSF16(Processor *new_cpu, uint new_opcode, uint address) 
     : BSF(new_cpu,new_opcode,address){};
@@ -356,7 +356,7 @@ public:
 class BCF16 : public BCF
 {
 public:
-  int i;
+  int i = 0;
 
   BCF16(Processor *new_cpu, uint new_opcode, uint address) 
     : BCF(new_cpu,new_opcode,address){};
@@ -369,7 +369,7 @@ public:
 class BTFSC16 : public BTFSC
 {
 public:
-  int i;
+  int i = 0;
 
   BTFSC16(Processor *new_cpu, uint new_opcode, uint address) 
     : BTFSC(new_cpu,new_opcode,address){};
@@ -382,7 +382,7 @@ public:
 class BTFSS16 : public BTFSS
 {
 public:
-  int i;
+  int i = 0;
 
   BTFSS16(Processor *new_cpu, uint new_opcode, uint address) 
     : BTFSS(new_cpu,new_opcode,address){};

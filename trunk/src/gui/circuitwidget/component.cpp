@@ -20,6 +20,7 @@
 #include "component.h"
 #include "mainwindow.h"
 #include "connector.h"
+#include "connectorline.h"
 #include "itemlibrary.h"
 #include "circuit.h"
 #include "utils.h"

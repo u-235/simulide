@@ -121,38 +121,30 @@ void ComponentSelector::loadXml( const QString &setFile )
         QDomElement element = rNode.toElement();
         QDomNode    node    = element.firstChild();
 
-        QString category = element.attribute( "category");
+        QString category = element.attribute( "category" );
         const char* charCat = category.toUtf8().data();
-        category = QApplication::translate("xmlfile", charCat );
+        category = QApplication::translate( "xmlfile", charCat );
         //qDebug()<<"category = " <<category;
         
-        QString type     = element.attribute( "type");
-
-        LibraryItem* parent = m_itemLibrary.libraryItem(type);
+        QString type = element.attribute( "type");
+        LibraryItem* parent = m_itemLibrary.libraryItem( type );
 
         if( parent )
         {
             while( !node.isNull() )
             {
                 element = node.toElement();
-
                 QString icon = "";
 
                 if( element.hasAttribute("icon") )
                 {
                     QDir compSetDir( qApp->applicationDirPath() );
                     compSetDir.cd( "../share/simulide/data/images" );
-                    //icon = QCoreApplication::applicationDirPath();
-                    //icon.append("/data/images/");
-                    //icon.append(element.attribute("icon"));
-                    icon = compSetDir.absoluteFilePath(element.attribute("icon"));
+                    icon = compSetDir.absoluteFilePath( element.attribute("icon") );
                 }
                 QString name = element.attribute( "name" );
-
                 addItem( name, category, icon, type );
-
                 m_xmlFileList[ name ] = setFile;   // Save xml File used to create this item
-
                 node = node.nextSibling();
             }
         }
@@ -193,36 +185,40 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
     QTreeWidgetItem* titulo = 0l;
     
     QStringList catPath = _category.split( "/" );
-    
-    QString category = catPath.takeLast();
+    bool isRootCat      = (catPath.size() == 1);
+    QString category    = catPath.takeLast();
 
-    if( !m_categories.contains(category, Qt::CaseSensitive) )  // Create new Category
+    if( !m_categories.contains( category, Qt::CaseSensitive ))  // Create new Category
     {
         bool c_hidden =  MainWindow::self()->settings()->value( category+"/hidden" ).toBool();
         bool expanded = !MainWindow::self()->settings()->value( category+"/collapsed" ).toBool();
 
-        m_categories.append(category);
+        m_categories.append( category );
         titulo = new QTreeWidgetItem(0);
         titulo->setFlags( QFlag(32) );
         QFont font = titulo->font(0);
-        font.setPixelSize(13);
-        font.setWeight(75);
-        titulo->setIcon( 0, QIcon(":/null-0.png") );
+
+        if( isRootCat )                              // Is Main Category
+        {
+            font.setPixelSize(13);
+            font.setWeight(75);
+            titulo->setIcon( 0, QIcon(":/null-0.png") );
+            titulo->setTextColor( 0, QColor( 110, 95, 50 )/*QColor(255, 230, 200)*/ );
+            titulo->setBackground( 0, QBrush(QColor(240, 235, 245)) );
+        }
         titulo->setFont( 0, font );
         titulo->setText( 0, category );
-        titulo->setTextColor( 0, QColor( 110, 95, 50 )/*QColor(255, 230, 200)*/ );
-        titulo->setBackground( 0, QBrush(QColor(240, 235, 245)) );
         titulo->setChildIndicatorPolicy( QTreeWidgetItem::ShowIndicator );
         
         if( !catPath.isEmpty() )
         {
             QString topCat = catPath.takeLast();
             
-            QList<QTreeWidgetItem*> list = findItems( topCat, Qt::MatchExactly );
+            QList<QTreeWidgetItem*> list = findItems( topCat, Qt::MatchExactly | Qt::MatchRecursive );
             
             if( !list.isEmpty() ) 
             {
-                QTreeWidgetItem* topItem = list.takeLast();
+                QTreeWidgetItem* topItem = list.first();
                 topItem->addChild( titulo );
             }
         }
@@ -233,36 +229,20 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
     }
     else                                                                // Find Category
     {
-        QList<QTreeWidgetItem*> list = findItems(category, Qt::MatchExactly );
+        QList<QTreeWidgetItem*> list = findItems( category, Qt::MatchExactly | Qt::MatchRecursive );
 
-        if( list.length() > 0 ) titulo = list.first();
-        else
-        {
-            for( int i=0; i<topLevelItemCount(); i++ )
-            {
-                QTreeWidgetItem* it = topLevelItem(i);
-
-                for( int j=0; j<it->childCount(); j++ )
-                {
-                    if( it->child(j)->text(0) == category )
-                    {
-                        titulo = it->child(j);
-                        break;
-                    }
-                }
-                if( titulo ) break;
-            }
-        }
+        if( !list.isEmpty() ) titulo = list.first();
     }
     if( !titulo ) return;
 
-    if( !m_categories.contains(name, Qt::CaseSensitive) )
-        m_categories.append(name);
+    if( !m_categories.contains( name, Qt::CaseSensitive ) )
+        m_categories.append( name );
 
     QTreeWidgetItem* item =  new QTreeWidgetItem(0);
     QFont font = item->font(0);
     font.setPixelSize(11);
     font.setWeight( QFont::Bold );
+    
     item->setFont( 0, font );
     item->setText( 0, name );
     item->setFlags( QFlag(32) );
