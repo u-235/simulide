@@ -86,13 +86,6 @@ Arduino::~Arduino()
 
 void Arduino::remove()
 {
-    //if( Simulator::self()->isRunning() ) CircuitWidget::self()->powerCircOff();
-    /*if( Simulator::self()->isPaused() )
-    {
-        MessageBoxNB( tr("Warning")
-                    , tr("Removing Arduino while runnig \n  Is Not a Good Idea.") );
-        return;
-    }*/
     m_pb5Pin->setEnode( 0l );
     
     Circuit::self()->compList()->removeOne( m_boardLed );
@@ -108,7 +101,6 @@ void Arduino::remove()
 
     McuComponent::remove();
 }
-
 
 void Arduino::initBootloader()
 {
@@ -155,22 +147,22 @@ void Arduino::initBootloader()
 
 void Arduino::initialize()
 {
-        eNode* enod = m_pb5Pin->getEnode();
-        
-        if( !enod )                        // Not connected: Create boardLed eNode
-        {
-            m_boardLedEnode = new eNode( m_id+"-boardLedeNode" );
-            enod = m_boardLedEnode;
-            m_pb5Pin->setEnode( m_boardLedEnode );
-        }
-        else if( enod != m_boardLedEnode ) // Connected to external eNode: Delete boardLed eNode
-        {
-            Simulator::self()->remFromEnodeList( m_boardLedEnode, true );
-            m_boardLedEnode = 0l;
-        }
-        else return;                       // Already connected to boardLed eNode: Do nothing
-        
-        m_boardLed->getEpin(0)->setEnode(enod);
+    eNode* enod = m_pb5Pin->getEnode();
+    
+    if( !enod )                        // Not connected: Create boardLed eNode
+    {
+        m_boardLedEnode = new eNode( m_id+"-boardLedeNode" );
+        enod = m_boardLedEnode;
+        m_pb5Pin->setEnode( m_boardLedEnode );
+    }
+    else if( enod != m_boardLedEnode ) // Connected to external eNode: Delete boardLed eNode
+    {
+        Simulator::self()->remFromEnodeList( m_boardLedEnode, true );
+        m_boardLedEnode = 0l;
+    }
+    else return;                       // Already connected to boardLed eNode: Do nothing
+    
+    m_boardLed->getEpin(0)->setEnode(enod);
 }
 
 void Arduino::initBoard()
@@ -188,16 +180,15 @@ void Arduino::initBoard()
     m_boardLed->setEnabled(false);
     m_boardLed->setMaxCurrent( 0.003 );
     m_boardLed->setRes( 1000 );
+    
     if( objectName().contains("Mega") ) m_boardLed->setPos( 35+12, 125+105 );
     else                                m_boardLed->setPos( 35, 125 );
     
-    //m_boardLedEnode = new eNode( m_id+"-boardLedeNode" );
     m_boardLedEnode = 0l;
     
     ePin* boardLedEpin1 = m_boardLed->getEpin(1);
 
-    // Connect board led to ground
-    boardLedEpin1->setEnode( m_groundEnode );
+    boardLedEpin1->setEnode( m_groundEnode ); // Connect board led to ground
 
     for( int i=0; i<m_numpins; i++ )                      // Create Pins
     {

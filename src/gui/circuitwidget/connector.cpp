@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "connector.h"
+#include "connectorline.h"
 #include "circuit.h"
 #include "pin.h"
 #include "e-node.h"

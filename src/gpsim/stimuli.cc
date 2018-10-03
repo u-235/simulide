@@ -715,7 +715,7 @@ void IOPIN::setDrivenState(bool new_state)
 
   // Propagate the new state to those things monitoring this pin.
   // (note that the 3-state value is what's propagated).
-  if(m_monitor && !is_analog)
+  if(m_monitor  /*&& !is_analog*/ ) // SimulIDE
   {
     m_monitor->setDrivenState(getBitChar());
   }
@@ -867,12 +867,14 @@ IO_bi_directional_pu::~IO_bi_directional_pu(void)
 
 void IO_bi_directional_pu::set_is_analog(bool flag)
 {
-    if (is_analog != flag)
+    //cout << "IO_bi_directional_pu::set_is_analog Ignoring "<<name().c_str()<<" " << flag <<"\n";//SimulIDE
+    //return;
+    if( is_analog != flag )
     {
         is_analog = flag;
 
         if (snode) snode->update();
-        else if (!getDriving()) setDrivenState( bPullUp && ! is_analog );
+        //else if (!getDriving()) setDrivenState( bPullUp /*&& !is_analog*/ );
     }
 }
 
@@ -889,7 +891,7 @@ void IO_bi_directional_pu::update_pullup( char new_state, bool refresh )
       // this pin is configured as an input, then let the drivenState
       // be the same as the pullup state.
       if (snode) snode->update();
-      else if (!getDriving()) setDrivenState(bPullUp && ! is_analog);
+      else if (!getDriving()) setDrivenState(bPullUp && !is_analog);
     }
     if( m_picPin ) m_picPin->update_pullup( bPullUp ); // SimulIDE Pic pin
   }
@@ -909,7 +911,7 @@ double IO_bi_directional_pu::get_Vth()
   // which is assigned to be same as the processor's supply voltage).
 
   if(getDriving()) return getDrivingState() ? Vth : 0;
-  else             return (bPullUp && ! is_analog) ? Vpullup : VthIn;
+  else             return (bPullUp && !is_analog) ? Vpullup : VthIn;
 }
 
 /*

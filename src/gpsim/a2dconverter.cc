@@ -111,16 +111,16 @@ void ADCON0::setA2DBits(uint nBits)
 
 void ADCON0::start_conversion(void)
 {
-
   Dprintf(("starting A/D conversion at 0x%" PRINTF_GINT64_MODIFIER "x\n",get_cycles().get() ));
 
-  if(!(value.get() & ADON) ) {
+  if( !(value.get() & ADON) ) 
+  {
     Dprintf((" A/D converter is disabled\n"));
     stop_conversion();
     return;
   }
 
-  put(value.get() | GO_bit);
+  put( value.get() | GO_bit );
 
   uint64_t fc = get_cycles().get() + (2 * Tad) /
                 p_cpu->get_ClockCycles_per_Instruction();
@@ -243,46 +243,42 @@ void ADCON0::put_conversion(void)
 
 void ADCON0::callback(void)
 {
-  int channel;
+    int channel;
 
-  Dprintf((" ADCON0 Callback: 0x%" PRINTF_GINT64_MODIFIER "x ad_state=0x%x\n",get_cycles().get(), ad_state));
-
-  //
-  // The a/d converter is simulated with a state machine.
-  //
-
-  switch(ad_state)
+    Dprintf((" ADCON0 Callback: 0x%" PRINTF_GINT64_MODIFIER "x ad_state=0x%x\n",get_cycles().get(), ad_state));
+    
+    switch(ad_state)   // The a/d converter is simulated with a state machine.
     {
-    case AD_IDLE:
-      Dprintf(("ignoring ad callback since ad_state is idle\n"));
-      break;
+        case AD_IDLE:
+          Dprintf(("ignoring ad callback since ad_state is idle\n"));
+          break;
 
-    case AD_ACQUIRING:
-      channel = (value.get() >> channel_shift) & channel_mask;
+        case AD_ACQUIRING:
+          channel = (value.get() >> channel_shift) & channel_mask;
 
-      m_dSampledVoltage = getChannelVoltage(channel);
-      m_dSampledVrefHi  = getVrefHi();
-      m_dSampledVrefLo  = getVrefLo();
+          m_dSampledVoltage = getChannelVoltage(channel);
+          m_dSampledVrefHi  = getVrefHi();
+          m_dSampledVrefLo  = getVrefLo();
 
-      Dprintf(("Acquiring channel:%d V=%g reflo=%g refhi=%g\n",
-               channel,m_dSampledVoltage,m_dSampledVrefLo,m_dSampledVrefHi));
+          Dprintf(("Acquiring channel:%d V=%g reflo=%g refhi=%g\n",
+                   channel,m_dSampledVoltage,m_dSampledVrefLo,m_dSampledVrefHi));
 
-      future_cycle = get_cycles().get() + (m_nBits * Tad)/p_cpu->get_ClockCycles_per_Instruction();
-      get_cycles().set_break(future_cycle, this);
+          future_cycle = get_cycles().get() + (m_nBits * Tad)/p_cpu->get_ClockCycles_per_Instruction();
+          get_cycles().set_break(future_cycle, this);
 
-      ad_state = AD_CONVERTING;
+          ad_state = AD_CONVERTING;
 
-      break;
+          break;
 
-    case AD_CONVERTING:
+        case AD_CONVERTING:
 
-      put_conversion();
+          put_conversion();
 
-      // Clear the GO/!DONE flag.
-      value.put(value.get() & (~GO_bit));
-      set_interrupt();
+          // Clear the GO/!DONE flag.
+          value.put(value.get() & (~GO_bit));
+          set_interrupt();
 
-      ad_state = AD_IDLE;
+          ad_state = AD_IDLE;
     }
 }
 
@@ -389,6 +385,7 @@ ADCON1_16F::ADCON1_16F(Processor *pCpu, const char *pName, const char *pDesc)
 {
     valid_bits = 0x70;
 }
+
 void ADCON1_16F::put_value(uint new_value)
 {
     uint masked_value = new_value & valid_bits;
@@ -673,14 +670,14 @@ void ADCON1::setVoltRef(uint channel, float value)
 //------------------------------------------------------
 double ADCON1::getChannelVoltage(uint channel)
 {
-  double voltage=0.0;
+  double voltage = 0.0;
 
-  if(channel < m_nAnalogChannels) 
+  if( channel < m_nAnalogChannels ) 
   {
-    if ( (1<<channel) & m_configuration_bits[cfg_index] ) 
+    if( (1<<channel) & m_configuration_bits[cfg_index] ) 
     {
-      PinModule *pm = m_AnalogPins[channel];
-      if (pm != &AnInvalidAnalogInput) voltage = pm->getPin().get_nodeVoltage();
+      PinModule* pm = m_AnalogPins[channel];
+      if( pm != &AnInvalidAnalogInput ) voltage = pm->getPin().get_nodeVoltage();
       else
       {
         cerr << "ADCON1::getChannelVoltage channel " << channel <<
@@ -704,8 +701,7 @@ double ADCON1::getChannelVoltage(uint channel)
   }
   else
   {
-        cerr << "ADCON1::getChannelVoltage channel " << channel <<
-                " >= "
+        cerr << "ADCON1::getChannelVoltage channel " << channel << " >= "
                 << m_nAnalogChannels << " (number of channels)\n";
         cerr << "Please raise a Gpsim bug report\n";
   }

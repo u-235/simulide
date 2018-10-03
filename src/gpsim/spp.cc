@@ -162,22 +162,21 @@ void SPP::initialize( PIR_SET *_pir_set, PicPSP_PortRegister *_port_set,
 
 SPP::~SPP()
 {
-    if (active_sig_oe) pin_oespp->setSource(0);
-    if (active_sig_cs) pin_csspp->setSource(0);
+    if (active_sig_oe)   pin_oespp->setSource(0);
+    if (active_sig_cs)   pin_csspp->setSource(0);
     if (active_sig_clk2) pin_clk2spp->setSource(0);
     if (active_sig_clk1) pin_clk1spp->setSource(0);
 
-    if (sig_oespp) delete sig_oespp;
-    if (sig_csspp) delete sig_csspp;
-    if (sig_clk2spp) delete sig_clk2spp;
-    if (sig_clk1spp) delete sig_clk1spp;
+    delete sig_oespp;
+    delete sig_csspp;
+    delete sig_clk2spp;
+    delete sig_clk1spp;
 }
 
 // SSPDATA register has been written to
 void SPP::data_write(uint data)
 {
-    if((sppcon->get_value() & SPPEN) == 0)
-        return;
+    if((sppcon->get_value() & SPPEN) == 0) return;
 
     parallel_tris->put(0);                // set port for write
     data_value = data;
@@ -188,9 +187,9 @@ void SPP::data_write(uint data)
     io_operation = DATA_WRITE;
     sig_oespp->setState('0');
     pin_oespp->updatePinModule();
+    
     if (cfg_value & CSEN)
     {
-
         sig_csspp->setState('1');
         pin_csspp->updatePinModule();
     }
@@ -213,6 +212,7 @@ void SPP::eps_write(uint data)
     io_operation = ADDR_WRITE;
     sig_oespp->setState('0');
     pin_oespp->updatePinModule();
+    
     if (cfg_value & CSEN)
     {
         sig_csspp->setState('1');

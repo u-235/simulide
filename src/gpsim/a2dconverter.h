@@ -226,12 +226,15 @@ public:
   void setGo(uint go) { GO_bit = (1 << go); }
   virtual bool get_ADFM() { return adcon1->getADFM(); }
   virtual void set_Tad(uint);
-  virtual double getChannelVoltage(uint channel) { 
-	return( adcon1->getChannelVoltage(channel)); }
-  virtual double getVrefHi() {
-      return(m_dSampledVrefHi  = adcon1->getVrefHi());}
-  virtual double getVrefLo() {
-      return (m_dSampledVrefLo  = adcon1->getVrefLo());}
+
+  virtual double getChannelVoltage(uint channel)
+    { return( adcon1->getChannelVoltage(channel)); }
+
+  virtual double getVrefHi()
+    {return(m_dSampledVrefHi  = adcon1->getVrefHi());}
+
+  virtual double getVrefLo()
+    { return (m_dSampledVrefLo  = adcon1->getVrefLo());}
 
   void setValidBits(uint mask) { valid_bits = mask;}
 
@@ -285,10 +288,8 @@ public:
   virtual double getVrefHi();
   virtual double getVrefLo();
 
-  uint Vrefhi_position;
-  uint Vreflo_position;
-
-
+  uint Vrefhi_position = 0;
+  uint Vreflo_position = 0;
 };
 
 class ADCON2_DIF;
@@ -370,7 +371,7 @@ public:
   void setValidBits(uint mask) { valid_bits = mask;}
 
 private:
-    ADCON1 *adcon1;
+    ADCON1  *adcon1;
     ANSEL_H *anselh;
     uint valid_bits;
 };

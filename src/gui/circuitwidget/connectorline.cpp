@@ -18,6 +18,8 @@
  ***************************************************************************/
 
 #include "connectorline.h"
+#include "connector.h"
+#include "circuitview.h"
 #include "circuit.h"
 #include "node.h"
 #include "utils.h"
@@ -36,8 +38,6 @@ ConnectorLine::ConnectorLine( int x1, int y1, int x2, int y2, Connector* connect
    m_isBus = false;
 
    this->setFlag( QGraphicsItem::ItemIsSelectable, true );
-
-   //setToolTip( QString("Wire:\n Left-Click to start a wire \n Ctrl+Left-Click to move Line \n Right-Click for Context Menu ") );
 
    setCursor(Qt::CrossCursor);
 
@@ -138,21 +138,20 @@ void ConnectorLine::remove()
     m_pConnector->remove(); 
 }
 
-void ConnectorLine::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void ConnectorLine::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
-   if( event->button() == Qt::LeftButton )
-   {
-       if( event->modifiers() == Qt::ControlModifier )      // Move Line
+    bool dragging = (CircuitView::self()->dragMode() == QGraphicsView::ScrollHandDrag );
+
+    if( event->button() == Qt::LeftButton )
+    {
+       if( (event->modifiers() == Qt::ControlModifier) || dragging )      // Move Line
        {
            event->accept();
-
-           if  ( dy() == 0 )   setCursor( Qt::SplitVCursor );
-           else                setCursor( Qt::SplitHCursor );
-
-           grabMouse();
+           if  ( dy() == 0 )   CircuitView::self()->viewport()->setCursor( Qt::SplitVCursor );
+           else                CircuitView::self()->viewport()->setCursor( Qt::SplitHCursor );
        }
        else                                    // Connecting a wire here
-       {
+       {   
            if( Circuit::self()->is_constarted() )       
            {
                Connector* con = Circuit::self()->getNewConnector();
@@ -171,6 +170,7 @@ void ConnectorLine::mousePressEvent(QGraphicsSceneMouseEvent* event)
                    return;
                }
            }
+
            int index;
            int myindex = m_pConnector->lineList()->indexOf( this );
            QPoint point1 = togrid(event->scenePos()).toPoint();
@@ -242,13 +242,12 @@ void ConnectorLine::mousePressEvent(QGraphicsSceneMouseEvent* event)
                Circuit::self()->newconnector( node->getPin(1) );      // start a new connector
 
            if( pauseSim ) Simulator::self()->runContinuous();
-       }
-   }
-   else event->ignore();
+        }
+    }
+    else event->ignore();
 }
 
-
-void ConnectorLine::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+void ConnectorLine::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 {
    event->accept();
 
@@ -265,17 +264,13 @@ void ConnectorLine::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
    moveLine( delta );
 }
 
-void ConnectorLine::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+void ConnectorLine::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
 {
-   event->accept();
-
-   m_pConnector->remNullLines();
-
-   setCursor(Qt::CrossCursor);
-   ungrabMouse();
+    event->accept();
+    m_pConnector->remNullLines();
 }
 
-void ConnectorLine::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
+void ConnectorLine::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
 {
    if( m_pConnector->endPin() )
    {
@@ -293,6 +288,16 @@ void ConnectorLine::setIsBus( bool bus )
 {
     m_isBus = bus;
 }
+
+void ConnectorLine::setConnector( Connector* con ) { m_pConnector = con; }
+
+QPoint ConnectorLine::p1() { return QPoint( m_p1X, m_p1Y ); }
+QPoint ConnectorLine::p2() { return QPoint( m_p2X, m_p2Y ); }
+
+int ConnectorLine::dx() { return (m_p2X - m_p1X);}
+int ConnectorLine::dy() { return (m_p2Y - m_p1Y);}
+
+Connector* ConnectorLine::connector(){ return m_pConnector; }
 
 void ConnectorLine::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {

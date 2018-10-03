@@ -230,25 +230,25 @@ double CMCON::comp_voltage(int ind, int invert)
 
     switch(ind)
     {
-    case V06:
-        Voltage = 0.6;
-        name = "V0.6";
-        break;
+        case V06:
+            Voltage = 0.6;
+            name = "V0.6";
+            break;
 
-    case VREF:
-        Voltage = _vrcon->get_Vref();
-        name = "Vref";
-        break;
+        case VREF:
+            Voltage = _vrcon->get_Vref();
+            name = "Vref";
+            break;
 
-    case NO_IN:
-        Voltage = invert ? cpu->get_Vdd() : 0.;
-        name = "No_IN";
-        break;
+        case NO_IN:
+            Voltage = invert ? cpu->get_Vdd() : 0.;
+            name = "No_IN";
+            break;
 
-    default:
-        Voltage = cm_input[ind]->getPin().get_nodeVoltage();
-        name = cm_input[ind]->getPin().name().c_str();
-        break;
+        default:
+            Voltage = cm_input[ind]->getPin().get_nodeVoltage();
+            name = cm_input[ind]->getPin().name().c_str();
+            break;
     }
     if (name)        // this is just to avoid a compiler warning
     {

@@ -20,11 +20,11 @@
 #ifndef CONNECTOR_H
 #define CONNECTOR_H
 
-#include "connectorline.h"
 #include "component.h"
-#include "e-node.h"
+//#include "e-node.h"
 
 class ConnectorLine;
+class eNode;
 
 class MAINMODULE_EXPORT Connector : public Component
 {
@@ -124,10 +124,9 @@ class MAINMODULE_EXPORT Connector : public Component
 
         QString m_startpinid;
         QString m_endpinid;
-        //QString m_enodid;
+
         Pin*    m_startPin;
         Pin*    m_endPin;
-        //eNode*  m_eNode;
 
         QStringList  m_pointList;
 

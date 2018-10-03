@@ -19,10 +19,12 @@
 
 #include "probe.h"
 #include "connector.h"
+#include "connectorline.h"
 #include "e-source.h"
 #include "simulator.h"
 #include "itemlibrary.h"
 #include "circuitwidget.h"
+#include "pin.h"
 
 #include <math.h>
 
@@ -117,9 +119,9 @@ void Probe::updateStep()
     {
         if( it->type() == 65536 )                           // Component
         {
-            ConnectorLine *line =  qgraphicsitem_cast<ConnectorLine*>( it );
+            ConnectorLine* line =  qgraphicsitem_cast<ConnectorLine*>( it );
 
-            Connector *con = line->connector();
+            Connector* con = line->connector();
 
             if( con->objectName().startsWith("Connector") ) // Connector found
             {

@@ -49,7 +49,7 @@ QStringList CodeEditor::m_avrInstr = QString("add adc adiw sub subi sbc sbci sbi
  
 bool  CodeEditor::m_showSpaces = false;
 bool  CodeEditor::m_spaceTabs  = false;
-int   CodeEditor::m_fontSize = 11;
+int   CodeEditor::m_fontSize = 13;
 int   CodeEditor::m_tabSize = 4;
 QFont CodeEditor::m_font;
 

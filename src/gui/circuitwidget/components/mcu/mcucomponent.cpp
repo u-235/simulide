@@ -28,6 +28,7 @@
 #include "terminalwidget.h"
 #include "componentselector.h"
 #include "circuitwidget.h"
+#include "circuit.h"
 #include "connector.h"
 #include "simulator.h"
 #include "utils.h"

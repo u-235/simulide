@@ -77,8 +77,10 @@ void MainWindow::writeSettings()
     m_settings.setValue( "geometry", saveGeometry() );
     m_settings.setValue( "windowState", saveState() );
     m_settings.setValue( "Centralsplitter/geometry", m_Centralsplitter->saveState() );
+    
+    QList<QTreeWidgetItem*> list = m_components->findItems( "", Qt::MatchStartsWith | Qt::MatchRecursive );
 
-    foreach( QTreeWidgetItem* item, m_components->findItems("",Qt::MatchStartsWith)  )
+    foreach( QTreeWidgetItem* item, list  )
     {
         m_settings.setValue( item->text(0)+"/collapsed", !item->isExpanded() );
         for( int j=0; j<item->childCount(); j++ )
