@@ -20,30 +20,30 @@
 #include <QDomDocument>
 
 #include "connector.h"
-#include "package.h"
+#include "chip.h"
 #include "utils.h"
 #include "pin.h"
 #include "simuapi_apppath.h"
 
 
-Package::Package( QObject* parent, QString type, QString id )
-       : Component( parent, type, id )
-       , eElement( id.toStdString() )
+Chip::Chip( QObject* parent, QString type, QString id )
+    : Component( parent, type, id )
+    , eElement( id.toStdString() )
 {
     m_color = QColor( 50, 50, 70 );
     m_numpins = 0;
 }
-Package::~Package() {}
+Chip::~Chip() {}
 
-void Package::initPackage()
+void Chip::initChip()
 {
 
     //QString dfPath = SIMUAPI_AppPath::self()->availableDataFilePath(m_dataFile);
-    //qDebug() << "Package::initPackage datafile: " << dfPath;
+    //qDebug() << "Chip::initChip datafile: " << dfPath;
     QFile file(m_dataFile);
     if( !file.open(QFile::ReadOnly | QFile::Text) )
     {
-        MessageBoxNB( "Package::initPackage",
+        MessageBoxNB( "Chip::initChip",
                   tr("Cannot read file:\n%1:\n%2.").arg(m_dataFile).arg(file.errorString()) );
           m_error = 1;
           return;
@@ -52,7 +52,7 @@ void Package::initPackage()
     QDomDocument domDoc;
     if( !domDoc.setContent(&file) )
     {
-         MessageBoxNB( "Package::initPackage",
+         MessageBoxNB( "Chip::initChip",
                    tr("Cannot set file:\n%1\nto DomDocument") .arg(m_dataFile));
          file.close();
          m_error = 2;
@@ -64,8 +64,8 @@ void Package::initPackage()
 
     if( root.tagName()!="package" )
     {
-        MessageBoxNB( "Package::initPackage",
-                  tr("Error reading Package file:\n%1\nNo valid Package") .arg(m_dataFile));
+        MessageBoxNB( "Chip::initChip",
+                  tr("Error reading Chip file:\n%1\nNo valid Chip") .arg(m_dataFile));
         m_error = 3;
         return;
     }
@@ -131,7 +131,7 @@ void Package::initPackage()
     }
 }
 
-void Package::addPin( QString id, QString /*type*/, QString label, int pos, int xpos, int ypos, int angle )
+void Chip::addPin( QString id, QString /*type*/, QString label, int pos, int xpos, int ypos, int angle )
 {
     Pin* pin = new Pin( angle, QPoint(xpos, ypos), m_id+"-"+id, pos-1, this ); // pos in package starts at 1
     pin->setLabelText( label );
@@ -140,7 +140,7 @@ void Package::addPin( QString id, QString /*type*/, QString label, int pos, int 
     m_ePin[pos-1] = pin;
 }
 
-void Package::remove()
+void Chip::remove()
 {
     for( uint i=0; i<m_ePin.size(); i++ )
     {
@@ -150,7 +150,7 @@ void Package::remove()
     Component::remove();
 }
 
-void Package::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
+void Chip::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
 {
     event->accept();
     QMenu *menu = new QMenu();
@@ -169,7 +169,7 @@ void Package::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
     menu->deleteLater();
 }
 
-void Package::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
+void Chip::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
     Component::paint( p, option, widget );
 
@@ -179,5 +179,5 @@ void Package::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidge
     p->drawArc( boundingRect().width()/2-6, -4, 8, 8, 0, -2880 /* -16*180 */ );
 }
 
-#include "moc_package.cpp"
+#include "moc_chip.cpp"
 

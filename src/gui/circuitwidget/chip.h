@@ -17,20 +17,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PACKAGE_H
-#define PACKAGE_H
+#ifndef CHIP_H
+#define CHIP_H
 
 #include "component.h"
 #include "e-element.h"
 
 
-class MAINMODULE_EXPORT Package : public Component, public eElement
+class MAINMODULE_EXPORT Chip : public Component, public eElement
 {
     Q_OBJECT
 
     public:
-        Package( QObject* parent, QString type, QString id );
-        ~Package();
+        Chip( QObject* parent, QString type, QString id );
+        ~Chip();
 
         virtual void initEpins(){;}
 
@@ -45,7 +45,7 @@ class MAINMODULE_EXPORT Package : public Component, public eElement
         virtual void addPin( QString id, QString type, QString label,
                              int pos, int xpos, int ypos, int angle );
 
-        virtual void initPackage();
+        virtual void initChip();
 
         int   m_numpins;
 
