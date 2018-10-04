@@ -65,6 +65,11 @@ void PICComponentPin::attach( pic_processor *PicProcessor )
         }
         m_pIOPIN = iopin;
         m_pIOPIN->setPicPin( this );
+        if( m_pIOPIN->getType() == OPEN_COLLECTOR )
+        {
+            m_openColl = true;
+            eSource::setVoltHigh( 0 );
+        }
     }
     else if( m_id.startsWith("MCLR") )
     {
@@ -104,12 +109,9 @@ void PICComponentPin::update_direction( bool out )
     }
     else
     {
-        if( eSource::imp() != high_imp )
-        {
-            eSource::setImp( high_imp );
-            if( m_ePin[0]->isConnected() && m_attached )
-                m_ePin[0]->getEnode()->addToChangedFast(this);
-        }
+        eSource::setImp( high_imp );
+        if( m_ePin[0]->isConnected() && m_attached )
+            m_ePin[0]->getEnode()->addToChangedFast(this);
     }
 }
 
@@ -144,13 +146,26 @@ void PICComponentPin::update_pullup( bool pullup )
 
 void PICComponentPin::update_state( bool state )
 {
-    //qDebug() << "PICComponentPin::update_state "<< m_id << state;
+    //qDebug() << "PICComponentPin::update_state "<< m_id << state << m_openColl;
     if( !(m_ePin[0]->isConnected()) ) return;
     if( m_isInput )  return;
-    if( state == eSource::m_out ) return;
-    
-    eSource::setOut( state );
-    eSource::stampOutput();
+
+    if( state == m_state ) return;
+    m_state = state;
+
+    if( m_openColl )
+    {
+        if( state ) eSource::setImp( high_imp );
+        else        eSource::setImp( 40 );
+
+        stamp();
+    }
+    else
+    {
+        eSource::setOut( state );
+        eSource::stampOutput();
+    }
+
     //if( m_ePin[0]->getEnode()->needFastUpdate() ) 
     {
         Simulator::self()->runExtraStep();

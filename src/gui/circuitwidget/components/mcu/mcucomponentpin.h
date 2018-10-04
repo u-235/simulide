@@ -51,6 +51,7 @@ class MAINMODULE_EXPORT McuComponentPin : public QObject, public eSource
         
         bool m_attached;
         bool m_isInput;
+        bool m_openColl;
         
         char m_port;
         int  m_pinN;

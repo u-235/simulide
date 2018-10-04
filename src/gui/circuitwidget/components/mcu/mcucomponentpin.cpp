@@ -34,14 +34,15 @@ McuComponentPin::McuComponentPin( McuComponent *mcuComponent, QString id, QStrin
     
     m_attached = false;
     m_isInput  = true;
+    m_openColl = false;
 
     Pin* pin = new Pin( angle, QPoint (xpos, ypos), mcuComponent->itemID()+"-"+id, pos, m_mcuComponent );
     pin->setLabelText( label );
     m_ePin[0] = pin;
 
-    eSource::setImp(high_imp);  // this is an eSource
-    eSource::setVoltHigh(5);
-    eSource::setOut(false);
+    eSource::setImp( high_imp );
+    eSource::setVoltHigh( 5 );
+    eSource::setOut( false );
 }
 
 McuComponentPin::~McuComponentPin()

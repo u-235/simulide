@@ -581,10 +581,16 @@ IOPIN::IOPIN(const char *_name,
     l2h_threshold(2.0),       // PICs are CMOS and use CMOS-like thresholds
     h2l_threshold(1.0),
     Vdrive_high(4.4),
-    Vdrive_low(0.6)
+    Vdrive_low(0.6),
+    m_type( BI_DIRECTIONAL )
 {
     is_analog = false;
     m_picPin = 0l;
+}
+
+IOPIN::~IOPIN()
+{
+    if (m_monitor) ((PinModule *)m_monitor)->clrPin();
 }
 
 void IOPIN::set_digital_threshold(double vdd)
@@ -599,11 +605,6 @@ void IOPIN::setMonitor(PinMonitor *new_pinMonitor)
 {
     if (m_monitor && new_pinMonitor) cout << "IOPIN already has a monitor!" << endl;
     else  m_monitor = new_pinMonitor;
-}
-
-IOPIN::~IOPIN()
-{
-    if (m_monitor) ((PinModule *)m_monitor)->clrPin();
 }
 
 void IOPIN::get(char *return_str, int len)
@@ -950,6 +951,7 @@ char IO_bi_directional_pu::getBitChar()
 IO_open_collector::IO_open_collector(const char *_name)
   : IO_bi_directional_pu(_name)
 {
+    m_type = OPEN_COLLECTOR;
 }
 
 double IO_open_collector::get_Vth()

@@ -48,6 +48,8 @@ class PICComponentPin : public McuComponentPin
         int  m_pinN;
         int  m_pos;
 
+        bool m_state;
+
         pic_processor *m_PicProcessor;
         IOPIN         *m_pIOPIN;
 };
