@@ -142,7 +142,7 @@ void APFCON2::put(uint new_value)
     for(int i = 0; i < 8; i++)
     {
         uint bit = 1<<i;
-        if(diff & bit)
+        if( diff & bit )
         {
 
             if (m_bitPin[(new_value & bit)== bit][i] == 0)
@@ -222,80 +222,79 @@ PIR1v1822(Processor *pCpu, const char *pName, const char *pDesc,INTCON *_intcon,
 
 class PIR2v1822 : public PIR
 {
-public:
+    public:
 
-  enum {
-    CCP2IF  = 1<<0,        // for 16f178[89]
-    C3IF    = 1<<1,        // for 16f178[89]
-    C4IF    = 1<<2,        // for 16f178[89]
-    BCLIF   = 1<<3,
-    EEIF    = 1<<4,
-    C1IF    = 1<<5,
-    C2IF    = 1<<6, // not 12f1822
-    OSFIF   = 1<<7
-  };
+      enum {
+        CCP2IF  = 1<<0,        // for 16f178[89]
+        C3IF    = 1<<1,        // for 16f178[89]
+        C4IF    = 1<<2,        // for 16f178[89]
+        BCLIF   = 1<<3,
+        EEIF    = 1<<4,
+        C1IF    = 1<<5,
+        C2IF    = 1<<6, // not 12f1822
+        OSFIF   = 1<<7
+      };
 
-//------------------------------------------------------------------------
+    //------------------------------------------------------------------------
 
-PIR2v1822(Processor *pCpu, const char *pName, const char *pDesc,INTCON *_intcon, PIE *_pie)
-  : PIR(pCpu,pName,pDesc,_intcon, _pie,0)
-{
-  valid_bits = BCLIF | EEIF | C1IF | OSFIF;
-  writable_bits = BCLIF | EEIF | C1IF | OSFIF;
+    PIR2v1822(Processor *pCpu, const char *pName, const char *pDesc,INTCON *_intcon, PIE *_pie)
+      : PIR(pCpu,pName,pDesc,_intcon, _pie,0)
+    {
+      valid_bits = BCLIF | EEIF | C1IF | OSFIF;
+      writable_bits = BCLIF | EEIF | C1IF | OSFIF;
+    }
 
-}
+      void set_ccp2if(void)
+      {
+        value.put(value.get() | CCP2IF);
+        if( value.get() & pie->value.get() )
+          setPeripheralInterrupt();
+      }
 
-  void set_ccp2if(void)
-  {
-    value.put(value.get() | CCP2IF);
-    if( value.get() & pie->value.get() )
-      setPeripheralInterrupt();
-  }
+      void set_c3if(void)
+      {
+        value.put(value.get() | C3IF);
+        if( value.get() & pie->value.get() )
+          setPeripheralInterrupt();
+      }
 
-  void set_c3if(void)
-  {
-    value.put(value.get() | C3IF);
-    if( value.get() & pie->value.get() )
-      setPeripheralInterrupt();
-  }
+      void set_c4if(void)
+      {
+        value.put(value.get() | C4IF);
+        if( value.get() & pie->value.get() )
+          setPeripheralInterrupt();
+      }
 
-  void set_c4if(void)
-  {
-    value.put(value.get() | C4IF);
-    if( value.get() & pie->value.get() )
-      setPeripheralInterrupt();
-  }
-
-  void set_bclif(void)
-  {
-    value.put(value.get() | BCLIF);
-    if( value.get() & pie->value.get() )
-      setPeripheralInterrupt();
-  }
-  virtual void set_eeif()
-  {
-    value.put(value.get() | EEIF);
-    if( value.get() & pie->value.get() )
-      setPeripheralInterrupt();
-  }
-  void set_c1if(void)
-  {
-    value.put(value.get() | C1IF);
-    if( value.get() & pie->value.get() )
-      setPeripheralInterrupt();
-  }
-  void set_c2if(void)
-  {
-    value.put(value.get() | C2IF);
-    if( value.get() & pie->value.get() )
-      setPeripheralInterrupt();
-  }
-  void set_osfif(void)
-  {
-    value.put(value.get() | OSFIF);
-    if( value.get() & pie->value.get() )
-      setPeripheralInterrupt();
-  }
+      void set_bclif(void)
+      {
+        value.put(value.get() | BCLIF);
+        if( value.get() & pie->value.get() )
+          setPeripheralInterrupt();
+      }
+      virtual void set_eeif()
+      {
+        value.put(value.get() | EEIF);
+        if( value.get() & pie->value.get() )
+          setPeripheralInterrupt();
+      }
+      void set_c1if(void)
+      {
+        value.put(value.get() | C1IF);
+        if( value.get() & pie->value.get() )
+          setPeripheralInterrupt();
+      }
+      void set_c2if(void)
+      {
+        value.put(value.get() | C2IF);
+        if( value.get() & pie->value.get() )
+          setPeripheralInterrupt();
+      }
+      void set_osfif(void)
+      {
+        value.put(value.get() | OSFIF);
+        if( value.get() & pie->value.get() )
+          setPeripheralInterrupt();
+      }
 };
 
 class PIR3v178x : public PIR
@@ -757,16 +756,10 @@ void P12F1822::create_iopin_map()
 
   package->assign_pin( 1, 0);        // Vdd
   package->assign_pin( 8, 0);        // Vss
-
-
 }
-
-
-
 
 void  P12F1822::create(int ram_top, int eeprom_size, int dev_id)
 {
-
   create_iopin_map();
 
   e = new EEPROM_EXTND(this, pir2);
@@ -792,7 +785,6 @@ void  P12F1822::create(int ram_top, int eeprom_size, int dev_id)
       m_configMemory->getConfigWord(6)->set(dev_id);
 }
 
-//-------------------------------------------------------------------
 void P12F1822::enter_sleep()
 {
     tmr1l.sleep();
@@ -800,7 +792,6 @@ void P12F1822::enter_sleep()
     _14bit_e_processor::enter_sleep();
 }
 
-//-------------------------------------------------------------------
 void P12F1822::exit_sleep()
 {
     if (m_ActivityState == ePASleeping)
@@ -810,7 +801,7 @@ void P12F1822::exit_sleep()
         _14bit_e_processor::exit_sleep();
     }
 }
-//-------------------------------------------------------------------
+
 void P12F1822::option_new_bits_6_7(uint bits)
 {
         Dprintf(("P12F1822::option_new_bits_6_7 bits=%x\n", bits));
@@ -865,6 +856,7 @@ void P12F1822::oscillator_select(uint cfg_word1, bool clkout)
     ansela.setValidBits(0x17 & mask);
     m_porta->setEnableMask(mask);
 }
+
 void P12F1822::program_memory_wp(uint mode)
 {
         switch(mode)
@@ -1739,8 +1731,6 @@ P16F178x::P16F178x(const char *_name, const char *desc)
     ccp1as(this, "ccp1as", "CCP1 Auto-Shutdown Control Register"),
     pstr1con(this, "pstr1con", "Pulse Sterring Control Register"),
     vregcon(this, "vregcon", "Voltage Regulator Control Register")
-
-
 {
   m_iocbf = new IOCxF(this, "iocbf", "Interrupt-On-Change flag Register");
   m_iocbp = new IOC(this, "iocbp", "Interrupt-On-Change positive edge");
@@ -2543,6 +2533,7 @@ P16F1823::P16F1823(const char *_name, const char *desc)
   pir2->valid_bits |= PIR2v1822::C2IF;
   pir2->writable_bits |= PIR2v1822::C2IF;
 }
+
 P16F1823::~P16F1823()
 {
     delete_sfr_register(m_portc);

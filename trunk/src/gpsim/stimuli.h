@@ -357,6 +357,7 @@ class IOPIN : public stimulus
       virtual double get_Vth();
 
       virtual char getBitChar();
+      virtual IOPIN_TYPE getType() { return m_type;}
       virtual void show();
             
       void setPicPin( PICComponentPin* pin ){ m_picPin = pin; }
@@ -380,6 +381,7 @@ class IOPIN : public stimulus
       double Vdrive_high;
       double Vdrive_low;
       
+      IOPIN_TYPE m_type;
       PICComponentPin* m_picPin;
 };
 
