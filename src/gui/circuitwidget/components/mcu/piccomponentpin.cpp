@@ -25,9 +25,9 @@
 #include "baseprocessor.h"
 #include "simulator.h"
 
-#include "gpsim/stimuli.h"
-#include "gpsim/ioports.h"
-#include "gpsim/pic-processor.h"
+#include "stimuli.h"
+#include "ioports.h"
+#include "pic-processor.h"
 
 PICComponentPin::PICComponentPin( McuComponent* mcu, QString id, QString type, QString label, int pos, int xpos, int ypos, int angle )
                : McuComponentPin( mcu, id, type, label, pos, xpos, ypos, angle )

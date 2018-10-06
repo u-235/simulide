@@ -22,13 +22,11 @@ License along with this library; if not, see
 #define __TMR0_H__
 
 #include "ioports.h"
-//#include "interface.h"
-
-//class TMR0_Interface;
 
 class T1GCON;
 class ADCON2_TRIG;
 class CLC;
+
 //---------------------------------------------------------
 // TMR0 - Timer
 class TMR0 : public sfr_register, public TriggerObject, public SignalSink
@@ -83,19 +81,19 @@ public:
   void set_clc(CLC *_clc, int index);
 
   enum {
-	STOPPED = 0,
-	RUNNING = 1,
-	SLEEPING = 2
+    STOPPED = 0,
+    RUNNING = 1,
+    SLEEPING = 2
   };
 
 protected:
-  T1GCON 	*m_t1gcon;
+  T1GCON     *m_t1gcon;
   ADCON2_TRIG   *m_adcon2;
-  CLC		*m_clc[4];
+  CLC        *m_clc[4];
 
 private:
-  bool 		m_bLastClockedState;
-  bool		t0xcs;			//  clock source is the capacitive sensing oscillator
+  bool         m_bLastClockedState;
+  bool        t0xcs;            //  clock source is the capacitive sensing oscillator
 };
 
 #endif

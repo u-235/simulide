@@ -17,6 +17,11 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, see
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
 /*
   stuff that needs to be fixed:
@@ -41,7 +46,6 @@ License along with this library; if not, see
 #include "gpsim_classes.h"
 #include "processor.h"
 #include "pic-processor.h"
-//#include "attributes.h"
 #include "clock_phase.h"
 #include "errors.h"
 
@@ -667,7 +671,6 @@ Processor * Processor::construct(void)
 // return, etc.) then a break point will be set after it and gpsim will
 // begin 'running'. This is useful for stepping over time-consuming calls.
 //
-
 void Processor::step_over (bool refresh)
 {
   step(1,refresh); // Try one step
@@ -832,6 +835,7 @@ char *ProgramMemoryAccess::get_opcode_name(uint addr, char *buffer, uint size)
 
 //----------------------------------------
 // Get the current value of the program counter.
+
 uint ProgramMemoryAccess::get_PC(void)
 {
   if(cpu && cpu->pc) return cpu->pc->get_value();
@@ -1091,7 +1095,7 @@ Processor* ProcessorConstructor::CreatePic( const char *name )
 //------------------------------------------------------------
 // dump() --  Print out a list of all of the processors
 //
-string ProcessorConstructor::DisplayString(void)
+string ProcessorConstructor::dump(void)
 {
   ostringstream stream;
   list <ProcessorConstructor *>::iterator processor_iterator;

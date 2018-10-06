@@ -35,12 +35,10 @@ License along with this library; if not, see
 #include <string>
 
 #include "config.h"
-
-#include "exports.h"
 #include "pic-processor.h"
 #include "pic-registers.h"
-//#include "symbol.h"
 #include "stimuli.h"
+
 #include "p16x5x.h"
 #include "p16f62x.h"
 #include "p16f8x.h"

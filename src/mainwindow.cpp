@@ -33,7 +33,7 @@ MainWindow* MainWindow::m_pSelf = 0l;
 
 MainWindow::MainWindow()
           : QMainWindow()
-          , m_settings( "SimulIDE", "SimulIDE-"+QString(APP_VERSION) )
+          , m_settings( "SimulIDE", "SimulIDE" )
 {
     setWindowIcon( QIcon(":/simulide.png") );
     m_pSelf   = this;

@@ -28,8 +28,6 @@ License along with this library; if not, see
 #include "trigger.h"
 #include "pic-instructions.h"
 #include "registers.h"
-#include "exports.h"
-
 #include "gpsim_object.h" // defines ObjectBreakTypes
 
 using namespace std;

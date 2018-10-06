@@ -7,16 +7,11 @@
 AnError::AnError(const std::string & _severity, const std::string & _errMsg)
   : severity(_severity), errMsg(_errMsg)
 {
-  // Pretty gross, but the lexer makes sure that this global
-  // always describes the current source line.
-  //this->sourceRef = thisLine;
 }
 
 AnError::~AnError()
 {
 }
-
-
 
 string AnError::toString()
 {
@@ -43,7 +38,6 @@ Error::~Error()
 {
 }
 
-
 /*****************************************************************
  * Generate assembler errors of severity "FATAL_ERROR"
  */
@@ -56,7 +50,6 @@ FatalError::~FatalError()
 {
 }
 
-
 /*****************************************************************
  * Generate a generic Type Mismatch error of the "expected xx,
  * observed yy" variety.
@@ -67,7 +60,6 @@ TypeMismatch::TypeMismatch(const std::string &theOperator,
           + ", found " + observedType)
 {
 }
-
 
 /*****************************************************************
  * Generate a generic Type Mismatch error of the "operator x

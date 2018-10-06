@@ -23,18 +23,15 @@ License along with this library; if not, see
 #include <iostream>
 #include <iomanip>
 #include <QDebug>
+#include <string>
 
 #include "config.h"
 #include "14bit-processors.h"
 #include "14bit-tmrs.h"
-//#include "interface.h"
-
-#include <string>
 #include "stimuli.h"
 #include "a2dconverter.h"
 #include "clc.h"
 
-//#include "xref.h"
 
 //#define DEBUG
 #if defined(DEBUG)
@@ -245,8 +242,6 @@ uint TMR0::get_value()
      new_value = 0;
   }
 
-
-
   if (new_value >= (int)max_counts())
     {
       cout << "TMR0: bug TMR0 is larger than " <<  max_counts() - 1  << "...\n";
@@ -284,11 +279,12 @@ void TMR0::new_prescale()
 
   old_option ^= option_diff;   // save old option value. ( (a^b) ^b = a)
 
-
-  if(option_diff & OPTION_REG::T0CS) {
+  if(option_diff & OPTION_REG::T0CS) 
+  {
     // TMR0's clock source has changed.
 
-    if(m_pOptionReg->get_t0cs()) {
+    if(m_pOptionReg->get_t0cs()) 
+    {
       // External clock
       if (future_cycle)
       {
@@ -296,11 +292,11 @@ void TMR0::new_prescale()
         get_cycles().clear_break(this);
       }
     }
-
     start(value.get());
 
-  } else {
-
+  } 
+  else 
+  {
     // Refresh the current tmr0 value. The current tmr0 value is used
     // below to recompute the value for 'last_cycle'
     get_value();
@@ -317,13 +313,13 @@ void TMR0::new_prescale()
       else
         new_value = 0;
 
-      if(new_value>=max_counts()) {
+      if(new_value>=max_counts()) 
+      {
         cout << "TMR0 bug (new_prescale): exceeded max count"<< max_counts() <<'\n';
         cout << "   last_cycle = 0x" << hex << last_cycle << endl;
         cout << "   cpu cycle = 0x" << hex << (get_cycles().get()) << endl;
 
         cout << "   prescale = 0x" << hex << prescale << endl;
-
       }
       // Get the current value of TMR0
       // cout << "cycles " << cycles.value  << " old prescale " << prescale;

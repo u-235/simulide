@@ -620,30 +620,18 @@ void CodeEditor::focusInEvent( QFocusEvent* event)
     QPlainTextEdit::focusInEvent( event );
 }
 
-void CodeEditor::writeSettings()
-{
-    MainWindow::self()->settings()->setValue( "Editor_font_size", QString::number(m_fontSize) );
-    MainWindow::self()->settings()->setValue( "Editor_tab_size", QString::number(m_tabSize) );
-
-    if( m_showSpaces )
-        MainWindow::self()->settings()->setValue( "Editor_show_spaces", "true" );
-    else
-        MainWindow::self()->settings()->setValue( "Editor_show_spaces", "false" );
-        
-    if( m_spaceTabs )
-        MainWindow::self()->settings()->setValue( "Editor_spaces_tabs", "true" );
-    else
-        MainWindow::self()->settings()->setValue( "Editor_spaces_tabs", "false" );
-}
 int CodeEditor::fontSize()
 {
     return m_fontSize;
 }
+
 void CodeEditor::setFontSize( int size )
 {
     m_fontSize = size;
     m_font.setPixelSize( size );
     setFont( m_font );
+    
+    MainWindow::self()->settings()->setValue( "Editor_font_size", QString::number(m_fontSize) );
     
     setTabSize( m_tabSize );
 }
@@ -652,13 +640,15 @@ int CodeEditor::tabSize()
 {
     return m_tabSize;
 }
+
 void CodeEditor::setTabSize( int size )
 {
     m_tabSize = size;
     setTabStopWidth( m_tabSize*m_fontSize*2/3 );
     
+    MainWindow::self()->settings()->setValue( "Editor_tab_size", QString::number(m_tabSize) );
+    
     if( m_spaceTabs ) setSpaceTabs( true );
-    else              writeSettings();
 }
 
 bool CodeEditor::showSpaces()
@@ -677,7 +667,10 @@ void CodeEditor::setShowSpaces( bool on )
 
     document()->setDefaultTextOption(option);
     
-    writeSettings();
+    if( m_showSpaces )
+        MainWindow::self()->settings()->setValue( "Editor_show_spaces", "true" );
+    else
+        MainWindow::self()->settings()->setValue( "Editor_show_spaces", "false" );
 }
 
 bool CodeEditor::spaceTabs()
@@ -696,7 +689,10 @@ void CodeEditor::setSpaceTabs( bool on )
     }
     else m_tab = "\t";
     
-    writeSettings();
+    if( m_spaceTabs )
+        MainWindow::self()->settings()->setValue( "Editor_spaces_tabs", "true" );
+    else
+        MainWindow::self()->settings()->setValue( "Editor_spaces_tabs", "false" );
 }
 
 void CodeEditor::keyPressEvent( QKeyEvent* event )

@@ -22,8 +22,6 @@ License along with this library; if not, see
 #include "14bit-processors.h"
 #include "14bit-registers.h"
 #include "a2d_v2.h"
-
-
 #include "ctmu.h"
 
 //#define DEBUG

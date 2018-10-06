@@ -17,10 +17,14 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, see
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
 #ifndef __PROCESSOR_H__
 #define __PROCESSOR_H__
-//#include <glib.h>
 
 #include <cstdio>
 #include <vector>
@@ -62,7 +66,7 @@ class MemoryAccess :  public TriggerObject, public gpsimObject
 
     protected:
 
-      Processor *cpu;             /// The processor to which this object belongs
+      Processor *cpu;     /// The processor to which this object belongs
 };
 
 
@@ -75,48 +79,48 @@ class MemoryAccess :  public TriggerObject, public gpsimObject
 
 class ProgramMemoryAccess :  public MemoryAccess
 {
- public:
+     public:
 
-  explicit ProgramMemoryAccess(Processor *new_cpu);
-  ~ProgramMemoryAccess();
+      explicit ProgramMemoryAccess(Processor *new_cpu);
+      ~ProgramMemoryAccess();
 
-  virtual void putToAddress(uint addr, instruction *new_instruction);
-  virtual void putToIndex(uint uIndex, instruction *new_instruction);
-  instruction *getFromAddress(uint addr);
-  instruction *getFromIndex(uint uIndex);
-  instruction *get_base_instruction(uint addr);
-  
-  uint get_rom(uint addr);
-  void put_rom(uint addr,uint value);
-  
-  virtual uint get_PC(void);
-  virtual void set_PC(uint);
-  virtual Program_Counter *GetProgramCounter(void);
+      virtual void putToAddress(uint addr, instruction *new_instruction);
+      virtual void putToIndex(uint uIndex, instruction *new_instruction);
+      
+      instruction *getFromAddress(uint addr);
+      instruction *getFromIndex(uint uIndex);
+      instruction *get_base_instruction(uint addr);
+      
+      uint get_rom(uint addr);
+      void put_rom(uint addr,uint value);
+      
+      virtual uint get_PC(void);
+      virtual void set_PC(uint);
+      virtual Program_Counter *GetProgramCounter(void);
 
-  void remove(uint address, instruction *bp_instruction);
+      void remove(uint address, instruction *bp_instruction);
 
-  uint get_opcode(uint addr);
-  void put_opcode(uint addr, uint new_opcode);
-  char *get_opcode_name(uint addr, char *buffer, uint size);
-  bool hasValid_opcode_at_address(uint address);
-  bool hasValid_opcode_at_index(uint uIndex);
-  
-  // When a pic is replacing one of it's own instructions, this routine
-  // is called.
-  void put_opcode_start(uint addr, uint new_opcode);
+      uint get_opcode(uint addr);
+      void put_opcode(uint addr, uint new_opcode);
+      char *get_opcode_name(uint addr, char *buffer, uint size);
+      bool hasValid_opcode_at_address(uint address);
+      bool hasValid_opcode_at_index(uint uIndex);
+      
+      // When a pic is replacing one of it's own instructions, this routine is called.
+      void put_opcode_start(uint addr, uint new_opcode);
 
-  virtual void callback(void);
-  void init( Processor* );
+      virtual void callback(void);
+      void init( Processor* );
 
-  // isModified -- returns true if the program at the address has been modified
-  // (this is only valid for those processor capable of writing to their own program memory)
-  bool isModified( uint address );
+      // isModified -- returns true if the program at the address has been modified
+      // (this is only valid for those processor capable of writing to their own program memory)
+      bool isModified( uint address );
 
-private:
-  uint
-    _address,
-    _opcode,
-    _state;
+    private:
+      uint
+        _address,
+        _opcode,
+        _state;
 };
 
 
@@ -127,28 +131,28 @@ private:
 
 class RegisterMemoryAccess : public MemoryAccess
 {
- public:
+     public:
 
-  explicit RegisterMemoryAccess(Processor *pCpu);
-  virtual ~RegisterMemoryAccess();
-  
-  virtual Register *get_register(uint address);
-  uint get_size(void) { return nRegisters; }
-  void set_Registers(Register **_registers, int _nRegisters);
+      explicit RegisterMemoryAccess(Processor *pCpu);
+      virtual ~RegisterMemoryAccess();
+      
+      virtual Register *get_register(uint address);
+      uint get_size(void) { return nRegisters; }
+      void set_Registers(Register **_registers, int _nRegisters);
 
-  // The insertRegister and removeRegister methods are used primarily
-  // to set and clear breakpoints.
-  bool insertRegister(uint address, Register *);
-  bool removeRegister(uint address, Register *);
+      // The insertRegister and removeRegister methods are used primarily
+      // to set and clear breakpoints.
+      bool insertRegister(uint address, Register *);
+      bool removeRegister(uint address, Register *);
 
-  void reset(RESET_TYPE r);
+      void reset(RESET_TYPE r);
 
-  Register &operator [] (uint address);
+      Register &operator [] (uint address);
 
- private:
-  uint nRegisters;
-  bool initialized;
-  Register **registers;       // Pointer to the array of registers.
+     private:
+      uint nRegisters;
+      bool initialized;
+      Register **registers;       // Pointer to the array of registers.
 };
 
 
@@ -332,25 +336,6 @@ class Processor : public Module
 // ProcessorConstructor -- a class to handle all of gpsim's supported
 // processors
 //
-// gpsim supports dozens of processors. All of these processors are
-// grouped together in the ProcessConstructor class. Within the class
-// is a static STL list<> object that holds an instance of a
-// ProcessorConstructor for each gpsim supported processor. Whenever
-// the user selects a processor to simulate, the find() member
-// function will search through the list and find the one that matches
-// the user supplied ASCII string.
-//
-// Why have this class?
-// The idea behind this class is that a ProcessorConstructor object
-// can be instantiated for each processor and that instantiation will
-// place the object into list of processors. Prior to gpsim-0.21, a
-// giant array held the list of all available processors. However,
-// there were two problems with this: it was painful to look at and
-// it precluded processors that were defined outside of the gpsim
-// core library.
-
-class ProcessorConstructorList;
-
 class ProcessorConstructor
 {
     public:
@@ -370,7 +355,7 @@ class ProcessorConstructor
  
  static Processor* CreatePic( const char *type );
  
- static string     DisplayString(void);
+ static string     dump(void);
  
         #define nProcessorNames 4 // The processor name (plus upto three aliases).
       const char *names[nProcessorNames];

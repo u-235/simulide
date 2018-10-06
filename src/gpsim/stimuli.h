@@ -28,16 +28,14 @@ using namespace std;
 
 #include "gpsim_classes.h"
 #include "breakpoints.h"
-
 #include "piccomponentpin.h"
 
-/* forward references: */
+
 class Stimulus_Node;
 class stimulus;
 class IOPIN;
 class symbol;
 
-/* typedefs */
 typedef list<Value*> SymbolList_t;
 typedef list<string> StringList_t;
 typedef list<stimulus *> StimulusList_t;
@@ -288,18 +286,11 @@ class PinMonitor
       list <AnalogSink *> analogSinks;
 };
 
+
 class PICComponentPin;
 class IOPIN : public stimulus
 {
      public:
-
-      enum IOPIN_TYPE
-        {
-          INPUT_ONLY,          // e.g. MCLR
-          BI_DIRECTIONAL,      // most iopins
-          BI_DIRECTIONAL_PU,   // same as bi_directional, but with pullup resistor. e.g. portb
-          OPEN_COLLECTOR       // bit4 in porta on the 18 pin midrange devices.
-        };
 
       enum IOPIN_DIRECTION
         {

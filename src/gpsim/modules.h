@@ -37,7 +37,6 @@ License along with this library; if not, see
 
 #include "gpsim_object.h"
 #include "gpsim_classes.h"
-//#include "symbol.h"
 
 class Module;
 class Module_Types;
@@ -46,8 +45,8 @@ class IOPIN;
 class Value;
 class Package;
 
-typedef  Module * (*Module_FPTR)();
-typedef  Module_Types * (*Module_Types_FPTR)();
+typedef  Module* (*Module_FPTR)();
+typedef  Module_Types* (*Module_Types_FPTR)();
 
 
 enum SIMULATION_MODES
@@ -79,77 +78,39 @@ enum SIMULATION_MODES
 class Module : public gpsimObject
 {
     public:
+    
+      Module(const char *_name=0, const char *desc=0);
+      virtual ~Module();
 
       Package  *package;                // A package for the module
-      //ModuleInterface *interface;       // An interface to the module.
       SIMULATION_MODES simulation_mode; // describes the simulation state for this module
 
       /// I/O pin specific
       virtual int get_pin_count();
-      virtual string &get_pin_name(uint pin_number);
-      virtual int get_pin_state(uint pin_number);
       virtual IOPIN *get_pin(uint pin_number);
       virtual void assign_pin(uint pin_number, IOPIN *pin);
       virtual void create_pkg(uint number_of_pins);
       virtual double get_Vdd() { return Vdd; }
       virtual void set_Vdd(double v) { Vdd = v; }
 
-      /// Symbols
-      /// Each module has its own symbol table. The global symbol
-      /// table can access this table too.
-      /*SymbolTable_t & getSymbolTable() { return mSymbolTable;}
-      int addSymbol(gpsimObject *, string *AliasedName=0);
-      gpsimObject *findSymbol(const string &);
-      int removeSymbol(gpsimObject *);
-      int removeSymbol(const string &);
-      int deleteSymbol(const string &);
-      int deleteSymbol(gpsimObject *);*/
-
       /// Registers - mostly processors, but can apply to complex modules
       virtual uint register_mask () const { return 0xff;}
       virtual uint register_size () const { return 1;}
 
-      /// Reset
       virtual void reset(RESET_TYPE r);
 
-      /// Version
       virtual char *get_version() { return version;}
-
-      /// gui
-      /// The simulation engine doesn't know anything about the gui.
-      /// However, the set_widget and get_widget provide a mechanism
-      /// for the gui to associate a pointer with a module.
-      virtual void set_widget(void * a_widget) {widget = a_widget;}
-      virtual void *get_widget() {return widget;}
-
-      /// cli
-      /// Modules can have gpsim CLI scripts associated with them.
-      /// add_command will add a single CLI command to a script
-      void add_command(string &script_name, string &command);
-
-      /// run_script will pass a script to the gpsim CLI. This script
-      /// executes immediately (i.e. it'll execute before any commands
-      /// that may already be queued).
-      void run_script(string &script_name);
 
       const char *type(void) { return module_type.c_str(); }
       void set_module_type(string type) { module_type = type; }
 
-      Module(const char *_name=0, const char *desc=0);
-      virtual ~Module();
-
-      /// Functions to support actual hardware
-      virtual bool isHardwareOnline() { return true; }
-
     private:
-      void *widget;   // GtkWidget * that is put in the breadboard.
       string module_type;
 
     protected:
       double	Vdd;
-      // Derived modules should assign more reasonable values for this.
-      char *version;
-      //SymbolTable_t mSymbolTable;
+      
+      char *version;// Derived modules should assign more reasonable values for this.
 };
 
 class Module_Types

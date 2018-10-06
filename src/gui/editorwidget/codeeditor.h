@@ -73,8 +73,6 @@ class CodeEditor : public QPlainTextEdit
 
         bool hasDebugger() { return m_debugger!=0l; }
         void setCompilerPath();
-        
-        void writeSettings();
 
     signals:
         void msg( QString text );

@@ -55,4 +55,11 @@ enum RESET_TYPE
 
 };
 
+enum IOPIN_TYPE
+{
+  INPUT_ONLY,          // e.g. MCLR
+  BI_DIRECTIONAL,      // most iopins
+  BI_DIRECTIONAL_PU,   // same as bi_directional, but with pullup resistor. e.g. portb
+  OPEN_COLLECTOR       // bit4 in porta on the 18 pin midrange devices.
+};
 #endif //  __GPSIM_CLASSES_H__

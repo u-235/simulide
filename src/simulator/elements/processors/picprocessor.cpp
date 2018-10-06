@@ -25,9 +25,9 @@
 #include "utils.h"
 
 // GpSim includes
-#include "gpsim/pic-processor.h"
-#include "gpsim/uart.h"
-#include "gpsim/pir.h"
+#include "pic-processor.h"
+#include "uart.h"
+#include "pir.h"
 
 
 PicProcessor::PicProcessor( QObject* parent ) 
