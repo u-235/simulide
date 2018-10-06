@@ -27,9 +27,7 @@ License along with this library; if not, see
 #include <iomanip>
 using namespace std;
 
-//#include <glib.h>
 
-//#include "trace.h"
 #include "pic-processor.h"
 #include "pm_rd.h"
 
@@ -37,7 +35,6 @@ using namespace std;
 //------------------------------------------------------------------------
 //
 // PM-related registers
-
 
 void PMCON1::put(uint new_value)
 {

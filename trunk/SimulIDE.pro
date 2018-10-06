@@ -49,7 +49,9 @@ SOURCES += ../src/*.cpp \
     ../src/simavr/sim/*.c \
     ../src/simavr/cores/*.c \
     ../src/gpsim/*.cc \
-    ../src/gpsim/devices/*.cc
+    ../src/gpsim/devices/*.cc \
+    ../src/gpsim/modules/*.cc \
+    ../src/gpsim/registers/*.cc
 
 HEADERS += ../src/*.h \
     ../src/gui/*.h \
@@ -73,7 +75,9 @@ HEADERS += ../src/*.h \
     ../src/simavr/cores/*.h \
     ../resources/data/*.xml \
     ../src/gpsim/*.h \
-    ../src/gpsim/devices/*.h
+    ../src/gpsim/devices/*.h \
+    ../src/gpsim/modules/*.h \
+    ../src/gpsim/registers/*.h
 
 INCLUDEPATH += ../src \
     ../src/gui \
@@ -97,14 +101,15 @@ INCLUDEPATH += ../src \
     ../src/simavr/sim/avr \
     ../src/simavr/cores \
     ../src/gpsim \
-    ../src/gpsim/devices
+    ../src/gpsim/devices \
+    ../src/gpsim/modules \
+    ../src/gpsim/registers
 
 TRANSLATIONS +=  \
     ../resources/translations/simulide.ts \
     ../resources/translations/simulide_es.ts \
     ../resources/translations/simulide_ru.ts 
 
-    
 RESOURCES = ../src/application.qrc
 
 
@@ -128,7 +133,7 @@ QMAKE_CFLAGS += -Wno-missing-field-initializers
 QMAKE_CFLAGS += -Wno-implicit-function-declaration
 QMAKE_CFLAGS += -Wno-int-conversion
 QMAKE_CFLAGS += -Wno-sign-compare
-#QMAKE_CFLAGS += -O2
+QMAKE_CFLAGS += -O2
 QMAKE_CFLAGS += -fPIC
 
 QMAKE_LIBS += -lelf
@@ -174,7 +179,7 @@ $(MKDIR)    $$TARGET_PREFIX/share/simulide/examples ; \
 $(MKDIR)    $$TARGET_PREFIX/share/simulide/translations ; \
 $(COPY_DIR) ../resources/data              $$TARGET_PREFIX/share/simulide ; \
 $(COPY_DIR) ../resources/examples          $$TARGET_PREFIX/share/simulide ; \
-$(COPY)     ../resources/translations/*.qm $$TARGET_PREFIX/share/simulide/translations ;
+$(MOVE)     ../resources/translations/*.qm $$TARGET_PREFIX/share/simulide/translations ;
 
 QMAKE_EXTRA_TARGETS += copy2dest
 POST_TARGETDEPS     += copy2dest
@@ -184,5 +189,4 @@ message( "-----------------------------" )
 message( "    " $$TARGET_NAME )
 message( "    TARGET_PREFIX=" $$TARGET_PREFIX )
 message( "-----------------------------" )
-
 

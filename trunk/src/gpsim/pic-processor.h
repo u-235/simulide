@@ -187,71 +187,72 @@ enum PROCESSOR_TYPE
 // Configuration modes.  DELETE THIS...
 //  The configuration mode bits are the config word bits remapped.
 //  The remapping removes processor dependent bit definitions.
-class ConfigMode {
- public:
+class ConfigMode 
+{
+    public:
 
-  enum {
-    CM_FOSC0 = 1<<0,    // FOSC0 and  FOSC1 together define the PIC clock
-    CM_FOSC1 = 1<<1,    // All PICs todate have these two bits, but the
-                        // ones with internal oscillators use them differently
-    CM_WDTE =  1<<2,    // Watch dog timer enable
-    CM_CP0 =   1<<3,    // Code Protection
-    CM_CP1 =   1<<4,
-    CM_PWRTE = 1<<5,    // Power on/Reset timer enable
-    CM_BODEN = 1<<6,    // Brown out detection enable
-    CM_CPD =   1<<7,
-    CM_MCLRE = 1<<8,    // MCLR enable
+      enum {
+        CM_FOSC0 = 1<<0,    // FOSC0 and  FOSC1 together define the PIC clock
+        CM_FOSC1 = 1<<1,    // All PICs todate have these two bits, but the
+                            // ones with internal oscillators use them differently
+        CM_WDTE =  1<<2,    // Watch dog timer enable
+        CM_CP0 =   1<<3,    // Code Protection
+        CM_CP1 =   1<<4,
+        CM_PWRTE = 1<<5,    // Power on/Reset timer enable
+        CM_BODEN = 1<<6,    // Brown out detection enable
+        CM_CPD =   1<<7,
+        CM_MCLRE = 1<<8,    // MCLR enable
 
-    CM_FOSC1x = 1<<31,   // Hack for internal oscillators
-  };
+        CM_FOSC1x = 1<<31,   // Hack for internal oscillators
+      };
 
-  int config_mode;
-  int valid_bits;
+      int config_mode;
+      int valid_bits;
 
-  ConfigMode() {
-    config_mode = 0xffff;
-    valid_bits = CM_FOSC0 | CM_FOSC1 | CM_WDTE;
-  };
+      ConfigMode() {
+        config_mode = 0xffff;
+        valid_bits = CM_FOSC0 | CM_FOSC1 | CM_WDTE;
+      };
 
-  virtual ~ConfigMode(){}
+      virtual ~ConfigMode(){}
 
-  virtual void set_config_mode(int new_value) { config_mode = new_value & valid_bits;};
-  virtual void set_valid_bits(int new_value) { valid_bits = new_value;};
-  void set_fosc0(){config_mode |= CM_FOSC0;};
-  void clear_fosc0(){config_mode &= ~CM_FOSC0;};
-  bool get_fosc0(){return (config_mode & CM_FOSC0);};
-  void set_fosc1(){config_mode |= CM_FOSC1;};
-  void clear_fosc1(){config_mode &= ~CM_FOSC1;};
-  bool get_fosc1(){return (0 != (config_mode & CM_FOSC1));};
-  bool get_fosc1x(){return (0 != (config_mode & CM_FOSC1x));};
-  void set_fosc01(int v)
-  {
-    config_mode = (config_mode & ~(CM_FOSC0 | CM_FOSC1)) |
-      (v & (CM_FOSC0 | CM_FOSC1));
-  }
+      virtual void set_config_mode(int new_value) { config_mode = new_value & valid_bits;};
+      virtual void set_valid_bits(int new_value) { valid_bits = new_value;};
+      void set_fosc0(){config_mode |= CM_FOSC0;};
+      void clear_fosc0(){config_mode &= ~CM_FOSC0;};
+      bool get_fosc0(){return (config_mode & CM_FOSC0);};
+      void set_fosc1(){config_mode |= CM_FOSC1;};
+      void clear_fosc1(){config_mode &= ~CM_FOSC1;};
+      bool get_fosc1(){return (0 != (config_mode & CM_FOSC1));};
+      bool get_fosc1x(){return (0 != (config_mode & CM_FOSC1x));};
+      void set_fosc01(int v)
+      {
+        config_mode = (config_mode & ~(CM_FOSC0 | CM_FOSC1)) |
+          (v & (CM_FOSC0 | CM_FOSC1));
+      }
 
-  void set_cp0()  {config_mode |= CM_CP0;  valid_bits |= CM_CP0;};
-  void clear_cp0(){config_mode &= ~CM_CP0; valid_bits |= CM_CP0;};
-  bool get_cp0()  {return (0 != (config_mode & CM_CP0));};
-  void set_cp1()  {config_mode |= CM_CP1;  valid_bits |= CM_CP1;};
-  void clear_cp1(){config_mode &= ~CM_CP1; valid_bits |= CM_CP1;};
-  bool get_cp1()  {return (0 != (config_mode & CM_CP1));};
+      void set_cp0()  {config_mode |= CM_CP0;  valid_bits |= CM_CP0;};
+      void clear_cp0(){config_mode &= ~CM_CP0; valid_bits |= CM_CP0;};
+      bool get_cp0()  {return (0 != (config_mode & CM_CP0));};
+      void set_cp1()  {config_mode |= CM_CP1;  valid_bits |= CM_CP1;};
+      void clear_cp1(){config_mode &= ~CM_CP1; valid_bits |= CM_CP1;};
+      bool get_cp1()  {return (0 != (config_mode & CM_CP1));};
 
-  void enable_wdt()  {config_mode |= CM_WDTE;};
-  void disable_wdt() {config_mode &= ~CM_WDTE;};
-  void set_wdte(bool b) { config_mode = b ? (config_mode | CM_WDTE) : (config_mode & ~CM_WDTE); }
-  bool get_wdt()     {return (0 != (config_mode & CM_WDTE));};
+      void enable_wdt()  {config_mode |= CM_WDTE;};
+      void disable_wdt() {config_mode &= ~CM_WDTE;};
+      void set_wdte(bool b) { config_mode = b ? (config_mode | CM_WDTE) : (config_mode & ~CM_WDTE); }
+      bool get_wdt()     {return (0 != (config_mode & CM_WDTE));};
 
-  void set_mclre(bool b) { config_mode = b ? (config_mode | CM_MCLRE) : (config_mode & ~CM_MCLRE); }
-  bool get_mclre()     {return (0 != (config_mode & CM_MCLRE));};
+      void set_mclre(bool b) { config_mode = b ? (config_mode | CM_MCLRE) : (config_mode & ~CM_MCLRE); }
+      bool get_mclre()     {return (0 != (config_mode & CM_MCLRE));};
 
-  void enable_pwrte()   {config_mode |= CM_PWRTE;  valid_bits |= CM_PWRTE;};
-  void disable_pwrte()  {config_mode &= ~CM_PWRTE; valid_bits |= CM_PWRTE;};
-  void set_pwrte(bool b) { config_mode = b ? (config_mode | CM_PWRTE) : (config_mode & ~CM_PWRTE); }
-  bool get_pwrte()      {return (0 != (config_mode & CM_PWRTE));};
-  bool is_valid_pwrte() {return (0 != (valid_bits & CM_PWRTE));};
+      void enable_pwrte()   {config_mode |= CM_PWRTE;  valid_bits |= CM_PWRTE;};
+      void disable_pwrte()  {config_mode &= ~CM_PWRTE; valid_bits |= CM_PWRTE;};
+      void set_pwrte(bool b) { config_mode = b ? (config_mode | CM_PWRTE) : (config_mode & ~CM_PWRTE); }
+      bool get_pwrte()      {return (0 != (config_mode & CM_PWRTE));};
+      bool is_valid_pwrte() {return (0 != (valid_bits & CM_PWRTE));};
 
-  virtual void print();
+      virtual void print();
 };
 
 
@@ -280,12 +281,11 @@ class WDT : public TriggerObject, public gpsimObject
     protected:
       pic_processor *cpu;           // The cpu to which this wdt belongs.
 
-      uint
-        breakpoint,
-        prescale,
-        postscale;
-      uint64_t
-        future_cycle;
+      uint breakpoint,
+           prescale,
+           postscale;
+           
+      uint64_t future_cycle;
 
       double timeout;   // When no prescaler is assigned
       bool   wdte;
@@ -299,18 +299,6 @@ class WDT : public TriggerObject, public gpsimObject
  *
  * Here are the base class declarations for the pic processors
  */
-
-/*
- * First, forward-declare a few class references
- */
-
-enum IOPIN_TYPES
-{
-  INPUT_ONLY,          // e.g. MCLR
-  BI_DIRECTIONAL,      // most iopins
-  BI_DIRECTIONAL_PU,   // same as bi_directional, but with pullup resistor. e.g. portb
-  OPEN_COLLECTOR       // bit4 in porta on the 18 pin midrange devices.
-};
 
 /*
  * Define a base class processor for the pic processor family
@@ -329,7 +317,6 @@ class pic_processor : public Processor
 
       uint pll_factor;       // 2^pll_factor is the speed boost the PLL adds
                                      // to the instruction execution rate.
-
       WDT          wdt;
       INDF         *indf;
       FSR          *fsr;
@@ -515,6 +502,7 @@ class ConfigWord : public Integer
     public:
       ConfigWord(const char *_name, uint default_val, const char *desc,
                  pic_processor *pCpu, uint addr, bool EEw=true);
+                 
       virtual void get(char *buffer, int buf_size);
       virtual void get(int64_t &i);
       uint ConfigWordAdd() { return m_addr; }
@@ -531,6 +519,7 @@ class ConfigMemory
     public:
       ConfigMemory(pic_processor *pCpu, uint nWords);
       ~ConfigMemory();
+      
       int addConfigWord(uint addr, ConfigWord *);
       ConfigWord *getConfigWord(uint addr);
       int getnConfigWords() { return m_nConfigWords; }

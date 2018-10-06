@@ -18,10 +18,12 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, see 
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
-//#include <glib.h>
-
-//#include "trace.h"
 #include "pir.h"
 #include "intcon.h"
 #include "processor.h"
@@ -31,7 +33,6 @@ PIR::PIR(Processor *pCpu, const char *pName, const char *pDesc,INTCON *_intcon, 
     intcon(_intcon),pie(_pie),ipr(0),valid_bits(_valid_bits),writable_bits(0)
 {
 }
-
 
 void PIR::put(uint new_value)
 {

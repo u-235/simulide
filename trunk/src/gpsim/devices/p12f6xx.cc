@@ -363,10 +363,8 @@ void P12F629::set_out_of_range_pm(uint address, uint value)
 
 void P12F629::create_iopin_map()
 {
-
   package = new Package(8);
-  if(!package)
-    return;
+  if(!package) return;
 
   // Now Create the package and place the I/O pins
 

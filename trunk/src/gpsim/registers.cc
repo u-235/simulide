@@ -17,7 +17,11 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, see
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
-
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
 #include <stdio.h>
 #include <iostream>
@@ -26,7 +30,6 @@ License along with this library; if not, see
 #include "config.h"
 #include "processor.h"
 #include "registers.h"
-//#include "ValueCollections.h"
 
 uint count_bits(uint ui)
 {

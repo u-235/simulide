@@ -29,10 +29,8 @@ License along with this library; if not, see
 #include <stdio.h>
 #include <ctype.h>
 
-#include "exports.h"
 #include "pic-processor.h"
 #include "hexutils.h"
-//#include "program_files.h"
 
 
 //------------------------------------------------------------------------

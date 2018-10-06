@@ -44,10 +44,7 @@ EditorWindow::EditorWindow( QWidget* parent )
 EditorWindow::~EditorWindow(){}
 
 bool EditorWindow::close()
-{
-    CodeEditor* ce = getCodeEditor();
-    if( ce ) ce->writeSettings();
-    
+{    
     writeSettings();
     
     for( int i=0; i<m_docWidget->count(); i++ )

@@ -21,14 +21,11 @@ License along with this library; if not, see
 #include <stdio.h>
 #include <iostream>
 #include <iomanip>
+#include <string>
 
-//#include "14bit-registers.h"
-//#include "14bit-instructions.h"
 #include "config.h"
 #include "packages.h"
 #include "16bit-processors.h"
-
-#include <string>
 #include "stimuli.h"
 #include "eeprom.h"
 
@@ -110,45 +107,45 @@ string Config1H_4bits::toString()
 //  The default Config2H register controls the 18F series WDT.
 class Config2H : public ConfigWord
 {
-#define WDTEN   (1<<0)
-#define WDTPS0  (1<<1)
-#define WDTPS1  (1<<2)
-#define WDTPS2  (1<<3)
+    #define WDTEN   (1<<0)
+    #define WDTPS0  (1<<1)
+    #define WDTPS1  (1<<2)
+    #define WDTPS2  (1<<3)
 
-#define CONFIG2H_default (WDTEN | WDTPS0 | WDTPS1 | WDTPS2)
-public:
-  Config2H(_16bit_processor *pCpu, uint addr)
-    : ConfigWord("CONFIG2H", CONFIG2H_default, "WatchDog configuration", pCpu, addr)
-  {
-        set(CONFIG2H_default);
-  }
-  virtual void set(int64_t v)
-  {
-    Integer::set(v);
-    if (m_pCpu)
-    {
-      m_pCpu->wdt.set_postscale((v & (WDTPS0|WDTPS1|WDTPS2)) >> 1);
-      m_pCpu->wdt.initialize((v & WDTEN) == WDTEN);
-    }
-  }
+    #define CONFIG2H_default (WDTEN | WDTPS0 | WDTPS1 | WDTPS2)
+    public:
+      Config2H(_16bit_processor *pCpu, uint addr)
+        : ConfigWord("CONFIG2H", CONFIG2H_default, "WatchDog configuration", pCpu, addr)
+      {
+            set(CONFIG2H_default);
+      }
+      virtual void set(int64_t v)
+      {
+        Integer::set(v);
+        if (m_pCpu)
+        {
+          m_pCpu->wdt.set_postscale((v & (WDTPS0|WDTPS1|WDTPS2)) >> 1);
+          m_pCpu->wdt.initialize((v & WDTEN) == WDTEN);
+        }
+      }
 
-  virtual string toString()
-  {
-    int64_t i64;
-    get(i64);
-    int i = i64 &0xfff;
+      virtual string toString()
+      {
+        int64_t i64;
+        get(i64);
+        int i = i64 &0xfff;
 
-    char buff[256];
+        char buff[256];
 
-    snprintf(buff,sizeof(buff),
-             "$%04x\n"
-             " WDTEN=%d - WDT is %s, prescale=1:%d\n",
-             i,
-             ((i & WDTEN) ? 1 : 0), ((i & WDTEN) ? "enabled" : "disabled"),
-             1 << (i & (WDTPS0 | WDTPS1 | WDTPS2)>>1));
+        snprintf(buff,sizeof(buff),
+                 "$%04x\n"
+                 " WDTEN=%d - WDT is %s, prescale=1:%d\n",
+                 i,
+                 ((i & WDTEN) ? 1 : 0), ((i & WDTEN) ? "enabled" : "disabled"),
+                 1 << (i & (WDTPS0 | WDTPS1 | WDTPS2)>>1));
 
-    return string(buff);
-  }
+        return string(buff);
+      }
 };
 
 //------------------------------------------------------------------------
@@ -156,52 +153,51 @@ public:
 //  The default Config4L register controls the 18F series WDT.
 class Config4L : public ConfigWord
 {
-#define STKVREN  (1<<0)
-#define LVP        (1<<2)
-#define BBSIZ0        (1<<4)
-#define BBSIZ1        (1<<5)
-#define XINST        (1<<6)
-#define _DEBUG        (1<<7)
+    #define STKVREN  (1<<0)
+    #define LVP        (1<<2)
+    #define BBSIZ0        (1<<4)
+    #define BBSIZ1        (1<<5)
+    #define XINST        (1<<6)
+    #define _DEBUG        (1<<7)
 
-#define CONFIG4L_default (STKVREN | LVP | _DEBUG)
-public:
-  Config4L(_16bit_processor *pCpu, uint addr)
-    : ConfigWord("CONFIG4L", CONFIG4L_default, "Config word 4L", pCpu, addr)
-  {
-        set(CONFIG4L_default);
-  }
-#define Cpu16 ((_16bit_processor *)m_pCpu)
-  virtual void set(int64_t v)
-  {
-    Integer::set(v);
-    if (m_pCpu)
-    {
-        Cpu16->set_extended_instruction((v & XINST) == XINST);
-            if(m_pCpu->stack)
-            m_pCpu->stack->STVREN = ((v & STKVREN) == STKVREN);
-    }
+    #define CONFIG4L_default (STKVREN | LVP | _DEBUG)
+    public:
+      Config4L(_16bit_processor *pCpu, uint addr)
+        : ConfigWord("CONFIG4L", CONFIG4L_default, "Config word 4L", pCpu, addr)
+      {
+            set(CONFIG4L_default);
+      }
+    #define Cpu16 ((_16bit_processor *)m_pCpu)
+      virtual void set(int64_t v)
+      {
+        Integer::set(v);
+        if (m_pCpu)
+        {
+            Cpu16->set_extended_instruction((v & XINST) == XINST);
+                if(m_pCpu->stack)
+                m_pCpu->stack->STVREN = ((v & STKVREN) == STKVREN);
+        }
 
-  }
+      }
 
-  virtual string toString()
-  {
-    int64_t i64;
-    get(i64);
-    int i = i64 &0xfff;
+      virtual string toString()
+      {
+        int64_t i64;
+        get(i64);
+        int i = i64 &0xfff;
 
-    char buff[256];
+        char buff[256];
 
-    snprintf(buff,sizeof(buff),
-             "$%04x\n"
-             " STVREN=%d - BBSIZE=%x XINST=%d\n",
-             i,
-             ((i & STKVREN) ? 1 : 0), (i & (BBSIZ1 | BBSIZ0)) >> 4,
-             ((i & XINST) ? 1 : 0));
+        snprintf(buff,sizeof(buff),
+                 "$%04x\n"
+                 " STVREN=%d - BBSIZE=%x XINST=%d\n",
+                 i,
+                 ((i & STKVREN) ? 1 : 0), (i & (BBSIZ1 | BBSIZ0)) >> 4,
+                 ((i & XINST) ? 1 : 0));
 
-    return string(buff);
-  }
+        return string(buff);
+      }
 };
-
 
 
 #define PWRTEN  1<<0
@@ -846,7 +842,6 @@ bool  _16bit_processor::set_config_word(uint address, uint cfg_word)
   return false;
 }
 
-//-------------------------------------------------------------------
 void _16bit_processor::create_config_memory()
 {
   m_configMemory = new ConfigMemory(this,configMemorySize());
@@ -855,22 +850,21 @@ void _16bit_processor::create_config_memory()
   m_configMemory->addConfigWord(CONFIG4L-CONFIG1L,new Config4L(this, CONFIG4L));
 }
 
-
 void _16bit_processor::set_out_of_range_pm(uint address, uint value)
 {
-  // This method is only called by Processor::init_program_memory which writes words
-  if ( get_eeprom()
+    // This method is only called by Processor::init_program_memory which writes words
+    if ( get_eeprom()
     && (address>= 0xf00000)
     && (address < 0xf00000 + get_eeprom()->get_rom_size()))
     {
         get_eeprom()->change_rom(1 + address - 0xf00000, value >> 8);
         get_eeprom()->change_rom(address - 0xf00000, value & 0xff);
     }
-  else if( (address>= 0x200000) && (address < 0x200008) ) {
-    idloc[(address - 0x200000) >> 1] = value;
-  }
-
+    else if( (address>= 0x200000) && (address < 0x200008) ) {
+        idloc[(address - 0x200000) >> 1] = value;
+    }
 }
+
 void _16bit_processor::osc_mode(uint value)
 {
   IOPIN *m_pin;
@@ -902,10 +896,7 @@ void _16bit_processor::osc_mode(uint value)
         }
   }
 }
-//-------------------------------------------------------------------
-//
-// Package stuff
-//
+
 void _16bit_processor::create_iopin_map()
 {
   cout << "_16bit_processor::create_iopin_map WARNING --- not creating package \n";
@@ -930,8 +921,8 @@ void _16bit_compat_adc :: a2d_compat()
 {
   RegisterValue porv(0,0);
 
-  add_sfr_register(adcon1,          0xfc1,porv,"adcon1");
-  add_sfr_register(adcon0,          0xfc2,porv,"adcon0");
+  add_sfr_register(adcon1, 0xfc1,porv,"adcon1");
+  add_sfr_register(adcon0, 0xfc2,porv,"adcon0");
 
   adcon0->setAdresLow(&adresl);
   adcon0->setAdres(&adresh);
@@ -991,10 +982,8 @@ _16bit_compat_adc::_16bit_compat_adc(const char *_name, const char *desc)
 }
 _16bit_compat_adc::~_16bit_compat_adc()
 {
-    if(adcon0)
-        delete_sfr_register(adcon0);
-    if(adcon1)
-        delete_sfr_register(adcon1);
+    if(adcon0) delete_sfr_register(adcon0);
+    if(adcon1) delete_sfr_register(adcon1);
 }
 void _16bit_v2_adc::create(int nChannels)
 {
@@ -1018,7 +1007,7 @@ void _16bit_v2_adc::create(int nChannels)
     adcon0->setA2DBits(10);
 
     adcon1->setValidCfgBits(ADCON1::PCFG0 | ADCON1::PCFG1 |
-                         ADCON1::PCFG2 | ADCON1::PCFG3,0);
+                            ADCON1::PCFG2 | ADCON1::PCFG3,0);
 
     adcon1->setNumberOfChannels(nChannels);
     adcon1->setChanTable(0x1fff, 0x1fff, 0x1fff, 0x0fff,

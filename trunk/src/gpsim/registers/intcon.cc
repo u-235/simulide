@@ -19,20 +19,17 @@ License along with this library; if not, see
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
 
-//#include <glib.h>        // for guint64
+
 #include <assert.h>
+#include <iostream>
 
 #include "intcon.h"
-
-
 #include "gpsim_classes.h"        // for RESET_TYPE
-//#include "trace.h"
 #include "pir.h"
 #include "16bit-registers.h"
 #include "16bit-processors.h"
 #include "breakpoints.h"
 
-#include <iostream>
 
 //#define DEBUG
 #if defined(DEBUG)

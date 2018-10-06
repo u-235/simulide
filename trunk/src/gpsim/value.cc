@@ -374,7 +374,7 @@ Boolean::Boolean(bool newValue)
   value = newValue;
 }
 
-Boolean::Boolean(const char *_name, bool newValue,const char *_desc)
+Boolean::Boolean(const char *_name, bool newValue, const char *_desc)
   : Value(_name,_desc)
 {
   value = newValue;
@@ -544,7 +544,8 @@ void Boolean::set(Packet &p)
 /*****************************************************************
  * The Integer class.
  */
-Integer::Integer(const Integer &new_value) 
+Integer::Integer( const Integer &new_value ) 
+       : Value()
 {
   Integer & nv = (Integer&)new_value;
   nv.get(value);

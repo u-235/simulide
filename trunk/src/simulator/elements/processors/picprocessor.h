@@ -23,8 +23,8 @@
 
 #include "baseprocessor.h"
 
-#include "gpsim/registers.h"
-#include "gpsim/hexutils.h"
+#include "registers.h"
+#include "hexutils.h"
 
 //class RegBitSink;
 class pic_processor;

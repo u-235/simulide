@@ -44,87 +44,81 @@ class Packet;
 
 class Value : public gpsimObject
 {
-public:
-  Value();
-  Value(const char *name, const char *desc, Module *pM=0);
-  virtual ~Value();
+    public:
+      Value();
+      Value(const char *name, const char *desc, Module *pM=0);
+      virtual ~Value();
 
-  virtual uint get_leftVal() {return 0;}
-  virtual uint get_rightVal() {return 0;}
+      virtual uint get_leftVal() {return 0;}
+      virtual uint get_rightVal() {return 0;}
 
-  /// Value 'set' methods provide a mechanism for casting values to the
-  /// the type of this value. If the type cast is not supported in a
-  /// derived class, an Error will be thrown.
+      /// Value 'set' methods provide a mechanism for casting values to the
+      /// the type of this value. If the type cast is not supported in a
+      /// derived class, an Error will be thrown.
 
-  virtual void set(const char *cP,int len=0);
-  virtual void set(double);
-  virtual void set(int64_t);
-  virtual void set(int);
-  virtual void set(bool);
-  virtual void set(Value *);
-  virtual void set(Packet &);
+      virtual void set(const char *cP,int len=0);
+      virtual void set(double);
+      virtual void set(int64_t);
+      virtual void set(int);
+      virtual void set(bool);
+      virtual void set(Value *);
+      virtual void set(Packet &);
 
-  /// Value 'get' methods provide a mechanism of casting Value objects
-  /// to other value types. If the type cast is not supported in a
-  /// derived class, an Error will be thrown.
-  
-  virtual void get(bool &b);
-  virtual void get(int &);
-  virtual void get(uint64_t &);
-  virtual void get(int64_t &);
-  virtual void get(double &);
-  virtual void get(char *, int len);
-  virtual void get(Packet &);
+      /// Value 'get' methods provide a mechanism of casting Value objects
+      /// to other value types. If the type cast is not supported in a
+      /// derived class, an Error will be thrown.
+      
+      virtual void get(bool &b);
+      virtual void get(int &);
+      virtual void get(uint64_t &);
+      virtual void get(int64_t &);
+      virtual void get(double &);
+      virtual void get(char *, int len);
+      virtual void get(Packet &);
 
-  inline operator int64_t() {
-    int64_t i;
-    get(i);
-    return i;
-  }
+      inline operator int64_t() {
+        int64_t i;
+        get(i);
+        return i;
+      }
 
-  inline operator int() {
-    int64_t i;
-    get(i);
-    return (int)i;
-  }
+      inline operator int() {
+        int64_t i;
+        get(i);
+        return (int)i;
+      }
 
-  inline operator uint() {
-    int64_t i;
-    get(i);
-    return (uint)i;
-  }
+      inline operator uint() {
+        int64_t i;
+        get(i);
+        return (uint)i;
+      }
 
-  inline Value & operator =(int i) {
-    set(i);
-    return *this;
-  }
+      inline Value & operator =(int i) {
+        set(i);
+        return *this;
+      }
 
-  inline Value & operator =(uint i) {
-    set((int)i);
-    return *this;
-  }
-  /// copy - return an object that is identical to this one.
-  virtual Value *copy();
+      inline Value & operator =(uint i) {
+        set((int)i);
+        return *this;
+      }
+      /// copy - return an object that is identical to this one.
+      virtual Value *copy();
 
-  /// xrefs - a cross reference allows a Value to notify another
-  /// Value when it is changed.
+      // Some Value types that are used for symbol classes
+      // contain a gpsimValue type that have update listeners.
+      virtual void update(); // {}
+      virtual Value* evaluate() { return copy(); }
 
-  //**  virtual void set_xref(Value *);
-  //**  virtual Value *get_xref();
+      virtual void set_module(Module *new_cpu);
+      Module *get_module();
+      virtual void set_cpu(Processor *new_cpu);
+      Processor *get_cpu() const;
+      void addName(string &r_sAliasedName);
 
-  // Some Value types that are used for symbol classes
-  // contain a gpsimValue type that have update listeners.
-  virtual void update(); // {}
-  virtual Value* evaluate() { return copy(); }
-
-  virtual void set_module(Module *new_cpu);
-  Module *get_module();
-  virtual void set_cpu(Processor *new_cpu);
-  Processor *get_cpu() const;
-  void addName(string &r_sAliasedName);
-
-protected:
-  Module *cpu; // A pointer to the module that owns this value.
+    protected:
+      Module *cpu; // A pointer to the module that owns this value.
 };
 
 
@@ -133,32 +127,33 @@ protected:
  */
 class ValueWrapper : public Value
 {
-public:
-  explicit ValueWrapper(Value *pCopy);
-  virtual ~ValueWrapper();
+    public:
+      explicit ValueWrapper(Value *pCopy);
+      virtual ~ValueWrapper();
 
-  virtual uint get_leftVal();
-  virtual uint get_rightVal();
-  virtual void set(const char *cP,int len=0);
-  virtual void set(double);
-  virtual void set(int64_t);
-  virtual void set(int);
-  virtual void set(bool);
-  virtual void set(Value *);
-  virtual void set(Packet &);
+      virtual uint get_leftVal();
+      virtual uint get_rightVal();
+      virtual void set(const char *cP,int len=0);
+      virtual void set(double);
+      virtual void set(int64_t);
+      virtual void set(int);
+      virtual void set(bool);
+      virtual void set(Value *);
+      virtual void set(Packet &);
 
-  virtual void get(bool &b);
-  virtual void get(int &);
-  virtual void get(uint64_t &);
-  virtual void get(int64_t &);
-  virtual void get(double &);
-  virtual void get(char *, int len);
-  virtual void get(Packet &);
-  virtual Value *copy();
-  virtual void update();
-  virtual Value* evaluate();
-private:
-  Value *m_pVal;
+      virtual void get(bool &b);
+      virtual void get(int &);
+      virtual void get(uint64_t &);
+      virtual void get(int64_t &);
+      virtual void get(double &);
+      virtual void get(char *, int len);
+      virtual void get(Packet &);
+      virtual Value *copy();
+      virtual void update();
+      virtual Value* evaluate();
+      
+    private:
+      Value *m_pVal;
 };
 
 /*****************************************************************
@@ -170,54 +165,54 @@ private:
  * Boolean oject must return a simple 'bool' value.
  */
 /*****************************************************************/
-class Boolean : public Value {
+class Boolean : public Value 
+{
+    public:
 
-public:
+      explicit Boolean(bool newValue);
+      Boolean(const char *_name, bool newValue, const char *desc=0);
+      static bool Parse(const char *pValue, bool &bValue);
+      static Boolean * NewObject(const char *_name, const char *pValue, const char *desc);
+      virtual ~Boolean();
 
-  explicit Boolean(bool newValue);
-  Boolean(const char *_name, bool newValue, const char *desc=0);
-  static bool Parse(const char *pValue, bool &bValue);
-  static Boolean * NewObject(const char *_name, const char *pValue, const char *desc);
-  virtual ~Boolean();
+      string toString();
+      string toString(const char* format);
+      static string toString(bool value);
+      static string toString(const char* format, bool value);
 
-  string toString();
-  string toString(const char* format);
-  static string toString(bool value);
-  static string toString(const char* format, bool value);
+      virtual void get(bool &b);
+      virtual void get(int &i);
+      virtual void get(char *, int len);
+      virtual void get(Packet &);
 
-  virtual void get(bool &b);
-  virtual void get(int &i);
-  virtual void get(char *, int len);
-  virtual void get(Packet &);
+      virtual void set(bool);
+      virtual void set(Value *);
+      virtual void set(const char *cP,int len=0);
+      virtual void set(Packet &);
 
-  virtual void set(bool);
-  virtual void set(Value *);
-  virtual void set(const char *cP,int len=0);
-  virtual void set(Packet &);
+      bool getVal() { return value; }
 
-  bool getVal() { return value; }
+      static Boolean* typeCheck(Value* val, string valDesc);
 
-  static Boolean* typeCheck(Value* val, string valDesc);
+      virtual Value *copy();
 
-  virtual Value *copy();
+      /// copy the object value to a user char array
+      virtual char *toString(char *return_str, int len);
+      virtual char *toBitStr(char *return_str, int len);
 
-  /// copy the object value to a user char array
-  virtual char *toString(char *return_str, int len);
-  virtual char *toBitStr(char *return_str, int len);
+      inline operator bool() {
+        bool bValue;
+        get(bValue);
+        return bValue;
+      }
 
-  inline operator bool() {
-    bool bValue;
-    get(bValue);
-    return bValue;
-  }
+      inline Boolean &operator = (bool bValue) {
+        set(bValue);
+        return *this;
+      }
 
-  inline Boolean &operator = (bool bValue) {
-    set(bValue);
-    return *this;
-  }
-
-private:
-  bool value;
+    private:
+      bool value;
 };
 
 inline bool operator!=(Boolean &LValue, Boolean &RValue) {
@@ -228,157 +223,157 @@ inline bool operator!=(Boolean &LValue, Boolean &RValue) {
 //------------------------------------------------------------------------
 /// Integer - built in gpsim type for a 64-bit integer.
 
-class Integer : public Value {
+class Integer : public Value 
+{
+    public:
 
-public:
+      Integer(const Integer &new_value);
+      explicit Integer(int64_t new_value);
+      Integer(const char *_name, int64_t new_value, const char *desc=0);
+      static bool       Parse(const char *pValue, int64_t &iValue);
+      static Integer *  NewObject(const char *_name, const char *pValue, const char *desc);
 
-  Integer(const Integer &new_value);
-  explicit Integer(int64_t new_value);
-  Integer(const char *_name, int64_t new_value, const char *desc=0);
-  static bool       Parse(const char *pValue, int64_t &iValue);
-  static Integer *  NewObject(const char *_name, const char *pValue, const char *desc);
+      virtual ~Integer();
 
-  virtual ~Integer();
+      virtual string toString();
+      string toString(const char* format);
+      static string toString(int64_t value);
+      static string toString(const char* format, int64_t value);
 
-  virtual string toString();
-  string toString(const char* format);
-  static string toString(int64_t value);
-  static string toString(const char* format, int64_t value);
+      virtual void get(int64_t &i);
+      virtual void get(double &d);
+      virtual void get(char *, int len);
+      virtual void get(Packet &);
 
-  virtual void get(int64_t &i);
-  virtual void get(double &d);
-  virtual void get(char *, int len);
-  virtual void get(Packet &);
+      virtual void set(int64_t v);
+      virtual void set(int);
+      virtual void set(double d);
+      virtual void set(Value *);
+      virtual void set(const char *cP,int len=0);
+      virtual void set(Packet &);
 
-  virtual void set(int64_t v);
-  virtual void set(int);
-  virtual void set(double d);
-  virtual void set(Value *);
-  virtual void set(const char *cP,int len=0);
-  virtual void set(Packet &);
+      static void setDefaultBitmask(int64_t bitmask);
 
-  static void setDefaultBitmask(int64_t bitmask);
+      inline void setBitmask(int64_t bitmask) {
+        this->bitmask = bitmask;
+      }
 
-  inline void setBitmask(int64_t bitmask) {
-    this->bitmask = bitmask;
-  }
+      inline int64_t getBitmask() {
+        return bitmask;
+      }
 
-  inline int64_t getBitmask() {
-    return bitmask;
-  }
+      int64_t getVal() { return value; }
 
-  int64_t getVal() { return value; }
+      virtual Value *copy();
+      /// copy the object value to a user char array
+      virtual char *toString(char *, int len);
+      virtual char *toBitStr(char *, int len);
 
-  virtual Value *copy();
-  /// copy the object value to a user char array
-  virtual char *toString(char *, int len);
-  virtual char *toBitStr(char *, int len);
+      static Integer* typeCheck(Value* val, string valDesc);
+      static Integer* assertValid(Value* val, string valDesc, int64_t valMin);
+      static Integer* assertValid(Value* val, string valDesc, int64_t valMin, int64_t valMax);
 
-  static Integer* typeCheck(Value* val, string valDesc);
-  static Integer* assertValid(Value* val, string valDesc, int64_t valMin);
-  static Integer* assertValid(Value* val, string valDesc, int64_t valMin, int64_t valMax);
+      inline operator int64_t() {
+        int64_t i;
+        get(i);
+        return i;
+      }
 
-  inline operator int64_t() {
-    int64_t i;
-    get(i);
-    return i;
-  }
+      inline operator uint64_t() {
+        int64_t i;
+        get(i);
+        return (uint64_t)i;
+      }
 
-  inline operator uint64_t() {
-    int64_t i;
-    get(i);
-    return (uint64_t)i;
-  }
+      inline operator bool() {
+        int64_t i;
+        get(i);
+        return i != 0;
+      }
 
-  inline operator bool() {
-    int64_t i;
-    get(i);
-    return i != 0;
-  }
+      inline operator int() {
+        int64_t i;
+        get(i);
+        return (int)i;
+      }
 
-  inline operator int() {
-    int64_t i;
-    get(i);
-    return (int)i;
-  }
+      inline operator uint() {
+        int64_t i;
+        get(i);
+        return (uint)i;
+      }
 
-  inline operator uint() {
-    int64_t i;
-    get(i);
-    return (uint)i;
-  }
+      inline Integer & operator =(const Integer &i) {
+        Integer & ii = (Integer &)i;
+        int64_t iNew = (int64_t)ii;
+        set(iNew);
+        bitmask = i.bitmask;
+        return *this;
+      }
 
-  inline Integer & operator =(const Integer &i) {
-    Integer & ii = (Integer &)i;
-    int64_t iNew = (int64_t)ii;
-    set(iNew);
-    bitmask = i.bitmask;
-    return *this;
-  }
+      inline Integer & operator =(int i) {
+        set(i);
+        return *this;
+      }
 
-  inline Integer & operator =(int i) {
-    set(i);
-    return *this;
-  }
+      inline Integer & operator =(uint i) {
+        set((int)i);
+        return *this;
+      }
 
-  inline Integer & operator =(uint i) {
-    set((int)i);
-    return *this;
-  }
+      inline Integer & operator &=(int iValue) {
+        int64_t i;
+        get(i);
+        set((int)i & iValue);
+        return *this;
+      }
 
-  inline Integer & operator &=(int iValue) {
-    int64_t i;
-    get(i);
-    set((int)i & iValue);
-    return *this;
-  }
+      inline Integer & operator |=(int iValue) {
+        int64_t i;
+        get(i);
+        set((int)i | iValue);
+        return *this;
+      }
 
-  inline Integer & operator |=(int iValue) {
-    int64_t i;
-    get(i);
-    set((int)i | iValue);
-    return *this;
-  }
+      inline Integer & operator +=(int iValue) {
+        int64_t i;
+        get(i);
+        set((int)i + iValue);
+        return *this;
+      }
 
-  inline Integer & operator +=(int iValue) {
-    int64_t i;
-    get(i);
-    set((int)i + iValue);
-    return *this;
-  }
+      inline Integer & operator ++(int) {
+        int64_t i;
+        get(i);
+        set((int)i + 1);
+        return *this;
+      }
 
-  inline Integer & operator ++(int) {
-    int64_t i;
-    get(i);
-    set((int)i + 1);
-    return *this;
-  }
+      inline Integer & operator --(int) {
+        int64_t i;
+        get(i);
+        set((int)i - 1);
+        return *this;
+      }
 
-  inline Integer & operator --(int) {
-    int64_t i;
-    get(i);
-    set((int)i - 1);
-    return *this;
-  }
+      inline Integer & operator <<(int iShift) {
+        int64_t i;
+        get(i);
+        set(i << iShift);
+        return *this;
+      }
 
-  inline Integer & operator <<(int iShift) {
-    int64_t i;
-    get(i);
-    set(i << iShift);
-    return *this;
-  }
+      inline bool operator !() {
+        int64_t i;
+        get(i);
+        return i == 0;
+      }
 
-  inline bool operator !() {
-    int64_t i;
-    get(i);
-    return i == 0;
-  }
-
-private:
-  int64_t value;
-  // Used for display purposes
-  int64_t bitmask;
-  static int64_t def_bitmask;
+    private:
+      int64_t value;
+      // Used for display purposes
+      int64_t bitmask;
+      static int64_t def_bitmask;
 };
 
 inline bool operator!=(Integer &iLValue, Integer &iRValue) {
@@ -388,8 +383,8 @@ inline bool operator!=(Integer &iLValue, Integer &iRValue) {
 //------------------------------------------------------------------------
 /// Float - built in gpsim type for a 'double'
 
-class Float : public Value {
-
+class Float : public Value 
+{
 public:
 
   explicit Float(double newValue = 0.0);

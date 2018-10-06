@@ -101,7 +101,7 @@ void AVRComponent::addPin( QString id, QString type, QString label, int pos, int
     AVRComponentPin*  newPin = new AVRComponentPin( this, id, type, label, pos, xpos, ypos, angle );
     m_pinList.append( newPin );
     
-    if( type.startsWith("adc") )m_ADCpinList[type.right(1).toInt()] = newPin;
+    if( type.startsWith("adc") ) m_ADCpinList[type.remove("adc").toInt()] = newPin;
 }
 
 void AVRComponent::adcread( int channel )

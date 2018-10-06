@@ -22,7 +22,6 @@ License along with this library; if not, see
 #define __GPSIM_TIME_H__
 
 #include "breakpoints.h"
-#include "exports.h"
 
 //---------------------------------------------------------
 // Cycle Counter

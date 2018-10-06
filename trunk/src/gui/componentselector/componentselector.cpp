@@ -191,7 +191,10 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
     if( !m_categories.contains( category, Qt::CaseSensitive ))  // Create new Category
     {
         bool c_hidden =  MainWindow::self()->settings()->value( category+"/hidden" ).toBool();
-        bool expanded = !MainWindow::self()->settings()->value( category+"/collapsed" ).toBool();
+        bool expanded = false;
+        if( isRootCat ) expanded = true;
+        if( MainWindow::self()->settings()->contains( category+"/collapsed" ) )
+            expanded = !MainWindow::self()->settings()->value( category+"/collapsed" ).toBool();
 
         m_categories.append( category );
         titulo = new QTreeWidgetItem(0);

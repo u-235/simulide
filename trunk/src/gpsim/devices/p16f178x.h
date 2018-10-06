@@ -23,11 +23,9 @@ License along with this library; if not, see
 *                                                               *
 *****************************************************************/
 
-#ifndef __P1xF1xxx_H__
-#define __P1xF1xxx_H__
 
-#include "p16f178x.h"
-#include "p16f1503.h"
+#ifndef __P16F178x_H__
+#define __P16F178x_H__
 
 #include "14bit-processors.h"
 #include "14bit-tmrs.h"
@@ -39,10 +37,10 @@ License along with this library; if not, see
 #include "a2dconverter.h"
 #include "pic-ioports.h"
 #include "dsm_module.h"
+#include "apfcon.h"
 #include "cwg.h"
 #include "nco.h"
 #include "clc.h"
-#include "apfcon.h"
 
 #define FOSC0 (1<<0)
 #define FOSC1 (1<<1)
@@ -50,7 +48,7 @@ License along with this library; if not, see
 #define IESO (1<<12)
 
 
-class P12F1822 : public _14bit_e_processor
+class P16F178x : public _14bit_e_processor
 {
     public:
      ComparatorModule2 comparator;
@@ -59,7 +57,11 @@ class P12F1822 : public _14bit_e_processor
       PIR    *pir1;
       PIE     pie2;
       PIR    *pir2;
-      T2CON_64  t2con;
+      PIE     pie3;
+      PIR    *pir3;
+      PIE     pie4;
+      PIR    *pir4;
+      T2CON_64	  t2con;
       PR2	  pr2;
       TMR2    tmr2;
       T1CON_G   t1con_g;
@@ -71,8 +73,11 @@ class P12F1822 : public _14bit_e_processor
       FVRCON	fvrcon;
       BORCON	borcon;
       ANSEL_P 	ansela;
-      ADCON0  	adcon0;
+      ANSEL_P   	anselb;
+      ANSEL_P 	anselc;
+      ADCON0_DIF  	adcon0;
       ADCON1_16F 	adcon1;
+      ADCON2_DIF	adcon2;
       sfr_register  adresh;
       sfr_register  adresl;
       OSCCON_2  	*osccon;
@@ -82,14 +87,13 @@ class P12F1822 : public _14bit_e_processor
       WDTCON  	wdtcon;
       USART_MODULE 	usart;
       SSP1_MODULE 	ssp;
-      APFCON	apfcon;
+      APFCON	apfcon1;
+      APFCON	apfcon2;
       PWM1CON	pwm1con;
       ECCPAS        ccp1as;
       PSTRCON       pstr1con;
-      CPSCON0	cpscon0;
-      CPSCON1	cpscon1;
-      SR_MODULE	sr_module;
       EEPROM_EXTND *e;
+      sfr_register     vregcon;
 
       WPU              *m_wpua;
       IOC              *m_iocap;
@@ -98,9 +102,35 @@ class P12F1822 : public _14bit_e_processor
       PicPortIOCRegister  *m_porta;
       PicTrisRegister  *m_trisa;
       PicLatchRegister *m_lata;
+      IOC              *m_iocep;
+      IOC              *m_iocen;
+      IOCxF            *m_iocef;
+      PicPortIOCRegister  *m_porte;
+      PicTrisRegister  *m_trise;
+      WPU              *m_wpue;
       DACCON0	   *m_daccon0;
       DACCON1	   *m_daccon1;
-      DSM_MODULE       dsm_module;
+      DACCON0	   *m_dac2con0;
+      DACCON1	   *m_dac2con1;
+      DACCON0	   *m_dac3con0;
+      DACCON1	   *m_dac3con1;
+      DACCON0	   *m_dac4con0;
+      DACCON1	   *m_dac4con1;
+      IOC              *m_iocbp;
+      IOC              *m_iocbn;
+      IOCxF            *m_iocbf;
+      PicPortBRegister  *m_portb;
+      PicTrisRegister  *m_trisb;
+      PicLatchRegister *m_latb;
+      WPU              *m_wpub;
+
+      IOC              *m_ioccp;
+      IOC              *m_ioccn;
+      IOCxF            *m_ioccf;
+      PicPortBRegister  *m_portc;
+      PicTrisRegister  *m_trisc;
+      PicLatchRegister *m_latc;
+      WPU              *m_wpuc;
 
       virtual PIR *get_pir2() { return (NULL); }
       virtual PIR *get_pir1() { return (pir1); }
@@ -108,115 +138,45 @@ class P12F1822 : public _14bit_e_processor
 
       virtual EEPROM_EXTND *get_eeprom() { return ((EEPROM_EXTND *)eeprom); }
 
-      virtual PROCESSOR_TYPE isa(){return _P12F1822_;};
-
-      static Processor *construct(const char *name);
-      P12F1822(const char *_name=0, const char *desc=0);
-      ~P12F1822();
+     P16F178x(const char *_name=0, const char *desc=0);
+      ~P16F178x();
       virtual void create_sfr_map();
 
       virtual void set_out_of_range_pm(uint address, uint value);
-      virtual void create_iopin_map();
-      virtual void create(int ram_top, int eeprom_size, int dev_id);
-      virtual uint register_memory_size () const { return 0x1000; }
+      virtual void create(int ram_top, int eeprom_size);
       virtual void option_new_bits_6_7(uint bits);
-      virtual uint program_memory_size() const { return 2048; }
       virtual void enter_sleep();
       virtual void exit_sleep();
       virtual void oscillator_select(uint mode, bool clkout);
       virtual void program_memory_wp(uint mode);
+
+      uint ram_size;
 };
 
-class P12LF1822 : public P12F1822
+class P16F1788 : public P16F178x
 {
     public:
+      virtual PROCESSOR_TYPE isa(){return _P16F1788_;};
 
-      virtual PROCESSOR_TYPE isa(){return _P12LF1822_;};
-
-      static Processor *construct(const char *name);
-      
-      P12LF1822(const char *_name=0, const char *desc=0);
-      ~P12LF1822();
-      virtual void create(int ram_top, int eeprom_size, int dev_id);
-};
-
-class P12F1840 : public P12F1822
-{
-    public:
-      static Processor *construct(const char *name);
-      virtual uint program_memory_size() const { return 4096; }
-      virtual void create(int ram_top, int eeprom_size, int dev_id);
-      virtual PROCESSOR_TYPE isa(){return _P12F1840_;};
-      
-      P12F1840(const char *_name=0, const char *desc=0);
-      ~P12F1840();
-
-      sfr_register *vrefcon;
-};
-
-class P12LF1840 : public P12F1840
-{
-    public:
-      static Processor *construct(const char *name);
-      virtual void create(int ram_top, int eeprom_size, int dev_id);
-      virtual PROCESSOR_TYPE isa(){return _P12LF1840_;};
-      
-      P12LF1840(const char *_name=0, const char *desc=0);
-      ~P12LF1840();
-};
-
-class P16F1823 : public P12F1822
-{
-    public:
-      ANSEL_P   anselc;
-      virtual PROCESSOR_TYPE isa(){return _P16F1823_;};
-
-     P16F1823(const char *_name=0, const char *desc=0);
-      ~P16F1823();
-      
+     P16F1788(const char *_name=0, const char *desc=0);
+      ~P16F1788();
       static Processor *construct(const char *name);
       virtual void create_sfr_map();
       virtual void create_iopin_map();
       virtual void create(int ram_top, int eeprom_size, int dev_id);
-
-      PicPortBRegister *m_portc;
-      PicTrisRegister  *m_trisc;
-      PicLatchRegister *m_latc;
-      WPU              *m_wpuc;
+      virtual uint program_memory_size() const { return 16384; }
+      virtual uint register_memory_size () const { return 0x1000; }
 };
 
-class P16LF1823 : public P16F1823
+class P16LF1788 : public P16F1788
 {
     public:
-      virtual PROCESSOR_TYPE isa(){return _P16LF1823_;};
+      virtual PROCESSOR_TYPE isa(){return _P16LF1788_;};
 
-     P16LF1823(const char *_name=0, const char *desc=0);
-      ~P16LF1823();
-      
+     P16LF1788(const char *_name=0, const char *desc=0);
+      ~P16LF1788();
       static Processor *construct(const char *name);
       virtual void create(int ram_top, int eeprom_size, int dev_id);
-
 };
 
-class P16F1825 : public P16F1823
-{
-    public:
-      static Processor *construct(const char *name);
-      virtual uint program_memory_size() const { return 8*1024; }
-      virtual void create(int ram_top, int eeprom_size, int dev_id);
-      virtual PROCESSOR_TYPE isa(){return _P16F1825_;};
-      
-      P16F1825(const char *_name=0, const char *desc=0);
-      ~P16F1825();
-};
-
-class P16LF1825 : public P16F1825
-{
-    public:
-      static Processor *construct(const char *name);
-      virtual void create(int ram_top, int eeprom_size, int dev_id);
-      virtual PROCESSOR_TYPE isa(){return _P16LF1825_;};
-      P16LF1825(const char *_name=0, const char *desc=0);
-      ~P16LF1825();
-};
 #endif //__P1xF1xxx_H__
