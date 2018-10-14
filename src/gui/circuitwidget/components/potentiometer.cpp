@@ -106,7 +106,6 @@ void Potentiometer::initialize()
     }
     else if( enod != m_midEnode ) // Connected to external eNode: Delete mid eNode
     {
-        Simulator::self()->remFromEnodeList( m_midEnode, true );
         m_midEnode = enod;
     }
     else return;      // Already connected to boardLed eNode: Do nothing
@@ -135,7 +134,7 @@ void Potentiometer::updateStep()
             res2 = 1e-6;
             res1 = m_resist-res2;
         }
-        qDebug()<<"Potentiometer::updateStep"<<res1<<res2;
+        //qDebug()<<"Potentiometer::updateStep"<<res1<<res2;
         m_resA.setRes( res1 );
         m_resB.setRes( res2 );
         
@@ -186,7 +185,7 @@ void Potentiometer::remove()
         if( con ) con->remove();
     }
     
-    if( m_midEnode ) Simulator::self()->remFromEnodeList( m_midEnode, true );
+    //if( m_midEnode ) Simulator::self()->remFromEnodeList( m_midEnode, true );
     
     Simulator::self()->remFromUpdateList( this );
     
