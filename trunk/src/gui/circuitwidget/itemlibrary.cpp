@@ -27,6 +27,7 @@
 #include "arduino.h"
 #include "audio_out.h"
 #include "avrcomponent.h"
+#include "bcdto7s.h"
 #include "bcdtodec.h"
 #include "bincounter.h"
 #include "bjt.h"
@@ -169,6 +170,7 @@ void ItemLibrary::loadItems()
     addItem( Demux::libraryItem() );
     addItem( BcdToDec::libraryItem() );
     addItem( DecToBcd::libraryItem() );
+    addItem( BcdTo7S::libraryItem() );
     addItem( ADC::libraryItem() );
     addItem( DAC::libraryItem() );
     addItem( OutBus::libraryItem() );
@@ -276,9 +278,9 @@ LibraryItem::LibraryItem( const QString &name,
     m_type      = type;
     m_help      = "Sorry... no Help Available";
     createItem  = _createItem;
-    
-    
+
 }
+
 LibraryItem::~LibraryItem() { }
 
 QString* LibraryItem::help() 
@@ -309,3 +311,4 @@ QString* LibraryItem::help()
     }
     return &m_help; 
 }
+
