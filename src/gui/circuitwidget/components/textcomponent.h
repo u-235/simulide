@@ -9,6 +9,7 @@ class MAINMODULE_EXPORT TextComponent : public Component
 {
     Q_OBJECT
     Q_PROPERTY( QString  Text  READ getText    WRITE setText )
+    Q_PROPERTY( QString  Font  READ getFont    WRITE setFont     DESIGNABLE true USER true )
     Q_PROPERTY( bool Fixed_Width READ fixedW   WRITE setFixedW   DESIGNABLE true USER true )
     Q_PROPERTY( int  Font_Size   READ fontSize WRITE setFontSize DESIGNABLE true USER true )
     Q_PROPERTY( int  Margin      READ margin   WRITE setMargin   DESIGNABLE true USER true )
@@ -27,20 +28,23 @@ class MAINMODULE_EXPORT TextComponent : public Component
  static Component* construct( QObject* parent, QString type, QString id );
  static LibraryItem *libraryItem();
  
-        int margin();
+        int  margin();
         void setMargin( int margin );
         
-        int border();
+        int  border();
         void setBorder( int border );
         
-        int fontSize();
+        int  fontSize();
         void setFontSize( int size );
         
         bool fixedW();
         void setFixedW( bool fixedW );
 
         QString getText();
-        void setText( QString text );
+        void    setText( QString text );
+        
+        QString getFont();
+        void    setFont( QString font );
 
         void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
 
@@ -56,6 +60,8 @@ class MAINMODULE_EXPORT TextComponent : public Component
         int  m_margin;
         int  m_border;
         bool m_fixedW;
+        
+        QString m_font;
 };
 
 #endif // TEXTCOMPONENT_H

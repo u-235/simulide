@@ -47,8 +47,9 @@ TextComponent::TextComponent( QObject* parent, QString type, QString id )
     Q_UNUSED( TextComponent_properties );
     
     m_color = QColor( 255, 255, 220 );
+    m_font  = "Helvetica [Cronyx]";
 
-    QFont sansFont( "Helvetica [Cronyx]", 10 );
+    QFont sansFont( m_font, 10 );
     #if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
     sansFont.setWeight( QFont::Medium );
     #else
@@ -101,14 +102,26 @@ bool TextComponent::fixedW() { return m_fixedW; }
 void TextComponent::setFixedW( bool fixedW ) 
 { 
     m_fixedW = fixedW;
-    QFont sansFont( "Helvetica [Cronyx]", 10 );
-    #if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
-    sansFont.setWeight( QFont::Medium );
-    #else
-    sansFont.setWeight( QFont::Normal);
-    #endif
-    sansFont.setFixedPitch( fixedW );
-    m_text->setFont( sansFont );
+    
+    QFont font = m_text->font();
+    font.setFixedPitch( fixedW );
+    m_text->setFont( font );
+    updateGeometry( 0, 0, 0 );
+}
+
+QString TextComponent::getFont()
+{
+    return m_font;
+}
+
+void TextComponent::setFont( QString font )
+{
+    if( font == "" ) return;
+    m_font = font;
+    
+    QFont Tfont = m_text->font();
+    Tfont.setFamily( font );
+    m_text->setFont( Tfont );
     updateGeometry( 0, 0, 0 );
 }
 
@@ -116,8 +129,10 @@ int TextComponent::fontSize()
 {
     return m_fontSize;
 }
+
 void TextComponent::setFontSize( int size )
 {
+    if( size < 1 ) return;
     m_fontSize = size;
     
     QFont font = m_text->font();
