@@ -29,6 +29,7 @@
 #include "e-latch_d.h"
 #include "e-resistor.h"
 #include "e-capacitor.h"
+#include "e-bcdto7s.h"
 #include "e-bcdtodec.h"
 #include "e-dectobcd.h"
 #include "e-bincounter.h"
@@ -304,6 +305,12 @@ void SubCircuit::initSubcircuit()
                 edemux->createPins();
                 ecomponent = edemux;
             }
+            else if( type == "eBcdTo7S" )
+            {
+                eBcdTo7S* ebcdto7s = new eBcdTo7S( id.toStdString() );
+                ebcdto7s->createPins();
+                ecomponent = ebcdto7s;
+            }
             else if( type == "eBcdToDec" )
             {
                 eBcdToDec* ebcdtodec = new eBcdToDec( id.toStdString() );
@@ -510,7 +517,7 @@ void SubCircuit::initSubcircuit()
 
                     QString pin = pins.first();
 
-                    //qDebug() << "SubCircuit::initSubcircuit connecting:"<<element.attribute( "itemtype" ) << pins.first() << pins.last();
+                    qDebug() << "SubCircuit::initSubcircuit connecting:"<<element.attribute( "itemtype" ) << pins.first() << pins.last();
                     ePin* epin = 0l;
 
                     if( pin.startsWith("componentPin"))

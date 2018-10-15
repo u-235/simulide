@@ -37,7 +37,8 @@ LibraryItem* BcdToDec::libraryItem()
 }
 
 BcdToDec::BcdToDec( QObject* parent, QString type, QString id )
-        : LogicComponent( parent, type, id ), eBcdToDec( id.toStdString() )
+        : LogicComponent( parent, type, id )
+        , eBcdToDec( id.toStdString() )
 {
     m_width  = 4;
     m_height = 11;

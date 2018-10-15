@@ -43,8 +43,6 @@ class MAINMODULE_EXPORT BcdTo7S : public LogicComponent, public eBcdTo7S
         static Component* construct( QObject* parent, QString type, QString id );
         static LibraryItem *libraryItem();
         
-        virtual void setVChanged();
-        
         bool tristate() { return true; }
 };
 

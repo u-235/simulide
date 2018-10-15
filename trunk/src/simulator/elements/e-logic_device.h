@@ -62,7 +62,7 @@ class MAINMODULE_EXPORT eLogicDevice : public eElement
         void  setOutImp( double imp );
 
         bool clockInv() const            { return m_clockPin->isInverted(); }
-        void setClockInv( bool inv )     { m_clockPin->setInverted(inv);}
+        void setClockInv( bool inv );
 
         bool inverted() { return m_inverted; }
         void setInverted( bool inverted );

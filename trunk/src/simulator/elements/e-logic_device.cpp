@@ -19,7 +19,9 @@
 
 #include <sstream>
 #include <QDebug>
+
 #include "e-logic_device.h"
+#include "circuit.h"
 
 eLogicDevice::eLogicDevice( std::string id )
             : eElement( id )
@@ -381,6 +383,7 @@ void eLogicDevice::setInverted( bool inverted )
     {
         m_output[i]->setInverted( inverted );
     }
+    Circuit::self()->update();
 }
 
 void eLogicDevice::setInvertInps( bool invert )
@@ -390,6 +393,13 @@ void eLogicDevice::setInvertInps( bool invert )
     {
         m_input[i]->setInverted( invert );
     }
+    Circuit::self()->update();
+}
+
+void eLogicDevice::setClockInv( bool inv )     
+{ 
+    m_clockPin->setInverted(inv);
+    Circuit::self()->update();
 }
 
 int eLogicDevice::getClockState()

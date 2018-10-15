@@ -45,6 +45,8 @@ void eBcdTo7S::initialize()
 
 void eBcdTo7S::setVChanged()
 {
+    eLogicDevice::updateOutEnabled();
+    
     m_changed = true;
     
     bool a = eLogicDevice::getInputState( 0 );
@@ -201,6 +203,7 @@ void eBcdTo7S::setVChanged()
         m_outValue[6] = true;
         break;
     }
+    for( int i=0; i<m_numOutputs; i++ ) setOut( i, m_outValue[i] );
 }
 
 void eBcdTo7S::createPins()
