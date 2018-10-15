@@ -163,11 +163,11 @@ void SevenSegment::setResistance( double res )
 
 void SevenSegment::initialize()
 {
-    for( int i=0; i<8; i++ ) m_enode[i] = m_ePin[i]->getEnode(); // Get the actual eNode of pin i
+    for( int i=0; i<8; i++ ) m_enode[i] = m_ePin[i]->getEnode(); // Get eNode of pin i
 
     for( int i=0; i<m_numDisplays; i++ )
     {
-        eNode* commonEnode = m_commonPin[i]->getEnode();     // Get the actual eNode of common
+        eNode* commonEnode = m_commonPin[i]->getEnode();     // Get eNode of common
 
         int pin;
         if( m_commonCathode )
@@ -222,7 +222,8 @@ void SevenSegment::createDisplay( int dispNumber )
         if( i<7 ) lsmd = new LedSmd( this, "LEDSMD", nodid, QRectF(0, 0, 13.5, 1.5) ); // Segment
         else      lsmd = new LedSmd( this, "LEDSMD", nodid, QRectF(0, 0, 1.5, 1.5) );  // Point
         lsmd->setParentItem(this);
-        lsmd->setEnabled(false);
+        //lsmd->setEnabled(false);
+        lsmd->setAcceptedMouseButtons(0);
         lsmd->setNumEpins(2);
         lsmd->setMaxCurrent( 0.02 );
 
@@ -247,21 +248,6 @@ void SevenSegment::createDisplay( int dispNumber )
 
 void SevenSegment::remove()
 {
-    /*for( int i=0; i<8; i++ )
-        if( m_ePin[i]->isConnected() ) (static_cast<Pin*>(m_ePin[i]))->connector()->remove();
-
-    for( int i=0; i<m_numDisplays; i++ )
-    {
-        int pin;
-
-        for( int j=0; j<8; j++ )
-        {
-            pin = i*8+j;
-            m_cathodePin[pin]->setEnode( 0l );
-            m_anodePin[pin]->setEnode( 0l );
-        }
-    }*/
-
     for( int i=0; i<m_numDisplays; i++ ) deleteDisplay( i );
         
     Component::remove();

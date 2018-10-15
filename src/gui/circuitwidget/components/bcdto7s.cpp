@@ -37,8 +37,8 @@ LibraryItem* BcdTo7S::libraryItem()
 }
 
 BcdTo7S::BcdTo7S( QObject* parent, QString type, QString id )
-        : LogicComponent( parent, type, id )
-        , eBcdTo7S( id.toStdString() )
+       : LogicComponent( parent, type, id )
+       , eBcdTo7S( id.toStdString() )
 {
     m_width  = 4;
     m_height = 8;
@@ -55,13 +55,13 @@ BcdTo7S::BcdTo7S( QObject* parent, QString type, QString id )
             << "IU01OE "
             
             // Outputs:
-            << "OR01A  "
-            << "OR02B  "
-            << "OR03C  "
-            << "OR04D "
-            << "OR05E  "
-            << "OR06F  "
-            << "OR07G "
+            << "OR01a  "
+            << "OR02b  "
+            << "OR03c  "
+            << "OR04d "
+            << "OR05e  "
+            << "OR06f  "
+            << "OR07g "
             ;
     init( pinList );
 
@@ -76,12 +76,5 @@ BcdTo7S::BcdTo7S( QObject* parent, QString type, QString id )
     }
 }
 BcdTo7S::~BcdTo7S(){}
-
-void BcdTo7S::setVChanged()
-{
-    eBcdTo7S::setVChanged();
-    
-    for( int i=0; i<7; i++ ) setOut( i, m_outValue[i] );
-}
 
 #include "moc_bcdto7s.cpp"
