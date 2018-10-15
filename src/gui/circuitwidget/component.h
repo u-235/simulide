@@ -122,14 +122,14 @@ class MAINMODULE_EXPORT Component : public QObject, public QGraphicsItem
         void moved();
 
     public slots:
-        void rotateCW();
-        void rotateCCW();
-        void rotateHalf();
-        void H_flip();
-        void V_flip();
-        void slotRemove();
+        virtual void slotProperties();
+        virtual void rotateCW();
+        virtual void rotateCCW();
+        virtual void rotateHalf();
+        virtual void H_flip();
+        virtual void V_flip();
+        virtual void slotRemove();
         void slotCopy();
-        void slotProperties();
 
         virtual void remove();
 
@@ -161,6 +161,7 @@ class MAINMODULE_EXPORT Component : public QObject, public QGraphicsItem
         QString m_id;
         QString m_type;
         QString m_category;
+        QString m_BackGround;   // BackGround Image
         
         QString* m_help;
         

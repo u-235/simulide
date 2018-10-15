@@ -33,7 +33,6 @@
 #include "simulator.h"
 #include "utils.h"
 
-//#include "simuapi_apppath.h"
 
 static const char* McuComponent_properties[] = {
     QT_TRANSLATE_NOOP("App::Property","Program")
@@ -76,7 +75,6 @@ void McuComponent::initChip()
 
     m_dataFile = ComponentSelector::self()->getXmlFile( compName );
     
-    //qDebug() << "McuComponent::initChip datafile: " << compName << " <= " << m_dataFile;
     QFile file( m_dataFile );
     
     if(( m_dataFile == "" ) || ( !file.exists() ))
@@ -122,14 +120,11 @@ void McuComponent::initChip()
                 
                 // Get device
                 m_device = element.attribute( "device" );
-                //qDebug()<<"McuComponent::initChip" << "m_device" <<m_device;
-                
                 m_processor->setDevice( m_device );
-                //else qDebug() << compName << "ERROR!! McuComponent::initChip m_processor: " << m_processor;
                 
                 // Get data file
                 QString dataFile = dataDir.filePath( element.attribute( "data" ) )+".data";
-                //qDebug() <<m_device<< dataFile;
+
                 m_processor->setDataFile( dataFile );
                 if( element.hasAttribute( "icon" ) ) m_BackGround = ":/" + element.attribute( "icon" );
 
@@ -198,8 +193,18 @@ void McuComponent::remove()
 
 void McuComponent::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
 {
-    event->accept();
-    QMenu* menu = new QMenu();
+    if( !acceptedMouseButtons() ) event->ignore();
+    else
+    {
+        event->accept();
+        QMenu* menu = new QMenu();
+        contextMenu( event, menu );
+        menu->deleteLater();
+    }
+}
+
+void McuComponent::contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu )
+{
     QAction* loadAction = menu->addAction( QIcon(":/load.png"),tr("Load firmware") );
     connect( loadAction, SIGNAL(triggered()), this, SLOT(slotLoad()) );
 
@@ -221,7 +226,6 @@ void McuComponent::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
     menu->addSeparator();
 
     Component::contextMenu( event, menu );
-    menu->deleteLater();
 }
 
 

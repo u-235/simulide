@@ -113,7 +113,7 @@ void Hd44780::resetState()
     m_imgWidth  = (m_cols*6-1)*2;
     m_imgHeight = (m_rows*9-1)*2;
     m_area = QRectF( 0, -(m_imgHeight+33), m_imgWidth+20, m_imgHeight+33 );
-    //setTransformOriginPoint(m_area.center() );
+    setTransformOriginPoint(m_area.center() );
     
     clearLcd();
 }
@@ -347,6 +347,29 @@ void Hd44780::remove()
     Simulator::self()->remFromUpdateList( this );
     
     Component::remove();
+}
+
+ePin* Hd44780::getEpin( QString pinName )
+{
+    if     ( pinName == "RS" ) return m_pinRS;
+    else if( pinName == "RW" ) return m_pinRW;
+    else if( pinName == "En" ) return m_pinEn;
+    else if( pinName.contains( "D" ) )
+    {
+        int pin = pinName.remove("D").toInt();
+        return m_dataPin[pin];
+    }
+
+    return 0l;
+}
+
+void Hd44780::showPins( bool show )
+{
+    m_pinRS->setVisible( show );
+    m_pinRW->setVisible( show );
+    m_pinEn->setVisible( show );
+    
+    for( int i=0; i<8; i++ ) m_dataPin[i]->setVisible( show );
 }
 
 void Hd44780::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )

@@ -56,6 +56,8 @@ class MAINMODULE_EXPORT McuComponent : public Chip
         
         bool serMon();
         void setSerMon( bool set );
+        
+        QList<McuComponentPin*> getPinList() { return m_pinList; }
 
         virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget );
   
@@ -71,11 +73,13 @@ class MAINMODULE_EXPORT McuComponent : public Chip
         void slotOpenSerial();
         void slotCloseSerial();
         
+        void contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu );
+        
     protected:
  static McuComponent* m_pSelf;
  static bool m_canCreate;
-  
-        void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
+        
+        virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
 
         virtual void addPin( QString id, QString type, QString label, int pos, int xpos, int ypos, int angle )=0;
         virtual void attachPins()=0;
@@ -91,7 +95,6 @@ class MAINMODULE_EXPORT McuComponent : public Chip
         QString m_device;       // Name of device
         QString m_symbolFile;   // firmware file loaded
         QString m_lastFirmDir;  // Last firmware folder used
-        QString m_BackGround;   // BackGround Image
         
         QList<McuComponentPin*> m_pinList;
 };

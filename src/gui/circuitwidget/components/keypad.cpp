@@ -119,7 +119,6 @@ void KeyPad::setupButtons()
                 QPoint pinPos = QPoint( col*16, m_rows*16+8);
                 m_pin[m_rows+col] = new Pin( 270, pinPos, pinId, 0, this);
             }
-            
         }
     }
 }

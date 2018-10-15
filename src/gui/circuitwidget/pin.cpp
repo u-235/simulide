@@ -46,7 +46,7 @@ Pin::Pin( int angle, const QPoint &pos, QString id, int index, Component* parent
     setPos( pos );
     setRotation( 180-angle );
     setLength(8);
-    setCursor(Qt::CrossCursor);
+    setCursor( Qt::CrossCursor );
     setFlag( QGraphicsItem::ItemStacksBehindParent, true );
     setFlag( QGraphicsItem::ItemIsSelectable, true );
 
@@ -146,6 +146,11 @@ void Pin::mousePressEvent(QGraphicsSceneMouseEvent* event)
         }
         else event->ignore();
     }
+}
+
+QString Pin::getLabelText()
+{
+    return m_label.text();
 }
 
 void Pin::setLabelText( QString label )
