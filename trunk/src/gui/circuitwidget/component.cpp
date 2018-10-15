@@ -59,6 +59,7 @@ Component::Component( QObject* parent , QString type, QString id )
     m_showId = false;
     m_moving = false;
     m_printable = false;
+    m_BackGround = "";
     
     QFont f;
     f.setPixelSize(10);
@@ -68,7 +69,6 @@ Component::Component( QObject* parent , QString type, QString id )
     m_idLabel->setFont(f);
     setLabelPos(-16,-24, 0);
     setShowId( false );
-    
     
     m_valLabel = new Label( this );
     m_valLabel->setDefaultTextColor( Qt::black );
@@ -80,17 +80,17 @@ Component::Component( QObject* parent , QString type, QString id )
     setObjectName( id );
     setId(id);
 
-    setCursor(Qt::OpenHandCursor);
+    setCursor( Qt::OpenHandCursor );
     this->setFlag( QGraphicsItem::ItemIsSelectable, true );
     
-    setTransformOriginPoint( boundingRect().center() );
+    //setTransformOriginPoint( boundingRect().center() );
 
     if( type == "Connector" ) Circuit::self()->conList()->append( this );
     else                      Circuit::self()->compList()->prepend( this );
 }
 Component::~Component(){}
 
-void Component::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void Component::mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
     if( event->button() == Qt::LeftButton )
     {
@@ -108,7 +108,6 @@ void Component::mousePressEvent(QGraphicsSceneMouseEvent* event)
         //PropertiesWidget::self()->setHelpText( m_help );
         
         setCursor( Qt::ClosedHandCursor );
-        grabMouse();
     }
 }
 
@@ -122,7 +121,7 @@ void Component::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* event )
     }
 }
 
-void Component::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+void Component::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 {
     event->accept();
 
@@ -152,24 +151,28 @@ void Component::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
 void Component::move( QPointF delta )
 {
-    setPos( scenePos() + delta );
+    setPos( pos() + delta );
     emit moved();
 }
 
-void Component::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+void Component::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
 {
     event->accept();
     setCursor( Qt::OpenHandCursor );
-    ungrabMouse();
+
     m_moving = false;
 }
 
-void Component::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
+void Component::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
 {
-    event->accept();
-    QMenu* menu = new QMenu();
-    contextMenu( event, menu );
-    menu->deleteLater();
+    if( !acceptedMouseButtons() ) event->ignore();
+    else
+    {
+        event->accept();
+        QMenu* menu = new QMenu();
+        contextMenu( event, menu );
+        menu->deleteLater();
+    }
 }
 
 void Component::contextMenu( QGraphicsSceneContextMenuEvent* event, QMenu* menu )
@@ -255,14 +258,14 @@ void Component::V_flip()
 void Component::rotateCW()
 {
     Circuit::self()->saveState();
-    setRotation( rotation() + 90);
+    setRotation( rotation() + 90 );
     emit moved();
 }
 
 void Component::rotateCCW()
 {
     Circuit::self()->saveState();
-    setRotation( rotation() - 90);
+    setRotation( rotation() - 90 );
     emit moved();
 }
 
@@ -555,19 +558,23 @@ void Label::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void Label::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
-    event->accept();
-    QMenu menu;
+    if( !acceptedMouseButtons() ) event->ignore();
+    else
+    {
+        event->accept();
+        QMenu menu;
 
-    QAction* rotateCWAction = menu.addAction(QIcon(":/rotateCW.png"),"Rotate CW");
-    connect(rotateCWAction, SIGNAL(triggered()), this, SLOT(rotateCW()));
+        QAction* rotateCWAction = menu.addAction(QIcon(":/rotateCW.png"),"Rotate CW");
+        connect(rotateCWAction, SIGNAL(triggered()), this, SLOT(rotateCW()));
 
-    QAction* rotateCCWAction = menu.addAction(QIcon(":/rotateCCW.png"),"Rotate CCW");
-    connect(rotateCCWAction, SIGNAL(triggered()), this, SLOT(rotateCCW()));
+        QAction* rotateCCWAction = menu.addAction(QIcon(":/rotateCCW.png"),"Rotate CCW");
+        connect(rotateCCWAction, SIGNAL(triggered()), this, SLOT(rotateCCW()));
 
-    QAction* rotate180Action = menu.addAction(QIcon(":/rotate180.png"),"Rotate 180º");
-    connect(rotate180Action, SIGNAL(triggered()), this, SLOT(rotate180()));
+        QAction* rotate180Action = menu.addAction(QIcon(":/rotate180.png"),"Rotate 180º");
+        connect(rotate180Action, SIGNAL(triggered()), this, SLOT(rotate180()));
 
-    /*QAction* selectedAction = */menu.exec(event->screenPos());
+        /*QAction* selectedAction = */menu.exec(event->screenPos());
+    }
 }
 
 void Label::setLabelPos()

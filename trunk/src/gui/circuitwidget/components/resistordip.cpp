@@ -66,7 +66,7 @@ ResistorDip::ResistorDip( QObject* parent, QString type, QString id )
     setValLabelY(-20 );
     setValLabRot( 90 );
     setValLabelPos();
-    m_valLabel->setEnabled( false );
+    //m_valLabel->setEnabled( false );
     m_valLabel->setAcceptedMouseButtons(0);
     setShowVal( true );
 }

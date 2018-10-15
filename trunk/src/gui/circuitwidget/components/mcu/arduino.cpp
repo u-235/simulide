@@ -17,11 +17,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "arduino.h"
 #include "mainwindow.h"
 #include "circuit.h"
 #include "e-resistor.h"
 #include "itemlibrary.h"
-#include "arduino.h"
 #include "utils.h"
 
 LibraryItem* Arduino::libraryItem()
@@ -30,7 +30,7 @@ LibraryItem* Arduino::libraryItem()
         tr("Arduino"),
         tr("Micro"),   
         "arduinoUnoIcon.png",
-        tr("Arduino"),
+        "Arduino",
         Arduino::construct );
 }
 
@@ -64,8 +64,6 @@ Arduino::Arduino( QObject* parent, QString type, QString id )
     
     setLabelPos( 100,-21, 0); // X, Y, Rot
     
-    setTransformOriginPoint( boundingRect().center() );
-
     initChip();
     if( m_error == 0 )
     {
@@ -79,6 +77,7 @@ Arduino::Arduino( QObject* parent, QString type, QString id )
     {
         qDebug() <<"     ..."<<m_id<<"Error!!!\n";
     }
+    setTransformOriginPoint( boundingRect().center() );
 }
 Arduino::~Arduino() 
 {
@@ -102,49 +101,6 @@ void Arduino::remove()
     McuComponent::remove();
 }
 
-void Arduino::initBootloader()
-{
-    
-    /*struct avr_flash flash_data;
-    char boot_path[1024] = "data/arduino/ATmegaBOOT_168_atmega328.hex";
-    uint32_t boot_base, boot_size;
-    
-    avr_t* avr = avr_make_mcu_by_name("atmega328p");
-    AvrProcessor *ap = dynamic_cast<AvrProcessor*>( m_processor );
-    ap->setCpu( avr );
-    
-    uint8_t* boot = read_ihex_file(boot_path, &boot_size, &boot_base);
-    if (!boot)
-        fprintf(stderr, "Unable to load %s\n", boot_path);
-    
-    flash_data.avr_flash_fd = 0;
-    // register our own functions
-    avr->custom.init = avr_special_init;
-    avr->custom.deinit = avr_special_deinit;
-    avr->custom.data = &flash_data;
-    avr_init(avr);
-    avr->frequency = 16000000;
-    
-    memcpy(avr->flash + boot_base, boot, boot_size);
-    free(boot);
-    avr->pc = boot_base;
-    // end of flash, remember we are writing /code/ 
-    avr->codeend = avr->flashend;
-    avr->log = 1;
-    
-    ap->initialized();
-    
-    attachPins();
-    //reset();
-    
-    uart_pty_init(avr, &m_uart_pty);
-    uart_pty_connect(&m_uart_pty, '0');
-    if (!m_uart_pty.run) //thread)
-    {
-        ///TODO: shade connection symbol to indicate it is not active
-    }*/
-}
-
 void Arduino::initialize()
 {
     eNode* enod = m_pb5Pin->getEnode();
@@ -157,8 +113,8 @@ void Arduino::initialize()
     }
     else if( enod != m_boardLedEnode ) // Connected to external eNode: Delete boardLed eNode
     {
-        Simulator::self()->remFromEnodeList( m_boardLedEnode, true );
-        m_boardLedEnode = 0l;
+        //Simulator::self()->remFromEnodeList( m_boardLedEnode, true );
+        m_boardLedEnode = enod;
     }
     else return;                       // Already connected to boardLed eNode: Do nothing
     
@@ -257,17 +213,8 @@ void Arduino::attachPins()
     // Registra IRQ para recibir petiones de voltaje de pin ( usado en ADC )
     avr_irq_t* adcIrq = avr_io_getirq( cpu, AVR_IOCTL_ADC_GETIRQ, ADC_IRQ_OUT_TRIGGER );
     avr_irq_register_notify( adcIrq, adc_hook, this );
-
+    
     m_attached = true;
-    
-    //uart_pty_t m_uart_pty;
-    /*uart_pty_init(cpu, &m_uart_pty);
-    uart_pty_connect(&m_uart_pty, 0, '0');
-    
-    if (!m_uart_pty.run) //thread)
-    {
-        qDebug() << "Arduino::attachPins, Failed to run uart_pty";
-    }*/
 }
 
 void Arduino::addPin( QString id, QString type, QString label, int pos, int xpos, int ypos, int angle )

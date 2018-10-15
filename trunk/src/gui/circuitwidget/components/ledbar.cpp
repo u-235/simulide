@@ -52,7 +52,7 @@ LedBar::LedBar( QObject* parent, QString type, QString id )
         m_led[i] = new LedSmd( this, "LEDSMD", ledid, QRectF(0, 0, 4, 4) );
         m_led[i]->setParentItem(this);
         m_led[i]->setPos( 0, -28+2+i*8 );
-        m_led[i]->setEnabled( false );
+        //m_led[i]->setEnabled( false );
         m_led[i]->setAcceptedMouseButtons(0);
         
         QPoint nodpos = QPoint(-16,-32+8+i*8 );

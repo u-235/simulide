@@ -55,14 +55,13 @@ Resistor::Resistor( QObject* parent, QString type, QString id )
     pinPos = QPoint(8+8,0);
     m_ePin[1] = new Pin( 0, pinPos, pinId, 1, this);
 
-    //m_idLabel->setText( QString("") );
     m_idLabel->setPos(-12,-24);
     setLabelPos(-12,-24, 0);
     
     m_unit = "Ω";
     setResist( m_resist );
+    
     setValLabelPos(-16, 6, 0);
-    //m_valLabel->setPos(-16, 6);
     setShowVal( true );
 }
 Resistor::~Resistor(){}

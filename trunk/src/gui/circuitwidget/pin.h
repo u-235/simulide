@@ -52,8 +52,7 @@ class MAINMODULE_EXPORT Pin : public QObject, public QGraphicsItem, public ePin
         void setConPin( Pin* pin );
         Pin* conPin();
 
-        //double getVolt();
-
+        QString getLabelText();
         void setLabelText( QString label );
         void setLabelPos();
         void setLabelColor( QColor color );
@@ -80,7 +79,6 @@ class MAINMODULE_EXPORT Pin : public QObject, public QGraphicsItem, public ePin
         int m_angle;
         int m_length;
 
-        //bool m_changed;
         bool m_blocked;
         bool m_isBus;
 

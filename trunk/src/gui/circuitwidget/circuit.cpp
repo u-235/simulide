@@ -470,23 +470,6 @@ void Circuit::loadDomDoc( QDomDocument* doc )
                 if( item )
                 {
                     loadProperties( element, item );
-                    if( docType == "simu" ) // version<0.1.5
-                    {
-                        QString itemType = item->itemType();
-
-                        if( itemType == "FlipFlopD" )
-                        {
-                            item->setProperty( "S_R_Inverted", true );
-                        }
-                        else if( itemType == "FlipFlopJK" )
-                        {
-                            item->setProperty( "S_R_Inverted", true );
-                        }
-                        else if( (itemType == "Counter") || (itemType == "ShiftReg") )
-                        {
-                            item->setProperty( "Reset_Inverted", true );
-                        }
-                    }
                     compList.append( item );
                 }
                 else qDebug() << " ERROR Creating Component: "<< type << id;

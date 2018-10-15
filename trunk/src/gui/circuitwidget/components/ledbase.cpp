@@ -85,13 +85,13 @@ bool LedBase::grounded()
 
 void LedBase::setGrounded( bool grounded )
 {
+    if( grounded == m_grounded ) return;
+    
     bool pauseSim = Simulator::self()->isRunning();
-    if( pauseSim ) Simulator::self()->pauseSim();
+    if( pauseSim )  Simulator::self()->pauseSim();
 
     if( grounded )
     {
-        if( m_grounded ) return;
-        
         Pin* pin1 = (static_cast<Pin*>(m_ePin[1]));
         if( m_ePin[1]->isConnected() ) pin1->connector()->remove();
         pin1->setEnabled( false );
@@ -110,15 +110,12 @@ void LedBase::setGrounded( bool grounded )
     }
     else
     {
-        if( !m_grounded ) return;
-        
         Pin* pin1 = (static_cast<Pin*>(m_ePin[1]));
 
         pin1->setEnabled( true );
         pin1->setVisible( true );
         
         delete m_ground;
-        delete m_scrEnode;
 
         m_ground = 0l;
         m_scrEnode = 0l;

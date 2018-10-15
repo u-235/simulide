@@ -37,10 +37,7 @@ Chip::~Chip() {}
 
 void Chip::initChip()
 {
-
-    //QString dfPath = SIMUAPI_AppPath::self()->availableDataFilePath(m_dataFile);
-    //qDebug() << "Chip::initChip datafile: " << dfPath;
-    QFile file(m_dataFile);
+    QFile file( m_dataFile );
     if( !file.open(QFile::ReadOnly | QFile::Text) )
     {
         MessageBoxNB( "Chip::initChip",

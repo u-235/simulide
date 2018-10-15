@@ -103,7 +103,7 @@ void LedMatrix::createMatrix()
             lsmd->setNumEpins(2);
             lsmd->setMaxCurrent( 0.02 );
             lsmd->setPos( col*8, row*8 );
-            lsmd->setEnabled(false);
+            //lsmd->setEnabled(false);
             lsmd->setAcceptedMouseButtons(0);
         }
     }
