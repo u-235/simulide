@@ -20,7 +20,7 @@
  #include "renderarea.h"
 
  RenderArea::RenderArea( int width, int height, QWidget *parent )
-     : QWidget( parent )
+           : QWidget( parent )
  {
      antialiased = false;
 
