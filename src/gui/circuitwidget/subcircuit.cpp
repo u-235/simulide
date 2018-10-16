@@ -517,7 +517,7 @@ void SubCircuit::initSubcircuit()
 
                     QString pin = pins.first();
 
-                    qDebug() << "SubCircuit::initSubcircuit connecting:"<<element.attribute( "itemtype" ) << pins.first() << pins.last();
+                    //qDebug() << "SubCircuit::initSubcircuit connecting:"<<element.attribute( "itemtype" ) << pins.first() << pins.last();
                     ePin* epin = 0l;
 
                     if( pin.startsWith("componentPin"))

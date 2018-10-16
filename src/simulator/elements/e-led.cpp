@@ -58,7 +58,7 @@ void eLed::updateVI()
 {
     eDiode::updateVI();
     
-    const unsigned long long step = Simulator::self()->step();
+    const uint64_t step = Simulator::self()->step();
     int period = step - m_prevStep;    
 
     m_prevStep = step;

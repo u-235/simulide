@@ -46,6 +46,7 @@ class MAINMODULE_EXPORT PlotterWidget : public QWidget
 
         QColor getColor( int channel );
 
+        void clear();
         void step();
         void setData( int channel, int data );
         void setTicksPs( int tps );

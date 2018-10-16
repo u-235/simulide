@@ -219,7 +219,6 @@ void SerialPortWidget::slotWriteData( const QByteArray &data )
 {
     if( m_serial->isOpen() )
     {
-       //qint64 written =
        m_serial->write( data );
         //qDebug() << "SerialPortWidget::slotWriteData"<<written<<data;
     }

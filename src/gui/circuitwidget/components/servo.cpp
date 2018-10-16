@@ -98,7 +98,7 @@ void Servo::resetState()
 
 void Servo::updateStep()
 {
-    unsigned long long step = Simulator::self()->step();
+    uint64_t step = Simulator::self()->step();
 
     if( m_targetPos != m_pos )
     {

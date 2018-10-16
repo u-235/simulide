@@ -55,11 +55,17 @@ PlotterWidget::PlotterWidget(  QWidget *parent  )
         m_data[i] = -1000;
         m_channel[i] = false;
     }
-    m_numchan = 1;
-    for( int i=0; i<1000; i++ ) step();
-    m_numchan = 0;
+    clear();
 }
 PlotterWidget::~PlotterWidget(){ }
+
+void PlotterWidget::clear()
+{
+    int numchan = m_numchan;
+    m_numchan = 1;
+    for( int i=0; i<5000; i++ ) step();
+    m_numchan = numchan;
+}
 
 int PlotterWidget::getChannel()
 {
@@ -68,7 +74,7 @@ int PlotterWidget::getChannel()
         if( m_channel[i] == true ) continue;
 
         addChannel( i+1 );
-        return i+1;              // return channel number assigned
+        return i+1;                    // return channel number assigned
     }
     return 0;                              // -1 = not channel available
 }
@@ -78,9 +84,9 @@ void PlotterWidget::addChannel( int channel )
     channel--;
     m_numchan++;                                    // Inc used channels
     m_channel[channel] = true;                    // Set channel to busy
-    m_chanLabel[channel]->setEnabled( true );  // Set channel label enabled
+    m_chanLabel[channel]->setEnabled( true );
     m_chanLabel[channel]->setText( " 0.00 V" );
-    if( m_numchan > 0 ) setVisible( true ); // Set this visible if some channel active
+    if( m_numchan > 0 ) setVisible( true );
 }
 
 void PlotterWidget::remChannel( int channel )
@@ -89,12 +95,17 @@ void PlotterWidget::remChannel( int channel )
     if( channel < 0 || channel > 3 || m_channel[channel] == false ) return; // Nothing to do
 
     m_numchan--;                                // Decrease used channel
-    if( m_numchan == 0 ) setVisible( false );   // Hide this if no channel active
-    m_channel[channel] = false;                 // Set channel to not busy
-    m_chanLabel[channel]->setEnabled( false );   // Disable channel label
-    m_data[channel] = 0;                        // reset data
+    m_channel[channel] = false;               // Set channel to not busy
+    m_chanLabel[channel]->setEnabled( false );  // Disable channel label
+    m_data[channel] = 0;                                   // reset data
     m_chanLabel[channel]->setText( "--.-- V" );
     m_rArea->setData( channel, 0 );
+    
+    if( m_numchan == 0 )               // Hide this if no channel active
+    {
+        setVisible( false );
+        clear();
+    }
 }
 
 QColor PlotterWidget::getColor( int channel )
@@ -107,10 +118,15 @@ void PlotterWidget::step()
 {
     if( m_numchan == 0 ) return; // No data to plot
 
-    if( ++m_counter == m_ticksPs )
+    if( ++m_counter >= m_ticksPs )
     {
         m_counter = 0;
         m_rArea->drawVmark();
+    }
+    for( int i=0; i<4; i++ )                   // Find available channel
+    {
+        if( m_channel[i] == false ) continue;
+        else setRenderData( i, m_data[i] );
     }
     m_rArea->printData();
     m_rArea->update();
@@ -130,7 +146,7 @@ void PlotterWidget::setData( int channel, int data )
     volt.append( " V" );
     m_chanLabel[channel]->setText( volt );   // Update volt Label
     m_data[channel] = data;
-    setRenderData( channel, data );
+    //setRenderData( channel, data );
 }
 
 void PlotterWidget::setRenderData( int channel, int data )

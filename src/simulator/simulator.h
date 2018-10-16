@@ -65,7 +65,7 @@ class MAINMODULE_EXPORT Simulator : public QObject
         bool isRunning();
         bool isPaused();
         
-        unsigned long long step();
+        uint64_t step();
 
         QList<eNode*> geteNodes() { return m_eNodeList; }
 
@@ -142,11 +142,12 @@ class MAINMODULE_EXPORT Simulator : public QObject
         int m_circuitRate;
         int m_noLinCounter;
         int m_reacCounter;
+        int m_updtCounter;
 
-        unsigned long long m_step;
-        unsigned long long m_lastStep;
+        uint64_t m_step;
+        uint64_t m_lastStep;
         
-        qint64        m_lastRefTime;
+        uint64_t m_lastRefTime;
         QElapsedTimer m_RefTimer;
 };
  #endif
