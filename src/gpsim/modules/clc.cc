@@ -17,6 +17,11 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, see
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
 // CONFIGURABLE LOGIC CELL (CLC)
 
@@ -247,22 +252,27 @@ CLC::CLC (Processor * cpu, uint _index, CLCDATA * _clcdata):
 CLC::~CLC ()
 {
     if (CLCxsrc)
-      {
-          delete CLCxsrc;
-          CLCxsrc = 0;
-      }
+    {
+        delete CLCxsrc;
+        CLCxsrc = 0;
+    }
+}
 
+void CLC::setIOpin(int data, PinModule *pin)
+{
+    if (data == CLCout_PIN) setCLCxPin(pin);
+    else fprintf(stderr, "CLC::setIOpin data=%d not supported\n", data);
 }
 
 // Handle output pin multiplexing
 void CLC::setCLCxPin (PinModule * alt_pin)
 {
     if (alt_pin != pinCLCx)
-      {
-          oeCLCx (false);
-          pinCLCx = alt_pin;
-          oeCLCx (true);
-      }
+    {
+        oeCLCx (false);
+        pinCLCx = alt_pin;
+        oeCLCx (true);
+    }
 }
 
 void CLC::D1S (int select)

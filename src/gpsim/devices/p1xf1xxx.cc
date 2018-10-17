@@ -39,7 +39,6 @@ License along with this library; if not, see
 #include <string>
 
 #include "config.h"
-
 #include "stimuli.h"
 #include "eeprom.h"
 #include "p1xf1xxx.h"
@@ -84,15 +83,14 @@ P12F1822::P12F1822(const char *_name, const char *desc)
     wdtcon(this, "wdtcon", "Watch dog timer control", 0x3f),
     usart(this),
     ssp(this),
-    apfcon(this, "apfcon", "Alternate Pin Function Control Register"),
+    apfcon(this, "apfcon", "Alternate Pin Function Control Register", 0xef),
     pwm1con(this, "pwm1con", "Enhanced PWM Control Register"),
     ccp1as(this, "ccp1as", "CCP1 Auto-Shutdown Control Register"),
     pstr1con(this, "pstr1con", "Pulse Sterring Control Register"),
     cpscon0(this, "cpscon0", " Capacitive Sensing Control Register 0"),
     cpscon1(this, "cpscon1", " Capacitive Sensing Control Register 1"),
     sr_module(this), dsm_module(this)
-
-
+    
 {
   m_iocaf = new IOCxF(this, "iocaf", "Interrupt-On-Change flag Register", 0x3f);
   m_iocap = new IOC(this, "iocap", "Interrupt-On-Change positive edge", 0x3f);
@@ -357,23 +355,22 @@ void P12F1822::create_sfr_map()
         &(*m_porta)[1],   // SCK
         &(*m_porta)[3],   // SS
         &(*m_porta)[0],   // SDO
-        &(*m_porta)[2],    // SDI
-          m_trisa,          // i2c tris port
+        &(*m_porta)[2],   // SDI
+          m_trisa,        // i2c tris port
         SSP_TYPE_MSSP1
     );
-    apfcon.set_usart(&usart);
-    apfcon.set_ssp(&ssp);
-    apfcon.set_t1gcon(&t1con_g.t1gcon);
-    apfcon.set_pins(0, &(*m_porta)[2], &(*m_porta)[5]); //CCP1/P1A
-    apfcon.set_pins(1, &(*m_porta)[0], &(*m_porta)[4]); //P1B
-    apfcon.set_pins(2, &(*m_porta)[0], &(*m_porta)[4]); //USART TX Pin
-    apfcon.set_pins(3, &(*m_porta)[4], &(*m_porta)[3]); //tmr1 gate
-    apfcon.set_pins(5, &(*m_porta)[3], &(*m_porta)[0]); //SSP SS
-    apfcon.set_pins(6, &(*m_porta)[0], &(*m_porta)[4]); //SSP SDO
-    apfcon.set_pins(7, &(*m_porta)[1], &(*m_porta)[5]); //USART RX Pin
-    if (pir1) {
-            pir1->set_intcon(intcon);
-            pir1->set_pie(&pie1);
+    apfcon.set_pins(0, &ccp1con, CCPCON::CCP_PIN, &(*m_porta)[2], &(*m_porta)[5]); //CCP1/P1A
+    apfcon.set_pins(1, &ccp1con, CCPCON::PxB_PIN, &(*m_porta)[0], &(*m_porta)[4]); //P1B
+    apfcon.set_pins(2, &usart, USART_MODULE::TX_PIN, &(*m_porta)[0], &(*m_porta)[4]); //USART TX Pin
+    apfcon.set_pins(3, &t1con_g.t1gcon, 0, &(*m_porta)[4], &(*m_porta)[3]); //tmr1 gate
+    apfcon.set_pins(5, &ssp, SSP1_MODULE::SS_PIN, &(*m_porta)[3], &(*m_porta)[0]); //SSP SS
+    apfcon.set_pins(6, &ssp, SSP1_MODULE::SDO_PIN, &(*m_porta)[0], &(*m_porta)[4]); //SSP SDO
+    apfcon.set_pins(7, &usart, USART_MODULE::RX_PIN, &(*m_porta)[1], &(*m_porta)[5]); //USART RX Pin
+    
+    if (pir1) 
+    {
+        pir1->set_intcon(intcon);
+        pir1->set_pie(&pie1);
     }
     pie1.setPir(pir1);
     pie2.setPir(pir2);
@@ -817,11 +814,11 @@ void P16F1823::create_sfr_map()
     ccp1con.setIOpin(&(*m_portc)[5], &(*m_portc)[4], &(*m_portc)[3], &(*m_portc)[2]);
     apfcon.set_ValidBits(0xec);
     // pins 0,1 not used for p16f1823
-    apfcon.set_pins(2, &(*m_portc)[4], &(*m_porta)[0]); //USART TX Pin
+    apfcon.set_pins(2, &usart, USART_MODULE::TX_PIN, &(*m_portc)[4], &(*m_porta)[0]); //USART TX Pin
     // pin 3 defined in p12f1822
-    apfcon.set_pins(5, &(*m_portc)[3], &(*m_porta)[3]); //SSP SS
-    apfcon.set_pins(6, &(*m_portc)[2], &(*m_porta)[4]); //SSP SDO
-    apfcon.set_pins(7, &(*m_portc)[5], &(*m_porta)[1]); //USART RX Pin
+    apfcon.set_pins(5, &ssp, SSP1_MODULE::SS_PIN, &(*m_portc)[3], &(*m_porta)[3]); //SSP SS
+    apfcon.set_pins(6, &ssp, SSP1_MODULE::SDO_PIN, &(*m_portc)[2], &(*m_porta)[4]); //SSP SDO
+    apfcon.set_pins(7, &usart, USART_MODULE::RX_PIN, &(*m_portc)[5], &(*m_porta)[1]); //USART RX Pin
     comparator.cmxcon1[0]->set_INpinNeg(&(*m_porta)[1], &(*m_portc)[1],
                                           &(*m_portc)[2],  &(*m_portc)[3]);
     comparator.cmxcon1[1]->set_INpinNeg(&(*m_porta)[1], &(*m_portc)[1],
@@ -880,38 +877,169 @@ Processor * P16F1825::construct(const char *name)
 
   return p;
 }
-P16F1825::P16F1825(const char *_name, const char *desc) :
-        P16F1823(_name, desc)
+P16F1825::P16F1825(const char *_name, const char *desc)
+        : P16F1823(_name, desc)
+        , pie3(     this,"pie3", "Peripheral Interrupt Enable")
+        , t4con(    this, "t4con", "TMR4 Control")
+        , pr4(      this, "pr4", "TMR4 Period Register")
+        , tmr4(     this, "tmr4", "TMR4 Register")
+        , t6con(    this, "t6con", "TMR6 Control")
+        , pr6(      this, "pr6", "TMR6 Period Register")
+        , tmr6(     this, "tmr6", "TMR6 Register")
+        , ccp2con(  this, "ccp2con", "Capture Compare Control")
+        , ccpr2l(   this, "ccpr2l", "Capture Compare 2 Low")
+        , ccpr2h(   this, "ccpr2h", "Capture Compare 2 High")
+        , pwm2con(  this, "pwm2con", "Enhanced PWM Control Register")
+        , ccp2as(   this, "ccp2as", "CCP2 Auto-Shutdown Control Register")
+        , pstr2con( this, "pstr2con", "Pulse Sterring Control Register")
+        , ccp3con(  this, "ccp3con", "Capture Compare Control")
+        , ccpr3l(   this, "ccpr3l", "Capture Compare 3 Low")
+        , ccpr3h(   this, "ccpr3h", "Capture Compare 3 High")
+        , ccp4con(  this, "ccp4con", "Capture Compare Control")
+        , ccpr4l(   this, "ccpr4l", "Capture Compare 4 Low")
+        , ccpr4h(   this, "ccpr4h", "Capture Compare 4 High")
+        , ccptmrs(  this, "ccptmrs", "PWM Timer Selection Control Register")
+        , apfcon0(  this, "apfcon0", "Alternate Pin Function Control Register 0", 0xec)
+        , apfcon1(  this, "apfcon1", "Alternate Pin Function Control Register 1", 0x0f)
+        , inlvla(this, "inlvla", "PORTA Input Level Control Register")
+        , inlvlc(this, "inlvlc", "PORTC Input Level Control Register")
 {
+    pir3 = new PIR( this, "pir3", "Peripheral Interrupt Register", intcon, &pie3, 0x3a);
 }
 
 P16F1825::~P16F1825()
 {
-  delete_file_registers(0xc0, 0xef);
-  delete_file_registers(0x120, 0x16f);
-  delete_file_registers(0x1a0, 0x1ef);
-  delete_file_registers(0x220, 0x26f);
-  delete_file_registers(0x2a0, 0x2ef);
-  delete_file_registers(0x320, 0x32f);
-  delete_file_registers(0x420, 0x46f);
-  delete_file_registers(0x4a0, 0x4ef);
-  delete_file_registers(0x520, 0x56f);
-  delete_file_registers(0x5a0, 0x5ef);
+    delete_file_registers(0xc0, 0xef);
+    delete_file_registers(0x120, 0x16f);
+    delete_file_registers(0x1a0, 0x1ef);
+    delete_file_registers(0x220, 0x26f);
+    delete_file_registers(0x2a0, 0x2ef);
+    delete_file_registers(0x320, 0x32f);
+    delete_file_registers(0x420, 0x46f);
+    delete_file_registers(0x4a0, 0x4ef);
+    delete_file_registers(0x520, 0x56f);
+    delete_file_registers(0x5a0, 0x5ef);
+    delete_sfr_register(pir3);
+    remove_sfr_register(&pie3);
+    remove_sfr_register(&ccpr2l);
+    remove_sfr_register(&ccpr2h);
+    remove_sfr_register(&ccp2con);
+    remove_sfr_register(&pwm2con);
+    remove_sfr_register(&ccp2as);
+    remove_sfr_register(&pstr2con);
+    remove_sfr_register(&ccptmrs);
+    remove_sfr_register(&ccpr3l);
+    remove_sfr_register(&ccpr3h);
+    remove_sfr_register(&ccp3con);
+    remove_sfr_register(&ccpr4l);
+    remove_sfr_register(&ccpr4h);
+    remove_sfr_register(&ccp4con);
+    remove_sfr_register(&apfcon1);
+    remove_sfr_register(&inlvla);
+    remove_sfr_register(&inlvlc);
+    remove_sfr_register(&tmr4);
+    remove_sfr_register(&pr4);
+    remove_sfr_register(&t4con);
+    remove_sfr_register(&tmr6);
+    remove_sfr_register(&pr6);
+    remove_sfr_register(&t6con);
 }
 
 void  P16F1825::create(int ram_top, int eeprom_size, int dev_id)
 {
-  P16F1823::create( ram_top, eeprom_size, dev_id );
-  add_file_registers(0xc0, 0xef, 0x00);
-  add_file_registers(0x120, 0x16f, 0x00);
-  add_file_registers(0x1a0, 0x1ef, 0x00);
-  add_file_registers(0x220, 0x26f, 0x00);
-  add_file_registers(0x2a0, 0x2ef, 0x00);
-  add_file_registers(0x320, 0x32f, 0x00);
-  add_file_registers(0x420, 0x46f, 0x00);
-  add_file_registers(0x4a0, 0x4ef, 0x00);
-  add_file_registers(0x520, 0x56f, 0x00);
-  add_file_registers(0x5a0, 0x5ef, 0x00);
+    P16F1823::create( ram_top, eeprom_size, dev_id );
+    pir_set_2_def.set_pir3(pir3);
+    pie3.setPir(pir3);
+    add_file_registers(0xc0, 0xef, 0x00);
+    add_file_registers(0x120, 0x16f, 0x00);
+    add_file_registers(0x1a0, 0x1ef, 0x00);
+    add_file_registers(0x220, 0x26f, 0x00);
+    add_file_registers(0x2a0, 0x2ef, 0x00);
+    add_file_registers(0x320, 0x32f, 0x00);
+    add_file_registers(0x420, 0x46f, 0x00);
+    add_file_registers(0x4a0, 0x4ef, 0x00);
+    add_file_registers(0x520, 0x56f, 0x00);
+    add_file_registers(0x5a0, 0x5ef, 0x00);
+    add_sfr_register(pir3,         0x013, RegisterValue(0,0));
+    add_sfr_register(&pie3,        0x093, RegisterValue(0,0));
+    add_sfr_register(&apfcon1,     0x11e, RegisterValue(0,0));
+    add_sfr_register(&ccpr2l,      0x298, RegisterValue(0,0));
+    add_sfr_register(&ccpr2h,      0x299, RegisterValue(0,0));
+    add_sfr_registerR(&ccp2con,    0x29a, RegisterValue(0,0));
+    add_sfr_register(&pwm2con,     0x29b, RegisterValue(0,0));
+    add_sfr_register(&ccp2as,      0x29c, RegisterValue(0,0));
+    add_sfr_register(&pstr2con,    0x29d, RegisterValue(1,0));
+    ccptmrs.set_tmr246(&tmr2, &tmr4, &tmr6);
+    ccptmrs.set_ccp(&ccp1con, &ccp2con, &ccp3con, &ccp4con);
+    add_sfr_registerR(&ccptmrs,    0x29e, RegisterValue(0,0));
+
+    tmr2.add_ccp ( &ccp2con );
+    add_sfr_register(&ccpr3l,      0x311, RegisterValue(0,0));
+    add_sfr_register(&ccpr3h,      0x312, RegisterValue(0,0));
+    add_sfr_registerR(&ccp3con,    0x313, RegisterValue(0,0));
+    add_sfr_register(&ccpr4l,      0x318, RegisterValue(0,0));
+    add_sfr_register(&ccpr4h,      0x319, RegisterValue(0,0));
+    add_sfr_registerR(&ccp4con,    0x31a, RegisterValue(0,0));
+    
+    add_sfr_register(&inlvla,      0x38c, RegisterValue(0,0));
+    add_sfr_register(&inlvlc,      0x38e, RegisterValue(0,0));
+
+    add_sfr_register(&tmr4,        0x415, RegisterValue(0,0));
+    add_sfr_register(&pr4,         0x416, RegisterValue(0,0));
+    add_sfr_register(&t4con,       0x417, RegisterValue(0,0));
+    add_sfr_register(&tmr6,        0x41c, RegisterValue(0,0));
+    add_sfr_register(&pr6,         0x41d, RegisterValue(0,0));
+    add_sfr_register(&t6con,       0x41e, RegisterValue(0,0));
+
+    ccp1con.setBitMask(0xff);
+    ccp1con.setIOpin(&(*m_portc)[5], &(*m_portc)[4], &(*m_portc)[3], &(*m_portc)[2]);
+    ccp2as.setIOpin(0, 0, &(*m_porta)[2]);
+    ccp2as.link_registers(&pwm2con, &ccp2con);
+
+    ccp2con.setBitMask(0xff);
+    ccp2con.setIOpin(&(*m_portc)[3], &(*m_portc)[2]);
+    ccp2con.pstrcon = &pstr2con;
+    ccp2con.pwm1con = &pwm2con;
+    ccp2con.setCrosslinks(&ccpr2l, pir2, PIR2v1822::CCP2IF, &tmr2, &ccp2as);
+    ccpr2l.ccprh  = &ccpr2h;
+    ccpr2l.tmrl   = &tmr1l;
+    ccpr2h.ccprl  = &ccpr2l;
+    ccp3con.setCrosslinks(&ccpr3l, pir3, (1<<4), 0, 0);
+    ccp3con.setIOpin(&(*m_porta)[2]);
+    ccpr3l.ccprh  = &ccpr3h;
+    ccpr3l.tmrl   = &tmr1l;
+    ccpr3h.ccprl  = &ccpr3l;
+    ccp4con.setCrosslinks(&ccpr4l, pir3, (1<<5), 0, 0);
+    ccp4con.setIOpin(&(*m_portc)[1]);
+    ccpr4l.ccprh  = &ccpr4h;
+    ccpr4l.tmrl   = &tmr1l;
+    ccpr4h.ccprl  = &ccpr4l;
+    t4con.tmr2 = &tmr4;
+
+    tmr4.setInterruptSource(new InterruptSource(pir3, 1<<1));
+    tmr4.pir_set = get_pir_set();
+    tmr4.pr2    = &pr4;
+    tmr4.t2con  = &t4con;
+
+
+    t6con.tmr2 = &tmr6;
+    tmr6.setInterruptSource(new InterruptSource(pir3, 1<<3));
+    tmr6.pr2    = &pr6;
+    tmr6.t2con  = &t6con;
+
+    pr2.tmr2    = &tmr2;
+    pr4.tmr2    = &tmr4;
+    pr6.tmr2    = &tmr6;
+
+    apfcon0.set_pins(2, &usart, USART_MODULE::TX_PIN, &(*m_portc)[4], &(*m_porta)[0]); //USART TX Pin
+    apfcon0.set_pins(3, &t1con_g.t1gcon, 0, &(*m_porta)[4], &(*m_porta)[3]); //tmr1 gate
+    apfcon0.set_pins(5, &ssp, SSP1_MODULE::SS_PIN, &(*m_portc)[3], &(*m_porta)[3]); //SSP SS
+    apfcon0.set_pins(6, &ssp, SSP1_MODULE::SDO_PIN, &(*m_portc)[2], &(*m_porta)[4]); //SSP SDO
+    apfcon0.set_pins(7, &usart, USART_MODULE::RX_PIN, &(*m_portc)[5], &(*m_porta)[1]); //USART RX Pin
+    apfcon1.set_pins(0, &ccp2con, CCPCON::CCP_PIN, &(*m_portc)[3], &(*m_porta)[5]); //CCP2/P2A
+    apfcon1.set_pins(1, &ccp2con, CCPCON::PxB_PIN, &(*m_portc)[2], &(*m_porta)[4]); //P2B
+    apfcon1.set_pins(2, &ccp1con, CCPCON::PxC_PIN, &(*m_portc)[3], &(*m_portc)[1]); //P1C
+    apfcon1.set_pins(3, &ccp1con, CCPCON::PxD_PIN, &(*m_portc)[2], &(*m_portc)[0]); //P1D
 }
 
 //========================================================================
@@ -924,8 +1052,8 @@ Processor * P16LF1825::construct(const char *name)
 
   return p;
 }
-P16LF1825::P16LF1825(const char *_name, const char *desc) :
-        P16F1825(_name, desc)
+P16LF1825::P16LF1825(const char *_name, const char *desc)
+         : P16F1825(_name, desc)
 {
 }
 

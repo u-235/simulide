@@ -63,7 +63,7 @@ void PlotterWidget::clear()
 {
     int numchan = m_numchan;
     m_numchan = 1;
-    for( int i=0; i<5000; i++ ) step();
+    for( int i=0; i<1000; i++ ) step();
     m_numchan = numchan;
 }
 

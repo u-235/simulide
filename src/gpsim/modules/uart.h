@@ -17,10 +17,14 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, see 
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
 #include <iostream>
 #include <stdio.h>
-
 
 class InvalidRegister;   // Forward reference
 
@@ -31,6 +35,7 @@ class InvalidRegister;   // Forward reference
 #include "pic-processor.h"
 #include "14bit-registers.h"
 #include "pir.h"
+#include "apfcon.h"
 
 class _TXSTA;   // Forward references
 class _SPBRG;
@@ -126,7 +131,7 @@ protected:
   TXSignalSource *m_source;
   TXSignalControl *m_control;
   CLKSignalSink   *m_clkSink;
-  bool		SourceActive;
+  bool          SourceActive;
   char m_cTxState;
   bool bInvertPin;
 };
@@ -137,8 +142,8 @@ class _RCREG : public sfr_register
  public:
 
   uint oldest_value;  /* rcreg has a 2-deep fifo. The oldest received
-			       * value is stored here, while the most recent
-			       * is stored in sfr_register.value . */
+                      * value is stored here, while the most recent
+                      * is stored in sfr_register.value . */
 
   uint fifo_sp;       /* fifo stack pointer */
 
@@ -239,8 +244,8 @@ class _RCSTA : public sfr_register, public TriggerObject
 
 protected:
   enum {
-	DIR_OUT,
-	DIR_IN
+     DIR_OUT,
+     DIR_IN
   };
   void set_callback_break(uint spbrg_edge);
 
@@ -248,13 +253,13 @@ protected:
   PinModule     *m_PinModule;
   RXSignalSink  *m_sink;
   char          m_cRxState;
-  bool		SourceActive;
+  bool          SourceActive;
   RCSignalControl *m_control;
   RCSignalSource  *m_source;
   char          m_cTxState;
-  char		m_DTdirection;
+  char          m_DTdirection;
   bool          bInvertPin;
-  bool		old_clock_state;
+  bool          old_clock_state;
 };
 
 
@@ -267,7 +272,7 @@ class _BAUDCON : public sfr_register
     WUE    = 1<<1,
     BRG16  = 1<<3,
     TXCKP  = 1<<4,
-    SCKP   = 1<<4,	// synchronous clock polarity Select bit (16f88x)
+    SCKP   = 1<<4,     // synchronous clock polarity Select bit (16f88x)
     RXDTP  = 1<<5,
     RCIDL  = 1<<6,
     ABDOVF = 1<<7
@@ -340,47 +345,53 @@ private:
 
 //---------------------------------------------------------------
 //---------------------------------------------------------------
-class USART_MODULE
+class USART_MODULE: public apfpin
 {
-public:
+    public:
+        enum
+        {
+        TX_PIN = 0,
+        RX_PIN = 1,
+        };
+        
+        _TXSTA       txsta;
+        _RCSTA       rcsta;
+        _SPBRG       spbrg;
 
-  _TXSTA       txsta;
-  _RCSTA       rcsta;
-  _SPBRG       spbrg;
+        _TXREG      *txreg;
+        _RCREG      *rcreg;
+        PIR         *pir;
 
-  _TXREG      *txreg;
-  _RCREG      *rcreg;
-  PIR         *pir;
+        // Extra registers for when it's an EUSART
+        _SPBRGH  spbrgh;
+        _BAUDCON baudcon;
 
-  // Extra registers for when it's an EUSART
-  _SPBRGH  spbrgh;
-  _BAUDCON baudcon;
+        USART_MODULE(Processor *pCpu);
+        ~USART_MODULE();
 
-  USART_MODULE(Processor *pCpu);
-  ~USART_MODULE();
+        void initialize(PIR *, 
+                PinModule *tx_pin, PinModule *rx_pin,
+                _TXREG *, _RCREG *);
 
-  void initialize(PIR *, 
-		  PinModule *tx_pin, PinModule *rx_pin,
-		  _TXREG *, _RCREG *);
+        virtual void setIOpin(int data, PinModule *pin);
+        void set_TXpin(PinModule *tx_pin);
+        void set_RXpin(PinModule *rx_pin);
+        bool bIsTXempty();
+        void emptyTX();
+        void full();
+        void set_rcif();
+        void clear_rcif();
+        void mk_rcif_int(PIR *reg, uint bit)
+              { m_rcif = new InterruptSource(reg, bit);}
+        void mk_txif_int(PIR *reg, uint bit)
+              { m_txif = new InterruptSource(reg, bit);}
+        bool IsEUSART ( void ) { return is_eusart; };
+        void set_eusart ( bool is_it );
 
-  void set_TXpin(PinModule *tx_pin);
-  void set_RXpin(PinModule *rx_pin);
-  bool bIsTXempty();
-  void emptyTX();
-  void full();
-  void set_rcif();
-  void clear_rcif();
-  void mk_rcif_int(PIR *reg, uint bit)
-		{ m_rcif = new InterruptSource(reg, bit);}
-  void mk_txif_int(PIR *reg, uint bit)
-		{ m_txif = new InterruptSource(reg, bit);}
-  bool IsEUSART ( void ) { return is_eusart; };
-  void set_eusart ( bool is_it );
-
- private:
-  bool is_eusart;
-  InterruptSource *m_rcif;
-  InterruptSource *m_txif;
+    private:
+        bool is_eusart;
+        InterruptSource *m_rcif;
+        InterruptSource *m_txif;
 };
 
 

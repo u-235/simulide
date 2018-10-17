@@ -75,7 +75,7 @@ P16F1503::P16F1503(const char *_name, const char *desc)
     oscstat(this, "oscstat", "Oscillator Status Register"),
     wdtcon(this, "wdtcon", "Watch dog timer control", 0x3f),
     ssp(this),
-    apfcon1(this, "apfcon", "Alternate Pin Function Control Register"),
+    apfcon1(this, "apfcon", "Alternate Pin Function Control Register", 0x3b),
     pwm1con(this, "pwm1con", "PWM 1 Control Register", 0),
     pwm1dcl(this, "pwm1dcl", "PWM 1 DUTY CYCLE LOW BITS"),
     pwm1dch(this, "pwm1dch", "PWM 1 DUTY CYCLE HIGH BITS"),
@@ -469,18 +469,16 @@ void P16F1503::create_sfr_map()
         SSP_TYPE_MSSP1
     );
     apfcon1.set_ValidBits(0x3b);
-    apfcon1.set_ssp(&ssp);
-    apfcon1.set_CLC(&clc1);
-    apfcon1.set_t1gcon(&t1con_g.t1gcon);
-    apfcon1.set_NCO(&nco);
-    apfcon1.set_pins(0, &(*m_portc)[1], &(*m_porta)[4]); //NCO
-    apfcon1.set_pins(1, &(*m_porta)[2], &(*m_portc)[5]); //CLC
-    apfcon1.set_pins(3, &(*m_porta)[4], &(*m_porta)[3]); //tmr1 gate
-    apfcon1.set_pins(4, &(*m_portc)[3], &(*m_porta)[3]); //SSP SS
-    apfcon1.set_pins(5, &(*m_portc)[2], &(*m_porta)[4]); //SSP SDO
-    if (pir1) {
-            pir1->set_intcon(intcon);
-            pir1->set_pie(&pie1);
+    apfcon1.set_pins(0, &nco, NCO::NCOout_PIN, &(*m_portc)[1], &(*m_porta)[4]); //NCO
+    apfcon1.set_pins(1, &clc1, CLC::CLCout_PIN, &(*m_porta)[2], &(*m_portc)[5]); //CLC
+    apfcon1.set_pins(3, &t1con_g.t1gcon, 0, &(*m_porta)[4], &(*m_porta)[3]); //tmr1 gate
+    apfcon1.set_pins(4, &ssp, SSP1_MODULE::SS_PIN, &(*m_portc)[3], &(*m_porta)[3]); //SSP SS
+    apfcon1.set_pins(5, &ssp, SSP1_MODULE::SDO_PIN, &(*m_portc)[2], &(*m_porta)[4]); //SSP SDO
+    
+    if (pir1) 
+    {
+        pir1->set_intcon(intcon);
+        pir1->set_pie(&pie1);
     }
     pie1.setPir(pir1);
     pie2.setPir(pir2);

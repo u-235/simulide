@@ -17,6 +17,11 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, see 
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
 // CONFIGURABLE LOGIC CELL (CLC)
 
@@ -24,6 +29,8 @@ License along with this library; if not, see
 #define __CLC_h__
 
 #include "registers.h"
+#include "apfcon.h"
+
 class CLC;
 class OSC_SIM;
 class NCO;
@@ -34,7 +41,7 @@ class CLCxCON : public sfr_register
 {
   public:
     CLCxCON(CLC *_clc, Processor *pCpu, const char *pName, const char *pDesc) :
-	sfr_register(pCpu, pName, pDesc), m_clc(_clc), write_mask(0xdf)
+    sfr_register(pCpu, pName, pDesc), m_clc(_clc), write_mask(0xdf)
     {
     }
     void put(uint);
@@ -48,7 +55,7 @@ class CLCxPOL : public sfr_register
 {
   public:
     CLCxPOL(CLC *_clc, Processor *pCpu, const char *pName, const char *pDesc) :
-	sfr_register(pCpu, pName, pDesc), m_clc(_clc), write_mask(0x8f)
+    sfr_register(pCpu, pName, pDesc), m_clc(_clc), write_mask(0x8f)
 
     {
     }
@@ -88,7 +95,7 @@ class CLCxGLS0 : public sfr_register
 {
   public:
     CLCxGLS0(CLC *_clc, Processor *pCpu, const char *pName, const char *pDesc) :
-	sfr_register(pCpu, pName, pDesc), m_clc(_clc)
+    sfr_register(pCpu, pName, pDesc), m_clc(_clc)
     {
     }
 
@@ -102,7 +109,7 @@ class CLCxGLS1 : public sfr_register
 {
   public:
     CLCxGLS1(CLC *_clc, Processor *pCpu, const char *pName, const char *pDesc) :
-	sfr_register(pCpu, pName, pDesc), m_clc(_clc)
+    sfr_register(pCpu, pName, pDesc), m_clc(_clc)
 
     {
     }
@@ -117,7 +124,7 @@ class CLCxGLS2 : public sfr_register
 {
   public:
     CLCxGLS2(CLC *_clc, Processor *pCpu, const char *pName, const char *pDesc) :
-	sfr_register(pCpu, pName, pDesc), m_clc(_clc)
+    sfr_register(pCpu, pName, pDesc), m_clc(_clc)
 
     {
     }
@@ -132,7 +139,7 @@ class CLCxGLS3 : public sfr_register
 {
   public:
     CLCxGLS3(CLC *_clc, Processor *pCpu, const char *pName, const char *pDesc) :
-	sfr_register(pCpu, pName, pDesc), m_clc(_clc)
+    sfr_register(pCpu, pName, pDesc), m_clc(_clc)
 
     {
     }
@@ -147,10 +154,10 @@ class CLCDATA : public sfr_register
 {
   public:
     CLCDATA(Processor *pCpu, const char *pName = 0, const char *pDesc = 0) :
-	sfr_register(pCpu, pName, pDesc)
+    sfr_register(pCpu, pName, pDesc)
     {
-	for(int i = 0; i < 4; i++)
-	    m_clc[i] = 0;
+    for(int i = 0; i < 4; i++)
+        m_clc[i] = 0;
     }
 
 
@@ -158,78 +165,81 @@ class CLCDATA : public sfr_register
     void set_bit(bool bit_val, uint pos);
     void set_clc(CLC *clc1, CLC *clc2=0, CLC *clc3=0, CLC *clc4 = 0)
     {
-	m_clc[0] = clc1;
-	m_clc[1] = clc2;
-	m_clc[2] = clc3;
-	m_clc[3] = clc4;
+    m_clc[0] = clc1;
+    m_clc[1] = clc2;
+    m_clc[2] = clc3;
+    m_clc[3] = clc4;
     }
-
 
   private:
     CLC *m_clc[4];
-
 };
 
-
-class CLC
+class CLC : public apfpin
 {
   public:
-
     enum {
-	// CLCxCON
-	LCxEN   = (1<<7),
-	LCxOE   = (1<<6),
-	LCxOUT  = (1<<5),
-	LCxINTP = (1<<4),
-	LCxINTN = (1<<3),
-	LCxMODE = 0x7,
+    // CLCxCON
+    LCxEN   = (1<<7),
+    LCxOE   = (1<<6),
+    LCxOUT  = (1<<5),
+    LCxINTP = (1<<4),
+    LCxINTN = (1<<3),
+    LCxMODE = 0x7,
 
-	// CLCxPOL
-	LCxPOL  = (1<<7),
+    // CLCxPOL
+    LCxPOL  = (1<<7),
     };
     enum data_in {
-	UNUSED = 0,
-	LC1,
-	LC2,
-	LC3,
-	LC4,
-	CLCxIN0,	// 5
-	CLCxIN1,
-	PWM1,
-	PWM2,
-	PWM3,
-	PWM4,		//10
-	NCOx,
-	FOSCLK,
-	LFINTOSC,
-	HFINTOSC,
-	FRC_IN,		//15
-	T0_OVER,
-	T1_OVER,
-	T2_MATCH,
-	C1OUT,
-	C2OUT,		//20
+    UNUSED = 0,
+    LC1,
+    LC2,
+    LC3,
+    LC4,
+    CLCxIN0,    // 5
+    CLCxIN1,
+    PWM1,
+    PWM2,
+    PWM3,
+    PWM4,        //10
+    NCOx,
+    FOSCLK,
+    LFINTOSC,
+    HFINTOSC,
+    FRC_IN,        //15
+    T0_OVER,
+    T1_OVER,
+    T2_MATCH,
+    C1OUT,
+    C2OUT,        //20
     };
-
+    
+    enum {
+    CLCout_PIN=0,
+    CLCin1_PIN,
+    CLCin2_PIN
+    };
+    
     CLC(Processor *_cpu, uint _index, CLCDATA *_clcdata);
     ~CLC();
     
     bool CLCenabled() { return clcxcon.value.get() & LCxEN; }
-    void setCLCxPin(PinModule *alt_pin);
-    void enableINxpin(int, bool);
-    virtual void D1S(int select);
-    virtual void D2S(int select);
-    virtual void D3S(int select);
-    virtual void D4S(int select);
+    void setCLCxPin( PinModule *alt_pin );
+    void enableINxpin( int, bool );
+    virtual void setIOpin( int data, PinModule *pin );
+    virtual void D1S( int select );
+    virtual void D2S( int select );
+    virtual void D3S( int select );
+    virtual void D4S( int select );
     void t0_overflow();
     void t1_overflow();
     void t2_match();
-    void osc_out(bool level, int kind);
-    void out_pwm(bool level, int id);
-    void NCO_out(bool level);
+    void osc_out( bool level, int kind );
+    void out_pwm( bool level, int id );
+    void NCO_out( bool level );
     void CxOUT_sync(bool output, int cm);
     void set_clcPins(PinModule *IN0, PinModule *IN1, PinModule *_CLCx)
-	{ pinCLCxIN[0] = IN0; pinCLCxIN[1] = IN1, pinCLCx = _CLCx;}
+    { pinCLCxIN[0] = IN0; pinCLCxIN[1] = IN1, pinCLCx = _CLCx;}
     void setState(char new3State, int index);
     void releasePinSource(PinModule *pin);
     void oeCLCx(bool on);
@@ -262,7 +272,7 @@ class CLC
     OSC_SIM  *lfintosc;
     OSC_SIM  *hfintosc;
     NCO      *p_nco;
-    data_in	  DxS_data[4];
+    data_in      DxS_data[4];
 
   private:
     PinModule     *pinCLCx;
@@ -270,22 +280,22 @@ class CLC
     string        CLCxgui;
     bool          srcCLCxactive;
     INxSignalSink *INxsink[2];
-    int		  INxactive[2];
-    bool	  INxstate[2];
+    int          INxactive[2];
+    bool      INxstate[2];
     PinModule     *pinCLCxIN[2];
     string        INxgui[2];
-    bool	  pwmx_level[4];
-    bool	  CMxOUT_level[4];
-    bool	  frc_level;
-    bool	  NCO_level;
-    bool	  lcxdT[4];		// incoming data
-    bool	  lcxg[4];		// Data gate output
+    bool      pwmx_level[4];
+    bool      CMxOUT_level[4];
+    bool      frc_level;
+    bool      NCO_level;
+    bool      lcxdT[4];        // incoming data
+    bool      lcxg[4];        // Data gate output
     InterruptSource *m_Interrupt;
-    bool	  Doutput;
-    bool	  Dclock;
-    bool	  FRCactive;
-    bool	  LFINTOSCactive;
-    bool	  HFINTOSCactive;
+    bool      Doutput;
+    bool      Dclock;
+    bool      FRCactive;
+    bool      LFINTOSCactive;
+    bool      HFINTOSCactive;
 };
 
 class CLC1 : public CLC
@@ -297,6 +307,7 @@ class CLC1 : public CLC
     virtual void D3S(int select);
     virtual void D4S(int select);
 };
+
 // RC clock 600KHz used with ADC, CLC
 class OSC_SIM : public TriggerObject
 {
@@ -307,17 +318,17 @@ public:
     
     void set_clc(CLC *clc1, CLC *clc2=0, CLC *clc3=0, CLC *clc4 = 0)
     {
-	m_clc[0] = clc1; m_clc[1] = clc2; m_clc[2] = clc3; m_clc[3] = clc4;
+    m_clc[0] = clc1; m_clc[1] = clc2; m_clc[2] = clc3; m_clc[3] = clc4;
     }
     void callback();
 private:
-    double 	frequency;
-    int		data_in;
-    int		active;
-    CLC 	*m_clc[4];
-    bool 	level;
-    int  	next_cycle;
-    uint64_t 	future_cycle;
-    int64_t  	adjust_cycles;
+    double     frequency;
+    int        data_in;
+    int        active;
+    CLC     *m_clc[4];
+    bool     level;
+    int      next_cycle;
+    uint64_t     future_cycle;
+    int64_t      adjust_cycles;
 };
 #endif // __CLC_h__

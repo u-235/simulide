@@ -311,48 +311,83 @@ void CCPCON::setIOPin2(PinModule *p2)
         m_PinModule[1] = 0;
   }
 }
-// EPWM has four outputs PWM 1
-void CCPCON::setIOpin(PinModule *p1, PinModule *p2, PinModule *p3, PinModule *p4)
-{
-  Dprintf(("%s::setIOpin %s\n", name().c_str(), (p1 && &(p1->getPin())) ? p1->getPin().name().c_str():"unknown"));
-  if (p1 && !&(p1->getPin()))
-  {
-        Dprintf(("FIXME %s::setIOpin called where p1 has unassigned pin\n", name().c_str()));
-        return;
-  }
 
-  setIOPin1(p1);
-  setIOPin2(p2);
+void CCPCON::setIOPin3(PinModule *p3)
+{
   if (p3)
   {
     m_PinModule[2] = p3;
-    if (!m_source[2])
-        m_source[2] = new CCPSignalSource(this, 2);
+    if (!m_source[2]) m_source[2] = new CCPSignalSource(this, 2);
   }
   else
   {
-        if (m_source[2])
-        {
-                delete m_source[2];
-                m_source[2] = 0;
-        }
-        m_PinModule[2] = 0;
+    if (m_source[2])
+    {
+            delete m_source[2];
+            m_source[2] = 0;
+    }
+    m_PinModule[2] = 0;
   }
+}
+
+void CCPCON::setIOPin4(PinModule *p4)
+{
   if (p4)
   {
     m_PinModule[3] = p4;
-    if (!m_source[3])
-        m_source[3] = new CCPSignalSource(this, 3);
+    if (!m_source[3])  m_source[3] = new CCPSignalSource(this, 3);
   }
   else
   {
-        if (m_source[3])
-        {
-                delete m_source[3];
-                m_source[3] = 0;
-        }
+    if (m_source[3])
+    {
+        delete m_source[3];
+        m_source[3] = 0;
+    }
   }
+}
 
+void CCPCON::setIOpin(int data, PinModule *pin)
+{
+    switch(data)
+    {
+    case CCP_PIN:
+        setIOPin1(pin);
+        break;
+
+    case PxB_PIN:
+        setIOPin2(pin);
+        break;
+    
+    case PxC_PIN:
+        setIOPin3(pin);
+        break;
+    
+    case PxD_PIN:
+        setIOPin4(pin);
+        break;
+    }
+}
+
+// EPWM has four outputs PWM 1
+void CCPCON::setIOpin(PinModule *p1, PinModule *p2, PinModule *p3, PinModule *p4)
+{
+    Dprintf(("%s::setIOpin %s %s %s %s\n", name().c_str(), 
+        (p1 && &(p1->getPin())) ? p1->getPin().name().c_str():"unknown",
+        (p2 && &(p2->getPin())) ? p2->getPin().name().c_str():"unknown",
+        (p3 && &(p3->getPin())) ? p3->getPin().name().c_str():"unknown",
+        (p4 && &(p4->getPin())) ? p4->getPin().name().c_str():"unknown"
+        ));
+    if (p1 && !&(p1->getPin()))
+    {
+        Dprintf(("FIXME %s::setIOpin called where p1 has unassigned pin\n", name().c_str()));
+        return;
+    }
+    
+    setIOPin1(p1);
+    setIOPin2(p2);
+    setIOPin3(p3);
+    setIOPin4(p4);
 }
 
 void CCPCON::setCrosslinks ( CCPRL *_ccprl, PIR *_pir, uint _mask,
@@ -3015,4 +3050,48 @@ void PSTRCON::put(uint new_value)
   new_value &= STRSYNC|STRD|STRC|STRB|STRA;
 
   value.put(new_value);
+}
+
+//--------------------------------------------------------------------
+//  PWM TIMER SELECTION CONTROL REGISTER
+//--------------------------------------------------------------------
+CCPTMRS14::CCPTMRS14(Processor *pCpu, const char *pName, const char *pDesc)
+         : sfr_register(pCpu, pName, pDesc)
+{
+    for(int i=0; i<4; i++) ccp[i] = 0;
+    t2=t4=t6=0;
+}
+
+void CCPTMRS14::put(unsigned int new_value)
+{
+    TMR2* tx;
+    value.put(new_value);
+    
+    for(int i=0; i<4; i++)
+    {
+        switch(new_value & 0x3)
+        {
+            case 0:
+                tx = t2;
+                break;
+                
+            case 1:
+                tx = t4;
+                break;
+                
+            case 2:
+                tx = t6;
+                break;
+                
+            default:
+                tx = 0;
+                break;
+        }
+        if (ccp[i] && tx)
+        {
+            ccp[i]->set_tmr2(tx);
+            tx->add_ccp(ccp[i]);
+        }
+        new_value >>= 2;
+    }
 }

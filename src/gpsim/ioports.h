@@ -17,6 +17,11 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, see
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
 #ifndef __IOPORTS_H__
 #define __IOPORTS_H__
@@ -289,9 +294,9 @@ class PinModule : public PinMonitor
       IOPIN        *m_pin;
       PortModule   *m_port;
       uint  m_pinNumber;
-      bool          m_bForcedUpdate;
-      Register     *m_analog_reg[ANALOG_TABLE_SIZE + 1];
-      bool		m_analog_active[ANALOG_TABLE_SIZE + 1];
+      bool      m_bForcedUpdate;
+      Register* m_analog_reg[ANALOG_TABLE_SIZE + 1];
+      bool      m_analog_active[ANALOG_TABLE_SIZE + 1];
 };
 
 

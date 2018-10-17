@@ -16,6 +16,11 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, see
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
 // NUMERICALLY CONTROLLED OSCILLATOR (NCO) MODULE
 
@@ -29,6 +34,8 @@ License along with this library; if not, see
 #endif
 
 #include "pic-processor.h"
+#include "packages.h"
+#include "apfcon.h"
 #include "nco.h"
 #include "clc.h"
 #include "cwg.h"
@@ -111,8 +118,6 @@ NCO::~NCO ()
         delete NCO1src;
         NCO1src = 0;
     }
-    /*if (nco_interface)
-        delete nco_interface;*/
 }
 
 // Process change in nconcon register
@@ -448,6 +453,12 @@ void NCO::setIOpins (PinModule * pIN, PinModule * pOUT)
 {
     pinNCOclk = pIN;
     pinNCO1 = pOUT;
+}
+
+void NCO::setIOpin(int data, PinModule *pin)
+{
+    if (data == NCOout_PIN) setNCOxPin(pin);
+    else fprintf(stderr, "NCO::setIOpin unexpected data=%d\n", data);
 }
 
 // remap NCO1 pin, called from APFCON

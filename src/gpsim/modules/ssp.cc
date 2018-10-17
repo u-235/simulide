@@ -18,6 +18,11 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, see
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
 #include <stdio.h>
 #include <iostream>
@@ -29,20 +34,20 @@ License along with this library; if not, see
 #include "14bit-processors.h"
 #include "14bit-tmrs.h"
 
-//#include "xref.h"
-
 //#define DEBUG
 #if defined(DEBUG)
 #define Dprintf(arg) {printf("%s:%d-%s() %s ",__FILE__,__LINE__,__FUNCTION__,cpu->name().c_str()); printf arg; }
 #else
 #define Dprintf(arg) {}
 #endif
+
 //#define I2C_PROTO
 #if defined(I2C_PROTO)
 #define I2Cproto(arg) {printf("I2C %s %d ",cpu->name().c_str(), __LINE__); printf arg;}
 #else
 #define I2Cproto(arg) {}
 #endif
+
 //#define SPI_PROTO
 #if defined(SPI_PROTO)
 #define SPIproto(arg) {printf("SPI %s %d ", cpu->name().c_str(), __LINE__); printf arg;}
@@ -75,8 +80,6 @@ void _SSPSTAT::put(uint new_value)
         return;
 
   put_value(old6 | (new_value & (CKE|SMP)));
-
-
 }
 
 void _SSPSTAT::put_value(uint new_value)
@@ -86,149 +89,147 @@ void _SSPSTAT::put_value(uint new_value)
 
 class SCK_SignalSource : public SignalControl
 {
-public:
-  SCK_SignalSource(SSP_MODULE *_ssp_mod, PinModule *_pin)
-        : m_pin(_pin), m_ssp_mod(_ssp_mod), m_cState('?')
-  {}
-  ~SCK_SignalSource(){}
-  virtual void release(){m_ssp_mod->releaseSCKpin();}
+    public:
+      SCK_SignalSource(SSP_MODULE *_ssp_mod, PinModule *_pin)
+            : m_pin(_pin), m_ssp_mod(_ssp_mod), m_cState('?')
+      {}
+      ~SCK_SignalSource(){}
+      virtual void release(){m_ssp_mod->releaseSCKpin();}
 
-  virtual char getState() { return m_cState;}
+      virtual char getState() { return m_cState;}
 
-  virtual void putState(const char new3State)
-  {
-    if (new3State != m_cState) {
-      m_cState = new3State;
-      m_pin->updatePinModule();
-    }
-  }
+      virtual void putState(const char new3State)
+      {
+        if (new3State != m_cState) {
+          m_cState = new3State;
+          m_pin->updatePinModule();
+        }
+      }
 
-  virtual void toggle()
-  {
-    switch (m_cState)
-    {
-    case '1':
-    case 'W':
-      putState('0');
-      break;
-    case '0':
-    case 'w':
-      putState('1');
-      break;
-    }
-  }
+      virtual void toggle()
+      {
+        switch (m_cState)
+        {
+        case '1':
+        case 'W':
+          putState('0');
+          break;
+        case '0':
+        case 'w':
+          putState('1');
+          break;
+        }
+      }
 
-
-private:
-  PinModule *m_pin;
-  SSP_MODULE *m_ssp_mod;
-  char m_cState;
+    private:
+      PinModule *m_pin;
+      SSP_MODULE *m_ssp_mod;
+      char m_cState;
 };
-
 
 class SDO_SignalSource : public SignalControl
 {
-public:
-  SDO_SignalSource(SSP_MODULE *_ssp_mod, PinModule *_pin)
-        : m_pin(_pin), m_ssp_mod(_ssp_mod), m_cState('?')
-  {}
-  virtual void release(){m_ssp_mod->releaseSDOpin();}
+    public:
+      SDO_SignalSource(SSP_MODULE *_ssp_mod, PinModule *_pin)
+            : m_pin(_pin), m_ssp_mod(_ssp_mod), m_cState('?')
+      {}
+      virtual void release(){m_ssp_mod->releaseSDOpin();}
 
-  virtual char getState() { return m_cState;}
+      virtual char getState() { return m_cState;}
 
-  virtual void putState(const char new3State)
-  {
-    if (new3State != m_cState) {
-      m_cState = new3State;
-      m_pin->updatePinModule();
-    }
-  }
+      virtual void putState(const char new3State)
+      {
+        if (new3State != m_cState) {
+          m_cState = new3State;
+          m_pin->updatePinModule();
+        }
+      }
 
-private:
-  PinModule *m_pin;
-  SSP_MODULE *m_ssp_mod;
-  char m_cState;
+    private:
+      PinModule *m_pin;
+      SSP_MODULE *m_ssp_mod;
+      char m_cState;
 };
 
 class SDI_SignalSource : public SignalControl
 {
-public:
-  SDI_SignalSource(SSP_MODULE *_ssp_mod, PinModule *_pin)
-        : m_pin(_pin), m_ssp_mod(_ssp_mod), m_cState('?')
-  {}
-  virtual void release(){m_ssp_mod->releaseSDIpin();}
+    public:
+      SDI_SignalSource(SSP_MODULE *_ssp_mod, PinModule *_pin)
+            : m_pin(_pin), m_ssp_mod(_ssp_mod), m_cState('?')
+      {}
+      virtual void release(){m_ssp_mod->releaseSDIpin();}
 
-  virtual char getState() { return m_cState;}
+      virtual char getState() { return m_cState;}
 
-  virtual void putState(const char new3State)
-  {
-    if (new3State != m_cState) {
-      m_cState = new3State;
-      m_pin->updatePinModule();
-    }
-  }
+      virtual void putState(const char new3State)
+      {
+        if (new3State != m_cState) {
+          m_cState = new3State;
+          m_pin->updatePinModule();
+        }
+      }
 
-private:
-  PinModule *m_pin;
-  SSP_MODULE *m_ssp_mod;
-  char m_cState;
+    private:
+      PinModule *m_pin;
+      SSP_MODULE *m_ssp_mod;
+      char m_cState;
 };
-
 
 class SDI_SignalSink : public SignalSink
 {
-public:
-  SDI_SignalSink(SSP_MODULE *_ssp_mod)
-    : m_ssp_mod(_ssp_mod)
-  {
-    assert(_ssp_mod);
-  }
-  virtual ~SDI_SignalSink(){}
-  virtual void release(){delete this;}
+    public:
+      SDI_SignalSink(SSP_MODULE *_ssp_mod)
+        : m_ssp_mod(_ssp_mod)
+      {
+        assert(_ssp_mod);
+      }
+      virtual ~SDI_SignalSink(){}
+      virtual void release(){delete this;}
 
-  void setSinkState(char new3State)
-  {
-    m_ssp_mod->SDI_SinkState(new3State);
-  }
-private:
-  SSP_MODULE *m_ssp_mod;
+      void setSinkState(char new3State)
+      {
+        m_ssp_mod->SDI_SinkState(new3State);
+      }
+    private:
+      SSP_MODULE *m_ssp_mod;
 };
 
 class SCL_SignalSink : public SignalSink
 {
-public:
-  SCL_SignalSink(SSP_MODULE *_ssp_mod)
-    : m_ssp_mod(_ssp_mod)
-  {
-    assert(_ssp_mod);
-  }
-  virtual ~SCL_SignalSink(){}
-  virtual void release(){delete this; }
+    public:
+      SCL_SignalSink(SSP_MODULE *_ssp_mod)
+        : m_ssp_mod(_ssp_mod)
+      {
+        assert(_ssp_mod);
+      }
+      virtual ~SCL_SignalSink(){}
+      virtual void release(){delete this; }
 
-  void setSinkState(char new3State)
-  {
-    m_ssp_mod->SCL_SinkState(new3State);
-  }
-private:
-  SSP_MODULE *m_ssp_mod;
+      void setSinkState(char new3State)
+      {
+        m_ssp_mod->SCL_SinkState(new3State);
+      }
+    private:
+      SSP_MODULE *m_ssp_mod;
 };
+
 class SS_SignalSink : public SignalSink
 {
-public:
-  SS_SignalSink(SSP_MODULE *_ssp_mod)
-    : m_ssp_mod(_ssp_mod)
-  {
-    assert(_ssp_mod);
-  }
-  virtual ~SS_SignalSink(){}
-  virtual void release(){delete this; }
+    public:
+      SS_SignalSink(SSP_MODULE *_ssp_mod)
+        : m_ssp_mod(_ssp_mod)
+      {
+        assert(_ssp_mod);
+      }
+      virtual ~SS_SignalSink(){}
+      virtual void release(){delete this; }
 
-  void setSinkState(char new3State)
-  {
-    m_ssp_mod->SS_SinkState(new3State);
-  }
-private:
-  SSP_MODULE *m_ssp_mod;
+      void setSinkState(char new3State)
+      {
+        m_ssp_mod->SS_SinkState(new3State);
+      }
+    private:
+      SSP_MODULE *m_ssp_mod;
 };
 
 
@@ -758,9 +759,9 @@ SSP_MODULE::SSP_MODULE(Processor *pCpu)
     m_sck_active(false)
 {
 }
+
 SSP_MODULE::~SSP_MODULE()
 {
-
     if (!m_sink_set)
     {
         delete m_SDI_Sink;
@@ -792,24 +793,48 @@ SSP_MODULE::~SSP_MODULE()
 /*
     SSP1_MODULE adds SSPCON3 and SSPMSK to SSP_MODULE
 */
-SSP1_MODULE::SSP1_MODULE(Processor *pCpu) :
-    SSP_MODULE(pCpu),
-    ssp1con3(pCpu, this)
+SSP1_MODULE::SSP1_MODULE(Processor *pCpu)
+           : SSP_MODULE(pCpu)
+           , ssp1con3(pCpu, this)
 {
     sspmsk = new _SSPMSK(pCpu, "ssp1msk");
 }
+
 SSP1_MODULE::~SSP1_MODULE()
 {
    delete sspmsk;
 }
 
-void SSP1_MODULE::set_sckPin(PinModule *_sckPin)
+void SSP1_MODULE::setIOpin( int data, PinModule* pin )
+{
+    switch(data)
+    {
+        case SCK_PIN:
+            set_sckPin(pin);
+            break;
+        
+        case SDI_PIN:
+            set_sdiPin(pin);
+            break;
+        
+        case SDO_PIN:
+            set_sdoPin(pin);
+            break;
+        
+        case SS_PIN:
+            set_ssPin(pin);
+            break;
+    };
+}
+
+void SSP1_MODULE::set_sckPin( PinModule *_sckPin )
 {
    if (m_sck == _sckPin) return;        // No change, do nothing
    m_sck = _sckPin;
    if(m_SckSource) delete m_SckSource;
    m_SckSource = new SCK_SignalSource(this, m_sck);
 }
+
 void SSP1_MODULE::set_sdoPin(PinModule *_sdoPin)
 {
    if (m_sdo == _sdoPin) return;        // No change, do nothing
@@ -818,6 +843,7 @@ void SSP1_MODULE::set_sdoPin(PinModule *_sdoPin)
    if(m_SdoSource) delete m_SdoSource;
    m_SdoSource = new SDO_SignalSource(this, m_sdo);
 }
+
 void SSP1_MODULE::set_sdiPin(PinModule *_sdiPin)
 {
    if (m_sdi == _sdiPin) return;        // No change, do nothing
@@ -825,6 +851,7 @@ void SSP1_MODULE::set_sdiPin(PinModule *_sdiPin)
    if(m_SdiSource) delete m_SdiSource;
    m_SdiSource = new SDI_SignalSource(this, m_sdi);
 }
+
 void SSP1_MODULE::set_ssPin(PinModule *_ssPin)
 {
    if (m_ss == _ssPin) return;        // No change, do nothing

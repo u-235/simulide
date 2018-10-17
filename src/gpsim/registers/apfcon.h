@@ -26,56 +26,36 @@ License along with this library; if not, see
 #ifndef __APFCON_H__
 #define __APFCON_H__
 
-#include "14bit-processors.h"
-#include "14bit-tmrs.h"
-#include "nco.h"
-#include "clc.h"
+#include "ioports.h"
 
-class APFCON2;
 
-class APFCON : public  sfr_register
+// Base class to allow APFCON to change IO pins
+class apfpin
 {
-    public:
-        virtual void put(uint new_value);
-        void set_pins(uint bit, PinModule *pin0, PinModule *pin1)
-        {
-            m_bitPin[0][bit] = pin0;
-            m_bitPin[1][bit] = pin1;
-        }
-        void set_usart( USART_MODULE*_usart ) { m_usart = _usart;};
-        void set_ssp( SSP1_MODULE*_ssp )      { m_ssp = _ssp;};
-        void set_t1gcon( T1GCON*_t1gcon )     { m_t1gcon = _t1gcon;};
-        void set_ccpcon( CCPCON*_ccpcon )     { m_ccpcon = _ccpcon;};
-        void set_ValidBits( uint _mask )      {mValidBits = _mask;}
-
-        APFCON(Processor *pCpu, const char *pName, const char *pDesc);
-
-        private:
-
-        friend APFCON2;
-      
-        PinModule	*m_bitPin[2][8];
-        USART_MODULE 	*m_usart;
-        SSP1_MODULE 	*m_ssp;
-        T1GCON    	*m_t1gcon;
-        CCPCON		*m_ccpcon;
+ public:
+     virtual void setIOpin(int data, PinModule *pin) { fprintf(stderr, "unexpected call afpin::setIOpin data=%d\n", data);}
 };
 
-    // APFCON for 16f1503
-class APFCON2 : public APFCON
+// ALTERNATE PIN LOCATIONS register
+// set_pins is used to configure operation
+class APFCON : public  sfr_register
 {
-    public:
+ public:
+  APFCON(Processor *pCpu, const char *pName, const char *pDesc, unsigned int _mask);
+  virtual void put(unsigned int new_value);
+  void set_pins(unsigned int bit, class apfpin *pt_apfpin, int arg, 
+		PinModule *pin_default, PinModule *pin_alt);
+  void set_ValidBits(unsigned int _mask){mValidBits = _mask;}
 
-        APFCON2(Processor *pCpu, const char *pName, const char *pDesc) :
-        APFCON(pCpu, pName, pDesc), m_nco(0), m_clc(0)
-        {;}
-        virtual void put(uint new_value);
-        void set_CLC( CLC*_clc ) { m_clc = _clc;}
-        void set_NCO( NCO*_nco ) { m_nco = _nco;}
-
-    private:
-        NCO *m_nco;
-        CLC *m_clc;
+ private:
+   unsigned int mValidBits;
+   struct dispatch
+   {
+	class apfpin *pt_apfpin;	// pointer to pin setting function
+	int          arg;	        // argument for pin setting function
+	PinModule    *pin_default; // pin when bit=0
+	PinModule    *pin_alt;	// pin when bit=1
+   } dispatch[8];
 };
 
 #endif
