@@ -1,6 +1,6 @@
 /*
    Copyright (C) 1998,1999 T. Scott Dattalo
-		 2006,2015 Roy R Rankin
+           2006,2015 Roy R Rankin
 
 This file is part of the libgpsim library of gpsim
 
@@ -18,6 +18,11 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, see 
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
 #include <stdio.h>
 
@@ -32,6 +37,8 @@ class InvalidRegister;   // Forward reference
 #include "14bit-registers.h"
 #include "ioports.h"
 #include "pir.h"
+#include "packages.h"
+#include "apfcon.h"
 
 class PinModule;
 
@@ -50,10 +57,10 @@ class SDI_SignalSource;
 class SCK_SignalSource;
 
 enum SSP_TYPE {
-	SSP_TYPE_BSSP = 1,
-	SSP_TYPE_SSP,
-	SSP_TYPE_MSSP,
-	SSP_TYPE_MSSP1
+     SSP_TYPE_BSSP = 1,
+     SSP_TYPE_SSP,
+     SSP_TYPE_MSSP,
+     SSP_TYPE_MSSP1
 };
 
 class SSP_MODULE;
@@ -72,7 +79,7 @@ public:
     SSPM_SPImasterTMR2 = 0x3,   // SPI master mode, clock = TMR2/2
     SSPM_SPIslaveSS = 0x4,      // SPI slave mode, clock = SCK, /SS controlled
     SSPM_SPIslave = 0x5,        // SPI slave mode, clock = SCK, not /SS controlled
-    SSPM_SPImasterAdd = 0xa,	// SPI master mode, clock = FOSC/4*(sspadd+1)
+    SSPM_SPImasterAdd = 0xa,     // SPI master mode, clock = FOSC/4*(sspadd+1)
 
     SSPM_I2Cslave_7bitaddr = 0x6,
     SSPM_I2Cslave_10bitaddr = 0x7,
@@ -83,7 +90,7 @@ public:
     SSPM_I2Cslave_10bitaddr_ints = 0xf,
 
     /* None of the documentation I have seen show these, but Scott? thought
-	they were the good name RRR
+     they were the good name RRR
     SSPM_I2Cfirmwaremultimaster_7bitaddr_ints = 0xe,
     SSPM_I2Cfirmwaremaster_10bitaddr_ints = 0xf,
     */
@@ -117,7 +124,7 @@ public:
   bool isI2CSlave(uint); 
   bool isI2CMaster(uint); 
   bool isSPIActive(uint);
-	
+     
   bool isSPIMaster(); 
   void setWCOL();
   void setSSPOV() { put_value(value.get() | SSPOV);}
@@ -133,14 +140,14 @@ class _SSPCON2 : public sfr_register
  public:
 
   enum {
-    SEN  = 1<<0,	// Start or Stretch enable
-    RSEN  = 1<<1,	// Repeated Start
-    PEN  = 1<<2,	// Stop condition enable
-    RCEN = 1<<3,	// Receive enable bit
-    ACKEN = 1<<4,	// Acknowledge Sequence enable bit
-    ACKDT = 1<<5,	// Acknowledge Data bit
-    ACKSTAT = 1<<6,	// Acknowledge status bit
-    GCEN = 1<<7		// General call enable
+    SEN  = 1<<0,     // Start or Stretch enable
+    RSEN  = 1<<1,     // Repeated Start
+    PEN  = 1<<2,     // Stop condition enable
+    RCEN = 1<<3,     // Receive enable bit
+    ACKEN = 1<<4,     // Acknowledge Sequence enable bit
+    ACKDT = 1<<5,     // Acknowledge Data bit
+    ACKSTAT = 1<<6,     // Acknowledge status bit
+    GCEN = 1<<7          // General call enable
   };
 
   void put(uint new_value);
@@ -156,14 +163,14 @@ class _SSP1CON3 : public sfr_register
  public:
 
   enum {
-    DHEN  = 1<<0,	// Data hold enable
-    AHEN  = 1<<1,	// Address hold enable
-    SBCDE = 1<<2,	// Slave Mode Bus Collision Detect Enable bit 
-    SDAHT = 1<<3,	// SDA Hold Time Selection bit
-    BOEN  = 1<<4,	// Buffer Overwrite Enable bit
-    SCIE  = 1<<5,	// Start Condition Interrupt Enable bit
-    PCIE  = 1<<6,	// Stop Condition Interrupt Enable bit
-    ACKTIM = 1<<7	// Acknowledge Time Status bit
+    DHEN  = 1<<0,     // Data hold enable
+    AHEN  = 1<<1,     // Address hold enable
+    SBCDE = 1<<2,     // Slave Mode Bus Collision Detect Enable bit 
+    SDAHT = 1<<3,     // SDA Hold Time Selection bit
+    BOEN  = 1<<4,     // Buffer Overwrite Enable bit
+    SCIE  = 1<<5,     // Start Condition Interrupt Enable bit
+    PCIE  = 1<<6,     // Stop Condition Interrupt Enable bit
+    ACKTIM = 1<<7     // Acknowledge Time Status bit
   };
 
   void put(uint new_value);
@@ -188,9 +195,9 @@ class _SSPSTAT : public sfr_register
     P   = 1<<4,  // Stop bit (I2C mode)
     DA  = 1<<5,  // Data/Address bit (I2C mode)
 
-	// below are SSP and MSSP only. This class will force them to
-	// always be 0 if ssptype == SSP_TYPE_BSSP. This will give the
-	// corrent behavior.
+     // below are SSP and MSSP only. This class will force them to
+     // always be 0 if ssptype == SSP_TYPE_BSSP. This will give the
+     // corrent behavior.
     CKE = 1<<6,  // SPI clock edge select
     SMP = 1<<7   // SPI data input sample phase
   };
@@ -283,8 +290,8 @@ class SPI_1: public  SPI
 {
  public:
 
-  _SSP1CON3   	*m_ssp1con3;
-  _SSPADD	*m_sspadd;
+  _SSP1CON3        *m_ssp1con3;
+  _SSPADD     *m_sspadd;
 
   SPI_1(SSP1_MODULE *, _SSPCON *, _SSPSTAT *, _SSPBUF *, _SSP1CON3 *, _SSPADD *);
   virtual void stop_transfer();
@@ -322,10 +329,10 @@ class I2C: public  TriggerObject
   virtual bool end_ack();
   virtual bool match_address(uint sspsr);
   virtual bool do_stop_sspif();
-  bool		scl_clock_high();
-  bool		scl_neg_tran();
-  bool		scl_pos_tran();
-  bool		scl_clock_low();
+  bool          scl_clock_high();
+  bool          scl_neg_tran();
+  bool          scl_pos_tran();
+  bool          scl_clock_low();
 
 
 protected:
@@ -347,7 +354,7 @@ protected:
   } i2c_state;
 
 
-  int 	bits_transfered;
+  int      bits_transfered;
   int   phase;
   uint64_t future_cycle;
   Processor *cpu;
@@ -373,7 +380,7 @@ class SSP_MODULE
   _SSPBUF   sspbuf;
   _SSPCON   sspcon;
   _SSPSTAT  sspstat;
-  _SSPCON2  sspcon2;	// MSSP
+  _SSPCON2  sspcon2;     // MSSP
 
   // set to NULL for BSSP (It doesn't have this register)
   _SSPADD   sspadd;
@@ -383,12 +390,12 @@ class SSP_MODULE
   virtual ~SSP_MODULE();
 
   virtual void initialize(PIR_SET *ps,
-		  PinModule *_SckPin,
-		  PinModule *_SdiPin,
-		  PinModule *_SdoPin,
-		  PinModule *_SsPin,
-        	  PicTrisRegister *_i2ctris, 
-		  SSP_TYPE ssptype = SSP_TYPE_BSSP);
+            PinModule *_SckPin,
+            PinModule *_SdiPin,
+            PinModule *_SdoPin,
+            PinModule *_SsPin,
+               PicTrisRegister *_i2ctris, 
+            SSP_TYPE ssptype = SSP_TYPE_BSSP);
 
 
 
@@ -402,9 +409,9 @@ class SSP_MODULE
   virtual void putStateSDO(char _state);
   virtual void putStateSCK(char _state);
   virtual void mk_ssp_int(PIR *reg, uint bit) 
-		{ m_ssp_if = new InterruptSource(reg, bit);}
+          { m_ssp_if = new InterruptSource(reg, bit);}
   virtual void mk_bcl_int(PIR *reg, uint bit)
-		{ m_bcl_if = new InterruptSource(reg, bit);}
+          { m_bcl_if = new InterruptSource(reg, bit);}
   virtual void set_sspif();
   virtual void set_bclif();
   virtual void startSSP(uint value);
@@ -434,8 +441,8 @@ protected:
   InterruptSource *m_ssp_if;
   InterruptSource *m_bcl_if;
   PIR_SET   *m_pirset;
-  SPI 	    *m_spi;
-  I2C 	    *m_i2c;
+  SPI          *m_spi;
+  I2C          *m_i2c;
   PinModule *m_sck;
   PinModule *m_ss;
   PinModule *m_sdo; 
@@ -447,43 +454,49 @@ protected:
   bool m_SCL_State;
   bool m_SS_State;
 
-  SCK_SignalSource 	*m_SckSource;
-  SDO_SignalSource 	*m_SdoSource;
-  SDI_SignalSource 	*m_SdiSource;
-  SDI_SignalSink 	*m_SDI_Sink;
-  SCL_SignalSink 	*m_SCL_Sink;
-  SS_SignalSink 	*m_SS_Sink;
-  bool 			m_sink_set;
-  bool			m_sdo_active;
-  bool			m_sdi_active;
-  bool			m_sck_active;
+  SCK_SignalSource      *m_SckSource;
+  SDO_SignalSource      *m_SdoSource;
+  SDI_SignalSource      *m_SdiSource;
+  SDI_SignalSink      *m_SDI_Sink;
+  SCL_SignalSink      *m_SCL_Sink;
+  SS_SignalSink      *m_SS_Sink;
+  bool                m_sink_set;
+  bool               m_sdo_active;
+  bool               m_sdi_active;
+  bool               m_sck_active;
 };
 
-class SSP1_MODULE : public SSP_MODULE //MSSP1
+class SSP1_MODULE : public SSP_MODULE, public apfpin //MSSP1
 {
- public:
-  SSP1_MODULE(Processor *);
-  ~SSP1_MODULE();
+    public:
+        SSP1_MODULE(Processor *);
+        ~SSP1_MODULE();
+        
+        enum {
+        SCK_PIN = 0,
+        SDI_PIN,
+        SDO_PIN,
+        SS_PIN,
+        };
 
-   _SSP1CON3  	ssp1con3;
+        _SSP1CON3 ssp1con3;
 
-  virtual void initialize(PIR_SET *ps,
-		  PinModule *_SckPin,
-		  PinModule *_SdiPin,
-		  PinModule *_SdoPin,
-		  PinModule *_SsPin,
-        	  PicTrisRegister *_i2ctris, 
-		  SSP_TYPE ssptype = SSP_TYPE_MSSP1);
+        virtual void initialize(PIR_SET *ps,
+              PinModule *_SckPin,
+              PinModule *_SdiPin,
+              PinModule *_SdoPin,
+              PinModule *_SsPin,
+                  PicTrisRegister *_i2ctris, 
+              SSP_TYPE ssptype = SSP_TYPE_MSSP1);
 
-   void set_sckPin(PinModule *_sckPin);
-   void set_sdiPin(PinModule *_sdiPin);
-   void set_sdoPin(PinModule *_sdoPin);
-   PinModule *get_sdoPin() { return m_sdo;}
-   void set_ssPin(PinModule *_ssPin);
-   void set_tris(PicTrisRegister *_i2ctris) { m_i2c_tris = _i2ctris;}
-  virtual void changeSSP(uint new_value, uint old_value);
-  virtual bool SaveSSPsr(uint value);
-
-
+        void setIOpin( int data, PinModule *pin );
+        void set_sckPin( PinModule *_sckPin );
+        void set_sdiPin( PinModule *_sdiPin );
+        void set_sdoPin( PinModule *_sdoPin );
+        PinModule *get_sdoPin() { return m_sdo;}
+        void set_ssPin( PinModule *_ssPin);
+        void set_tris( PicTrisRegister *_i2ctris ) { m_i2c_tris = _i2ctris;}
+        virtual void changeSSP( uint new_value, uint old_value );
+        virtual bool SaveSSPsr( uint value );
 };
 #endif  // __SSP_H__

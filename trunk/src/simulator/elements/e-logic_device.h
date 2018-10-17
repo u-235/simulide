@@ -21,6 +21,7 @@
 #define ELOGICDEVICE_H
 
 #include <string>
+#include <math.h>
 
 #include "e-source.h"
 #include "e-pin.h"

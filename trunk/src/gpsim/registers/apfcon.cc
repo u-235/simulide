@@ -24,140 +24,43 @@ License along with this library; if not, see
 *****************************************************************/
 
 #include "apfcon.h"
+#include "processor.h"
 
-
-APFCON::APFCON(Processor *pCpu, const char *pName, const char *pDesc)
-    : sfr_register(pCpu,pName,pDesc),
-        m_usart(0), m_ssp(0), m_t1gcon(0)
+// Alternate Pin function
+APFCON::APFCON(Processor *pCpu, const char *pName, const char *pDesc, unsigned int _mask)
+      : sfr_register(pCpu,pName,pDesc)
+      , mValidBits(_mask)
 {
-    int j;
-    mValidBits=0xef;
-    for(j =0; j <8; j++)
+    for(int j=0; j<8; j++)
     {
-        m_bitPin[0][j] = NULL;
-        m_bitPin[1][j] = NULL;
+        dispatch[j].pt_apfpin = 0;
     }
 }
 
-void APFCON::put(uint new_value)
+void APFCON::set_pins(unsigned int bit, class apfpin* pt_apfpin, int arg,
+                      PinModule* pin_default, PinModule* pin_alt)
 {
-    uint old_value = value.get();
-    uint diff = (new_value ^ old_value) & mValidBits;
+    dispatch[bit].pt_apfpin = pt_apfpin;
+    dispatch[bit].arg = arg;
+    dispatch[bit].pin_default = pin_default;
+    dispatch[bit].pin_alt = pin_alt;
+}
+
+void APFCON::put( unsigned int new_value )
+{
+    unsigned int old_value = value.get();
+    unsigned int diff = (new_value ^ old_value) & mValidBits;
 
     new_value &= mValidBits;
     value.put(new_value);
 
-    for(int i = 0; i < 8; i++)
+    for( int i=0; i<8; i++ )
     {
-        uint bit = 1<<i;
+        unsigned int bit = 1<<i;
         if(diff & bit)
         {
-
-            if (m_bitPin[(new_value & bit)== bit][i] == 0)
-            {
-                fprintf(stderr, "APFCON::put File bug report m_bitPin[%d][%d] not set\n", (new_value & bit)== bit, i);
-                assert(m_bitPin[(new_value & bit)== bit][i]);
-            }
-
-            switch(i)
-            {
-            case 0:
-                assert(m_ccpcon);
-                m_ccpcon->setIOPin1(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-
-            case 1:
-                assert(m_ccpcon);
-                m_ccpcon->setIOPin2(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-
-            case 2:
-                assert(m_usart);
-                m_usart->set_TXpin(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-
-            case 3:
-                assert(m_t1gcon);
-                m_t1gcon->setGatepin(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-
-            case 4:        // not used
-                break;
-
-            case 5:
-                assert(m_ssp);
-                m_ssp->set_ssPin(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-
-            case 6:
-                assert(m_ssp);
-                m_ssp->set_sdoPin(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-
-            case 7:
-                assert(m_usart);
-                m_usart->set_RXpin(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-            }
-        }
-    }
-}
-
-// Alternate pin function for 16f1503
-void APFCON2::put(uint new_value)
-{
-    uint old_value = value.get();
-    uint diff = (new_value ^ old_value) & mValidBits;
-
-    new_value &= mValidBits;
-    value.put(new_value);
-
-    for(int i = 0; i < 8; i++)
-    {
-        uint bit = 1<<i;
-        if( diff & bit )
-        {
-
-            if (m_bitPin[(new_value & bit)== bit][i] == 0)
-            {
-                fprintf(stderr, "APFCON2::put File bug report m_bitPin[%d][%d] not set\n", (new_value & bit)== bit, i);
-                assert(m_bitPin[(new_value & bit)== bit][i]);
-            }
-
-            switch(i)
-            {
-            case 0:
-                assert(m_nco);
-                m_nco->setNCOxPin(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-
-            case 1:
-                assert(m_clc);
-                m_clc->setCLCxPin(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-
-            case 2:         // not used
-                break;
-
-            case 3:
-                assert(m_t1gcon);
-                m_t1gcon->setGatepin(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-
-            case 4:
-                assert(m_ssp);
-                m_ssp->set_ssPin(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-
-            case 5:
-                assert(m_ssp);
-                m_ssp->set_sdoPin(m_bitPin[(new_value & bit)== bit][i]);
-                break;
-
-            case 6:        // not used
-            case 7:
-                break;
-            }
+            assert(dispatch[i].pt_apfpin);
+            dispatch[i].pt_apfpin->setIOpin(dispatch[i].arg, (bit & new_value)? dispatch[i].pin_alt: dispatch[i].pin_default);
         }
     }
 }

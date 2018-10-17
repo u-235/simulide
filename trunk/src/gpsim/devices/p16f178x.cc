@@ -85,8 +85,8 @@ P16F178x::P16F178x(const char *_name, const char *desc)
     wdtcon(this, "wdtcon", "Watch dog timer control", 0x3f),
     usart(this),
     ssp(this),
-    apfcon1(this, "apfcon1", "Alternate Pin Function Control Register 1"),
-    apfcon2(this, "apfcon2", "Alternate Pin Function Control Register 2"),
+    apfcon1(this, "apfcon1", "Alternate Pin Function Control Register 1", 0xff),
+    apfcon2(this, "apfcon2", "Alternate Pin Function Control Register 2", 0x07),
     pwm1con(this, "pwm1con", "Enhanced PWM Control Register"),
     ccp1as(this, "ccp1as", "CCP1 Auto-Shutdown Control Register"),
     pstr1con(this, "pstr1con", "Pulse Sterring Control Register"),
@@ -462,25 +462,22 @@ void P16F178x::create_sfr_map()
         &(*m_porta)[1],   // SCK
         &(*m_porta)[3],   // SS
         &(*m_porta)[0],   // SDO
-        &(*m_porta)[2],    // SDI
-          m_trisa,          // i2c tris port
+        &(*m_porta)[2],   // SDI
+          m_trisa,        // i2c tris port
         SSP_TYPE_MSSP1
     );
-    apfcon1.set_usart(&usart);
-    apfcon1.set_ssp(&ssp);
-    apfcon1.set_t1gcon(&t1con_g.t1gcon);
-    apfcon1.set_pins(0, &(*m_porta)[2], &(*m_porta)[5]); //CCP1/P1A
-    apfcon1.set_pins(1, &(*m_porta)[0], &(*m_porta)[4]); //P1B
-    apfcon1.set_pins(2, &(*m_porta)[0], &(*m_porta)[4]); //USART TX Pin
-    apfcon1.set_pins(3, &(*m_porta)[4], &(*m_porta)[3]); //tmr1 gate
-    apfcon1.set_pins(5, &(*m_porta)[3], &(*m_porta)[0]); //SSP SS
-    apfcon1.set_pins(6, &(*m_porta)[0], &(*m_porta)[4]); //SSP SDO
-    apfcon1.set_pins(7, &(*m_porta)[1], &(*m_porta)[5]); //USART RX Pin
+    apfcon1.set_pins(0, &ccp1con, CCPCON::CCP_PIN, &(*m_porta)[2], &(*m_porta)[5]); //CCP1/P1A
+    apfcon1.set_pins(1, &ccp1con, CCPCON::PxB_PIN, &(*m_porta)[0], &(*m_porta)[4]); //P1B
+    apfcon1.set_pins(2, &usart, USART_MODULE::TX_PIN, &(*m_porta)[0], &(*m_porta)[4]); //USART TX Pin
+    apfcon1.set_pins(3, &t1con_g.t1gcon, 0, &(*m_porta)[4], &(*m_porta)[3]); //tmr1 gate
+    apfcon1.set_pins(5, &ssp, SSP1_MODULE::SS_PIN, &(*m_porta)[3], &(*m_porta)[0]); //SSP SS
+    apfcon1.set_pins(6, &ssp, SSP1_MODULE::SDO_PIN, &(*m_porta)[0], &(*m_porta)[4]); //SSP SDO
+    apfcon1.set_pins(7, &usart, USART_MODULE::RX_PIN, &(*m_porta)[1], &(*m_porta)[5]); //USART RX Pin
     
     if (pir1) 
     {
-            pir1->set_intcon(intcon);
-            pir1->set_pie(&pie1);
+        pir1->set_intcon(intcon);
+        pir1->set_pie(&pie1);
     }
     pie1.setPir(pir1);
     pie2.setPir(pir2);
@@ -830,11 +827,11 @@ void P16F1788::create_sfr_map()
     apfcon1.set_ValidBits(0xff);
     apfcon2.set_ValidBits(0x07);
     // pins 0,1 not used for p16f1788
-    apfcon1.set_pins(2, &(*m_portc)[4], &(*m_porta)[0]); //USART TX Pin
+    apfcon1.set_pins(2, &usart, USART_MODULE::TX_PIN, &(*m_portc)[4], &(*m_porta)[0]); //USART TX Pin
     // pin 3 defined in p12f1822
-    apfcon1.set_pins(5, &(*m_portc)[3], &(*m_porta)[3]); //SSP SS
-    apfcon1.set_pins(6, &(*m_portc)[2], &(*m_porta)[4]); //SSP SDO
-    apfcon1.set_pins(7, &(*m_portc)[5], &(*m_porta)[1]); //USART RX Pin
+    apfcon1.set_pins(5, &ssp, SSP1_MODULE::SS_PIN, &(*m_portc)[3], &(*m_porta)[3]); //SSP SS
+    apfcon1.set_pins(6, &ssp, SSP1_MODULE::SDO_PIN, &(*m_portc)[2], &(*m_porta)[4]); //SSP SDO
+    apfcon1.set_pins(7, &usart, USART_MODULE::RX_PIN, &(*m_portc)[5], &(*m_porta)[1]); //USART RX Pin
 
     comparator.cmxcon1[3]->set_INpinNeg(&(*m_porta)[0], &(*m_porta)[1],  &(*m_portb)[5],  &(*m_portb)[1]);
     comparator.cmxcon1[3]->set_INpinPos(&(*m_porta)[2], &(*m_portb)[6]);

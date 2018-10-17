@@ -76,14 +76,14 @@ Circuit::~Circuit()
 QList<Component*>* Circuit::compList() { return &m_compList; }
 QList<Component*>* Circuit::conList()  { return &m_conList; }
 
-int Circuit::nlAcc()
+int Circuit::noLinAcc()
 {
-    return Simulator::self()->nlAcc();
+    return Simulator::self()->noLinAcc();
 }
 
-void Circuit::setNlAcc( int ac )
+void Circuit::setNoLinAcc( int ac )
 {
-    Simulator::self()->setNlAcc( ac );
+    Simulator::self()->setNoLinAcc( ac );
 }
 
 int Circuit::reactStep()
@@ -338,9 +338,26 @@ void Circuit::loadDomDoc( QDomDocument* doc )
     
     //int firstSeqNumber = m_seqNumber+1;
 
-    QDomElement root = doc->documentElement();
-    QString docType = root.attribute("type");
-    QDomNode    node = root.firstChild();
+    QDomElement circuit = doc->documentElement();
+    QString docType = circuit.attribute("type");
+    
+    if( circuit.hasAttribute( "speed" ))     setCircSpeed( circuit.attribute("speed").toInt() );
+    if( circuit.hasAttribute( "reactStep" )) setReactStep( circuit.attribute("reactStep").toInt() );
+    if( circuit.hasAttribute( "noLinStep" )) setNoLinStep( circuit.attribute("noLinStep").toInt() );
+    if( circuit.hasAttribute( "noLinAcc" ))  setNoLinAcc( circuit.attribute("noLinAcc").toInt() );
+    /*if( circuit.hasAttribute( "drawGrid" ) )    
+    {
+        bool sdg = true;
+        if( circuit.attribute("drawGrid") == "false" ) sdg = false;
+        setDrawGrid( sdg );
+    }
+    if( circuit.hasAttribute( "showScroll" ) )
+    {
+        bool ssc = false;
+        if( circuit.attribute("showScroll") == "true" ) ssc = true;
+        setShowScroll( ssc );
+    }*/
+    QDomNode    node = circuit.firstChild();
     QList<Component*> compList;   // Component List
     QList<Component*> conList;    // Connector List
     QList<Node*>      jointList;  // Joint List
@@ -569,9 +586,17 @@ void Circuit::bom()
 void Circuit::circuitToDom()
 {
     m_domDoc.clear();
-    QDomElement root = m_domDoc.createElement("circuit");
-    root.setAttribute( "type", "simulide_0.1" );
-    m_domDoc.appendChild(root);
+    QDomElement circuit = m_domDoc.createElement("circuit");
+    
+    circuit.setAttribute( "type",      "simulide_0.1" );
+    circuit.setAttribute( "speed",     QString::number( circSpeed() ) );
+    circuit.setAttribute( "reactStep", QString::number( reactStep() ) );
+    circuit.setAttribute( "noLinStep", QString::number( noLinStep() ) );
+    circuit.setAttribute( "noLinAcc",  QString::number( noLinAcc() ) );
+    //circuit.setAttribute( "drawGrid",    QString( drawGrid()?"true":"false"));
+    //circuit.setAttribute( "showScroll",  QString( showScroll()?"true":"false"));
+    
+    m_domDoc.appendChild(circuit);
 
     listToDom( &m_domDoc, &m_compList );
 
@@ -585,7 +610,7 @@ void Circuit::circuitToDom()
     objectToDom( &m_domDoc, PlotterWidget::self() );
     objectToDom( &m_domDoc, SerialPortWidget::self() );
 
-    root.appendChild( m_domDoc.createTextNode( "\n \n" ) );
+    circuit.appendChild( m_domDoc.createTextNode( "\n \n" ) );
 }
 
 void Circuit::listToDom( QDomDocument* doc, QList<Component*>* complist )

@@ -27,7 +27,6 @@ License along with this library; if not, see
 
 #include <string>
 #include "stimuli.h"
-//#include "trace.h"
 
 extern uint config_word;
 

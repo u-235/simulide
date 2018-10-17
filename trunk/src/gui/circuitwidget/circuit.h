@@ -35,7 +35,7 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
     Q_PROPERTY( int Speed     READ circSpeed WRITE setCircSpeed DESIGNABLE true USER true )
     Q_PROPERTY( int ReactStep READ reactStep WRITE setReactStep DESIGNABLE true USER true )
     Q_PROPERTY( int NoLinStep READ noLinStep WRITE setNoLinStep DESIGNABLE true USER true )
-    Q_PROPERTY( int NoLinAcc  READ nlAcc     WRITE setNlAcc     DESIGNABLE true USER true )
+    Q_PROPERTY( int NoLinAcc  READ noLinAcc  WRITE setNoLinAcc  DESIGNABLE true USER true )
     
     Q_PROPERTY( bool Draw_Grid        READ drawGrid   WRITE setDrawGrid   DESIGNABLE true USER true )
     Q_PROPERTY( bool Show_ScrollBars  READ showScroll WRITE setShowScroll DESIGNABLE true USER true )
@@ -44,7 +44,7 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         Circuit( qreal x, qreal y, qreal width, qreal height, QGraphicsView*  parent );
         ~Circuit();
 
- static Circuit*  self() { return m_pSelf; }
+ static Circuit* self() { return m_pSelf; }
         
         int   reactStep();
         void  setReactStep( int steps );
@@ -55,8 +55,8 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         int  circSpeed();
         void setCircSpeed( int rate );
         
-        int  nlAcc();
-        void setNlAcc( int ac );
+        int  noLinAcc();
+        void setNoLinAcc( int ac );
         
         bool drawGrid();
         void setDrawGrid( bool draw );

@@ -20,6 +20,11 @@ License along with this library; if not, see
 NUMERICALLY CONTROLLED OSCILLATOR (NCO) MODULE
 
 */
+/****************************************************************
+*                                                               *
+*  Modified 2018 by Santiago Gonzalez    santigoro@gmail.com    *
+*                                                               *
+*****************************************************************/
 
 #ifndef __NCO_h__
 #define __NCO_h__
@@ -100,7 +105,7 @@ class NCOxINCL : public sfr_register
             NCO *pt_nco;
 };
 
-class NCO : public TriggerObject
+class NCO : public TriggerObject, public apfpin
 {
     public:
         enum {
@@ -117,8 +122,8 @@ class NCO : public TriggerObject
         HFINTOSC = 0,
         FOSC = 1,
         LC1_OUT = 2,
-        NCO1CLK = 3
-
+        NCO1CLK = 3,
+        NCOout_PIN = 0
         };
 
         NCOxCON  nco1con;
@@ -137,6 +142,7 @@ class NCO : public TriggerObject
         void set_inc_buf();
         void update_ncocon(uint);
         void update_ncoclk(uint);
+        virtual void setIOpin(int data, PinModule *pin);
         void setIOpins(PinModule *pIN, PinModule *pOUT);
         void setNCOxPin(PinModule *pNCOx);
         void link_nco(bool level, char index);

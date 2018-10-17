@@ -25,31 +25,33 @@
 #include "connector.h"
 #include "mainwindow.h"
 #include "itemlibrary.h"
-#include "e-shiftreg.h"
-#include "e-latch_d.h"
-#include "e-resistor.h"
-#include "e-capacitor.h"
+#include "simuapi_apppath.h"
+
+#include "ledsmd.h"
 #include "e-bcdto7s.h"
 #include "e-bcdtodec.h"
-#include "e-dectobcd.h"
 #include "e-bincounter.h"
+#include "e-bjt.h"
+#include "e-capacitor.h"
+#include "e-dectobcd.h"
 #include "e-demux.h"
+#include "e-flipflopd.h"
+#include "e-flipflopjk.h"
 #include "e-fulladder.h"
 #include "e-gate_or.h"
 #include "e-gate_xor.h"
 #include "e-gate_xor.h"
-#include "e-flipflopd.h"
-#include "e-flipflopjk.h"
 #include "e-inbus.h"
+#include "e-latch_d.h"
 #include "e-logic_device.h"
 #include "e-mux.h"
 #include "e-mosfet.h"
 #include "e-op_amp.h"
 #include "e-outbus.h"
+#include "e-resistor.h"
+#include "e-shiftreg.h"
 #include "e-source.h"
 #include "e-volt_reg.h"
-#include "ledsmd.h"
-#include "simuapi_apppath.h"
 
 Component* SubCircuit::construct( QObject* parent, QString type, QString id )
 { 
@@ -366,7 +368,7 @@ void SubCircuit::initSubcircuit()
                 double threshold = 3;
                 double rDSon     = 1;
                 if( element.hasAttribute("threshold") ) threshold = element.attribute( "threshold" ).toDouble();
-                if( element.hasAttribute("rDSon") )     rDSon = element.attribute( "threshold" ).toDouble();
+                if( element.hasAttribute("rDSon") )     rDSon = element.attribute( "rDSon" ).toDouble();
                 eMosfet* emosfet = new eMosfet( id.toStdString() );
                 emosfet->setThreshold( threshold );
                 emosfet->setRDSon( rDSon );
@@ -379,6 +381,21 @@ void SubCircuit::initSubcircuit()
                     if( element.attribute( "Depletion" ) == "true" ) emosfet->setDepletion( true );
                 }
                 ecomponent = emosfet;
+            }
+            else if( type == "eBJT" )
+            {
+                double threshold = 0.7;
+                double gain     = 100;
+                if( element.hasAttribute("threshold") ) threshold = element.attribute( "threshold" ).toDouble();
+                if( element.hasAttribute("gain") )      gain      = element.attribute( "gain" ).toDouble();
+                eBJT* ebjt = new eBJT( id.toStdString() );
+                ebjt->setBEthr( threshold );
+                ebjt->setGain( gain );
+                if( element.hasAttribute("pNP") )
+                {
+                    if( element.attribute( "pNP" ) == "true" ) ebjt->setPnp( true );
+                }
+                ecomponent = ebjt;
             }
             else if( type == "eVoltReg" )
             {

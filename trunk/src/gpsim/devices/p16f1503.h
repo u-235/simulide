@@ -78,7 +78,7 @@ class P16F1503 : public _14bit_e_processor
       OSCSTAT 	oscstat;
       WDTCON  	wdtcon;
       SSP1_MODULE 	ssp;
-      APFCON2	apfcon1;
+      APFCON	apfcon1;
       PWMxCON	pwm1con;
       sfr_register  pwm1dcl;
       sfr_register  pwm1dch;

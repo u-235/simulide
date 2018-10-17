@@ -49,7 +49,7 @@ Simulator::Simulator( QObject* parent )
     m_stepsPrea  = 50;
     m_stepsNolin = 10;
     m_simuRate   = 1000000;
-    m_nlAcc = 5; // Non-Linear accuracy
+    m_noLinAcc = 5; // Non-Linear accuracy
 
     m_RefTimer.start();
 }
@@ -401,21 +401,21 @@ void Simulator::setNoLinClock( int value )
     if( running ) runContinuous();
 }
 
-int Simulator::nlAcc(){ return m_nlAcc; }
-void  Simulator::setNlAcc( int ac )
+int Simulator::noLinAcc(){ return m_noLinAcc; }
+void  Simulator::setNoLinAcc( int ac )
 {
     bool running = m_isrunning;
     if( running ) stopSim();
 
     if     ( ac < 3 )  ac = 3;
     else if( ac > 14 ) ac = 14;
-    m_nlAcc = ac;
+    m_noLinAcc = ac;
 
     if( running ) runContinuous();
 }
 double Simulator::NLaccuracy()
 {
-    return 1/pow(10,m_nlAcc)/2;
+    return 1/pow(10,m_noLinAcc)/2;
 }
 
 uint64_t Simulator::step()

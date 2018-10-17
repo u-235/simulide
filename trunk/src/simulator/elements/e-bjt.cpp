@@ -36,6 +36,7 @@ eBJT::eBJT( std::string id )
     ssa << m_elmId << "-BEdiode";
     m_BEdiode = new ePN( ssa.str() );
     m_BEdiode->initEpins();
+    setBEthr( 0.7 );
     
     /*std::stringstream ssb;
     ssb << m_elmId << "-BCdiode";
@@ -151,9 +152,6 @@ void eBJT::setVChanged()
 
     if( m_Efollow )
     {
-        if(( currentCE > maxCurrCE )&&( !m_Efollow ) )
-            eResistor::setRes( voltCE/currentCE );
-
         current = maxCurrCE-currentCE;
         
         current = m_lastOut+(current-m_lastOut)/5;
@@ -188,3 +186,11 @@ void eBJT::setVChanged()
     }
 }
 
+double eBJT::BEthr() {return m_BEthr;}
+
+void eBJT::setBEthr( double thr )
+{
+    if( thr == 0 ) thr = 0.7;
+    m_BEdiode->setThreshold(thr);
+    m_BEthr = thr;
+}
