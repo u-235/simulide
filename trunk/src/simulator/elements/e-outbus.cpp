@@ -70,7 +70,7 @@ void eOutBus::setVChanged()
         if( m_input[i]->isInverted() ) state = !state;
         m_inputState[i] = state;
         
-        if( state ) address += pow( 2, 7-i );
+        if( state ) address += pow( 2, m_numInputs-1-i );
     }
     double v = m_maxVolt*address/m_maxAddr;
     double imp = m_outImp;
