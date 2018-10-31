@@ -155,9 +155,9 @@ void LedBase::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidge
     {
         int overBight = 100;
         
-        if( m_bright > 40 )
+        if( m_bright > 25 )
         {
-            m_bright += 10;                          // Set a Minimun Bright
+            m_bright += 15;                          // Set a Minimun Bright
             
             if( m_bright > 255 ) 
             {

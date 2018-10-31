@@ -78,7 +78,7 @@ void eLed::updateBright()
     {
         m_avg_brightness = 0;
         m_lastUpdatePeriod = 0;
-        m_bright = 40;
+        m_bright = 25;
         return;
     }
     updateVI();
@@ -89,7 +89,7 @@ void eLed::updateBright()
 
         m_avg_brightness   = 0;
         m_lastUpdatePeriod = 0;
-        m_bright = uint(m_disp_brightness*255)+40;
+        m_bright = uint(m_disp_brightness*255)+25;
     }
     //qDebug()<<"current"<< m_current<<m_lastCurrent<<m_lastUpdatePeriod;
     //qDebug() << m_bright;

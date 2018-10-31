@@ -55,6 +55,8 @@ SevenSegment::SevenSegment( QObject* parent, QString type, QString id )
     m_color = QColor(0,0,0);
     m_commonCathode = true;
     m_numDisplays = 0;
+    m_threshold  = 2.4;
+    m_maxCurrent = 0.02;
     m_resistance = 1;
     m_area = QRect( -16, -24-1, 32, 48+2 );
 
@@ -158,6 +160,38 @@ void SevenSegment::setResistance( double res )
     for( uint i=0; i<m_segment.size(); i++ )
     {
         m_segment[i]->setRes( res );
+    }
+}
+
+double SevenSegment::threshold()
+{
+    return m_threshold;
+}
+
+void SevenSegment::setThreshold( double threshold )
+{
+    if( threshold == 0 ) threshold = 2.4;
+    m_threshold = threshold;
+    
+    for( uint i=0; i<m_segment.size(); i++ )
+    {
+        m_segment[i]->setThreshold( threshold );
+    }
+}
+
+double SevenSegment::maxCurrent()
+{
+    return m_maxCurrent;
+}
+
+void SevenSegment::setMaxCurrent( double current )
+{
+    if( current == 0 ) current = 0.02;
+    m_maxCurrent = current;
+    
+    for( uint i=0; i<m_segment.size(); i++ )
+    {
+        m_segment[i]->setMaxCurrent( current );
     }
 }
 
