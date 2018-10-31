@@ -29,9 +29,11 @@ class LibraryItem;
 class MAINMODULE_EXPORT SevenSegment : public Component, public eElement
 {
     Q_OBJECT
-    Q_PROPERTY( LedBase::LedColor Color    READ color      WRITE setColor      DESIGNABLE true USER true )
+    Q_PROPERTY( LedBase::LedColor Color READ color      WRITE setColor         DESIGNABLE true USER true )
     Q_PROPERTY( int  NumDisplays   READ numDisplays     WRITE setNumDisplays   DESIGNABLE true USER true )
     Q_PROPERTY( bool CommonCathode READ isCommonCathode WRITE setCommonCathode DESIGNABLE true USER true )
+    Q_PROPERTY( double Threshold   READ threshold       WRITE setThreshold     DESIGNABLE true USER true )
+    Q_PROPERTY( double MaxCurrent  READ maxCurrent      WRITE setMaxCurrent    DESIGNABLE true USER true )
     Q_PROPERTY( double Resistance  READ resistance      WRITE setResistance    DESIGNABLE true USER true )
     public:
 
@@ -52,6 +54,12 @@ class MAINMODULE_EXPORT SevenSegment : public Component, public eElement
 
         bool isCommonCathode();
         void setCommonCathode( bool isCommonCathode );
+        
+        double threshold();
+        void   setThreshold( double threshold );
+        
+        double maxCurrent();
+        void   setMaxCurrent( double current );
 
         double resistance() { return m_resistance; }
         void   setResistance( double res );
@@ -71,6 +79,8 @@ class MAINMODULE_EXPORT SevenSegment : public Component, public eElement
 
         bool m_commonCathode;
         int  m_numDisplays;
+        double m_threshold;
+        double m_maxCurrent;
         double m_resistance;
 
         std::vector<ePin*>  m_commonPin;

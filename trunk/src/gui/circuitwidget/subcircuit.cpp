@@ -565,8 +565,8 @@ void SubCircuit::connectEpin( ePin* epin, QString connetTo )
     else if( connetTo.startsWith("packagePin") )
     {
         int pinNum = connetTo.remove("packagePin").toInt()-1;
-        m_pinConections[pinNum].append( epin );
         //qDebug() << "SubCircuit::connectEpin to Pin " << connetTo << pinNum;
+        m_pinConections[pinNum].append( epin );
     }
 }
 
