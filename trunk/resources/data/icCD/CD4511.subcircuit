@@ -1,6 +1,6 @@
 <!DOCTYPE SimulIDE>
 
-<subcircuit enodes="6">
+<subcircuit enodes="7">
 
     <item itemtype="eLatchD"
         inputHighV = "3"
@@ -10,19 +10,19 @@
         outLowV = "0"
         outImped = "40"
         channels = "8"
-        inputEnable="true"
+        inputEnable = "true"
         tristate = "true"
         connections="
         output3-eNode0
         input1-packagePin1
         input0-packagePin7
         input2-packagePin2
-        inputEnable-packagePin5
         input3-packagePin6
         outEnable-eNode2
         output0-eNode3
         output1-eNode4
-        output2-eNode5" >
+        output2-eNode5
+        inputEnable-eNode6" >
     </item>
 
     <item itemtype="eResistor"
@@ -83,6 +83,20 @@
         connections="
         input0-packagePin3
         output0-eNode2" >
+    </item>
+
+    <item itemtype="eBuffer"
+        inputHighV = "2.5"
+        inputLowV = "2.5"
+        inputImped = "100000000000000"
+        outHighV = "5"
+        outLowV = "0"
+        outImped = "40"
+        inverted = "true"
+        tristate = "false"
+        connections="
+        input0-packagePin5
+        output0-eNode6" >
     </item>
 
 </subcircuit>
