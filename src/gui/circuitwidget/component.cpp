@@ -126,7 +126,7 @@ void Component::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
     event->accept();
 
     QList<QGraphicsItem*> itemlist = Circuit::self()->selectedItems();
-    if ( !itemlist.isEmpty() )
+    if( !itemlist.isEmpty() )
     {
         if( !m_moving )
         {

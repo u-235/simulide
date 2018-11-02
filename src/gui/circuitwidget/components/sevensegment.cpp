@@ -257,6 +257,7 @@ void SevenSegment::createDisplay( int dispNumber )
         else      lsmd = new LedSmd( this, "LEDSMD", nodid, QRectF(0, 0, 1.5, 1.5) );  // Point
         lsmd->setParentItem(this);
         //lsmd->setEnabled(false);
+        lsmd->setFlag( QGraphicsItem::ItemIsSelectable, false );
         lsmd->setAcceptedMouseButtons(0);
         lsmd->setNumEpins(2);
         lsmd->setMaxCurrent( 0.02 );

@@ -42,6 +42,7 @@ LedMatrix::LedMatrix( QObject* parent, QString type, QString id )
 {
     m_rows = 8;
     m_cols = 8;
+    m_color = QColor(0,0,0);
     createMatrix();
 }
 LedMatrix::~LedMatrix(){}
@@ -104,6 +105,7 @@ void LedMatrix::createMatrix()
             lsmd->setMaxCurrent( 0.02 );
             lsmd->setPos( col*8, row*8 );
             //lsmd->setEnabled(false);
+            lsmd->setFlag( QGraphicsItem::ItemIsSelectable, false );
             lsmd->setAcceptedMouseButtons(0);
         }
     }
@@ -236,8 +238,6 @@ void LedMatrix::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWid
 {
     Component::paint( p, option, widget );
     
-    p->setBrush( QColor( 0, 0, 0) );
-
     p->drawRoundRect( m_area, 4, 4 );
 }
 
