@@ -18,12 +18,17 @@
  ***************************************************************************/
 
 #include "e-gate.h"
-#include <QDebug>
+#include "simulator.h"
+//#include <QDebug>
+
+bool eGate::m_oscCtrl = false;
 
 eGate::eGate( std::string id, int inputs )
      : eLogicDevice( id )
 {
     m_tristate = false;
+    m_oscCtrl  = false;
+    m_oscCount = 0;
 }
 eGate::~eGate()
 {
@@ -38,10 +43,34 @@ void eGate::initialize()
         eNode* enode = m_input[i]->getEpin()->getEnode();
         if( enode ) enode->addToChangedFast(this);
     }
+    
+    m_oscCtrl  = false;
+    m_oscCount = 0;
 }
 
 void eGate::setVChanged()
 {
+    uint64_t step = Simulator::self()->step();
+
+    if( step-m_lastStep < 2 )                // Detect Oscillating gates
+    {
+        if(( m_oscCount < 10 ) && !m_oscCtrl )
+        {
+            m_oscCount++;
+            if( m_oscCount == 10 ) 
+            {
+                m_oscCtrl = true;
+                return;
+            }
+        }
+    }
+    else if( m_oscCount > 0 ) 
+    {
+        if( m_oscCount == 10 ) m_oscCtrl  = false;
+        m_oscCount = 0;
+    }
+    m_lastStep = step;
+    
     if( m_tristate ) eLogicDevice::updateOutEnabled();
 
     int  inputs = 0;

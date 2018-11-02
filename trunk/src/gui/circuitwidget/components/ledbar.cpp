@@ -40,6 +40,7 @@ LedBar::LedBar( QObject* parent, QString type, QString id )
       : Component( parent, type, id )
 {
     m_area = QRect( -8, -28, 16, 64 );
+    m_color = QColor(0,0,0);
     
     m_led.resize( 8 );
     m_pin.resize( 16 );
@@ -53,6 +54,7 @@ LedBar::LedBar( QObject* parent, QString type, QString id )
         m_led[i]->setParentItem(this);
         m_led[i]->setPos( 0, -28+2+i*8 );
         //m_led[i]->setEnabled( false );
+        m_led[i]->setFlag( QGraphicsItem::ItemIsSelectable, false );
         m_led[i]->setAcceptedMouseButtons(0);
         
         QPoint nodpos = QPoint(-16,-32+8+i*8 );
@@ -127,8 +129,6 @@ void LedBar::remove()
 void LedBar::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
     Component::paint( p, option, widget );
-    
-    p->setBrush( QColor( 0, 0, 0) );
 
     p->drawRoundRect( m_area, 4, 4 );
 }

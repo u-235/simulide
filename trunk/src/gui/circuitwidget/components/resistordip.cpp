@@ -123,13 +123,13 @@ void ResistorDip::setResist( double r )
 {
     Component::setValue( r );       // Takes care about units multiplier
     
-    for( int i=0; i<8; i++ ) m_resistor[i]->setResSafe( m_value*m_unitMult );
+    foreach( eResistor* res, m_resistor ) res->setResSafe( m_value*m_unitMult );
 }
 
 void ResistorDip::setUnit( QString un ) 
 {
     Component::setUnit( un );
-    for( int i=0; i<8; i++ ) m_resistor[i]->setResSafe( m_value*m_unitMult );
+    foreach( eResistor* res, m_resistor ) res->setResSafe( m_value*m_unitMult );
 }
 
 void ResistorDip::remove()

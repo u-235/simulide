@@ -39,7 +39,10 @@ class MAINMODULE_EXPORT eGate : public eLogicDevice
         virtual bool calcOutput( int inputs );
 
         bool m_tristate;
-
+ static bool m_oscCtrl;
+        int  m_oscCount;
+        
+        uint64_t m_lastStep;
 };
 
 

@@ -78,6 +78,16 @@ bool PicProcessor::loadFirmware( QString fileN )
             return false;
         }
     }
+    Cycle_Counter_breakpoint_list* l1 = &(get_cycles().active);
+
+    while(l1->next)            // Clear CycleCounter breakpoint list
+    {
+        //qDebug() << "clear_break"<<l1->break_value;
+        l1->clear();
+        Cycle_Counter_breakpoint_list* l2 = l1;
+        l1 = l1->next;
+        l2->next = 0l;
+    }
     qDebug() << "Loading HexFile:\n"<<m_symbolFile<<"\n" ;
     
     FILE* pFile  = fopen( symbolFile.constData(), "r" );
