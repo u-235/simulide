@@ -28,6 +28,7 @@ eGate::eGate( std::string id, int inputs )
 {
     m_tristate = false;
     m_oscCtrl  = false;
+    m_openCol  = false;
     m_oscCount = 0;
 }
 eGate::~eGate()
@@ -43,7 +44,6 @@ void eGate::initialize()
         eNode* enode = m_input[i]->getEpin()->getEnode();
         if( enode ) enode->addToChangedFast(this);
     }
-    
     m_oscCtrl  = false;
     m_oscCount = 0;
 }
@@ -81,9 +81,18 @@ void eGate::setVChanged()
 
         if( state ) inputs++;
     }
-    //qDebug() << "eGate::setVChanged" << inputs <<m_output[0]->imp(); 
+    //qDebug() << "eGate::setVChanged" << inputs <<m_output[0]->imp()<<m_outImp; 
+
+    bool out = calcOutput( inputs );
     
-    eLogicDevice::setOut( 0, calcOutput( inputs ) );// In each gate type
+    if( m_openCol ) 
+    {
+        double imp = m_outImp;
+        if( out ) imp = high_imp;
+        
+        m_output[0]->setImp( imp );
+    }
+    else eLogicDevice::setOut( 0, out );// In each gate type
 }
 
 bool eGate::calcOutput( int inputs ) 
@@ -98,4 +107,20 @@ bool eGate::tristate()
 void eGate::setTristate( bool t )
 {
     m_tristate = t;
+}
+
+bool eGate::openCol()
+{
+    return m_openCol;
+}
+
+void eGate::setOpenCol( bool op )
+{
+    m_openCol = op;
+    
+    double imp = m_outImp;
+    
+    if( op && m_output[0]->out() ) imp = high_imp;
+    
+    m_output[0]->setImp( imp );
 }

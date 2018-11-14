@@ -54,6 +54,7 @@ SevenSegment::SevenSegment( QObject* parent, QString type, QString id )
 
     m_color = QColor(0,0,0);
     m_commonCathode = true;
+    m_verticalPins  = false;
     m_numDisplays = 0;
     m_threshold  = 2.4;
     m_maxCurrent = 0.02;
@@ -152,6 +153,44 @@ void SevenSegment::setCommonCathode( bool isCommonCathode )
     if( pauseSim ) Simulator::self()->runContinuous();
 }
 
+bool SevenSegment::verticalPins()
+{
+    return m_verticalPins;
+}
+
+void SevenSegment::setVerticalPins( bool v )
+{
+    if( v == m_verticalPins ) return;
+    m_verticalPins = v;
+    
+    if( v )
+    {
+        for( int i=0; i<5; i++ ) 
+        {
+            m_pin[i]->setPos( -16+8*i, -24-8 );
+            m_pin[i]->setRotation( 90 );
+        }
+        for( int i=5; i<8; i++ ) 
+        {
+            m_pin[i]->setPos( -16+8*(i-5), 24+8 );
+            m_pin[i]->setRotation( -90 );
+        }
+        m_area = QRect( -18, -24-1, 36, 48+2 );
+    }
+    else
+    {
+        for( int i=0; i<7; i++ )
+        {
+            m_pin[i]->setPos( -16-8, -24+i*8 );
+            m_pin[i]->setRotation( 0 );
+        }
+        m_pin[7]->setPos( -8, 24+8 );
+        m_pin[7]->setRotation( -90 );
+        m_area = QRect( -16, -24-1, 32, 48+2 );
+    }
+    update();
+}
+        
 void SevenSegment::setResistance( double res )
 {
     if( res == 0 ) res = 1;

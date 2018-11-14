@@ -71,6 +71,8 @@ void Gate::setNumInps( int inputs )
         eLogicDevice::createInput( m_inputPin[i] );
     }
     m_area = QRect( -20, -8*m_numInputs, 40, 8*2*m_numInputs );
+    
+    Circuit::self()->update();
 }
 
 void Gate::setInverted( bool inverted )

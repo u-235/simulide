@@ -23,7 +23,7 @@ TEMPLATE = app
 
 QT += svg
 QT += xml
-#QT += script
+QT += script
 QT += widgets
 QT += concurrent
 QT += serialport
@@ -164,7 +164,7 @@ INCLUDEPATH += $$OBJECTS_DIR
 
 DESTDIR = $$TARGET_PREFIX/bin
 
-TARGET = SimulIDE_$$VERSION
+TARGET = simulide
 
 mkpath( $$TARGET_PREFIX/bin )
 
@@ -179,6 +179,7 @@ $(MKDIR)    $$TARGET_PREFIX/share/simulide/examples ; \
 $(MKDIR)    $$TARGET_PREFIX/share/simulide/translations ; \
 $(COPY_DIR) ../resources/data              $$TARGET_PREFIX/share/simulide ; \
 $(COPY_DIR) ../resources/examples          $$TARGET_PREFIX/share/simulide ; \
+$(COPY_DIR) ../resources/icons             $$TARGET_PREFIX/share ; \
 $(MOVE)     ../resources/translations/*.qm $$TARGET_PREFIX/share/simulide/translations ;
 
 QMAKE_EXTRA_TARGETS += copy2dest

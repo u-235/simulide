@@ -17,8 +17,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "connector.h"
 #include "adc.h"
+#include "connector.h"
+#include "itemlibrary.h"
 
 static const char* ADC_properties[] = {
     QT_TRANSLATE_NOOP("App::Property","Vref")
@@ -33,7 +34,7 @@ LibraryItem* ADC::libraryItem()
 {
     return new LibraryItem(
         tr( "ADC" ),
-        tr( "Logic" ),
+        tr( "Logic/Other Logic" ),
         "subc.png",
         "ADC",
         ADC::construct );

@@ -115,6 +115,7 @@
         outLowV = "0"
         outImped = "40"
         inverted = "true"
+        tristate = "false"
         connections="
         output0-eNode1
         input0-packagePin13" >
@@ -128,6 +129,7 @@
         outLowV = "0"
         outImped = "40"
         inverted = "false"
+        tristate = "false"
         connections="
         output0-eNode2
         input0-packagePin14" >
@@ -305,7 +307,8 @@
         outHighV = "5"
         outLowV = "0"
         outImped = "40"
-        inverted = "false"
+        inverted = "true"
+        tristate = "false"
         connections="
         output0-eNode9
         input0-packagePin15" >

@@ -122,7 +122,7 @@ void ComponentSelector::loadXml( const QString &setFile )
         QDomNode    node    = element.firstChild();
 
         QString category = element.attribute( "category" );
-        const char* charCat = category.toUtf8().data();
+        const char* charCat = category.toLocal8Bit().data();
         category = QApplication::translate( "xmlfile", charCat );
         //qDebug()<<"category = " <<category;
         
@@ -200,11 +200,11 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
         titulo = new QTreeWidgetItem(0);
         titulo->setFlags( QFlag(32) );
         QFont font = titulo->font(0);
+        font.setPixelSize(13);
+        font.setWeight(75);
 
         if( isRootCat )                              // Is Main Category
         {
-            font.setPixelSize(13);
-            font.setWeight(75);
             titulo->setIcon( 0, QIcon(":/null-0.png") );
             titulo->setTextColor( 0, QColor( 110, 95, 50 )/*QColor(255, 230, 200)*/ );
             titulo->setBackground( 0, QBrush(QColor(240, 235, 245)) );
@@ -287,7 +287,7 @@ void ComponentSelector::mouseReleaseEvent( QMouseEvent* event )
     setCursor( Qt::OpenHandCursor );
 }
 
-void ComponentSelector::slotItemClicked( QTreeWidgetItem* item, int column)
+void ComponentSelector::slotItemClicked( QTreeWidgetItem* item, int column )
 {
     Q_UNUSED( column );
     
@@ -298,9 +298,11 @@ void ComponentSelector::slotItemClicked( QTreeWidgetItem* item, int column)
     
     if( type == "" ) return;
     
-    QMimeData *mimeData = new QMimeData;
+    QMimeData* mimeData = new QMimeData;
     
-    mimeData->setText( item->text(0) );
+    QString name = item->text(0);
+    //qDebug() <<"ComponentSelector::slotItemClicked"<<name;
+    mimeData->setText( name );
     mimeData->setHtml( type );              // esto hay que revisarlo
     
     QDrag *drag = new QDrag(this);

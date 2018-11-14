@@ -32,6 +32,7 @@ class MAINMODULE_EXPORT SevenSegment : public Component, public eElement
     Q_PROPERTY( LedBase::LedColor Color READ color      WRITE setColor         DESIGNABLE true USER true )
     Q_PROPERTY( int  NumDisplays   READ numDisplays     WRITE setNumDisplays   DESIGNABLE true USER true )
     Q_PROPERTY( bool CommonCathode READ isCommonCathode WRITE setCommonCathode DESIGNABLE true USER true )
+    Q_PROPERTY( bool Vertical_Pins READ verticalPins    WRITE setVerticalPins DESIGNABLE true USER true )
     Q_PROPERTY( double Threshold   READ threshold       WRITE setThreshold     DESIGNABLE true USER true )
     Q_PROPERTY( double MaxCurrent  READ maxCurrent      WRITE setMaxCurrent    DESIGNABLE true USER true )
     Q_PROPERTY( double Resistance  READ resistance      WRITE setResistance    DESIGNABLE true USER true )
@@ -52,6 +53,9 @@ class MAINMODULE_EXPORT SevenSegment : public Component, public eElement
         int numDisplays();
         void setNumDisplays( int dispNumber );
 
+        bool verticalPins();
+        void setVerticalPins( bool v );
+        
         bool isCommonCathode();
         void setCommonCathode( bool isCommonCathode );
         
@@ -78,6 +82,8 @@ class MAINMODULE_EXPORT SevenSegment : public Component, public eElement
         void resizeData( int displays );
 
         bool m_commonCathode;
+        bool m_verticalPins;
+        
         int  m_numDisplays;
         double m_threshold;
         double m_maxCurrent;

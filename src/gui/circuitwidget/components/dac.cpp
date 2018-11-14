@@ -28,7 +28,7 @@ LibraryItem* DAC::libraryItem()
 {
     return new LibraryItem(
         tr( "DAC" ),
-        tr( "Logic" ),
+        tr( "Logic/Other Logic" ),
         "subc.png",
         "DAC",
         DAC::construct );

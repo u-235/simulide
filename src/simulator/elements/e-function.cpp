@@ -17,57 +17,63 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "gate_and.h"
-#include "itemlibrary.h"
+#include "e-function.h"
+#include "simulator.h"
+//#include <QDebug>
 
-Component* AndGate::construct( QObject* parent, QString type, QString id )
-{
-    return new AndGate( parent, type, id );
-}
-
-LibraryItem* AndGate::libraryItem()
-{
-    return new LibraryItem(
-        tr( "And Gate" ),
-        tr( "Logic/Gates" ),
-        "andgate.png",
-        "And Gate",
-        AndGate::construct );
-}
-
-AndGate::AndGate( QObject* parent, QString type, QString id )
-       : Gate( parent, type, id, 2 )
+eFunction::eFunction( std::string id )
+         : eLogicDevice( id )
+         , m_engine()
+         , m_functions()
 {
 }
-AndGate::~AndGate(){}
-
-QPainterPath AndGate::shape() const
+eFunction::~eFunction()
 {
-    QPainterPath path;
+}
+
+void eFunction::initialize()
+{
+    eLogicDevice::initialize();
     
-    QVector<QPointF> points;
+    for( int i=0; i<m_numInputs; i++ )
+    {
+        eNode* enode = m_input[i]->getEpin()->getEnode();
+        if( enode ) enode->addToChangedFast(this);
+    }
+}
+
+void eFunction::setVChanged()
+{
+    //qDebug() <<"\n" << m_functions;
     
-    points << QPointF(-16,-18 )
-           << QPointF(-16, 18 )
-           << QPointF(  0, 16 )
-           << QPointF( 16,  8 )
-           << QPointF( 16, -8 )
-           << QPointF(  0,-16 );
+    QStringList functions = m_functions.split(",");
+    
+    for( int i=0; i<m_numInputs; i++ )
+        m_engine.globalObject().setProperty( "i"+QString::number(i), QScriptValue( eLogicDevice::getInputState( i )) );
+
+    
+    for( int i=0; i<m_numOutputs; i++ )
+    {
+        if( i >= functions.size() ) break;
+        QString text = functions.at(i);
+            
+        bool out = m_engine.evaluate( text ).toBool();
         
-    path.addPolygon( QPolygonF(points) );
-    path.closeSubpath();
-    return path;
+        eLogicDevice::setOut( i, out );
+
+        //qDebug()<<"Func:"<< i << text; //textLabel->setText(text);
+        //qDebug() << ":" << out;
+        //qDebug() << m_engine.globalObject().property("i0").toVariant() << m_engine.globalObject().property("i1").toVariant();
+    }
 }
 
-void AndGate::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
+QString eFunction::functions()
 {
-    Component::paint( p, option, widget );
-
-    QPen pen = p->pen();
-    pen.setWidth(2);
-    p->setPen(pen);
-
-    p->drawChord( -48, m_area.y(), 64, m_area.height(), -1440/*-16*90*/, 2880/*16*180*/ );
+    return m_functions;
 }
 
-#include "moc_gate_and.cpp"
+void eFunction::setFunctions( QString f )
+{
+    if( f.isEmpty() ) return;
+    m_functions = f;
+}

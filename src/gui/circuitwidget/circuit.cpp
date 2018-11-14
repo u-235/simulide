@@ -219,6 +219,16 @@ void Circuit::setShowScroll( bool show )
     }
 }
 
+bool Circuit::animate()
+{
+    return m_animate;
+}
+
+void Circuit::setAnimate( bool an )
+{
+    m_animate = an;
+}
+
 void Circuit::drawBackground ( QPainter*  painter, const QRectF & rect )
 {
     Q_UNUSED( rect );
@@ -286,10 +296,16 @@ void Circuit::loadCircuit( QString &fileName )
     }
     file.close();
 
+    m_error = 0;
     loadDomDoc( &m_domDoc );
     m_domDoc.clear();
     
-    m_graphicView->centerOn( QPointF( 1200+itemsBoundingRect().center().x(), 950+itemsBoundingRect().center().y() ) );
+    if( m_error != 0 ) 
+    {
+        remove();
+        foreach( Component* comp, m_compList ) removeComp( comp ); // Clean Nodes
+    }
+    else m_graphicView->centerOn( QPointF( 1200+itemsBoundingRect().center().x(), 950+itemsBoundingRect().center().y() ) );
 }
 
 QString Circuit::getCompId( QString name )
@@ -345,6 +361,7 @@ void Circuit::loadDomDoc( QDomDocument* doc )
     if( circuit.hasAttribute( "reactStep" )) setReactStep( circuit.attribute("reactStep").toInt() );
     if( circuit.hasAttribute( "noLinStep" )) setNoLinStep( circuit.attribute("noLinStep").toInt() );
     if( circuit.hasAttribute( "noLinAcc" ))  setNoLinAcc( circuit.attribute("noLinAcc").toInt() );
+    if( circuit.hasAttribute( "animate" ))   setAnimate( circuit.attribute("animate").toInt() );
     /*if( circuit.hasAttribute( "drawGrid" ) )    
     {
         bool sdg = true;
@@ -489,7 +506,13 @@ void Circuit::loadDomDoc( QDomDocument* doc )
                     loadProperties( element, item );
                     compList.append( item );
                 }
-                else qDebug() << " ERROR Creating Component: "<< type << id;
+                else 
+                {
+                    qDebug() << " ERROR Creating Component: "<< type << id;
+                    QApplication::restoreOverrideCursor();
+                    m_error = 1;
+                    return;
+                }
             }
         }
         //else
@@ -593,6 +616,7 @@ void Circuit::circuitToDom()
     circuit.setAttribute( "reactStep", QString::number( reactStep() ) );
     circuit.setAttribute( "noLinStep", QString::number( noLinStep() ) );
     circuit.setAttribute( "noLinAcc",  QString::number( noLinAcc() ) );
+    circuit.setAttribute( "animate",  QString::number( animate() ) );
     //circuit.setAttribute( "drawGrid",    QString( drawGrid()?"true":"false"));
     //circuit.setAttribute( "showScroll",  QString( showScroll()?"true":"false"));
     
@@ -857,13 +881,14 @@ void Circuit::createSubcircuit()
             if( property.isUser() )
             {
                 QString name = property.name();
+                
                 if( !name.contains( "Show" ) )
                 {
                     const char* charname = property.name();
 
                     QVariant value = component->property(charname);
                     QString valString = value.toString();
-
+                    if( name == "Functions" ) valString = valString.replace("&", "&amp;");
                     if( name == "id") compId = valString;
                     else
                     {
@@ -989,7 +1014,7 @@ void Circuit::createSubcircuit()
     fileName.replace( m_filePath.lastIndexOf( ".simu" ), 5, ".subcircuit" );
     
     fileName = QFileDialog::getSaveFileName( MainWindow::self()
-                            , tr( "Bill Of Materials" )
+                            , tr( "Create Subcircuit" )
                             , fileName
                             , "(*.*)"  );
     

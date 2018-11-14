@@ -44,6 +44,9 @@ class MAINMODULE_EXPORT Demux : public LogicComponent, public eDemux
         static LibraryItem *libraryItem();
         
         bool tristate() { return true; }
+        
+        virtual QPainterPath shape() const;
+        virtual void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
 };
 
 #endif

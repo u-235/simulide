@@ -35,6 +35,7 @@ static const char* LogicComponent_properties[] = {
     QT_TRANSLATE_NOOP("App::Property","Invert Inputs"),
     QT_TRANSLATE_NOOP("App::Property","S R Inverted"),
     QT_TRANSLATE_NOOP("App::Property","Num Inputs"),
+    QT_TRANSLATE_NOOP("App::Property","Num Outputs"),
     QT_TRANSLATE_NOOP("App::Property","Num Bits"),
     QT_TRANSLATE_NOOP("App::Property","Channels"),
 };

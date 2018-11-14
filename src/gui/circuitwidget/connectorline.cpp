@@ -27,64 +27,110 @@
 ConnectorLine::ConnectorLine( int x1, int y1, int x2, int y2, Connector* connector )
              : QGraphicsObject()
 {
-   setParent(connector);
-   m_pConnector = connector;
+    setParent(connector);
+    m_pConnector = connector;
+    
+    m_prevLine = 0l;
+    m_nextLine = 0l;
 
-   m_p1X = x1;
-   m_p1Y = y1;
-   m_p2X = x2;
-   m_p2Y = y2;
-   
-   m_isBus = false;
+    m_p1X = x1;
+    m_p1Y = y1;
+    m_p2X = x2;
+    m_p2Y = y2;
 
-   this->setFlag( QGraphicsItem::ItemIsSelectable, true );
+    m_isBus = false;
 
-   setCursor(Qt::CrossCursor);
+    this->setFlag( QGraphicsItem::ItemIsSelectable, true );
 
-   updatePos();
+    setCursor(Qt::CrossCursor);
+
+    updatePos();
 }
 ConnectorLine::~ConnectorLine(){}
 
 QRectF ConnectorLine::boundingRect() const
 {
-   if     ( m_p2X > m_p1X ) return QRect(-1,            -4,             m_p2X-m_p1X+2, 8 );
-   else if( m_p2X < m_p1X ) return QRect( m_p2X-m_p1X-1,-4,             m_p1X-m_p2X+2, 8 );
-   else if( m_p2Y > m_p1Y ) return QRect(-4,            -1,             8,             m_p2Y-m_p1Y+2 );
-   else if( m_p2Y < m_p1Y ) return QRect(-4,             m_p2Y-m_p1Y-1, 8,             m_p1Y-m_p2Y+2 );
-   else                     return QRect( 0,             0,             0,             0 );
+    if     ( m_p2X > m_p1X ) return QRect(-1,            -4,             m_p2X-m_p1X+2, 8 );
+    else if( m_p2X < m_p1X ) return QRect( m_p2X-m_p1X-1,-4,             m_p1X-m_p2X+2, 8 );
+    else if( m_p2Y > m_p1Y ) return QRect(-4,            -1,             8,             m_p2Y-m_p1Y+2 );
+    else if( m_p2Y < m_p1Y ) return QRect(-4,             m_p2Y-m_p1Y-1, 8,             m_p1Y-m_p2Y+2 );
+    else                     return QRect( 0,             0,             0,             0 );
 }
 
 void ConnectorLine::sSetP1( QPoint point )
 {
-   prepareGeometryChange();
-   m_p1X = point.x();
-   m_p1Y = point.y();
-   updatePos();
+    prepareGeometryChange();
+    m_p1X = point.x();
+    m_p1Y = point.y();
+    updatePos();
 }
 
 void ConnectorLine::sSetP2( QPoint point )
 {
-   prepareGeometryChange();
-   m_p2X = point.x();
-   m_p2Y = point.y();
-   updatePos();
+    prepareGeometryChange();
+    m_p2X = point.x();
+    m_p2Y = point.y();
+    updatePos();
 }
 
 void ConnectorLine::setP1( QPoint point )
 {
-   emit yourP2changed( point );
-   sSetP1( point );
+    if( m_prevLine ) m_prevLine->sSetP2( point );
+    sSetP1( point );
 }
 
 void ConnectorLine::setP2( QPoint point )
 {
-   emit yourP1changed( point );
-   emit moved();
-   sSetP2( point );
+    if( m_nextLine ) m_nextLine->sSetP1( point );
+    sSetP2( point );
+}
+
+void ConnectorLine::moveSimple( QPointF delta )
+{
+    bool deltaH  = fabs( delta.x() )> 0;
+    bool deltaV  = fabs( delta.y() )> 0;
+    
+    prepareGeometryChange();
+
+    m_p1X = m_p1X + delta.x();
+    m_p1Y = m_p1Y + delta.y();
+    m_p2Y = m_p2Y + delta.y();
+    m_p2X = m_p2X + delta.x();
+
+    bool isHoriz = ( dy() == 0 ) && ( dx() != 0 );
+    
+    if( m_prevLine && !(m_prevLine->isSelected()) )
+    {
+        m_prevLine->moveLine( delta.toPoint() );
+        
+        if( (  isHoriz && deltaV )
+          ||( !isHoriz && deltaH ))
+            m_prevLine->sSetP2( QPoint( m_p1X, m_p1Y) );
+            
+        m_prevLine->updatePos();
+        m_prevLine->updatePrev();
+    }
+    if( m_nextLine && !(m_nextLine->isSelected()) ) 
+    {
+        m_nextLine->moveLine( delta.toPoint() ); 
+        
+        if( (  isHoriz && deltaV )
+          ||( !isHoriz && deltaH ))
+            m_nextLine->sSetP1( QPoint( m_p2X, m_p2Y) );
+            
+        m_nextLine->updatePos();
+        m_nextLine->updateNext();
+    }
+    updatePos();
 }
 
 void ConnectorLine::move( QPointF delta )
 {
+    bool deltaH  = fabs( delta.x() )> 0;
+    bool deltaV  = fabs( delta.y() )> 0;
+    
+    if( !deltaH && !deltaV ) return;
+    
     if( Circuit::self()->pasting() )
     {
         prepareGeometryChange();
@@ -101,35 +147,63 @@ void ConnectorLine::move( QPointF delta )
        return;    //avoid moving first or last line
 
    moveLine( delta.toPoint() );
+   updatePos();
+   updateLines();
+   m_pConnector->refreshPointList();
 }
 
 void ConnectorLine::moveLine( QPoint delta )
 {
-   prepareGeometryChange();
+    prepareGeometryChange();
 
-   if( ( dy() == 0 ) && ( dx() != 0 ) )
-   {
+    if( ( dy() == 0 ) && ( dx() != 0 ) )
+    {
        m_p1Y = m_p1Y + delta.y();
        m_p2Y = m_p2Y + delta.y();
-   }
-   else if( ( dx() == 0 ) && ( dy() != 0 ) )
-   {
+    }
+    else if( ( dx() == 0 ) && ( dy() != 0 ) )
+    {
        m_p1X = m_p1X + delta.x();
        m_p2X = m_p2X + delta.x();
-   }
-   else return;                     //line is "0"
+    }
+    //else return;                     //line is "0"
+}
 
-   updatePos();
+void ConnectorLine::updateLines()
+{
+    updatePrev();
+    updateNext();
+}
 
-   emit yourP2changed( QPoint( m_p1X, m_p1Y) );
-   emit yourP1changed( QPoint( m_p2X, m_p2Y) );
+void ConnectorLine::updatePrev()
+{
+    if( m_prevLine ) m_prevLine->sSetP2( QPoint( m_p1X, m_p1Y) );
+}
+
+void ConnectorLine::updateNext()
+{
+    if( m_nextLine ) 
+    {
+        m_nextLine->sSetP1( QPoint( m_p2X, m_p2Y) );
+        m_nextLine->updatePos();
+    }
 }
 
 void ConnectorLine::updatePos()
 {
-   setPos( m_p1X, m_p1Y );
-   m_pConnector->refreshPointList();
-   update();
+    setPos( m_p1X, m_p1Y );
+    
+    update();
+}
+
+void ConnectorLine::setPrevLine( ConnectorLine* prevLine )
+{
+    m_prevLine = prevLine;
+}
+
+void ConnectorLine::setNextLine( ConnectorLine* nextLine )
+{
+    m_nextLine = nextLine;
 }
 
 void ConnectorLine::remove() 
@@ -170,7 +244,6 @@ void ConnectorLine::mousePressEvent( QGraphicsSceneMouseEvent* event )
                    return;
                }
            }
-
            int index;
            int myindex = m_pConnector->lineList()->indexOf( this );
            QPoint point1 = togrid(event->scenePos()).toPoint();
@@ -262,6 +335,8 @@ void ConnectorLine::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
    QPoint delta = togrid( event->scenePos() ).toPoint() - togrid(event->lastScenePos()).toPoint();
 
    moveLine( delta );
+   updatePos();
+   updateLines();
 }
 
 void ConnectorLine::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
@@ -311,19 +386,22 @@ void ConnectorLine::paint( QPainter* p, const QStyleOptionGraphicsItem* option, 
 
     QColor color;
     if( isSelected() ) color = QColor( Qt::darkGray );
-    else               color = QColor( 40, 40, 60 /*Qt::black*/ );
-    /*{
-        int volt = 50*int( m_pConnector->getVolt() );
-        if( volt > 250 )volt = 250;
-        if( volt < 0 ) volt = 0;
+    else if( !m_isBus  && Circuit::self()->animate() )               //color = QColor( 40, 40, 60 /*Qt::black*/ );
+    {
+        if( m_pConnector->getVolt() > 2.5 ) color = QColor( 200, 50, 50 );
+        else                                color = QColor( 50, 50, 200 );
+        //int volt = 50*int( m_pConnector->getVolt() );
+        //if( volt > 250 )volt = 250;
+        //if( volt < 0 ) volt = 0;
 
-        if( m_pConnector->endPin()
+        /*if( m_pConnector->endPin()
         && (m_pConnector->startPin()->changed()
         ||  m_pConnector->endPin()->changed()) )
-        { pen.setWidth(3); }
+        { pen.setWidth(3); }*/
 
-        color = QColor( volt, 50, 250-volt);
-    }*/
+        //color = QColor( volt, 50, 250-volt);
+    }
+    else color = QColor( 40, 40, 60 /*Qt::black*/ );
 
     QPen pen( color, 2.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin );
     //p->setBrush( Qt::green );
@@ -338,3 +416,4 @@ void ConnectorLine::paint( QPainter* p, const QStyleOptionGraphicsItem* option, 
     p->setPen( pen );
     p->drawLine( 0, 0, dx(), dy());
 }
+

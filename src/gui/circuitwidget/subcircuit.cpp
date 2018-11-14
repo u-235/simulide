@@ -38,6 +38,7 @@
 #include "e-flipflopd.h"
 #include "e-flipflopjk.h"
 #include "e-fulladder.h"
+#include "e-function.h"
 #include "e-gate_or.h"
 #include "e-gate_xor.h"
 #include "e-gate_xor.h"
@@ -127,7 +128,14 @@ void SubCircuit::initChip()
             {
                 QDir dataDir(  m_dataFile );
                 dataDir.cdUp();             // Indeed it doesn't cd, just take out file name
-                m_dataFile = dataDir.filePath( element.attribute( "package" ) );
+                
+                QString package =element.attribute( "package" );
+                if( package == "" )
+                {
+                    m_error = 201;
+                    return;
+                }
+                m_dataFile = dataDir.filePath( package );
 
                 Chip::initChip();
                 if( m_error != 0 ) return;
@@ -237,6 +245,19 @@ void SubCircuit::initSubcircuit()
                 eXorGate* egate = new eXorGate( id.toStdString(), numInputs );
                 egate->createPins( numInputs, 1 );
                 ecomponent = egate;
+            }
+            else if( type == "eFunction" )
+            {
+                eFunction* efunction = new eFunction( id.toStdString() );
+                ecomponent = efunction;
+                
+                int inputs  = 0;
+                int outputs = 0;
+                if( element.hasAttribute("numInputs") )  inputs  = element.attribute( "numInputs" ).toInt();
+                if( element.hasAttribute("numOutputs") ) outputs = element.attribute( "numOutputs" ).toInt();
+                efunction->createPins( inputs, outputs );
+                
+                if( element.hasAttribute("functions") ) efunction->setFunctions( element.attribute( "functions" ) );
             }
             else if( type.startsWith( "eLatchD" ) )
             {
@@ -482,6 +503,14 @@ void SubCircuit::initSubcircuit()
                         elogicdevice->createOutEnablePin();
                     }
                 }
+                if( element.hasAttribute("open_Collector") )
+                {
+                    if( element.attribute( "open_Collector" ) == "true" )
+                    {
+                        eGate* egate = static_cast<eGate*>(ecomponent);
+                        egate->setOpenCol( true );
+                    }
+                }
                 if( element.hasAttribute("inputEnable") )
                 {
                     if( element.attribute( "inputEnable" ) == "true" )
@@ -575,7 +604,23 @@ void SubCircuit::initialize()
     for( int i=0; i<m_numpins; i++ )        // get eNode for each package pin
     {                                       // and assing to connected subcircuit ePins
         eNode* enod = m_ePin[i]->getEnode();
-
+        
+        if( !enod )
+        {
+            QList<ePin*> ePinList = m_pinConections[i];
+            int size = ePinList.size();
+            
+            if( size > 1 )
+            {
+                enod = ePinList.first()->getEnode();
+                if( !enod )
+                {
+                    QString eNodeid = m_id;
+                    eNodeid.append( "-eNode_I_" ).append( QString::number(i));
+                    enod = new eNode( eNodeid );
+                }
+            }
+        }
         foreach( ePin* epin, m_pinConections[i] ) epin->setEnode(enod);
     }
 }

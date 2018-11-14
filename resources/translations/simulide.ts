@@ -8,7 +8,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Other Logic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -66,7 +66,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Gates</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -428,6 +428,10 @@
         <source>Custom Board</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Num Outputs</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Arduino</name>
@@ -573,7 +577,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Converters</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -584,7 +588,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Converters</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -595,7 +599,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Arithmetic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -606,7 +610,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Gates</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -669,6 +673,10 @@ to DomDocument</source>
     </message>
     <message>
         <source>Bill Of Materials</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create Subcircuit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -810,6 +818,14 @@ Do you want to save your changes?
     </message>
     <message>
         <source>Real Speed: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About SimulIDE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -988,7 +1004,7 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Other Logic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -999,7 +1015,7 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Converters</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1010,7 +1026,7 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Converters</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1330,7 +1346,7 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Memory</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1341,7 +1357,7 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Memory</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1352,7 +1368,18 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Arithmetic</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Function</name>
+    <message>
+        <source>Function</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logic/Arithmetic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1385,7 +1412,7 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Memory</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1396,7 +1423,7 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Converters</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1407,7 +1434,7 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Other Logic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1459,7 +1486,7 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Memory</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1525,7 +1552,7 @@ Do you want to save your changes?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Other Logic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1650,7 +1677,7 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Converters</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1672,7 +1699,7 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Gates</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1694,7 +1721,7 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Other Logic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1818,7 +1845,7 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Memory</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2033,7 +2060,7 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Arithmetic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2161,7 +2188,7 @@ to DomDocument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
+        <source>Logic/Gates</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2179,23 +2206,7 @@ to DomDocument</source>
 <context>
     <name>xmlfile</name>
     <message>
-        <source>AVR</source>
-        <translation>AVR</translation>
-    </message>
-    <message>
-        <source>PIC</source>
-        <translation>PIC</translation>
-    </message>
-    <message>
-        <source>Arduino</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logic/IC 74</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logic/IC CD</source>
+        <source>Logic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

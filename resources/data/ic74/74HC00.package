@@ -19,7 +19,7 @@
 <!-- *                                                                         * -->
 <!-- *************************************************************************** -->
 
-<package name="74HC00" pins="14" width="4" height="8">
+<package name="74HC00" pins="14" width="4" height="8" >
 
     <pin side="left" pos="1"  type="" id="1A"  label="1A" /><!-- packagePin1 -->
     <pin side="left" pos="2"  type="" id="1B"  label="1B" /><!-- packagePin2 -->
