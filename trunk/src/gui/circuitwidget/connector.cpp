@@ -57,7 +57,6 @@ Connector::Connector( QObject* parent, QString type, QString id, Pin* startpin, 
         m_endPin   = 0l;
         m_endpinid = "";
     }
-
     m_idLabel->setVisible( false );
 }
 Connector::~Connector() { }
@@ -101,7 +100,7 @@ void Connector::remConLine( ConnectorLine* line  )
 
 void Connector::refreshPointList()
 {
-    if ( m_conLineList.isEmpty() ) return;
+    if( m_conLineList.isEmpty() ) return;
 
     QStringList list;
     QString     data;
@@ -111,17 +110,17 @@ void Connector::refreshPointList()
     data.setNum( m_conLineList.at(0)->p1().y() );
     list.append( data );
     int count = m_conLineList.size();
-    for(int i=0; i<count; i++)
+    for( int i=0; i<count; i++ )
     {
         data.setNum( m_conLineList.at(i)->p2().x() );
         list.append( data );
         data.setNum( m_conLineList.at(i)->p2().y() );
         list.append( data );
     }
-    if( !m_conLineList.isEmpty() ) setPos( m_conLineList.first()->scenePos() );
+    setPos( m_conLineList.first()->scenePos() );
 
     setPointList( list );
-    //qDebug() << "lines " << count << "connector poinlist" << property( "pointlist" ).toStringList();
+    //qDebug() << "lines " << count << "connector poinlist" << m_conLineList;
 }
 
 void Connector::addConLine( ConnectorLine* line, int index )
@@ -165,8 +164,10 @@ void Connector::connectLines( int index1, int index2 )
     ConnectorLine* line1 = m_conLineList.at( index1 );
     ConnectorLine* line2 = m_conLineList.at( index2 );
 
-    connect( line1, SIGNAL( yourP1changed(QPoint) ), line2, SLOT( sSetP1(QPoint) ) );
-    connect( line2, SIGNAL( yourP2changed(QPoint) ), line1, SLOT( sSetP2(QPoint) ) );
+    line1->setNextLine( line2 );
+    line2->setPrevLine( line1 );
+    //connect( line1, SIGNAL( yourP1changed(QPoint) ), line2, SLOT( sSetP1(QPoint) ) );
+    //connect( line2, SIGNAL( yourP2changed(QPoint) ), line1, SLOT( sSetP2(QPoint) ) );
 }
 
 void Connector::disconnectLines( int index1, int index2 )
@@ -177,11 +178,13 @@ void Connector::disconnectLines( int index1, int index2 )
     ConnectorLine* line1 = m_conLineList.at( index1 );
     ConnectorLine* line2 = m_conLineList.at( index2 );
 
-    disconnect( line1, SIGNAL( yourP1changed(QPoint) ), line2, SLOT( sSetP1(QPoint) ) );
-    disconnect( line2, SIGNAL( yourP2changed(QPoint) ), line1, SLOT( sSetP2(QPoint) ) );
+    line1->setNextLine( 0l );
+    line2->setPrevLine( 0l );
+    //disconnect( line1, SIGNAL( yourP1changed(QPoint) ), line2, SLOT( sSetP1(QPoint) ) );
+    //disconnect( line2, SIGNAL( yourP2changed(QPoint) ), line1, SLOT( sSetP2(QPoint) ) );
 }
 
-void Connector::updateConRoute( Pin* nod, QPointF thisPoint )
+void Connector::updateConRoute( Pin* pin, QPointF thisPoint )
 {
     if( Circuit::self()->pasting() ) return;
 
@@ -189,9 +192,16 @@ void Connector::updateConRoute( Pin* nod, QPointF thisPoint )
     ConnectorLine* line;
     ConnectorLine* preline = 0l;
 
-    if( nod == m_startPin )
+    if( pin == m_startPin )
     {
         line = m_conLineList.first();
+        
+        /*if( (length == 1) && (line->dx() == 0) && (line->dy() == 0) )
+        {
+            line->sSetP2( thisPoint.toPoint() );
+        }*/
+        //if( line->isSelected() ) return;
+        //qDebug() << "Connector::updateConRoute StartPin";
         line->sSetP1( thisPoint.toPoint() );
         m_lastindex = 0;
 
@@ -205,17 +215,24 @@ void Connector::updateConRoute( Pin* nod, QPointF thisPoint )
     else
     {
         line = m_conLineList.last();
+        
+        /*if( (length == 1) && (line->dx() == 0) && (line->dy() == 0) ) 
+        {
+            line->sSetP1( thisPoint.toPoint() );
+        }*/
+        //if( pin && line->isSelected() ) return;
+        //qDebug() << "Connector::updateConRoute EndPin";
         line->sSetP2( togrid( thisPoint ).toPoint() );
         m_lastindex = length-1;
 
         if( length > 1 )
         {
             preline = m_conLineList.at( m_lastindex-1 );
-            if( nod != 0l ) m_actLine = m_lastindex-1;
+            if( pin != 0l ) m_actLine = m_lastindex-1;
         }
     }
 
-    if( line->dx() == 0 && line->dy() == 0 && length > 1 )
+    if( (line->dx() == 0) && (line->dy() == 0) && (length > 1) ) // Null Line
     {
         Circuit::self()->removeItem( line );
         m_conLineList.removeOne( line );
@@ -280,7 +297,9 @@ void Connector::updateConRoute( Pin* nod, QPointF thisPoint )
             }
         }
     }
-    //refreshPointList();
+    //qDebug() << "Connector::updateConRoute"<<line->p1()<<line->p2();
+    //if( preline ) qDebug() << "Connector::updateConRoute"<<preline->p1()<<preline->p2();
+    remNullLines();
 }
 
 void Connector::remLines()
@@ -292,7 +311,6 @@ void Connector::remLines()
         delete line;
     }
 }
-
 
 void Connector::move( QPointF delta )
 {
@@ -381,7 +399,8 @@ void Connector::closeCon( Pin* endpin )
     {
         m_endPin->findNodePins();
         epins = endPinEnode->getSubEpins();
-        foreach( ePin* epin, epins ) epin->setEnode( newEnode );
+        foreach( ePin* epin, epins )
+            if( epin ) epin->setEnode( newEnode );
     }
 
     m_startPin->setConnector( this );
@@ -502,3 +521,4 @@ bool Connector::isBus()
 }
 
 #include "moc_connector.cpp"
+

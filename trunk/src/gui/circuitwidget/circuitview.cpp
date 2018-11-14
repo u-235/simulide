@@ -92,7 +92,14 @@ void CircuitView::dragEnterEvent(QDragEnterEvent *event)
     if( pauseSim )  Simulator::self()->pauseSim();
 
     QString type = event->mimeData()->html();
-    QString id = event->mimeData()->text()+"-"+m_circuit->newSceneId(); //event->mimeData()->text();
+    QString id = type;
+    if( ( type == "Subcircuit" )
+      ||( type == "PIC" )
+      ||( type == "AVR" )
+      ||( type == "Arduino" ) )
+        id = event->mimeData()->text(); 
+
+    id += "-"+m_circuit->newSceneId(); 
 
     m_enterItem = m_circuit->createItem( type, id );
     if( m_enterItem )

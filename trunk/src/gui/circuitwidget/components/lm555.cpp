@@ -35,7 +35,7 @@ LibraryItem* Lm555::libraryItem()
 {
     return new LibraryItem(
         tr( "lm555" ),
-        tr( "Logic" ),
+        tr( "Logic/Other Logic" ),
         "subc.png",
         "Lm555",
         Lm555::construct );

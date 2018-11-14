@@ -124,27 +124,43 @@ void Component::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* event )
 void Component::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 {
     event->accept();
+    
+    QPointF delta = togrid(event->scenePos()) - togrid(event->lastScenePos());
+    
+    bool deltaH  = fabs( delta.x() )> 0;
+    bool deltaV  = fabs( delta.y() )> 0;
+    
+    if( !deltaH && !deltaV ) return;
 
     QList<QGraphicsItem*> itemlist = Circuit::self()->selectedItems();
     if( !itemlist.isEmpty() )
-    {
+    {//qDebug() << "\n\nComponent::mouseMoveEvent Lines";
         if( !m_moving )
         {
             Circuit::self()->saveState();
             m_moving = true;
         }
-        QPointF delta = togrid(event->scenePos()) - togrid(event->lastScenePos());
-
-        foreach( QGraphicsItem* item , itemlist )
+        foreach( QGraphicsItem* item, itemlist )
         {
             ConnectorLine* line =  qgraphicsitem_cast<ConnectorLine* >( item );
-
-            if( line->objectName() == "" )  line->move( delta ); //qDebug () <<line->objectName();
-            else
+            if( line->objectName() == "" )  
             {
-                Component* comp =  qgraphicsitem_cast<Component* >( item );
-                if( comp ) comp->move( delta );
+                line->moveSimple( delta ); //qDebug () <<line->objectName();
             }
+        }
+        foreach( QGraphicsItem* item, itemlist )
+        {
+            Component* comp =  qgraphicsitem_cast<Component*>( item );
+            if(comp && (comp->objectName() != "") && (!comp->objectName().contains("Connector")) )
+            {
+                comp->move( delta );
+            }
+        }
+        foreach( Component* comp, *(Circuit::self()->conList()) )
+        {
+            Connector* con = static_cast<Connector*>( comp );
+            con->startPin()->isMoved();
+            con->endPin()->isMoved();
         }
     }
 }

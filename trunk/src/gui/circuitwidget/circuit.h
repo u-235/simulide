@@ -39,6 +39,7 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
     
     Q_PROPERTY( bool Draw_Grid        READ drawGrid   WRITE setDrawGrid   DESIGNABLE true USER true )
     Q_PROPERTY( bool Show_ScrollBars  READ showScroll WRITE setShowScroll DESIGNABLE true USER true )
+    Q_PROPERTY( bool Animate          READ animate    WRITE setAnimate    DESIGNABLE true USER true )
 
     public:
         Circuit( qreal x, qreal y, qreal width, qreal height, QGraphicsView*  parent );
@@ -63,6 +64,9 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         
         bool showScroll();
         void setShowScroll( bool show );
+        
+        bool animate();
+        void setAnimate( bool an );
         
         void removeItems();
         void removeComp( Component* comp );
@@ -136,11 +140,14 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         Connector*     new_connector;
 
         int  m_seqNumber;
+        int m_error;
+        
         bool m_con_started;
         bool m_pasting;
         bool m_hideGrid;
         bool m_showScroll;
         bool m_compRemoved;
+        bool m_animate;
 
         QPointF m_eventpoint;
         QPointF m_deltaMove;

@@ -30,7 +30,6 @@ Chip::Chip( QObject* parent, QString type, QString id )
     : Component( parent, type, id )
     , eElement( id.toStdString() )
 {
-    m_color = QColor( 50, 50, 70 );
     m_numpins = 0;
 }
 Chip::~Chip() {}
@@ -71,6 +70,17 @@ void Chip::initChip()
     int height = root.attribute( "height" ).toInt();
     m_numpins  = root.attribute( "pins" ).toInt();
     m_ePin.resize( m_numpins );
+    
+    if( root.attribute( "type" ) == "block" )
+    {
+        m_isChip = false;
+        m_color = QColor( 255, 255, 255 );
+    }
+    else
+    {
+        m_isChip = true;
+        m_color = QColor( 50, 50, 70 );
+    }
 
     m_area = QRect( 0, 0, 8*width, 8*height );
     //setTransformOriginPoint( boundingRect().center() );
@@ -120,7 +130,6 @@ void Chip::initChip()
                 ypos =  height*8+8;
                 angle = 270;
             }
-
             chipPos++;
             addPin( id, type, label, chipPos, xpos, ypos, angle );
         }
@@ -132,8 +141,8 @@ void Chip::addPin( QString id, QString /*type*/, QString label, int pos, int xpo
 {
     Pin* pin = new Pin( angle, QPoint(xpos, ypos), m_id+"-"+id, pos-1, this ); // pos in package starts at 1
     pin->setLabelText( label );
-    //pin->setFlag( QGraphicsItem::ItemStacksBehindParent, false );
-    //m_pinList.append( new eSource( id.append("-eSource").toStdString(), pin) );
+    if( !m_isChip ) pin->setLabelColor( QColor( 0, 0, 0 ) );
+
     m_ePin[pos-1] = pin;
 }
 
@@ -156,9 +165,6 @@ void Chip::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
 
     QAction *reloadAction = menu->addAction( QIcon(":/fileopen.png"),tr("Reload firmware") );
     connect( reloadAction, SIGNAL(triggered()), this, SLOT(slotReload()) );*/
-    
-    /*QAction *ramAction = menu->addAction( QIcon(":/fileopen.png"),"View Ram" );
-    connect( ramAction, SIGNAL(triggered()), this, SLOT(viewRam()) );*/
 
     menu->addSeparator();
 
@@ -172,8 +178,11 @@ void Chip::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *
 
     p->drawRoundedRect( m_area, 1, 1);
 
-    p->setPen( QColor( 170, 170, 150 ) );
-    p->drawArc( boundingRect().width()/2-6, -4, 8, 8, 0, -2880 /* -16*180 */ );
+    if( m_isChip )
+    {
+        p->setPen( QColor( 170, 170, 150 ) );
+        p->drawArc( boundingRect().width()/2-6, -4, 8, 8, 0, -2880 /* -16*180 */ );
+    }
 }
 
 #include "moc_chip.cpp"

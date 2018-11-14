@@ -20,7 +20,6 @@
 <!-- *************************************************************************** -->
 
 <itemlib>
-    <tag>QT_TRANSLATE_NOOP("xmlfile","PIC")</tag>
     
     <itemset category="PIC/10F" type="PIC">
     <item name="pic10f200"  package="pic/pic10f200"  data="pic/pic10f200"  device="pic10f200"  ></item>

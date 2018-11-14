@@ -34,7 +34,7 @@ LibraryItem* I2CRam::libraryItem()
 {
     return new LibraryItem(
         tr( "I2C Ram" ),
-        tr( "Logic" ),
+        tr( "Logic/Memory" ),
         "subc.png",
         "I2CRam",
         I2CRam::construct );

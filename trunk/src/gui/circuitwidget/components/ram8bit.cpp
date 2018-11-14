@@ -28,7 +28,7 @@ LibraryItem* Ram8bit::libraryItem()
 {
     return new LibraryItem(
         tr( "8bit Ram" ),
-        tr( "Logic" ),
+        tr( "Logic/Memory" ),
         "subc.png",
         "Ram8bit",
         Ram8bit::construct );

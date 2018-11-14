@@ -29,7 +29,7 @@ LibraryItem* DecToBcd::libraryItem()
 {
     return new LibraryItem(
         tr( "Dec. To Bcd" ),
-        tr( "Logic" ),
+        tr( "Logic/Converters" ),
         "subc.png",
         "DecToBcd",
         DecToBcd::construct );

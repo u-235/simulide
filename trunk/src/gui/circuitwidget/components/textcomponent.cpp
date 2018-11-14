@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "textcomponent.h"
+#include "circuit.h"
 
 static const char* TextComponent_properties[] = {
     QT_TRANSLATE_NOOP("App::Property","Text"),
@@ -85,7 +86,7 @@ void TextComponent::updateGeometry(int, int, int)
     
     m_area = QRect( -margin, -margin, m_text->boundingRect().width()+margin*2, m_text->boundingRect().height()+margin*2 );
     
-    update();
+    Circuit::self()->update();
 }
 
 int TextComponent::margin() { return m_margin; }

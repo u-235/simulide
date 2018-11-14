@@ -33,8 +33,8 @@ class MAINMODULE_EXPORT LatchD : public LogicComponent, public eLatchD
     Q_PROPERTY( double Out_High_V   READ outHighV   WRITE setOutHighV   DESIGNABLE true USER true )
     Q_PROPERTY( double Out_Low_V    READ outLowV    WRITE setOutLowV    DESIGNABLE true USER true )
     Q_PROPERTY( double Out_Imped    READ outImp     WRITE setOutImp     DESIGNABLE true USER true )
-    Q_PROPERTY( int    Channels     READ channels   USER true )
-    Q_PROPERTY( bool   Tristate     READ tristate   USER true )
+    Q_PROPERTY( int    Channels     READ channels   WRITE setChannels   DESIGNABLE true USER true )
+    Q_PROPERTY( bool   Tristate     READ tristate   WRITE setTristate   DESIGNABLE true USER true )
 
     public:
         LatchD( QObject* parent, QString type, QString id );
@@ -43,10 +43,19 @@ class MAINMODULE_EXPORT LatchD : public LogicComponent, public eLatchD
         static Component* construct( QObject* parent, QString type, QString id );
         static LibraryItem *libraryItem();
 
-        int channels() { return 8; }
+        int channels() { return m_channels; }
+        void setChannels( int channels );
 
-        bool tristate() { return true; }
+        bool tristate() { return m_tristate; }
+        void setTristate( bool t );
+    
+    private:
+        Pin* m_inputEnPin;
+        Pin* m_outEnPin;
         
+        int m_channels;
+        
+        bool m_tristate;
 };
 
 #endif

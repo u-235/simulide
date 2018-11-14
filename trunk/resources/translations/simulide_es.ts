@@ -4,12 +4,12 @@
 <context>
     <name>ADC</name>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>ADC</source>
+        <translation></translation>
     </message>
     <message>
-        <source>ADC</source>
-        <translation type="unfinished"></translation>
+        <source>Logic/Other Logic</source>
+        <translation>Logica/Otros (Logica)</translation>
     </message>
 </context>
 <context>
@@ -22,15 +22,15 @@
     </message>
     <message>
         <source>AVR</source>
-        <translation type="unfinished">AVR</translation>
+        <translation>AVR</translation>
     </message>
     <message>
         <source>Micro</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -67,8 +67,8 @@
         <translation>Puerta And</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Gates</source>
+        <translation>Logica/Puertas</translation>
     </message>
 </context>
 <context>
@@ -429,6 +429,10 @@
         <source>Program</source>
         <translation>Programa</translation>
     </message>
+    <message>
+        <source>Num Outputs</source>
+        <translation>Num Salidas</translation>
+    </message>
 </context>
 <context>
     <name>Arduino</name>
@@ -440,15 +444,15 @@
     </message>
     <message>
         <source>Arduino</source>
-        <translation type="unfinished">Arduino</translation>
+        <translation>Arduino</translation>
     </message>
     <message>
         <source>Micro</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -523,14 +527,8 @@
 </translation>
     </message>
     <message>
-        <source>Simulation of this AVR processor model is not supported: %1
-</source>
-        <translation type="vanished">Este modelo de procesador no esta soportado: %1
-</translation>
-    </message>
-    <message>
         <source>Error:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -541,7 +539,7 @@
     </message>
     <message>
         <source>BJT</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -583,11 +581,11 @@
     <name>BcdTo7S</name>
     <message>
         <source>Bcd To 7S.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bcd a 7S</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation type="unfinished">Logica</translation>
+        <source>Logic/Converters</source>
+        <translation>Logica/Conversores</translation>
     </message>
 </context>
 <context>
@@ -597,8 +595,8 @@
         <translation>Bcd a Dec.</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Converters</source>
+        <translation>Logica/Conversores</translation>
     </message>
 </context>
 <context>
@@ -608,19 +606,19 @@
         <translation>Contador</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Arithmetic</source>
+        <translation>Logica/Aritmetica</translation>
     </message>
 </context>
 <context>
     <name>Buffer</name>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Buffer</source>
+        <translation></translation>
     </message>
     <message>
-        <source>Buffer</source>
-        <translation type="unfinished"></translation>
+        <source>Logic/Gates</source>
+        <translation>Logica/Puertas</translation>
     </message>
 </context>
 <context>
@@ -640,7 +638,7 @@
         <source>Cannot read file:
 %1:
 %2.</source>
-        <translation type="unfinished">No se pudo leer el archivo:
+        <translation>No se pudo leer el archivo:
 %1:
 %2.</translation>
     </message>
@@ -648,7 +646,7 @@
         <source>Cannot set file:
 %1
 to DomDocument</source>
-        <translation type="unfinished">No se pudo convertir el archivo:
+        <translation>No se pudo convertir el archivo:
 %1
 a DomDocument</translation>
     </message>
@@ -656,7 +654,9 @@ a DomDocument</translation>
         <source>Error reading Chip file:
 %1
 No valid Chip</source>
-        <translation type="unfinished"></translation>
+        <translation>Error leyendo Archivo:
+%1
+Chip no Valido</translation>
     </message>
 </context>
 <context>
@@ -690,6 +690,10 @@ a DomDocument</translation>
 %2.</source>
         <translation>No se pudo escribir el archivo %1:
 %2.</translation>
+    </message>
+    <message>
+        <source>Create Subcircuit</source>
+        <translation>Crear Subcircuito</translation>
     </message>
 </context>
 <context>
@@ -833,6 +837,14 @@ Quiere guardar los cambios?</translation>
     <message>
         <source>Real Speed: </source>
         <translation>Velocidad Real:</translation>
+    </message>
+    <message>
+        <source>About SimulIDE</source>
+        <translation>Sobre SimilIDE</translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation>Sobre Qt</translation>
     </message>
 </context>
 <context>
@@ -1010,12 +1022,12 @@ a DomDocument</translation>
 <context>
     <name>DAC</name>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>DAC</source>
+        <translation></translation>
     </message>
     <message>
-        <source>DAC</source>
-        <translation type="unfinished"></translation>
+        <source>Logic/Other Logic</source>
+        <translation>Logica/Otros (Logica)</translation>
     </message>
 </context>
 <context>
@@ -1025,8 +1037,8 @@ a DomDocument</translation>
         <translation>Dec a Bcd</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Converters</source>
+        <translation>Logica/Conversores</translation>
     </message>
 </context>
 <context>
@@ -1036,8 +1048,8 @@ a DomDocument</translation>
         <translation>Demultiplexor</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Converters</source>
+        <translation>Logica/Conversores</translation>
     </message>
 </context>
 <context>
@@ -1205,10 +1217,6 @@ Quiere guardar los cambios?</translation>
         <translation>Detener Depurador</translation>
     </message>
     <message>
-        <source>Stop</source>
-        <translation type="vanished">Terminar</translation>
-    </message>
-    <message>
         <source>Stop debugger</source>
         <translation>Terminar sesion de depuracion</translation>
     </message>
@@ -1242,7 +1250,7 @@ Quiere guardar los cambios?</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1353,29 +1361,29 @@ Quiere guardar los cambios?</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>FlipFlopD</name>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>FlipFlop D</source>
+        <translation></translation>
     </message>
     <message>
-        <source>FlipFlop D</source>
-        <translation type="unfinished"></translation>
+        <source>Logic/Memory</source>
+        <translation>Logica/Memoria</translation>
     </message>
 </context>
 <context>
     <name>FlipFlopJK</name>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>FlipFlop JK</source>
+        <translation></translation>
     </message>
     <message>
-        <source>FlipFlop JK</source>
-        <translation type="unfinished"></translation>
+        <source>Logic/Memory</source>
+        <translation>Logica/Memoria</translation>
     </message>
 </context>
 <context>
@@ -1385,8 +1393,19 @@ Quiere guardar los cambios?</translation>
         <translation>Sumador Completo</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Arithmetic</source>
+        <translation>Logica/Aritmetica</translation>
+    </message>
+</context>
+<context>
+    <name>Function</name>
+    <message>
+        <source>Function</source>
+        <translation>Funcion</translation>
+    </message>
+    <message>
+        <source>Logic/Arithmetic</source>
+        <translation>Logica/Aritmetica</translation>
     </message>
 </context>
 <context>
@@ -1408,7 +1427,7 @@ Quiere guardar los cambios?</translation>
     </message>
     <message>
         <source>Hd44780</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1418,8 +1437,8 @@ Quiere guardar los cambios?</translation>
         <translation>Ram I2C</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Memory</source>
+        <translation>Logica/Memoria</translation>
     </message>
 </context>
 <context>
@@ -1429,8 +1448,8 @@ Quiere guardar los cambios?</translation>
         <translation>I2C a Paralelo</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Converters</source>
+        <translation>Logica/Conversores</translation>
     </message>
 </context>
 <context>
@@ -1440,8 +1459,8 @@ Quiere guardar los cambios?</translation>
         <translation>Bus Entrada</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Other Logic</source>
+        <translation>Logica/Otros (Logica)</translation>
     </message>
 </context>
 <context>
@@ -1452,7 +1471,7 @@ Quiere guardar los cambios?</translation>
     </message>
     <message>
         <source>Inductor</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1483,18 +1502,18 @@ Quiere guardar los cambios?</translation>
     </message>
     <message>
         <source>Ks0108</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>LatchD</name>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Latch</source>
+        <translation></translation>
     </message>
     <message>
-        <source>Latch</source>
-        <translation type="unfinished"></translation>
+        <source>Logic/Memory</source>
+        <translation>Logica/Memoria</translation>
     </message>
 </context>
 <context>
@@ -1505,7 +1524,7 @@ Quiere guardar los cambios?</translation>
     </message>
     <message>
         <source>Led</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1555,12 +1574,12 @@ Quiere guardar los cambios?</translation>
 <context>
     <name>Lm555</name>
     <message>
-        <source>Logic</source>
-        <translation type="unfinished">Logica</translation>
+        <source>lm555</source>
+        <translation></translation>
     </message>
     <message>
-        <source>lm555</source>
-        <translation type="unfinished"></translation>
+        <source>Logic/Other Logic</source>
+        <translation>Logica/Otros (Logica)</translation>
     </message>
 </context>
 <context>
@@ -1671,10 +1690,6 @@ a DomDocument</translation>
         <source>No File to reload </source>
         <translation>No hay Archivo que recargar</translation>
     </message>
-    <message>
-        <source>Could not load </source>
-        <translation type="vanished">No se pudo abrir </translation>
-    </message>
 </context>
 <context>
     <name>Mosfet</name>
@@ -1684,7 +1699,7 @@ a DomDocument</translation>
     </message>
     <message>
         <source>Mosfet</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1694,8 +1709,8 @@ a DomDocument</translation>
         <translation>Multiplexor</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Converters</source>
+        <translation>Logica/Conversores</translation>
     </message>
 </context>
 <context>
@@ -1716,8 +1731,8 @@ a DomDocument</translation>
         <translation>Puerta Or</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Gates</source>
+        <translation>Logica/Puertas</translation>
     </message>
 </context>
 <context>
@@ -1738,8 +1753,8 @@ a DomDocument</translation>
         <translation>Bus Salida</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Other Logic</source>
+        <translation>Logica/Otros (Logica)</translation>
     </message>
 </context>
 <context>
@@ -1752,38 +1767,11 @@ a DomDocument</translation>
     </message>
     <message>
         <source>Micro</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Package</name>
-    <message>
-        <source>Cannot read file:
-%1:
-%2.</source>
-        <translation type="vanished">No se pudo leer el archivo:
-%1:
-%2.</translation>
-    </message>
-    <message>
-        <source>Cannot set file:
-%1
-to DomDocument</source>
-        <translation type="vanished">No se pudo convertir el archivo:
-%1
-a DomDocument</translation>
-    </message>
-    <message>
-        <source>Error reading Package file:
-%1
-No valid Package</source>
-        <translation type="vanished">Error leyendo archivo de Package:
-%1
-Package no valido</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1794,7 +1782,7 @@ Package no valido</translation>
     </message>
     <message>
         <source>Pcd8544</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1814,10 +1802,6 @@ Package no valido</translation>
     <message>
         <source>Could not Create Pic Processor: &quot;%1&quot;</source>
         <translation>No se pudo crear Pic Processor: &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <source>Could not Create Pic Processor for: &quot;%1&quot;</source>
-        <translation type="vanished">No se pudo crear Pic Processor para: &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Could not Load: &quot;%1&quot;</source>
@@ -1884,7 +1868,7 @@ Package no valido</translation>
     </message>
     <message>
         <source>Rail.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1894,8 +1878,8 @@ Package no valido</translation>
         <translation>Ram 8 Bit</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Memory</source>
+        <translation>Logica/Memoria</translation>
     </message>
 </context>
 <context>
@@ -1924,11 +1908,11 @@ Package no valido</translation>
     </message>
     <message>
         <source>Reg.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Dec</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2059,15 +2043,15 @@ Package no valido</translation>
     </message>
     <message>
         <source>N/A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>BaudRate:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2078,7 +2062,7 @@ Package no valido</translation>
     </message>
     <message>
         <source>Servo</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2100,7 +2084,7 @@ Package no valido</translation>
     </message>
     <message>
         <source>7 Seg BCD</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2110,8 +2094,8 @@ Package no valido</translation>
         <translation>Registro Desplazamiento</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Arithmetic</source>
+        <translation>Logica/Aritmetica</translation>
     </message>
 </context>
 <context>
@@ -2241,8 +2225,8 @@ a DomDocument</translation>
         <translation>Puerta Xor</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Logica</translation>
+        <source>Logic/Gates</source>
+        <translation>Logica/Puertas</translation>
     </message>
 </context>
 <context>
@@ -2259,24 +2243,8 @@ a DomDocument</translation>
 <context>
     <name>xmlfile</name>
     <message>
-        <source>Logic/IC CD</source>
-        <translation>Logica/IC CD</translation>
-    </message>
-    <message>
-        <source>Arduino</source>
-        <translation>Arduino</translation>
-    </message>
-    <message>
-        <source>AVR</source>
-        <translation>AVR</translation>
-    </message>
-    <message>
-        <source>Logic/IC 74</source>
-        <translation>Logica/IC 74</translation>
-    </message>
-    <message>
-        <source>PIC</source>
-        <translation>PIC</translation>
+        <source>Logic</source>
+        <translation>Logica</translation>
     </message>
 </context>
 </TS>

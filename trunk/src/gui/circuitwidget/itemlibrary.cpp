@@ -44,6 +44,7 @@
 #include "flipflopd.h"
 #include "flipflopjk.h"
 #include "fulladder.h"
+#include "function.h"
 #include "gate_and.h"
 #include "gate_or.h"
 #include "gate_xor.h"
@@ -160,6 +161,7 @@ void ItemLibrary::loadItems()
     addItem( AndGate::libraryItem() );
     addItem( OrGate::libraryItem() );
     addItem( XorGate::libraryItem() );
+    addItem( Function::libraryItem() );
     addItem( FlipFlopD::libraryItem() );
     addItem( FlipFlopJK::libraryItem() );
     addItem( BinCounter::libraryItem() );

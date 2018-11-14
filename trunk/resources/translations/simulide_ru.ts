@@ -8,8 +8,8 @@
         <translation>АЦП</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Other Logic</source>
+        <translation>Логика/Другое (Логика)</translation>
     </message>
 </context>
 <context>
@@ -68,8 +68,8 @@
         <translation>И</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Gates</source>
+        <translation>Логика/ворота</translation>
     </message>
 </context>
 <context>
@@ -430,6 +430,10 @@
         <source>Avra Inc Path</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Num Outputs</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Arduino</name>
@@ -581,8 +585,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation type="unfinished">Логика</translation>
+        <source>Logic/Converters</source>
+        <translation>Логика/конвертер</translation>
     </message>
 </context>
 <context>
@@ -592,8 +596,8 @@
         <translation>Дешифратор.</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Converters</source>
+        <translation>Логика/конвертер</translation>
     </message>
 </context>
 <context>
@@ -603,8 +607,8 @@
         <translation>Счётчик</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Arithmetic</source>
+        <translation>Логика/арифметика</translation>
     </message>
 </context>
 <context>
@@ -614,8 +618,8 @@
         <translation>Буфер</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Gates</source>
+        <translation>Логика/ворота</translation>
     </message>
 </context>
 <context>
@@ -635,7 +639,7 @@
         <source>Cannot read file:
 %1:
 %2.</source>
-        <translation type="unfinished">Не удаётся прочитать файл:
+        <translation>Не удаётся прочитать файл:
 %1:
 %2.</translation>
     </message>
@@ -643,7 +647,7 @@
         <source>Cannot set file:
 %1
 to DomDocument</source>
-        <translation type="unfinished">Не удаётся загрузить файл:
+        <translation>Не удаётся загрузить файл:
 %1
 в DOMDocument</translation>
     </message>
@@ -685,6 +689,10 @@ to DomDocument</source>
     <message>
         <source>Bill Of Materials</source>
         <translation>Спецификация материалов</translation>
+    </message>
+    <message>
+        <source>Create Subcircuit</source>
+        <translation>Создать подсхему</translation>
     </message>
 </context>
 <context>
@@ -829,6 +837,14 @@ Do you want to save your changes?
     <message>
         <source>Real Speed: </source>
         <translation>Реальная скорость: </translation>
+    </message>
+    <message>
+        <source>About SimulIDE</source>
+        <translation>О SimulIDE</translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation>О Qt</translation>
     </message>
 </context>
 <context>
@@ -1010,8 +1026,8 @@ to DomDocument</source>
         <translation>ЦАП</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Other Logic</source>
+        <translation>Логика/Другое (Логика)</translation>
     </message>
 </context>
 <context>
@@ -1021,8 +1037,8 @@ to DomDocument</source>
         <translation>Шифратор</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Converters</source>
+        <translation>Логика/конвертер</translation>
     </message>
 </context>
 <context>
@@ -1032,8 +1048,8 @@ to DomDocument</source>
         <translation>Демультиплексор</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Converters</source>
+        <translation>Логика/конвертер</translation>
     </message>
 </context>
 <context>
@@ -1206,10 +1222,6 @@ Do you want to save your changes?
         <translation>Остановить отладчик</translation>
     </message>
     <message>
-        <source>Stop</source>
-        <translation type="vanished">Стоп</translation>
-    </message>
-    <message>
         <source>Stop debugger</source>
         <translation>Остановить отладчик</translation>
     </message>
@@ -1360,8 +1372,8 @@ Do you want to save your changes?
         <translation>D-триггер</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Memory</source>
+        <translation>Логика/память</translation>
     </message>
 </context>
 <context>
@@ -1371,8 +1383,8 @@ Do you want to save your changes?
         <translation>JK-триггер</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Memory</source>
+        <translation>Логика/память</translation>
     </message>
 </context>
 <context>
@@ -1382,8 +1394,19 @@ Do you want to save your changes?
         <translation>Сумматор</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Arithmetic</source>
+        <translation>Логика/арифметика</translation>
+    </message>
+</context>
+<context>
+    <name>Function</name>
+    <message>
+        <source>Function</source>
+        <translation>методика</translation>
+    </message>
+    <message>
+        <source>Logic/Arithmetic</source>
+        <translation>Логика/арифметика</translation>
     </message>
 </context>
 <context>
@@ -1415,8 +1438,8 @@ Do you want to save your changes?
         <translation>Память I2C</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Memory</source>
+        <translation>Логика/память</translation>
     </message>
 </context>
 <context>
@@ -1426,8 +1449,8 @@ Do you want to save your changes?
         <translation>Конвертор I2C в Параллель</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Converters</source>
+        <translation>Логика/конвертер</translation>
     </message>
 </context>
 <context>
@@ -1437,8 +1460,8 @@ Do you want to save your changes?
         <translation>Входная шина</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Other Logic</source>
+        <translation>Логика/Другое (Логика)</translation>
     </message>
 </context>
 <context>
@@ -1490,8 +1513,8 @@ Do you want to save your changes?
         <translation>Триггер</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Memory</source>
+        <translation>Логика/память</translation>
     </message>
 </context>
 <context>
@@ -1556,8 +1579,8 @@ Do you want to save your changes?
         <translation>LM555</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Other Logic</source>
+        <translation>Логика/Другое (Логика)</translation>
     </message>
 </context>
 <context>
@@ -1687,8 +1710,8 @@ to DomDocument</source>
         <translation>Мультиплексор</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Converters</source>
+        <translation>Логика/конвертер</translation>
     </message>
 </context>
 <context>
@@ -1709,8 +1732,8 @@ to DomDocument</source>
         <translation>ИЛИ</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Gates</source>
+        <translation>Логика/ворота</translation>
     </message>
 </context>
 <context>
@@ -1731,8 +1754,8 @@ to DomDocument</source>
         <translation>Выходная шина</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Other Logic</source>
+        <translation>Логика/Другое (Логика)</translation>
     </message>
 </context>
 <context>
@@ -1750,33 +1773,6 @@ to DomDocument</source>
  to be in the Circuit.</source>
         <translation>Может быть использован
 только 1 микроконтроллер.</translation>
-    </message>
-</context>
-<context>
-    <name>Package</name>
-    <message>
-        <source>Cannot read file:
-%1:
-%2.</source>
-        <translation type="vanished">Не удаётся прочитать файл:
-%1:
-%2.</translation>
-    </message>
-    <message>
-        <source>Cannot set file:
-%1
-to DomDocument</source>
-        <translation type="vanished">Не удаётся загрузить файл:
-%1
-в DOMDocument</translation>
-    </message>
-    <message>
-        <source>Error reading Package file:
-%1
-No valid Package</source>
-        <translation type="vanished">Ошибка чтения пакетного файла:
-%1
-Пакетный файл не действителен</translation>
     </message>
 </context>
 <context>
@@ -1883,8 +1879,8 @@ No valid Package</source>
         <translation>Память 8-бит</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Memory</source>
+        <translation>Логика/память</translation>
     </message>
 </context>
 <context>
@@ -2099,8 +2095,8 @@ No valid Package</source>
         <translation>Сдвиговый регистр.</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Arithmetic</source>
+        <translation>Логика/арифметика</translation>
     </message>
 </context>
 <context>
@@ -2230,8 +2226,8 @@ to DomDocument</source>
         <translation>Исключающее ИЛИ</translation>
     </message>
     <message>
-        <source>Logic</source>
-        <translation>Логика</translation>
+        <source>Logic/Gates</source>
+        <translation>Логика/ворота</translation>
     </message>
 </context>
 <context>
@@ -2248,24 +2244,8 @@ to DomDocument</source>
 <context>
     <name>xmlfile</name>
     <message>
-        <source>Arduino</source>
-        <translation>Arduino</translation>
-    </message>
-    <message>
-        <source>AVR</source>
-        <translation>AVR</translation>
-    </message>
-    <message>
-        <source>Logic/IC 74</source>
-        <translation>Логика/IC 74</translation>
-    </message>
-    <message>
-        <source>Logic/IC CD</source>
-        <translation>Логика/IC CD</translation>
-    </message>
-    <message>
-        <source>PIC</source>
-        <translation>PIC</translation>
+        <source>Logic</source>
+        <translation>Логика</translation>
     </message>
 </context>
 </TS>

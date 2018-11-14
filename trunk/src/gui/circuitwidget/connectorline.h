@@ -36,6 +36,9 @@ public:
 
     void setConnector( Connector* con );
     Connector* connector();
+    
+    void setPrevLine( ConnectorLine* prevLine );
+    void setNextLine( ConnectorLine* nextLine );
 
     void setP1( QPoint );
     void setP2( QPoint );
@@ -48,8 +51,12 @@ public:
 
     void move( QPointF delta );
     void moveLine( QPoint delta );
+    void moveSimple( QPointF delta );
 
     void updatePos();
+    void updateLines();
+    void updatePrev();
+    void updateNext();
     
     void setIsBus( bool bus );
 
@@ -61,9 +68,9 @@ public:
     virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget );
 
 signals:
-    void moved();
-    void yourP1changed( QPoint );
-    void yourP2changed( QPoint );
+    //void moved();
+    //void yourP1changed( QPoint );
+    //void yourP2changed( QPoint );
 
 public slots:
     void sSetP1( QPoint );
@@ -80,6 +87,9 @@ private:
     bool m_isBus;
 
     Connector* m_pConnector;
+    ConnectorLine* m_prevLine;
+    ConnectorLine* m_nextLine;
 };
 
 #endif
+

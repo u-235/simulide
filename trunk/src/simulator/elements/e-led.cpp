@@ -86,6 +86,8 @@ void eLed::updateBright()
     if( m_lastUpdatePeriod > 20000 )
     {
         m_disp_brightness = m_avg_brightness/m_lastUpdatePeriod;
+        
+        m_disp_brightness = pow( m_disp_brightness, 1.0/2.0 );
 
         m_avg_brightness   = 0;
         m_lastUpdatePeriod = 0;

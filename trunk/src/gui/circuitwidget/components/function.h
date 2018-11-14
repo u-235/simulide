@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by santiago González                               *
+ *   Copyright (C) 2018 by santiago González                               *
  *   santigoro@gmail.com                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,36 +17,42 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LATCHD_H
-#define LATCHD_H
+#ifndef FUNCTION_H
+#define FUNCTION_H
 
-#include "e-latch_d.h"
-#include "itemlibrary.h"
+#include "e-function.h"
 #include "logiccomponent.h"
 
-class LatchD : public LogicComponent, public eLatchD
+class LibraryItem;
+
+class MAINMODULE_EXPORT Function : public LogicComponent, public eFunction
 {
     Q_OBJECT
-    Q_PROPERTY( bool   tristate     READ tristate   USER true )
-    Q_PROPERTY( int    channels     READ channels   USER true )
     Q_PROPERTY( double Input_High_V READ inputHighV WRITE setInputHighV DESIGNABLE true USER true )
     Q_PROPERTY( double Input_Low_V  READ inputLowV  WRITE setInputLowV  DESIGNABLE true USER true )
     Q_PROPERTY( double Input_Imped  READ inputImp   WRITE setInputImp   DESIGNABLE true USER true )
     Q_PROPERTY( double Out_High_V   READ outHighV   WRITE setOutHighV   DESIGNABLE true USER true )
     Q_PROPERTY( double Out_Low_V    READ outLowV    WRITE setOutLowV    DESIGNABLE true USER true )
     Q_PROPERTY( double Out_Imped    READ outImp     WRITE setOutImp     DESIGNABLE true USER true )
+    Q_PROPERTY( bool   Inverted     READ inverted   WRITE setInverted   DESIGNABLE true USER true )
+    Q_PROPERTY( int    Num_Inputs   READ numInps    WRITE setNumInps    DESIGNABLE true USER true )
+    Q_PROPERTY( int    Num_Outputs  READ numOuts    WRITE setNumOuts    DESIGNABLE true USER true )
+    Q_PROPERTY( QString Functions   READ functions  WRITE setFunctions  DESIGNABLE true USER true )
+    
 
     public:
-        LatchD( QObject* parent, QString type, QString id );
-        ~LatchD();
-
-        static Component* construct( QObject* parent, QString type, QString id );
-        static LibraryItem *libraryItem();
         
-        int channels() { return 1; }
-
-        bool tristate() { return true; }
+        Function( QObject* parent, QString type, QString id );
+        ~Function();
+        
+ static Component* construct( QObject* parent, QString type, QString id );
+ static LibraryItem* libraryItem();
+        
+        void setNumInps( int inputs );
+        void setNumOuts( int outs );
+        
+    public slots:
+        virtual void remove();
 };
 
 #endif
-

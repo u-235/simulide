@@ -20,12 +20,16 @@
 <!-- *************************************************************************** -->
 
 <itemlib>
-    <tag>QT_TRANSLATE_NOOP("xmlfile","Logic/IC CD")</tag>
+    <tag>QT_TRANSLATE_NOOP("xmlfile","Logic")</tag>
+    
+    <itemset category="Logic" type="Subcircuit">
+        <item name="IC CD"  package=""  subcircuit=""  icon="ic2.png" ></item>
+    </itemset>
     
     <itemset category="Logic/IC CD" type="Subcircuit">
 
-    <item name="CD4510"  package="icCD/CD4510.package"  subcircuit="icCD/CD4510.subcircuit"  icon="ic2.png" ></item>
-    <item name="CD4511"  package="icCD/CD4511.package"  subcircuit="icCD/CD4511.subcircuit"  icon="ic2.png" ></item>
+    <item name="CD4510"  package="icCD/CD4510.package"  subcircuit="icCD/CD4510.subcircuit" ></item>
+    <item name="CD4511"  package="icCD/CD4511.package"  subcircuit="icCD/CD4511.subcircuit" ></item>
 
     </itemset>
 

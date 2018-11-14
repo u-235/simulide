@@ -20,6 +20,7 @@
 #include <iostream>
 
 #include "simulator.h"
+#include "circuit.h"
 #include "matrixsolver.h"
 #include "e-element.h"
 #include "oscopewidget.h"
@@ -102,6 +103,8 @@ void Simulator::timerEvent( QTimerEvent* e )  //update at m_timerTick rate (50 m
     foreach( eElement* el, m_updateList ) el->updateStep();
     // Run Circuit in parallel thread
     m_CircuitFuture = QtConcurrent::run( this, &Simulator::runCircuit ); // Run Circuit in a parallel thread
+    
+    if( Circuit::self()->animate() ) Circuit::self()->update();
 }
 
 void Simulator::runCircuit()
@@ -271,6 +274,7 @@ void Simulator::stopSim()
     if( McuComponent::self() ) McuComponent::self()->reset();
 
     CircuitWidget::self()->setRate( 0 );
+    Circuit::self()->update();
     
     std::cout << "\n    Simulation Stopped \n" << std::endl;
 }

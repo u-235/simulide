@@ -79,23 +79,31 @@ void CircuitWidget::createActions()
 
     openCircAct = new QAction( QIcon(":/opencirc.png"), tr("&Open Circuit\tCtrl+O"), this);
     openCircAct->setStatusTip( tr("Open an existing Circuit"));
-    connect(openCircAct, SIGNAL( triggered()), this, SLOT(openCirc()));
+    connect( openCircAct, SIGNAL( triggered()), this, SLOT(openCirc()));
 
     saveCircAct = new QAction( QIcon(":/savecirc.png"), tr("&Save Circuit\tCtrl+S"), this);
     saveCircAct->setStatusTip( tr("Save the Circuit to disk"));
-    connect(saveCircAct, SIGNAL( triggered()), this, SLOT(saveCirc()));
+    connect( saveCircAct, SIGNAL( triggered()), this, SLOT(saveCirc()));
 
     saveCircAsAct = new QAction( QIcon(":/savecircas.png"),tr("Save Circuit &As...\tCtrl+Shift+S"), this);
     saveCircAsAct->setStatusTip( tr("Save the Circuit under a new name"));
-    connect(saveCircAsAct, SIGNAL( triggered()), this, SLOT(saveCircAs()));
+    connect( saveCircAsAct, SIGNAL( triggered()), this, SLOT(saveCircAs()));
 
     powerCircAct = new QAction( QIcon(":/poweroff.png"),tr("Power Circuit"), this);
     powerCircAct->setStatusTip(tr("Power the Circuit"));
-    connect(powerCircAct, SIGNAL( triggered()), this, SLOT(powerCirc()));
+    connect( powerCircAct, SIGNAL( triggered()), this, SLOT(powerCirc()));
     
     infoAct = new QAction( QIcon(":/help.png"),tr("Online Help"), this);
-    infoAct->setStatusTip(tr( "Online Help" ));
-    connect(infoAct, SIGNAL( triggered()), this, SLOT(openInfo()));
+    infoAct->setStatusTip(tr("Online Help"));
+    connect( infoAct, SIGNAL( triggered()), this, SLOT(openInfo()));
+    
+    aboutAct = new QAction( QIcon(":/help.png"),tr("About SimulIDE"), this);
+    aboutAct->setStatusTip(tr("About SimulIDE"));
+    connect( aboutAct, SIGNAL( triggered()), this, SLOT(about()));
+    
+    aboutQtAct = new QAction( QIcon(":/help.png"),tr("About Qt"), this);
+    aboutQtAct->setStatusTip(tr("About Qt"));
+    connect( aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()) );
 }
 
 void CircuitWidget::createToolBars()
@@ -114,7 +122,15 @@ void CircuitWidget::createToolBars()
     spacerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     spacerWidget->setVisible(true);
     m_circToolBar.addWidget(spacerWidget);
-    m_circToolBar.addAction(infoAct);
+    
+    infoMenu = new QMenu("I");
+    infoMenu->menuAction()->setIcon( QIcon(":/help.png") );
+    infoMenu->addAction( infoAct );
+    infoMenu->addAction( aboutAct );
+    infoMenu->addAction( aboutQtAct );
+    //m_circToolBar.addWidget(infoMenu);
+    m_circToolBar.addAction(infoMenu->menuAction());
+    
     m_circToolBar.addSeparator();//..........................
 }
 
@@ -236,6 +252,33 @@ void CircuitWidget::powerCircDebug( bool run )
 void CircuitWidget::openInfo()
 {
     QDesktopServices::openUrl(QUrl("http://simulide.blogspot.com"));
+}
+
+void CircuitWidget::about()
+{
+    QString t ="&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;";
+    QMessageBox::about( this, tr("About SimulIDE"),
+    "<b>Web site:</b> <a href=\"https://simulide.blogspot.com/\"> https://simulide.blogspot.com/ </a><br><br>"
+    "<b>Project:</b> <a href=\"https://sourceforge.net/projects/simulide/\"> https://sourceforge.net/projects/simulide/ </a><br><br>"
+    "<b>Report Bugs:</b> <a href=\"https://sourceforge.net/p/simulide/discussion/bugs/\"> https://sourceforge.net/p/simulide/discussion/bugs/ </a><br><br>"
+    "<b>Become a Patron:</b> <a href=\"https://www.patreon.com/simulide\"> https://www.patreon.com/simulide </a><br><br>"
+    "<br><br>"
+               "<b>Creator:</b> Santiago Gonzalez. <br>"
+               "<br>"
+               "<b>Developers:</b> <br>"
+               +t+"Santiago Gonzalez. <br>"
+               +t+"Popov Alexey <br>"
+               +t+"Pavel Lamonov <br>"
+               "<br>"
+               "<b>Contributors:</b> <br>"
+               +t+"Chris Roper <br>"
+               +t+"Sergei Chiyanov <br>"
+               +t+"Sergey Roenko <br>"
+               "<br>"
+               "<b>Translations:</b> <br>"
+               +t+"Spanish: Santiago Gonzalez. <br>"
+               +t+"Russian: Ronomir <br>"
+               );
 }
 
 void CircuitWidget::setRate( int rate )

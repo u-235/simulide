@@ -48,6 +48,8 @@ class MAINMODULE_EXPORT Chip : public Component, public eElement
         virtual void initChip();
 
         int   m_numpins;
+        
+        bool m_isChip;
 
         QString m_dataFile;     // file containig package defs
 };

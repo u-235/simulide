@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by santiago González                               *
+ *   Copyright (C) 2010 by santiago González                               *
  *   santigoro@gmail.com                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,52 +17,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "latchd.h"
-#include "pin.h"
+#ifndef EFUNCTION_H
+#define EFUNCTION_H
 
+#include <QScriptEngine>
 
-Component* LatchD::construct( QObject* parent, QString type, QString id )
+#include "e-logic_device.h"
+
+class MAINMODULE_EXPORT eFunction : public eLogicDevice
 {
-        return new LatchD( parent, type, id );
-}
+    public:
 
-LibraryItem* LatchD::libraryItem()
-{
-    return new LibraryItem(
-        tr( "Latch D" ),
-        tr( "Logic" ),
-        "subc.png",
-        "LatchD",
-        LatchD::construct );
-}
+        eFunction( std::string id );
+        ~eFunction();
 
-LatchD::LatchD( QObject* parent, QString type, QString id )
-        : LogicComponent( parent, type, id ), eLatchD( id.toStdString() )
-{
-    m_width  = 4;
-    m_height = 4;
+        virtual void initialize();
+        virtual void setVChanged();
+        
+        QString functions();
+        void setFunctions( QString f );
 
-    QStringList pinList;
+    protected:
+        QScriptEngine m_engine;
+        
+        QString m_functions;
+        
+};
 
-    pinList // Inputs:
-            << "IL03 E"
-            << "IR03OE "
 
-            << "IL01 D"
-
-            // Outputs:
-            << "OR01Q "
-            ;
-    init( pinList );
-
-    eLogicDevice::createInEnablePin( m_inPin[0] );       // Input Enable
-
-    eLogicDevice::createOutEnablePin( m_inPin[1] );    // IOutput Enable
-
-    eLogicDevice::createInput( m_inPin[2] );
-
-    eLogicDevice::createOutput( m_outPin[0] );
-}
-LatchD::~LatchD(){}
-
-#include "moc_latchd.cpp"
+#endif

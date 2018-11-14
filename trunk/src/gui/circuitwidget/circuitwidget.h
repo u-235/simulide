@@ -61,6 +61,7 @@ class MAINMODULE_EXPORT CircuitWidget : public QWidget
         bool saveCircAs();
         void powerCirc();
         void openInfo();
+        void about();
 
     signals:
         void dataAvailable( const QByteArray &data );
@@ -86,6 +87,10 @@ class MAINMODULE_EXPORT CircuitWidget : public QWidget
         QAction* saveCircAsAct;
         QAction* powerCircAct;
         QAction* infoAct;
+        QAction* aboutAct;
+        QAction* aboutQtAct;
+        
+        QMenu* infoMenu;
         
         QString m_curCirc;
         QString m_lastCircDir;

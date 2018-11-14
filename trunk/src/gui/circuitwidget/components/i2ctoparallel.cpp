@@ -29,7 +29,7 @@ LibraryItem* I2CToParallel::libraryItem()
 {
     return new LibraryItem(
         tr( "I2C to Parallel" ),
-        tr( "Logic" ),
+        tr( "Logic/Converters" ),
         "subc.png",
         "I2CToParallel",
         I2CToParallel::construct );

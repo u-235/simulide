@@ -30,7 +30,7 @@ LibraryItem* ShiftReg::libraryItem()
 {
     return new LibraryItem(
         tr( "Shift Reg." ),
-        tr( "Logic" ),
+        tr( "Logic/Arithmetic" ),
         "subc.png",
         "ShiftReg",
         ShiftReg::construct );
