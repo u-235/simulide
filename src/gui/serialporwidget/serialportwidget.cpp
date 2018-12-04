@@ -96,11 +96,9 @@ SerialPortWidget::SerialPortWidget( QWidget *parent )
     connect( ui->serialPortInfoListBox,  static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
                                   this, &SerialPortWidget::checkCustomDevicePathPolicy);
 
-    connect( m_serial, &QSerialPort::readyRead, 
-                 this, &SerialPortWidget::readData);
+    connect( m_serial, &QSerialPort::readyRead, this, &SerialPortWidget::readData);
                  
-    connect( this, &SerialPortWidget::getData, 
-             this, &SerialPortWidget::slotWriteData );
+    connect( this, &SerialPortWidget::getData, this, &SerialPortWidget::slotWriteData );
 
     fillPortsParameters();
     fillPortsInfo();
@@ -111,6 +109,7 @@ SerialPortWidget::SerialPortWidget( QWidget *parent )
 
 SerialPortWidget::~SerialPortWidget()
 {
+    if( m_serial->isOpen() ) m_serial->close();
     delete ui;
 }
 
@@ -205,8 +204,7 @@ void SerialPortWidget::readData()
 
     //qDebug()<<"SerialPortWidget::readData" << data;
 
-    for( int i=0; i<data.size(); i++ )
-            BaseProcessor::self()->uartIn( data.at(i) );
+    for( int i=0; i<data.size(); i++ ) BaseProcessor::self()->uartIn( data.at(i) );
 }
 
 void SerialPortWidget::writeData( const QByteArray &data )
@@ -241,7 +239,12 @@ void SerialPortWidget::checkCustomDevicePathPolicy(int idx)
     bool isCustomPath = !ui->serialPortInfoListBox->itemData(idx).isValid();
     ui->serialPortInfoListBox->setEditable(isCustomPath);
     if( isCustomPath )
+    {
+        QString port = ui->serialPortInfoListBox->currentText();
+        if( port == tr("Custom") ) port ="";
         ui->serialPortInfoListBox->clearEditText();
+        ui->serialPortInfoListBox->setCurrentText( port );
+    }
 }
 
 void SerialPortWidget::fillPortsParameters()

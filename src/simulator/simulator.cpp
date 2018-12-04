@@ -101,10 +101,10 @@ void Simulator::timerEvent( QTimerEvent* e )  //update at m_timerTick rate (50 m
         m_lastRefTime = refTime;
     }
     foreach( eElement* el, m_updateList ) el->updateStep();
+    TerminalWidget::self()->step();
+    if( Circuit::self()->animate() ) Circuit::self()->update();
     // Run Circuit in parallel thread
     m_CircuitFuture = QtConcurrent::run( this, &Simulator::runCircuit ); // Run Circuit in a parallel thread
-    
-    if( Circuit::self()->animate() ) Circuit::self()->update();
 }
 
 void Simulator::runCircuit()
@@ -126,7 +126,6 @@ void Simulator::runCircuitStep()
         m_updtCounter = 0;
         
         PlotterWidget::self()->step();
-        TerminalWidget::self()->step();
     }
 
     // Run Reactive Elements
@@ -144,7 +143,6 @@ void Simulator::runCircuitStep()
     foreach( eElement* el, m_changedFast ) el->setVChanged();
     m_changedFast.clear();
 
-    // Run Mcus
     if( BaseProcessor::self() && !m_debugging ) BaseProcessor::self()->step();
 
     // Run Non-Linear elements

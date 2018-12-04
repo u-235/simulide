@@ -25,6 +25,7 @@ License along with this library; if not, see
 
 #include <iostream>
 #include <stdio.h>
+#include <QList>
 
 class InvalidRegister;   // Forward reference
 
@@ -56,291 +57,293 @@ class USART_MODULE;
 // USART Data Transmit Register
 class _TXREG : public sfr_register, public TriggerObject
 {
- public:
+    public:
 
-  _TXREG(Processor *pCpu, const char *pName, const char *pDesc,USART_MODULE *);
-  virtual void put(uint);
-  virtual void put_value(uint);
-  virtual void assign_txsta(_TXSTA *new_txsta) { m_txsta = new_txsta; };
-  virtual void assign_rcsta(_RCSTA *new_rcsta) { m_rcsta = new_rcsta; };
-  virtual void callback();
-  virtual void callback_print();
+        _TXREG(Processor *pCpu, const char *pName, const char *pDesc,USART_MODULE *);
+        virtual void put(uint);
+        virtual void put_value(uint);
+        virtual void assign_txsta(_TXSTA *new_txsta) { m_txsta = new_txsta; };
+        virtual void assign_rcsta(_RCSTA *new_rcsta) { m_rcsta = new_rcsta; };
+        virtual void callback();
+        virtual void callback_print();
 
-private:
-  _TXSTA  *m_txsta;
-  _RCSTA  *m_rcsta;
-  USART_MODULE *mUSART;
-  bool full;
+    private:
+        _TXSTA  *m_txsta;
+        _RCSTA  *m_rcsta;
+        USART_MODULE *mUSART;
+        bool full;
 };
 
 // Transmit Status and Control register
 class _TXSTA : public sfr_register, public TriggerObject
 {
-public:
-  _TXREG  *txreg;
-  _SPBRG  *spbrg;
-  _RCSTA  *rcsta;
+    public:
+        _TXREG  *txreg;
+        _SPBRG  *spbrg;
+        _RCSTA  *rcsta;
 
-  uint tsr;
-  uint bit_count;
+        uint tsr;
+        uint bit_count;
 
-  enum {
-    TX9D  = 1<<0,
-    TRMT  = 1<<1,
-    BRGH  = 1<<2,
-    SENDB = 1<<3,
-    SYNC  = 1<<4,
-    TXEN  = 1<<5,
-    TX9   = 1<<6,
-    CSRC  = 1<<7
-  };
+        enum {
+        TX9D  = 1<<0,
+        TRMT  = 1<<1,
+        BRGH  = 1<<2,
+        SENDB = 1<<3,
+        SYNC  = 1<<4,
+        TXEN  = 1<<5,
+        TX9   = 1<<6,
+        CSRC  = 1<<7
+        };
 
-  _TXSTA(Processor *pCpu, const char *pName, const char *pDesc,USART_MODULE *);
-  ~_TXSTA();
+        _TXSTA(Processor *pCpu, const char *pName, const char *pDesc,USART_MODULE *);
+        ~_TXSTA();
 
-  virtual void put(uint new_value);
-  virtual void put_value(uint new_value);
+        virtual void put(uint new_value);
+        virtual void put_value(uint new_value);
 
-  virtual void transmit_a_bit();
-  virtual void start_transmitting();
-  virtual void stop_transmitting();
-  virtual void transmit_break();
-  virtual void callback();
-  virtual void callback_print();
-  virtual char getState();
+        virtual void transmit_a_bit();
+        virtual void start_transmitting();
+        virtual void stop_transmitting();
+        virtual void transmit_break();
+        virtual void callback();
+        virtual void callback_print();
+        virtual char getState();
 
-  virtual void enableTXPin();
-  virtual void disableTXPin();
-  virtual void setIOpin(PinModule *);
-  virtual PinModule *getIOpin() { return m_PinModule; }
-  virtual void putTXState(char newTXState);
+        virtual void enableTXPin();
+        virtual void disableTXPin();
+        virtual void setIOpin(PinModule *);
+        virtual PinModule *getIOpin() { return m_PinModule; }
+        virtual void putTXState(char newTXState);
 
-  bool bTXEN() { return (value.get() & TXEN) != 0; }
-  bool bSYNC() { return (value.get() & SYNC) != 0; }
-  bool bTRMT() { return (value.get() & TRMT) != 0; }
-  bool bCSRC() { return (value.get() & CSRC) != 0; }
-  bool bTX9() { return (value.get() & TX9) != 0; }
-  int  bTX9D() { return (value.get() & TX9D) ? 1 : 0; }
-  
-  void set_pin_pol ( bool invert ) { bInvertPin = invert; };
-  void releasePin();
+        bool bTXEN() { return (value.get() & TXEN) != 0; }
+        bool bSYNC() { return (value.get() & SYNC) != 0; }
+        bool bTRMT() { return (value.get() & TRMT) != 0; }
+        bool bCSRC() { return (value.get() & CSRC) != 0; }
+        bool bTX9() { return (value.get() & TX9) != 0; }
+        int  bTX9D() { return (value.get() & TX9D) ? 1 : 0; }
 
-protected:
-  USART_MODULE *mUSART;
-  PinModule *m_PinModule;
-  TXSignalSource *m_source;
-  TXSignalControl *m_control;
-  CLKSignalSink   *m_clkSink;
-  bool          SourceActive;
-  char m_cTxState;
-  bool bInvertPin;
+        void set_pin_pol ( bool invert ) { bInvertPin = invert; };
+        void releasePin();
+
+    protected:
+        USART_MODULE *mUSART;
+        PinModule *m_PinModule;
+        TXSignalSource *m_source;
+        TXSignalControl *m_control;
+        CLKSignalSink   *m_clkSink;
+        bool          SourceActive;
+        char m_cTxState;
+        bool bInvertPin;
 };
 
 // USART Data Receive Register
 class _RCREG : public sfr_register
 {
- public:
+    public:
+        uint oldest_value;  /* rcreg has a 2-deep fifo. The oldest received
+                          * value is stored here, while the most recent
+                          * is stored in sfr_register.value . */
 
-  uint oldest_value;  /* rcreg has a 2-deep fifo. The oldest received
-                      * value is stored here, while the most recent
-                      * is stored in sfr_register.value . */
+        uint fifo_sp;       /* fifo stack pointer */
 
-  uint fifo_sp;       /* fifo stack pointer */
+        _RCREG(Processor *pCpu, const char *pName, const char *pDesc,USART_MODULE *);
+        virtual uint get();
+        virtual uint get_value();
+        virtual void push(uint);
+        virtual void pop();
 
-  _RCREG(Processor *pCpu, const char *pName, const char *pDesc,USART_MODULE *);
-  virtual uint get();
-  virtual uint get_value();
-  virtual void push(uint);
-  virtual void pop();
+    virtual void assign_rcsta(_RCSTA *new_rcsta) { m_rcsta = new_rcsta; };
 
-  virtual void assign_rcsta(_RCSTA *new_rcsta) { m_rcsta = new_rcsta; };
-
-private:
-  USART_MODULE *mUSART;
-  _RCSTA  *m_rcsta;
+    private:
+        USART_MODULE *mUSART;
+        _RCSTA  *m_rcsta;
 };
 
 // Receive Status and Control Register
 class _RCSTA : public sfr_register, public TriggerObject
 {
+     public:
+      enum {
+        RX9D = 1<<0,
+        OERR = 1<<1,
+        FERR = 1<<2,
+        ADDEN = 1<<3,
+        CREN = 1<<4,
+        SREN = 1<<5,
+        RX9  = 1<<6,
+        SPEN = 1<<7
+      };
 
- public:
-  enum {
-    RX9D = 1<<0,
-    OERR = 1<<1,
-    FERR = 1<<2,
-    ADDEN = 1<<3,
-    CREN = 1<<4,
-    SREN = 1<<5,
-    RX9  = 1<<6,
-    SPEN = 1<<7
-  };
+      enum {
+        RCSTA_DISABLED,
+        RCSTA_WAITING_FOR_START,
+        RCSTA_MAYBE_START,
+        RCSTA_WAITING_MID1,
+        RCSTA_WAITING_MID2,
+        RCSTA_WAITING_MID3,
+        RCSTA_RECEIVING
+      };
 
-  enum {
-    RCSTA_DISABLED,
-    RCSTA_WAITING_FOR_START,
-    RCSTA_MAYBE_START,
-    RCSTA_WAITING_MID1,
-    RCSTA_WAITING_MID2,
-    RCSTA_WAITING_MID3,
-    RCSTA_RECEIVING
-  };
+      // The usart samples the middle of the bit three times and
+      // produces a sample based on majority averaging. 
+      // 
 
-  // The usart samples the middle of the bit three times and
-  // produces a sample based on majority averaging. 
-  // 
+    #define TOTAL_SAMPLE_STATES    16
 
-#define TOTAL_SAMPLE_STATES    16
+    #define BRGH_FIRST_MID_SAMPLE  4
+    #define BRGH_SECOND_MID_SAMPLE 8
+    #define BRGH_THIRD_MID_SAMPLE  12
 
-#define BRGH_FIRST_MID_SAMPLE  4
-#define BRGH_SECOND_MID_SAMPLE 8
-#define BRGH_THIRD_MID_SAMPLE  12
+    #define BRGL_FIRST_MID_SAMPLE  7
+    #define BRGL_SECOND_MID_SAMPLE 8
+    #define BRGL_THIRD_MID_SAMPLE  9
 
-#define BRGL_FIRST_MID_SAMPLE  7
-#define BRGL_SECOND_MID_SAMPLE 8
-#define BRGL_THIRD_MID_SAMPLE  9
+      _RCREG  *rcreg;
+      _SPBRG  *spbrg;
+      _TXSTA  *txsta;
+      _TXREG  *txreg;
 
-  _RCREG  *rcreg;
-  _SPBRG  *spbrg;
-  _TXSTA  *txsta;
-  _TXREG  *txreg;
+      bool sync_next_clock_edge_high;
+      uint rsr;
+      uint bit_count;
+      uint rx_bit;
+      uint sample,state, sample_state;
+      uint64_t future_cycle, last_cycle;
 
-  bool sync_next_clock_edge_high;
-  uint rsr;
-  uint bit_count;
-  uint rx_bit;
-  uint sample,state, sample_state;
-  uint64_t future_cycle, last_cycle;
+      _RCSTA(Processor *pCpu, const char *pName, const char *pDesc, USART_MODULE *);
+      ~_RCSTA();
 
-  _RCSTA(Processor *pCpu, const char *pName, const char *pDesc, USART_MODULE *);
-  ~_RCSTA();
+      virtual void put(uint new_value);
+      virtual void put_value(uint new_value);
+      void receive_a_bit(unsigned);
+      void receive_start_bit();
+      virtual void start_receiving();
+      virtual void stop_receiving();
+      virtual void overrun();
+      virtual void callback();
+      virtual void callback_print();
+      void setState(char new_RxState);
+    //RRR  char getDir() { return m_DTdirection;}
+      bool bSPEN() { return (value.get() & SPEN); }
+      bool bSREN() { return (value.get() & SREN); }
+      bool bCREN() { return (value.get() & CREN); }
+      bool bRX9()  { return (value.get() & RX9); }
+      virtual void setIOpin(PinModule *);
+      bool rc_is_idle(void) { return ( state <= RCSTA_WAITING_FOR_START ); };
+      virtual void enableRCPin(char direction = DIR_OUT);
+      virtual void disableRCPin();
+      void releasePin();
+      virtual char getState() { return m_cTxState;}
+      virtual void putRCState(char newRCState);
+      virtual void sync_start_transmitting();
+      virtual void clock_edge(char new3State);
+      void set_old_clock_state(char new3State);
+      
+      void queueData( uint32_t value );
 
-  virtual void put(uint new_value);
-  virtual void put_value(uint new_value);
-  void receive_a_bit(unsigned);
-  void receive_start_bit();
-  virtual void start_receiving();
-  virtual void stop_receiving();
-  virtual void overrun();
-  virtual void callback();
-  virtual void callback_print();
-  void setState(char new_RxState);
-//RRR  char getDir() { return m_DTdirection;}
-  bool bSPEN() { return (value.get() & SPEN); }
-  bool bSREN() { return (value.get() & SREN); }
-  bool bCREN() { return (value.get() & CREN); }
-  bool bRX9()  { return (value.get() & RX9); }
-  virtual void setIOpin(PinModule *);
-  bool rc_is_idle(void) { return ( state <= RCSTA_WAITING_FOR_START ); };
-  virtual void enableRCPin(char direction = DIR_OUT);
-  virtual void disableRCPin();
-  void releasePin();
-  virtual char getState() { return m_cTxState;}
-  virtual void putRCState(char newRCState);
-  virtual void sync_start_transmitting();
-  virtual void clock_edge(char new3State);
-  void set_old_clock_state(char new3State);
-  
+    protected:
+      enum {
+         DIR_OUT,
+         DIR_IN
+      };
+      void set_callback_break(uint spbrg_edge);
 
-protected:
-  enum {
-     DIR_OUT,
-     DIR_IN
-  };
-  void set_callback_break(uint spbrg_edge);
-
-  USART_MODULE  *mUSART;
-  PinModule     *m_PinModule;
-  RXSignalSink  *m_sink;
-  char          m_cRxState;
-  bool          SourceActive;
-  RCSignalControl *m_control;
-  RCSignalSource  *m_source;
-  char          m_cTxState;
-  char          m_DTdirection;
-  bool          bInvertPin;
-  bool          old_clock_state;
+      USART_MODULE  *mUSART;
+      PinModule     *m_PinModule;
+      RXSignalSink  *m_sink;
+      char          m_cRxState;
+      bool          SourceActive;
+      RCSignalControl *m_control;
+      RCSignalSource  *m_source;
+      char          m_cTxState;
+      char          m_DTdirection;
+      
+      QList<uint32_t> m_dataQueue;
+      
+      bool bInvertPin;
+      bool old_clock_state;
+      bool dataInQueue;
 };
 
 
 // BAUD Rate Control Register
 class _BAUDCON : public sfr_register
 {
- public:
-  enum {
-    ABDEN  = 1<<0,
-    WUE    = 1<<1,
-    BRG16  = 1<<3,
-    TXCKP  = 1<<4,
-    SCKP   = 1<<4,     // synchronous clock polarity Select bit (16f88x)
-    RXDTP  = 1<<5,
-    RCIDL  = 1<<6,
-    ABDOVF = 1<<7
-  };
+     public:
+      enum {
+        ABDEN  = 1<<0,
+        WUE    = 1<<1,
+        BRG16  = 1<<3,
+        TXCKP  = 1<<4,
+        SCKP   = 1<<4,     // synchronous clock polarity Select bit (16f88x)
+        RXDTP  = 1<<5,
+        RCIDL  = 1<<6,
+        ABDOVF = 1<<7
+      };
 
-  _TXSTA *txsta;
-  _RCSTA *rcsta;
+      _TXSTA *txsta;
+      _RCSTA *rcsta;
 
+      _BAUDCON(Processor *pCpu, const char *pName, const char *pDesc);
 
-  _BAUDCON(Processor *pCpu, const char *pName, const char *pDesc);
+      virtual void put(uint);
+      virtual void put_value(uint);
+      bool brg16(void) { return ( value.get() & BRG16 ) != 0; };
+      bool txckp() { return ( value.get() & TXCKP) != 0; }
+      bool rxdtp() { return ( value.get() & RXDTP) != 0; }
 
-  virtual void put(uint);
-  virtual void put_value(uint);
-  bool brg16(void) { return ( value.get() & BRG16 ) != 0; };
-  bool txckp() { return ( value.get() & TXCKP) != 0; }
-  bool rxdtp() { return ( value.get() & RXDTP) != 0; }
-
-// private:
+    // private:
 };
 
 // USART Baud Rate Generator, High Byte
 class _SPBRGH : public sfr_register
 {
- public:
-
-
-  _SPBRGH(Processor *pCpu, const char *pName, const char *pDesc);
-  virtual void assign_spbrg(_SPBRG *new_spbrg) { m_spbrg = new_spbrg; };
-  virtual void put(uint);
-  virtual void put_value(uint);
- private:
-  _SPBRG   *m_spbrg;
+    public:
+        _SPBRGH(Processor *pCpu, const char *pName, const char *pDesc);
+        virtual void assign_spbrg(_SPBRG *new_spbrg) { m_spbrg = new_spbrg; };
+        virtual void put(uint);
+        virtual void put_value(uint);
+        
+    private:
+        _SPBRG   *m_spbrg;
 };
 
 // USART Baud Rate Generator, Low Byte
 class _SPBRG : public sfr_register, public TriggerObject
 {
- public:
-  _TXSTA *txsta;
-  _RCSTA *rcsta;
-  _SPBRGH *brgh;
-  _BAUDCON *baudcon;
+    public:
+        _TXSTA *txsta;
+        _RCSTA *rcsta;
+        _SPBRGH *brgh;
+        _BAUDCON *baudcon;
 
-  uint64_t 
-    start_cycle,   // The cycle the SPBRG was started
-    last_cycle,    // The cycle when the spbrg clock last changed
-    future_cycle;  // The next cycle spbrg is predicted to change
+        uint64_t 
+        start_cycle,   // The cycle the SPBRG was started
+        last_cycle,    // The cycle when the spbrg clock last changed
+        future_cycle;  // The next cycle spbrg is predicted to change
 
-  bool running;
+        bool running;
 
-  _SPBRG(Processor *pCpu, const char *pName, const char *pDesc);
+        _SPBRG(Processor *pCpu, const char *pName, const char *pDesc);
 
-  virtual void callback();
-  virtual void callback_print() {
-    cout << "_SPBRG " << name() << " CallBack ID " << CallBackID << '\n';
-  }
-  virtual void start();
-  virtual void get_next_cycle_break();
-  virtual uint64_t get_cpu_cycle(uint edges_from_now);
-  virtual uint64_t get_last_cycle();
+        virtual void callback();
+        virtual void callback_print() {
+        cout << "_SPBRG " << name() << " CallBack ID " << CallBackID << '\n';
+        }
+        virtual void start();
+        virtual void get_next_cycle_break();
+        virtual uint64_t get_cpu_cycle(uint edges_from_now);
+        virtual uint64_t get_last_cycle();
 
-  virtual void put(uint);
-  virtual void put_value(uint);
-  void set_start_cycle();
-// protected:
-  virtual uint get_cycles_per_tick();
-private:
-  uint64_t skip;
+        virtual void put(uint);
+        virtual void put_value(uint);
+        void set_start_cycle();
+        // protected:
+        virtual uint get_cycles_per_tick();
+        
+    private:
+        uint64_t skip;
 };
 
 //---------------------------------------------------------------
@@ -393,7 +396,5 @@ class USART_MODULE: public apfpin
         InterruptSource *m_rcif;
         InterruptSource *m_txif;
 };
-
-
 
 #endif

@@ -240,6 +240,7 @@ void BaseProcessor::setRegisters() // get register addresses from data file
 
 void BaseProcessor::uartOut( uint32_t value ) // Send value to OutPanelText
 {
+    //qDebug()<<"BaseProcessor::uartOut" << value;
     if( m_usartTerm )
     {
         if( value != 13 ) // '\r'
@@ -257,6 +258,7 @@ void BaseProcessor::uartOut( uint32_t value ) // Send value to OutPanelText
 
 void BaseProcessor::uartIn( uint32_t value ) // Receive one byte on Uart
 {
+    //qDebug()<<"BaseProcessor::uartIn" << value;
     if( m_usartTerm )
     {
         TerminalWidget::self()->uartIn( value );

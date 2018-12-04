@@ -31,10 +31,6 @@ License along with this library; if not, see
 */
 
 #include <stdio.h>
-#ifdef _WIN32
-#include "uxtime.h"
-#endif
-
 #include <iostream>
 #include <iomanip>
 #include <string>

@@ -33,22 +33,6 @@ License along with this library; if not, see
 #include "a2dconverter.h"
 
 
-class P16C61 : public P16X8X
-{
-public:
-
-  P16C61(const char *_name=0, const char *desc=0);
-  virtual ~P16C61();
-
-  virtual PROCESSOR_TYPE isa(){return _P16C61_;};
-  virtual uint program_memory_size() const { return 0x400; };
-  virtual void create();
-
-  static Processor *construct(const char *name);
-
-};
-
-
 //
 //   -- Define a class to contain most of the registers/peripherals
 //      of a 16x6x device (where the second `x' is >= 3
@@ -96,174 +80,185 @@ public:
 /*********************************************************************
  *  class definitions for the 16c6x family of processors
  */
-class P16C62 : public  P16X6X_processor
+
+ class P16C61 : public P16X8X
 {
-  public:
+    public:
 
-  P16C62(const char *_name=0, const char *desc=0);
+        P16C61(const char *_name=0, const char *desc=0);
+        virtual ~P16C61();
 
-  virtual ~P16C62()
-  {
-  }
+        virtual PROCESSOR_TYPE isa(){return _P16C61_;};
+        virtual uint program_memory_size() const { return 0x400; };
+        virtual void create();
 
-  static Processor *construct(const char *name);
+        static Processor *construct(const char *name);
 
-  TMR2_MODULE tmr2_module;
-  virtual PROCESSOR_TYPE isa(){return _P16C62_;};
-
-  virtual void create_sfr_map();
-
-  virtual uint program_memory_size() const { return 0x800; };
-  virtual void create_iopin_map();
-
-  virtual void create();
 };
 
+class P16C62 : public  P16X6X_processor
+{
+    public:
+
+        P16C62(const char *_name=0, const char *desc=0);
+        virtual ~P16C62();
+
+        static Processor *construct(const char *name);
+
+        TMR2_MODULE tmr2_module;
+        virtual PROCESSOR_TYPE isa(){return _P16C62_;};
+
+        virtual void create_sfr_map();
+
+        virtual uint program_memory_size() const { return 0x800; };
+        virtual void create_iopin_map();
+
+        virtual void create();
+};
 
 class P16C63 : public  P16C62
 {
-  public:
+    public:
 
-  USART_MODULE usart;
+        P16C63(const char *_name=0, const char *desc=0);
+        virtual ~P16C63();
 
-  virtual PROCESSOR_TYPE isa(){return _P16C63_;};
+        USART_MODULE usart;
 
-  virtual uint program_memory_size() const { return 0x1000; };
+        virtual PROCESSOR_TYPE isa(){return _P16C63_;};
 
-  P16C63(const char *_name=0, const char *desc=0);
-  virtual ~P16C63();
+        virtual uint program_memory_size() const { return 0x1000; };
 
-  static Processor *construct(const char *name);
-  void create();
-  void create_sfr_map();
+        static Processor *construct(const char *name);
+        void create();
+        void create_sfr_map();
 };
 
 
 class P16C64 : public  P16X6X_processor
 {
-  public:
-  // XXX
-  // This pir1_2, pir2_2 stuff is not particularly pretty.  It would be
-  // better to just tell C++ to redefine pir1 and pir2 and PIR1v2 and
-  // PIR2v2, but C++ only supports covariance in member function return
-  // values.
-  PIR1v2 *pir1_2_reg;
-  PIR_SET_2 pir_set_2_def;
-  virtual PIR *get_pir1() { return (pir1_2_reg); }
-  virtual PIR_SET *get_pir_set() { return (&pir_set_2_def); }
+    public:
+    
+        P16C64(const char *_name=0, const char *desc=0);
+        virtual ~P16C64();
+        
+        // XXX
+        // This pir1_2, pir2_2 stuff is not particularly pretty.  It would be
+        // better to just tell C++ to redefine pir1 and pir2 and PIR1v2 and
+        // PIR2v2, but C++ only supports covariance in member function return
+        // values.
+        PIR1v2 *pir1_2_reg;
+        PIR_SET_2 pir_set_2_def;
+        virtual PIR *get_pir1() { return (pir1_2_reg); }
+        virtual PIR_SET *get_pir_set() { return (&pir_set_2_def); }
 
 
-  PicPSP_PortRegister  *m_portd;
+        PicPSP_PortRegister  *m_portd;
 
-  PicTrisRegister  *m_trisd;
+        PicTrisRegister  *m_trisd;
 
-  PicPortRegister  *m_porte;
-  PicPSP_TrisRegister  *m_trise;
-  PSP               psp;
+        PicPortRegister  *m_porte;
+        PicPSP_TrisRegister  *m_trise;
+        PSP               psp;
 
-  P16C64(const char *_name=0, const char *desc=0);
-  virtual ~P16C64();
+        static Processor *construct(const char *name);
 
-  static Processor *construct(const char *name);
+        TMR2_MODULE tmr2_module;
+        virtual PROCESSOR_TYPE isa(){return _P16C64_;};
 
-  TMR2_MODULE tmr2_module;
-  virtual PROCESSOR_TYPE isa(){return _P16C64_;};
+        void create_sfr_map();
 
-  void create_sfr_map();
+        virtual uint program_memory_size() const { return 0x800; };
+        virtual void create();
+        virtual void create_iopin_map();
 
-  virtual uint program_memory_size() const { return 0x800; };
-  virtual void create();
-  virtual void create_iopin_map();
-
-  virtual bool hasSPS() {return false;}
+        virtual bool hasSPS() {return false;}
 };
 
 class P16C65 : public  P16C64
 {
-  public:
+    public:
+    
+        P16C65(const char *_name=0, const char *desc=0);
+        virtual ~P16C65();
 
-  USART_MODULE usart;
+        USART_MODULE usart;
 
-  virtual PROCESSOR_TYPE isa(){return _P16C65_;};
+        virtual PROCESSOR_TYPE isa(){return _P16C65_;};
 
-  virtual uint program_memory_size() const { return 0x1000; };
+        virtual uint program_memory_size() const { return 0x1000; };
 
-  P16C65(const char *_name=0, const char *desc=0);
-  virtual ~P16C65();
-  static Processor *construct(const char *name);
-  void create();
-  void create_sfr_map();
+        static Processor *construct(const char *name);
+        void create();
+        void create_sfr_map();
 };
 
 
 class P16F630 :  public _14bit_processor
 {
-public:
+    public:
 
-  P16F630(const char *_name=0, const char *desc=0);
-  virtual ~P16F630();
+        P16F630(const char *_name=0, const char *desc=0);
+        virtual ~P16F630();
 
-  T1CON   t1con;
-  PIR    *pir1;
-  PIE     pie1;
-  TMRL    tmr1l;
-  TMRH    tmr1h;
-  OSCCAL  osccal;
+        T1CON   t1con;
+        PIR    *pir1;
+        PIE     pie1;
+        TMRL    tmr1l;
+        TMRH    tmr1h;
+        OSCCAL  osccal;
 
-  EEPROM_WIDE *e;
-  PIR1v3 *pir1_3_reg;
+        EEPROM_WIDE *e;
+        PIR1v3 *pir1_3_reg;
 
-  INTCON_14_PIR    intcon_reg;
-  ComparatorModule comparator;
-  PIR_SET_1    pir_set_def;
-  WPU              *m_wpu;
-  IOC              *m_ioc;
+        INTCON_14_PIR    intcon_reg;
+        ComparatorModule comparator;
+        PIR_SET_1    pir_set_def;
+        WPU              *m_wpu;
+        IOC              *m_ioc;
 
+        virtual PIR *get_pir2() { return (NULL); }
+        virtual PIR *get_pir1() { return (pir1); }
+        virtual PIR_SET *get_pir_set() { return (&pir_set_def); }
 
-  virtual PIR *get_pir2() { return (NULL); }
-  virtual PIR *get_pir1() { return (pir1); }
-  virtual PIR_SET *get_pir_set() { return (&pir_set_def); }
+        PicPortGRegister  *m_porta;
+        PicTrisRegister  *m_trisa;
 
+        PicPortRegister *m_portc;
+        PicTrisRegister  *m_trisc;
 
+        virtual PROCESSOR_TYPE isa(){return _P16F630_;}
+        static Processor *construct(const char *name);
+        void create(int);
 
-  PicPortGRegister  *m_porta;
-  PicTrisRegister  *m_trisa;
+        virtual void create_sfr_map();
+        virtual void create_iopin_map();
+        virtual void option_new_bits_6_7(uint bits);
 
-  PicPortRegister *m_portc;
-  PicTrisRegister  *m_trisc;
+        virtual uint program_memory_size() const { return 0x400; };
+        virtual uint register_memory_size () const { return 0x100; }
 
-  virtual PROCESSOR_TYPE isa(){return _P16F630_;}
-  static Processor *construct(const char *name);
-  void create(int);
-
-  virtual void create_sfr_map();
-  virtual void create_iopin_map();
-  virtual void option_new_bits_6_7(uint bits);
-
-
-  virtual uint program_memory_size() const { return 0x400; };
-  virtual uint register_memory_size () const { return 0x100; }
-
-  virtual void set_eeprom_wide(EEPROM_WIDE *ep) { eeprom = ep; }
-  virtual void create_config_memory();
-  virtual bool set_config_word(uint address, uint cfg_word);
+        virtual void set_eeprom_wide(EEPROM_WIDE *ep) { eeprom = ep; }
+        virtual void create_config_memory();
+        virtual bool set_config_word(uint address, uint cfg_word);
 };
+
 class P16F676 :  public P16F630
 {
-public:
-  ANSEL  ansel;
-  ADCON0_12F adcon0;
-  ADCON1_16F adcon1;
-  sfr_register  adresh;
-  sfr_register  adresl;
+    public:
+    
+        P16F676(const char *_name=0, const char *desc=0);
+        virtual ~P16F676();
+        
+        ANSEL  ansel;
+        ADCON0_12F adcon0;
+        ADCON1_16F adcon1;
+        sfr_register  adresh;
+        sfr_register  adresl;
 
-
-  P16F676(const char *_name=0, const char *desc=0);
-  virtual ~P16F676();
-
-  virtual PROCESSOR_TYPE isa(){return _P16F676_;}
-  static Processor *construct(const char *name);
-  virtual void create(int);
-  virtual void create_sfr_map();
+        virtual PROCESSOR_TYPE isa(){return _P16F676_;}
+        static Processor *construct(const char *name);
+        virtual void create(int);
+        virtual void create_sfr_map();
 };
 #endif

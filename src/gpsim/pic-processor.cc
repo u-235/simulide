@@ -21,7 +21,6 @@ License along with this library; if not, see
 #include <typeinfo>
 #include <stdio.h>
 #ifdef _WIN32
-#include "uxtime.h"
 #include "unistd.h"
 #else
 #include <unistd.h>

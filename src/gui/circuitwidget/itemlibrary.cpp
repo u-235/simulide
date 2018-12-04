@@ -86,6 +86,7 @@
 #include "stepper.h"
 #include "subcircuit.h"
 #include "switch.h"
+#include "switchdip.h"
 #include "textcomponent.h"
 #include "toggleswitch.h"
 #include "voltimeter.h"
@@ -125,6 +126,7 @@ void ItemLibrary::loadItems()
     addItem( Push::libraryItem() );
     addItem( Switch::libraryItem() );
     addItem( ToggleSwitch::libraryItem() );
+    addItem( SwitchDip::libraryItem() );
     addItem( RelaySPST::libraryItem() );
     // Passive
     addItem( Potentiometer::libraryItem() );
@@ -157,6 +159,11 @@ void ItemLibrary::loadItems()
     addItem( Arduino::libraryItem() );
     // Logic
     addItem( SevenSegmentBCD::libraryItem() );
+    addItem( new LibraryItem( tr("Gates"),tr("Logic"), "gates.png","", 0l ) );
+    addItem( new LibraryItem( tr("Arithmetic"),tr("Logic"), "2to2.png","", 0l ) );
+    addItem( new LibraryItem( tr("Memory"),tr("Logic"), "subc.png","", 0l ) );
+    addItem( new LibraryItem( tr("Converters"),tr("Logic"), "1to2.png","", 0l ) );
+    addItem( new LibraryItem( tr("Other Logic"),tr("Logic"), "2to3.png","", 0l ) );
     addItem( Buffer::libraryItem() );
     addItem( AndGate::libraryItem() );
     addItem( OrGate::libraryItem() );

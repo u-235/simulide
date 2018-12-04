@@ -41,7 +41,7 @@ class MAINMODULE_EXPORT eFunction : public eLogicDevice
         QScriptEngine m_engine;
         
         QString m_functions;
-        
+        QStringList m_funcList;
 };
 
 

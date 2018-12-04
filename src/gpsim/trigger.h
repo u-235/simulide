@@ -21,6 +21,9 @@ License along with this library; if not, see
 
 #if !defined(__TRIGGER_H__)
 #define __TRIGGER_H__
+
+typedef unsigned int uint;
+
 #include <string>
 using namespace std;
 

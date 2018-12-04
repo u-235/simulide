@@ -22,7 +22,7 @@
 <itemlib>
     <tag>QT_TRANSLATE_NOOP("xmlfile","Logic")</tag>
     
-    <itemset category="Logic" type="Subcircuit">
+    <itemset category="Logic" type="">
         <item name="IC 74"  package=""  subcircuit=""  icon="ic2.png" ></item>
     </itemset>
     

@@ -29,13 +29,14 @@ LibraryItem* DAC::libraryItem()
     return new LibraryItem(
         tr( "DAC" ),
         tr( "Logic/Other Logic" ),
-        "subc.png",
+        "3to1.png",
         "DAC",
         DAC::construct );
 }
 
 DAC::DAC( QObject* parent, QString type, QString id )
-       : LogicComponent( parent, type, id ), eOutBus( id.toStdString() )
+   : LogicComponent( parent, type, id )
+   , eOutBus( id.toStdString() )
 {    
     m_width  = 4;
     m_height = 9;

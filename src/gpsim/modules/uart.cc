@@ -173,6 +173,7 @@ _RCSTA::_RCSTA(Processor *pCpu, const char *pName, const char *pDesc, USART_MODU
     old_clock_state(true)
 {
   assert(mUSART);
+  dataInQueue = false;
 }
 
 _RCSTA::~_RCSTA()
@@ -275,10 +276,9 @@ void _TXREG::put(uint new_value)
       // then transmit this new data now...
 
       get_cycles().set_break(get_cycles().get() + 2, this);
-      if (m_txsta->bSYNC())
-          m_rcsta->sync_start_transmitting();
-      else
-          m_txsta->start_transmitting();
+      
+      if (m_txsta->bSYNC()) m_rcsta->sync_start_transmitting();
+      else                  m_txsta->start_transmitting();
   }
   else if(m_txsta->bTRMT() && m_txsta->bSYNC())
   {
@@ -372,8 +372,7 @@ void _TXSTA::enableTXPin()
 
         m_PinModule->setSource(m_source);
 #ifdef EUSART_PIN
-        if(mUSART->IsEUSART())
-            m_PinModule->setControl(m_control);
+        if(mUSART->IsEUSART())  m_PinModule->setControl(m_control);
 #else
         m_PinModule->setControl(m_control);
 #endif
@@ -529,8 +528,8 @@ void _TXSTA::start_transmitting()
   // The start bit, which is always low, occupies bit position
   // zero. The next 8 bits come from the txreg.
   assert(txreg);
-  if(!txreg)
-    return;
+  if(!txreg) return;
+
   if (value.get() & SENDB)
   {
       transmit_break();
@@ -595,7 +594,8 @@ void _TXSTA::transmit_a_bit()
 
 void _TXSTA::callback()
 {
-  transmit_a_bit();
+
+    transmit_a_bit();
 
   if(!bit_count) 
   {
@@ -943,19 +943,15 @@ void _RCSTA::clock_edge(char new3State)
                 bool data = m_PinModule->getPin().getState();
                 data = mUSART->baudcon.rxdtp() ? !data : data;
 
-                if (bRX9())
-                    rsr |= data << 9;
-                else
-                    rsr |= data << 8;
+                if (bRX9()) rsr |= data << 9;
+                else        rsr |= data << 8;
 
                 rsr >>= 1;
                 if (--bit_count == 0)
                 {
                     rcreg->push(rsr);
-                    if (bRX9())
-                        bit_count = 9;
-                    else
-                        bit_count = 8;
+                    if (bRX9()) bit_count = 9;
+                    else        bit_count = 8;
                     rsr = 0;
                 }
             }
@@ -979,51 +975,44 @@ void _RCSTA::receive_a_bit(uint bit)
   Dprintf(("%s receive_a_bit state:%u bit:%u time:0x%" PRINTF_GINT64_MODIFIER "x\n",
     name().c_str(), state, bit, get_cycles().get()));
 
-  if( state == RCSTA_MAYBE_START) {
-    if (bit)
-      state = RCSTA_WAITING_FOR_START;
-    else
-      state = RCSTA_RECEIVING;
+  if( state == RCSTA_MAYBE_START) 
+  {
+    if (bit) state = RCSTA_WAITING_FOR_START;
+    else     state = RCSTA_RECEIVING;
     return;
   }
-  if (bit_count == 0) {
+  if (bit_count == 0) 
+  {
     // we should now have the stop bit
-    if (bit) {
+    if (bit) 
+    {
       // got the stop bit
       // If the rxreg has data from a previous reception then
       // we have a receiver overrun error.
       // cout << "rcsta.rsr is full\n";
 
-      if((value.get() & RX9) == 0)
-        rsr >>= 1;
-
-      // Clear any framing error
-       value.put(value.get() & (~FERR) );
-
-      // copy the rsr to the fifo
-      if(rcreg)
-        rcreg->push( rsr & 0x1ff);
+      if((value.get() & RX9) == 0) rsr >>= 1;
+      
+      value.put(value.get() & (~FERR) );     // Clear any framing error
+      
+      if(rcreg) rcreg->push( rsr & 0x1ff);   // copy the rsr to the fifo
 
       Dprintf(("%s _RCSTA::receive_a_bit received 0x%02X\n",name().c_str(), rsr & 0x1ff));
-
-    } else {
-      //no stop bit; framing error
-       value.put(value.get() | FERR);
-
-      // copy the rsr to the fifo
-      if(rcreg)
-        rcreg->push( rsr & 0x1ff);
+    } 
+    else 
+    {
+      value.put(value.get() | FERR);       //no stop bit; framing error
+      
+      if(rcreg) rcreg->push( rsr & 0x1ff);   // copy the rsr to the fifo
     }
     // If we're continuously receiving, then set up for the next byte.
     // FIXME -- may want to set a half bit delay before re-starting...
-    if(value.get() & CREN)
-      start_receiving();
-    else
-      state = RCSTA_DISABLED;
+    if(value.get() & CREN) start_receiving();
+    else                   state = RCSTA_DISABLED;
     return;
   }
-  // Copy the bit into the Receive Shift Register
-  if(bit) rsr |= 1<<9;
+  
+  if(bit) rsr |= 1<<9;   // Copy the bit into the Receive Shift Register
 
   //cout << "Receive bit #" << bit_count << ": " << (rsr&(1<<9)) << '\n';
 
@@ -1085,14 +1074,31 @@ void _RCSTA::receive_start_bit()
   state = RCSTA_MAYBE_START;
 }
 
+void _RCSTA::queueData( uint32_t value ) // Used by Simulide
+{
+    //qDebug()<< "_RCSTA::queueData"<<value;
+    m_dataQueue.append( value );
+    if( !dataInQueue ) set_callback_break( spbrg->get_cycles_per_tick()*9 );
+    dataInQueue = true;
+}
+
 //------------------------------------------------------------
 void _RCSTA::callback()
 {
   Dprintf(("RCSTA callback. %s time:0x%" PRINTF_GINT64_MODIFIER "x\n", name().c_str(), get_cycles().get()));
+  
+    if( !m_dataQueue.isEmpty() )
+    {
+        rcreg->push( m_dataQueue.takeFirst() );
+        
+        if( !m_dataQueue.isEmpty() )  set_callback_break( spbrg->get_cycles_per_tick()*9 );
+        else dataInQueue = false;
 
+        return;
+    }
+    
   if (txsta->bSYNC())        // Synchronous mode RX/DT is data, TX/CK is clock
   {
-
       if (sync_next_clock_edge_high)        // + edge of clock
       {
           sync_next_clock_edge_high = false;
@@ -1128,10 +1134,8 @@ void _RCSTA::callback()
                 if (--bit_count == 0)
                 {
                     rcreg->push(rsr);
-                    if (bRX9())
-                        bit_count = 9;
-                    else
-                        bit_count = 8;
+                    if (bRX9()) bit_count = 9;
+                    else        bit_count = 8;
                     rsr = 0;
                     value.put(value.get() & ~SREN);
                     if ((value.get() & (SPEN | SREN | CREN)) == SPEN )
@@ -1166,7 +1170,8 @@ void _RCSTA::callback()
   else
   {
       // A bit is sampled 3 times.
-      switch(sample_state) {
+      switch(sample_state) 
+      {
       case RCSTA_WAITING_MID1:
         if (m_cRxState == '1' || m_cRxState == 'W')
           sample++;
@@ -1231,6 +1236,7 @@ void _RCSTA::callback_print()
 //
 void _RCREG::push(uint new_value)
 {
+    //qDebug()<<"RCREG::push"<<new_value<<fifo_sp;
   if(fifo_sp >= 2) 
   {
     if (m_rcsta) m_rcsta->overrun();
@@ -1243,10 +1249,9 @@ void _RCREG::push(uint new_value)
     if (m_rcsta)
     {
         uint rcsta = m_rcsta->value.get();
-        if (new_value & 0x100)
-            rcsta |= _RCSTA::RX9D;
-        else
-            rcsta &= ~ _RCSTA::RX9D;
+        
+        if (new_value & 0x100) rcsta |= _RCSTA::RX9D;
+        else                   rcsta &= ~ _RCSTA::RX9D;
         m_rcsta->value.put(rcsta);
     }
   }
@@ -1546,7 +1551,10 @@ void USART_MODULE::emptyTX()
   if (txsta.bTXEN())
   {
     if (m_txif)   m_txif->Trigger();
-    else if (pir) pir->set_txif();
+    else if (pir)
+    {
+        pir->set_txif();
+    }
     else          assert(pir);
   }
 
@@ -1555,12 +1563,9 @@ void USART_MODULE::emptyTX()
 void USART_MODULE::full()
 {
   Dprintf((" txreg::full - clearing TXIF\n"));
-  if (m_txif)
-      m_txif->Clear();
-  else if(pir)
-    pir->clear_txif();
-  else
-        assert(pir);
+  if (m_txif)  m_txif->Clear();
+  else if(pir) pir->clear_txif();
+  else         assert(pir);
 }
 
 void USART_MODULE::set_rcif()

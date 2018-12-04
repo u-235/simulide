@@ -1407,6 +1407,14 @@ Quiere guardar los cambios?</translation>
         <source>Logic/Arithmetic</source>
         <translation>Logica/Aritmetica</translation>
     </message>
+    <message>
+        <source>Set Function</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Function:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Ground</name>
@@ -1481,6 +1489,33 @@ Quiere guardar los cambios?</translation>
 %2.</source>
         <translation>No se pudo escribir el archivo %1:
 %2.</translation>
+    </message>
+</context>
+<context>
+    <name>ItemLibrary</name>
+    <message>
+        <source>Gates</source>
+        <translation>Puertas</translation>
+    </message>
+    <message>
+        <source>Logic</source>
+        <translation>Logica</translation>
+    </message>
+    <message>
+        <source>Arithmetic</source>
+        <translation>Aritmetica</translation>
+    </message>
+    <message>
+        <source>Memory</source>
+        <translation>Memoria</translation>
+    </message>
+    <message>
+        <source>Converters</source>
+        <translation>Conversores</translation>
+    </message>
+    <message>
+        <source>Other Logic</source>
+        <translation>Otros (Logica)</translation>
     </message>
 </context>
 <context>
@@ -2146,9 +2181,40 @@ a DomDocument</translation>
     </message>
 </context>
 <context>
+    <name>SwitchDip</name>
+    <message>
+        <source>Switch Dip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switches</source>
+        <translation type="unfinished">Interruptores</translation>
+    </message>
+</context>
+<context>
     <name>TerminalWidget</name>
     <message>
-        <source>verticalLayout</source>
+        <source>Send Text:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>    Send Value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>    Print:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Value </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Received From Micro:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sent to Micro:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

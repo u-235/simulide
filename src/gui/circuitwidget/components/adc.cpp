@@ -35,14 +35,14 @@ LibraryItem* ADC::libraryItem()
     return new LibraryItem(
         tr( "ADC" ),
         tr( "Logic/Other Logic" ),
-        "subc.png",
+        "1to3.png",
         "ADC",
         ADC::construct );
 }
 
 ADC::ADC( QObject* parent, QString type, QString id )
-       : LogicComponent( parent, type, id ),
-         eInBus( id.toStdString() )
+   : LogicComponent( parent, type, id )
+   , eInBus( id.toStdString() )
 {
     Q_UNUSED( ADC_properties );
     

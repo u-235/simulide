@@ -46,32 +46,6 @@ LatchD::LatchD( QObject* parent, QString type, QString id )
     
     m_tristate = true;
 
-    /*QStringList pinList;
-
-    pinList // Inputs:
-            << "IL01 D0"
-            << "IL02 D1"
-            << "IL03 D2"
-            << "IL04 D3"
-            << "IL05 D4"
-            << "IL06 D5"
-            << "IL07 D6"
-            << "IL08 D7"
-
-            << "IL09 IE"
-            << "IR09OE"
-
-            // Outputs:
-            << "OR01O0 "
-            << "OR02O1 "
-            << "OR03O2 "
-            << "OR04O3 "
-            << "OR05O4 "
-            << "OR06O5 "
-            << "OR07O6 "
-            << "OR08O7 "
-            ;
-    init( pinList );*/
     m_inputEnPin = new Pin( 180, QPoint( 0,0 ), m_id+"-Pin-inputEnable", 0, this );
     m_inputEnPin->setLabelText( " IE" );
     m_inputEnPin->setLabelColor( QColor( 0, 0, 0 ) );
@@ -136,5 +110,13 @@ void LatchD::setTristate( bool t )
     m_outEnPin->setVisible( t );
     m_tristate = t;
     eLogicDevice::updateOutEnabled();
+}
+
+void LatchD::remove()
+{
+    if( m_inputEnPin->isConnected() ) m_inputEnPin->connector()->remove();
+    if( m_outEnPin->isConnected() ) m_outEnPin->connector()->remove();
+    
+    LogicComponent::remove();
 }
 #include "moc_latchd.cpp"

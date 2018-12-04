@@ -122,7 +122,9 @@ void ComponentSelector::loadXml( const QString &setFile )
         QDomNode    node    = element.firstChild();
 
         QString category = element.attribute( "category" );
-        const char* charCat = category.toLocal8Bit().data();
+        //const char* charCat = category.toUtf8().data();
+        std::string stdCat = category.toStdString();
+        const char* charCat = &(stdCat[0]);
         category = QApplication::translate( "xmlfile", charCat );
         //qDebug()<<"category = " <<category;
         
@@ -182,7 +184,7 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
 {
     bool hidden = MainWindow::self()->settings()->value( name+"/hidden" ).toBool();
 
-    QTreeWidgetItem* titulo = 0l;
+    QTreeWidgetItem* catItem = 0l;
     
     QStringList catPath = _category.split( "/" );
     bool isRootCat      = (catPath.size() == 1);
@@ -197,21 +199,21 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
             expanded = !MainWindow::self()->settings()->value( category+"/collapsed" ).toBool();
 
         m_categories.append( category );
-        titulo = new QTreeWidgetItem(0);
-        titulo->setFlags( QFlag(32) );
-        QFont font = titulo->font(0);
+        catItem = new QTreeWidgetItem(0);
+        catItem->setFlags( QFlag(32) );
+        QFont font = catItem->font(0);
         font.setPixelSize(13);
         font.setWeight(75);
 
         if( isRootCat )                              // Is Main Category
         {
-            titulo->setIcon( 0, QIcon(":/null-0.png") );
-            titulo->setTextColor( 0, QColor( 110, 95, 50 )/*QColor(255, 230, 200)*/ );
-            titulo->setBackground( 0, QBrush(QColor(240, 235, 245)) );
+            catItem->setIcon( 0, QIcon(":/null-0.png") );
+            catItem->setTextColor( 0, QColor( 110, 95, 50 )/*QColor(255, 230, 200)*/ );
+            catItem->setBackground( 0, QBrush(QColor(240, 235, 245)) );
         }
-        titulo->setFont( 0, font );
-        titulo->setText( 0, category );
-        titulo->setChildIndicatorPolicy( QTreeWidgetItem::ShowIndicator );
+        catItem->setFont( 0, font );
+        catItem->setText( 0, category );
+        catItem->setChildIndicatorPolicy( QTreeWidgetItem::ShowIndicator );
         
         if( !catPath.isEmpty() )
         {
@@ -222,28 +224,29 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
             if( !list.isEmpty() ) 
             {
                 QTreeWidgetItem* topItem = list.first();
-                topItem->addChild( titulo );
+                topItem->addChild( catItem );
             }
         }
-        else addTopLevelItem( titulo );
+        else if( name != "" ) addTopLevelItem( catItem );
         
-        titulo->setExpanded( expanded );
-        titulo->setHidden( c_hidden );
+        catItem->setExpanded( expanded );
+        catItem->setHidden( c_hidden );
     }
     else                                                                // Find Category
     {
         QList<QTreeWidgetItem*> list = findItems( category, Qt::MatchExactly | Qt::MatchRecursive );
 
-        if( !list.isEmpty() ) titulo = list.first();
+        if( !list.isEmpty() ) catItem = list.first();
     }
-    if( !titulo ) return;
+    if( !catItem ) return;
 
     if( !m_categories.contains( name, Qt::CaseSensitive ) )
         m_categories.append( name );
 
     QTreeWidgetItem* item =  new QTreeWidgetItem(0);
     QFont font = item->font(0);
-    font.setPixelSize(11);
+    if( type == "" ) font.setPixelSize( 13 );
+    else             font.setPixelSize(11);
     font.setWeight( QFont::Bold );
     
     item->setFont( 0, font );
@@ -252,8 +255,13 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
     item->setIcon( 0, QIcon(icon) );
     item->setData( 0, Qt::UserRole, type );
 
-    titulo->addChild( item );
+    catItem->addChild( item );
     item->setHidden( hidden );
+    if( MainWindow::self()->settings()->contains( name+"/collapsed" ) )
+    {
+        bool expanded = !MainWindow::self()->settings()->value( name+"/collapsed" ).toBool();
+        item->setExpanded( expanded );
+    }
 }
 
 /*void ComponentSelector::removeLibItem( LibraryItem* libItem )

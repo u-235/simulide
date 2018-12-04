@@ -26,11 +26,8 @@
 #include "registers.h"
 #include "hexutils.h"
 
-//class RegBitSink;
 class pic_processor;
-class _RCREG;
-class _TXSTA;
-class PIR;
+class _RCSTA;
 
 class PicProcessor : public BaseProcessor
 {
@@ -66,7 +63,7 @@ class PicProcessor : public BaseProcessor
         
         IntelHexProgramFileType m_hexLoader;
         
-        _RCREG* m_rcReg;
+        _RCSTA* m_rcsta;
 };
 
 

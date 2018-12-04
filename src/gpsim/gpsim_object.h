@@ -23,6 +23,8 @@ License along with this library; if not, see
 #ifndef __GPSIM_OBJECT_H__
 #define __GPSIM_OBJECT_H__
 
+typedef unsigned int uint;
+
 #include <string>
 using namespace std;
 

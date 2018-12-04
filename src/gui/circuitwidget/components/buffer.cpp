@@ -84,7 +84,7 @@ QPainterPath Buffer::shape() const
     return path;
 }
 
-void Buffer::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
+void Buffer::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
     Component::paint( p, option, widget );
 
@@ -98,9 +98,7 @@ void Buffer::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget
         QPointF( 16,  1 ),
         QPointF( 16, -1 )             };
 
-    p->drawPolygon(points, 4);
-
-    //Gate::paint( p, option, widget );            // draw inverted circle
+    p->drawPolygon( points, 4 );
 }
 
 #include "moc_buffer.cpp"

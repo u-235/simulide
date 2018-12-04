@@ -49,6 +49,9 @@ class MAINMODULE_EXPORT LatchD : public LogicComponent, public eLatchD
         bool tristate() { return m_tristate; }
         void setTristate( bool t );
     
+    public slots:
+        virtual void remove();
+        
     private:
         Pin* m_inputEnPin;
         Pin* m_outEnPin;

@@ -81,13 +81,8 @@ void MainWindow::writeSettings()
     QList<QTreeWidgetItem*> list = m_components->findItems( "", Qt::MatchStartsWith | Qt::MatchRecursive );
 
     foreach( QTreeWidgetItem* item, list  )
-    {
         m_settings.setValue( item->text(0)+"/collapsed", !item->isExpanded() );
-        for( int j=0; j<item->childCount(); j++ )
-        {
-            m_settings.setValue( item->child(j)->text(0)+"/collapsed", !item->child(j)->isExpanded() );
-        }
-    }
+
     FileWidget::self()->writeSettings();
 }
 
@@ -98,9 +93,9 @@ void MainWindow::setTitle( QString title )
 
 void MainWindow::about()
 {
-   QMessageBox::about(this, tr("About Application"),
+   /*QMessageBox::about(this, tr("About Application"),
             tr("Circuit simulation"
-               "and IDE for mcu development"));
+               "and IDE for mcu development"));*/
 }
 
 void MainWindow::createWidgets()
