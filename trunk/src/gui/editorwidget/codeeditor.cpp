@@ -85,6 +85,7 @@ CodeEditor::CodeEditor( QWidget* parent, OutPanelText *outPane, RamTable *ramTab
         
     if( settings->contains( "Editor_tab_size" ) )
         setTabSize( settings->value( "Editor_tab_size" ).toInt() );
+    else setTabSize( 4 );
 
     if( settings->contains( "Editor_font_size" ) )
         setFontSize( settings->value( "Editor_font_size" ).toInt() );

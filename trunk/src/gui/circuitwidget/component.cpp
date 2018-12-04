@@ -177,6 +177,7 @@ void Component::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
     setCursor( Qt::OpenHandCursor );
 
     m_moving = false;
+    Circuit::self()->update();
 }
 
 void Component::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )

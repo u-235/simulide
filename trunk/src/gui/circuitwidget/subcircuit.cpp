@@ -148,6 +148,7 @@ void SubCircuit::initChip()
         rNode = rNode.nextSibling();
     }
     initSubcircuit();
+    if( m_error != 0 ) return;
 }
 
 void SubCircuit::initSubcircuit()
@@ -265,6 +266,7 @@ void SubCircuit::initSubcircuit()
                 if( element.hasAttribute("channels") ) channels = element.attribute( "channels" ).toInt();
                 eLatchD* elatchd = new eLatchD( id.toStdString() );
                 elatchd->setNumChannels( channels );
+                elatchd->createInEnablePin();
                 ecomponent = elatchd;
             }
             else if( type == "eBinCounter" )
@@ -449,6 +451,7 @@ void SubCircuit::initSubcircuit()
                 if( element.hasAttribute("height") ) height = element.attribute( "height" ).toDouble();
                 ecomponent = new LedSmd( this, "LEDSMD", id, QRectF( 0, 0, width, height )  );
             }
+            
             if( ecomponent )
             {
                 m_elementList.append( ecomponent );
@@ -574,10 +577,20 @@ void SubCircuit::initSubcircuit()
                     else epin = ecomponent->getEpin( pin );
 
                     if( epin ) connectEpin( epin, pins.last() );   // Connect points (ePin to Pin or eNode)
-                    else qDebug() << "SubCircuit::initSubcircuit Error connecting:" << pin << pins.last();
+                    else 
+                    {
+                        qDebug() << "SubCircuit::initSubcircuit Error connecting:" << pin << pins.last();
+                        m_error = 31;
+                        return;
+                    }
                 }
             }
-            else qDebug() << "SubCircuit::initSubcircuit Error creating: " << id;
+            else 
+            {
+                qDebug() << "SubCircuit::initSubcircuit Error creating: " << id;
+                m_error = 32;
+                return;
+            }
         }
         rNode = rNode.nextSibling();
     }

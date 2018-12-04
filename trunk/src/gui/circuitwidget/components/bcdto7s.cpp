@@ -31,7 +31,7 @@ LibraryItem* BcdTo7S::libraryItem()
     return new LibraryItem(
         tr( "Bcd To 7S." ),
         tr( "Logic/Converters" ),
-        "subc.png",
+        "2to3g.png",
         "BcdTo7S",
         BcdTo7S::construct );
 }

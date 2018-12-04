@@ -78,7 +78,7 @@ bool PicProcessor::loadFirmware( QString fileN )
             return false;
         }
     }
-    Cycle_Counter_breakpoint_list* l1 = &(get_cycles().active);
+    /*Cycle_Counter_breakpoint_list* l1 = &(get_cycles().active);
 
     while(l1->next)            // Clear CycleCounter breakpoint list
     {
@@ -87,7 +87,7 @@ bool PicProcessor::loadFirmware( QString fileN )
         Cycle_Counter_breakpoint_list* l2 = l1;
         l1 = l1->next;
         l2->next = 0l;
-    }
+    }*/
     qDebug() << "Loading HexFile:\n"<<m_symbolFile<<"\n" ;
     
     FILE* pFile  = fopen( symbolFile.constData(), "r" );
@@ -100,7 +100,9 @@ bool PicProcessor::loadFirmware( QString fileN )
                                , tr("Could not Load: \"%1\"").arg(m_symbolFile) );
         return false;
     }
+    //m_pPicProcessor->set_frequency( (double)McuComponent::self()->freq()*1e6 );
     qDebug() <<"\nProcessor Ready:\n    Device    ="<<m_pPicProcessor->name().c_str();
+    qDebug() << "    Freq. MHz =" <<  McuComponent::self()->freq();
     qDebug() << "    Int. OSC  =" << (m_pPicProcessor->get_int_osc() ? "true" : "false");
     qDebug() << "    Use PLLx4 =" << (m_pPicProcessor->get_pplx4_osc() ? "true" : "false");
 
@@ -120,9 +122,9 @@ bool PicProcessor::loadFirmware( QString fileN )
     m_nextCycle  = m_mcuStepsPT/cpi;
     if( m_nextCycle == 0 ) m_nextCycle = 1;
     
-    int address = getRegAddress( "RCREG" );
-    Register* rcreg = m_pPicProcessor->rma.get_register( address );
-    m_rcReg = dynamic_cast<_RCREG*>(rcreg); 
+    int address = getRegAddress( "RCSTA" );
+    Register* rcsta = m_pPicProcessor->rma.get_register( address );
+    m_rcsta = dynamic_cast<_RCSTA*>(rcsta); 
 
     return true;
 }
@@ -185,11 +187,12 @@ int PicProcessor::validate( int address ) { return address; }
 
 void PicProcessor::uartIn( uint32_t value ) // Receive one byte on Uart
 {
-    if( m_usartTerm && m_pPicProcessor)
+    if( m_pPicProcessor)
     {
         BaseProcessor::uartIn( value );
-        m_rcReg->push( value );
-        //qDebug() << "AvrProcessor::uartIn: " << value<<m_pPicProcessor->rma[26].get_value();
+
+        m_rcsta->queueData( value );
+        //qDebug() << "PicProcessor::uartIn: " << value<<m_pPicProcessor->rma[26].get_value();
     }
 }
 

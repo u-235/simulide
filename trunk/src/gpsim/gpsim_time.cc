@@ -423,7 +423,7 @@ void Cycle_Counter::breakpoint()
       if (l1->bActive) 
       {
         l1->bActive = false;
-        l1->f->callback();
+        lastBreak->callback();
       }
       clear_current_break(lastBreak);
     } 

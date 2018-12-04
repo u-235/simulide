@@ -1,0 +1,24 @@
+<!DOCTYPE SimulIDE>
+
+<subcircuit enodes="0">
+
+    <item itemtype="eFunction"
+        inputHighV = "2.5"
+        inputLowV = "2.5"
+        inputImped = "100000000000000"
+        outHighV = "5"
+        outLowV = "0"
+        outImped = "40"
+        inverted = "false"
+        numInputs = "2"
+        numOutputs = "3"
+        functions = "!i0 &amp; i1, i0 ^ i1, !(i0 &amp; i1) &amp; (!i0 | i1)"
+        connections="
+        input0-packagePin1
+        input1-packagePin2
+        output0-packagePin5
+        output1-packagePin4
+        output2-packagePin3" >
+    </item>
+
+</subcircuit>

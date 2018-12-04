@@ -137,10 +137,11 @@ void Chip::initChip()
     }
 }
 
-void Chip::addPin( QString id, QString /*type*/, QString label, int pos, int xpos, int ypos, int angle )
+void Chip::addPin( QString id, QString type, QString label, int pos, int xpos, int ypos, int angle )
 {
     Pin* pin = new Pin( angle, QPoint(xpos, ypos), m_id+"-"+id, pos-1, this ); // pos in package starts at 1
     pin->setLabelText( label );
+    if( type == "inverted" ) pin->setInverted( true );
     if( !m_isChip ) pin->setLabelColor( QColor( 0, 0, 0 ) );
 
     m_ePin[pos-1] = pin;

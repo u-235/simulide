@@ -34,7 +34,7 @@ LibraryItem* BinCounter::libraryItem()
     return new LibraryItem(
         tr( "Counter" ),
         tr ("Logic/Arithmetic"),
-        "subc.png",
+        "2to1.png",
         "Counter",
         BinCounter::construct );
 }

@@ -1,0 +1,18 @@
+<circuit reactStep="50" type="simulide_0.1" noLinStep="10" noLinAcc="5" speed="1000000" animate="0">
+ 
+pic16f886-2: 
+<item hflip="1" labelrot="0" labely="-20" objectName="pic16f886-2" Ser_Port="false" vflip="1" valLabRot="0" rotation="0" Mhz="16" labelx="0" Ser_Monitor="true" Program="serial_echo-16F886.hex" Show_id="true" id="pic16f886-2" itemtype="PIC" y="-380" x="-684" valLabelx="0" valLabely="0"/>
+ 
+Fixed Voltage-1: 
+<item hflip="1" labelrot="0" labely="-24" objectName="Fixed Voltage-1" vflip="1" valLabRot="0" rotation="0" labelx="-64" Show_id="false" Unit=" V" id="Fixed Voltage-1" itemtype="Fixed Voltage" y="-188" x="-820" Voltage="5" valLabelx="-16" valLabely="8" Show_Volt="true"/>
+ 
+Connector-3: 
+<item endpinid="pic16f886-2-RC7" hflip="1" labelrot="0" labely="-24" objectName="Connector-3" pointList="-804,-188,-580,-188,-580,-292,-644,-292" vflip="1" valLabRot="0" rotation="0" startpinid="Fixed Voltage-1-outnod" labelx="-16" Show_id="false" id="Connector-3" itemtype="Connector" y="-188" x="-804" enodeid="Circ_eNode-4" valLabelx="0" valLabely="0"/>
+ 
+PlotterWidget-5: 
+<item whatsThis="" windowModified="false" rect="" minimumWidth="200" layoutDirection="0" minimumHeight="200" objectName="PlotterWidget-5" maximumSize="" locale="" fullScreen="false" visible="false" toolTip="" x="0" sizePolicy="" windowOpacity="1" minimumSize="" isActiveWindow="true" palette="" pos="" y="0" minimumSizeHint="" autoFillBackground="false" toolTipDuration="-1" MaxVolt="500" updatesEnabled="true" windowIconText="" statusTip="" sizeHint="" styleSheet="" frameSize="" focus="false" font="Sans Serif,9,-1,5,50,0,0,0,0,0" windowModality="0" windowIcon="" contextMenuPolicy="1" frameGeometry="" enabled="true" childrenRegion="" geometry="" size="" windowFilePath="" maximumWidth="1000" accessibleDescription="" height="200" cursor="" acceptDrops="false" width="200" baseSize="" normalGeometry="" sizeIncrement="" windowTitle="" childrenRect="" modal="false" accessibleName="" maximumHeight="200" maximized="false" itemtype="Plotter" MinVolt="0" focusPolicy="0" mouseTracking="false" minimized="false" inputMethodHints="0"/>
+ 
+SerialPortWidget-6: 
+<item whatsThis="" windowModified="false" rect="" minimumWidth="0" layoutDirection="0" minimumHeight="0" objectName="SerialPortWidget-6" maximumSize="" locale="" fullScreen="false" visible="false" toolTip="" x="0" sizePolicy="" windowOpacity="1" minimumSize="" isActiveWindow="true" palette="" pos="" y="0" minimumSizeHint="" autoFillBackground="false" toolTipDuration="-1" updatesEnabled="true" windowIconText="" statusTip="" sizeHint="" styleSheet="" frameSize="" SettingsProp="ttyS0,0,3,0,0,0" focus="false" font="Sans Serif,9,-1,5,50,0,0,0,0,0" windowModality="0" windowIcon="" contextMenuPolicy="1" frameGeometry="" enabled="true" childrenRegion="" geometry="" size="" windowFilePath="" maximumWidth="450" accessibleDescription="" height="141" cursor="" acceptDrops="false" width="313" baseSize="" normalGeometry="" sizeIncrement="" windowTitle="Configuracion" childrenRect="" modal="false" accessibleName="" maximumHeight="170" maximized="false" itemtype="SerialPort" focusPolicy="0" mouseTracking="false" minimized="false" inputMethodHints="0"/>
+ 
+</circuit>

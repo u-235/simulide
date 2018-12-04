@@ -353,6 +353,7 @@ void Circuit::loadDomDoc( QDomDocument* doc )
     QApplication::setOverrideCursor(Qt::WaitCursor);
     
     //int firstSeqNumber = m_seqNumber+1;
+    m_animate = false;
 
     QDomElement circuit = doc->documentElement();
     QString docType = circuit.attribute("type");

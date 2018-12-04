@@ -53,6 +53,11 @@ class MAINMODULE_EXPORT Function : public LogicComponent, public eFunction
         
     public slots:
         virtual void remove();
+        void onbuttonclicked();
+        
+    private:
+        QList<QPushButton*> m_buttons;
+        QList<QGraphicsProxyWidget*> m_proxys;
 };
 
 #endif

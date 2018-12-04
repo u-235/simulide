@@ -22,6 +22,8 @@ License along with this library; if not, see
 #ifndef __PACKAGES_H__
 #define __PACKAGES_H__
 
+typedef unsigned int uint;
+
 #include <string>
 using namespace std;
 

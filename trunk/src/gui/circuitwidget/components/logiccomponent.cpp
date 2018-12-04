@@ -185,6 +185,34 @@ void LogicComponent::setNumOuts( int outPins )
     m_numOutPins = outPins;
 }
 
+void LogicComponent::deleteInputs( int inputs )
+{
+    if( m_numInPins-inputs < 0 ) inputs = m_numInPins;
+
+    for( int i=m_numInPins-1; i>m_numInPins-inputs-1; i-- )
+    {
+        if( m_inPin[i]->isConnected() ) m_inPin[i]->connector()->remove();
+        if( m_inPin[i]->scene() ) Circuit::self()->removeItem( m_inPin[i] );
+        m_inPin[i]->reset();
+        delete m_inPin[i];
+    }
+    m_numInPins -= inputs;
+    m_inPin.resize( m_numInPins );
+}
+
+void LogicComponent::deleteOutputs( int outputs )
+{
+    for( int i=m_numOutPins-1; i>m_numOutPins-outputs-1; i-- )
+    {
+        if( m_outPin[i]->isConnected() ) m_outPin[i]->connector()->remove();
+        if( m_outPin[i]->scene() ) Circuit::self()->removeItem( m_outPin[i] );
+        m_outPin[i]->reset();
+        delete m_outPin[i];
+    }
+    m_numOutPins -= outputs;
+    m_outPin.resize( m_numOutPins );
+}
+
 void LogicComponent::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
     Component::paint( p, option, widget );

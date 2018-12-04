@@ -249,10 +249,12 @@ int AvrProcessor::validate( int address )
 
 void AvrProcessor::uartIn( uint32_t value ) // Receive one byte on Uart
 {
-    //qDebug() << "AvrProcessor::uartIn: " << value;
-    BaseProcessor::uartIn( value );
-
-    if( m_avrProcessor ) avr_raise_irq( m_uartInIrq, value );
+    if( m_avrProcessor ) 
+    {
+        BaseProcessor::uartIn( value );
+        avr_raise_irq( m_uartInIrq, value );
+        //qDebug() << "AvrProcessor::uartIn: " << value;
+    }
 }
 
 #include "moc_avrprocessor.cpp"

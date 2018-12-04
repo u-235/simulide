@@ -35,170 +35,7 @@ License along with this library; if not, see
 #include "pic-ioports.h"
 #include "intcon.h"
 
-void P16C61::create(void)
-{
-  create_iopin_map();
 
-  _14bit_processor::create();
-
-  add_file_registers(0x0c, 0x2f, 0x80);
-  Pic14Bit::create_sfr_map();
-}
-
-Processor * P16C61::construct(const char *name)
-{
-  P16C61 *p = new P16C61(name);
-
-  p->create();
-  p->create_invalid_registers ();
-
-  return p;
-}
-
-P16C61::P16C61(const char *_name, const char *desc)
-  : P16X8X(_name,desc)
-{
-    ram_top = 0x2f;
-}
-P16C61::~P16C61()
-{
-}
-
-//------------------------------------------------------------------------
-//
-void P16C62::create_iopin_map(void)
-{
-  package = new Package(28);
-  if(!package)
-    return;
-
-  package->assign_pin(1, 0);
-
-  package->assign_pin( 2, m_porta->addPin(new IO_bi_directional("porta0"),0));
-  package->assign_pin( 3, m_porta->addPin(new IO_bi_directional("porta1"),1));
-  package->assign_pin( 4, m_porta->addPin(new IO_bi_directional("porta2"),2));
-  package->assign_pin( 5, m_porta->addPin(new IO_bi_directional("porta3"),3));
-  package->assign_pin( 6, m_porta->addPin(new IO_open_collector("porta4"),4));
-  package->assign_pin( 7, m_porta->addPin(new IO_bi_directional("porta5"),5));
-
-
-  package->assign_pin(8, 0); //VSS
-  package->assign_pin(9, 0);  // OSC
-  package->assign_pin(10, 0); // OSC
-
-  package->assign_pin(11, m_portc->addPin(new IO_bi_directional("portc0"),0));
-  package->assign_pin(12, m_portc->addPin(new IO_bi_directional("portc1"),1));
-  package->assign_pin(13, m_portc->addPin(new IO_bi_directional("portc2"),2));
-  package->assign_pin(14, m_portc->addPin(new IO_bi_directional("portc3"),3));
-  package->assign_pin(15, m_portc->addPin(new IO_bi_directional("portc4"),4));
-  package->assign_pin(16, m_portc->addPin(new IO_bi_directional("portc5"),5));
-  package->assign_pin(17, m_portc->addPin(new IO_bi_directional("portc6"),6));
-  package->assign_pin(18, m_portc->addPin(new IO_bi_directional("portc7"),7));
-
-  package->assign_pin(19, 0); //VSS
-  package->assign_pin(20, 0); //VDD
-  package->assign_pin(21, m_portb->addPin(new IO_bi_directional_pu("portb0"),0));
-  package->assign_pin(22, m_portb->addPin(new IO_bi_directional_pu("portb1"),1));
-  package->assign_pin(23, m_portb->addPin(new IO_bi_directional_pu("portb2"),2));
-  package->assign_pin(24, m_portb->addPin(new IO_bi_directional_pu("portb3"),3));
-  package->assign_pin(25, m_portb->addPin(new IO_bi_directional_pu("portb4"),4));
-  package->assign_pin(26, m_portb->addPin(new IO_bi_directional_pu("portb5"),5));
-  package->assign_pin(27, m_portb->addPin(new IO_bi_directional_pu("portb6"),6));
-  package->assign_pin(28, m_portb->addPin(new IO_bi_directional_pu("portb7"),7));
-
-  if (hasSSP()) {
-    ssp.initialize(
-                get_pir_set(),    // PIR
-                &(*m_portc)[3],   // SCK
-                &(*m_porta)[5],   // SS
-                &(*m_portc)[5],   // SDO
-                &(*m_portc)[4],   // SDI
-                m_trisc,         // I2C port
-                SSP_TYPE_BSSP
-        );
-  }
-
-  tmr1l.setIOpin(&(*m_portc)[0]);
-}
-
-//------------------------------------------------------------------------
-//
-void P16C64::create_iopin_map(void)
-{
-  package = new Package(40);
-  if(!package) return;
-
-  // Now Create the package and place the I/O pins
-  package->assign_pin(1, 0);
-
-  package->assign_pin( 2, m_porta->addPin(new IO_bi_directional("porta0"),0));
-  package->assign_pin( 3, m_porta->addPin(new IO_bi_directional("porta1"),1));
-  package->assign_pin( 4, m_porta->addPin(new IO_bi_directional("porta2"),2));
-  package->assign_pin( 5, m_porta->addPin(new IO_bi_directional("porta3"),3));
-  package->assign_pin( 6, m_porta->addPin(new IO_open_collector("porta4"),4));
-  package->assign_pin( 7, m_porta->addPin(new IO_bi_directional("porta5"),5));
-
-  package->assign_pin( 8, m_porte->addPin(new IO_bi_directional("porte0"),0));
-  package->assign_pin( 9, m_porte->addPin(new IO_bi_directional("porte1"),1));
-  package->assign_pin(10, m_porte->addPin(new IO_bi_directional("porte2"),2));
-
-  package->assign_pin(11, 0);
-  package->assign_pin(12, 0);
-  package->assign_pin(13, 0);
-  package->assign_pin(14, 0);
-
-  package->assign_pin(15, m_portc->addPin(new IO_bi_directional("portc0"),0));
-  package->assign_pin(16, m_portc->addPin(new IO_bi_directional("portc1"),1));
-  package->assign_pin(17, m_portc->addPin(new IO_bi_directional("portc2"),2));
-  package->assign_pin(18, m_portc->addPin(new IO_bi_directional("portc3"),3));
-  package->assign_pin(23, m_portc->addPin(new IO_bi_directional("portc4"),4));
-  package->assign_pin(24, m_portc->addPin(new IO_bi_directional("portc5"),5));
-  package->assign_pin(25, m_portc->addPin(new IO_bi_directional("portc6"),6));
-  package->assign_pin(26, m_portc->addPin(new IO_bi_directional("portc7"),7));
-
-
-  package->assign_pin(19, m_portd->addPin(new IO_bi_directional("portd0"),0));
-  package->assign_pin(20, m_portd->addPin(new IO_bi_directional("portd1"),1));
-  package->assign_pin(21, m_portd->addPin(new IO_bi_directional("portd2"),2));
-  package->assign_pin(22, m_portd->addPin(new IO_bi_directional("portd3"),3));
-  package->assign_pin(27, m_portd->addPin(new IO_bi_directional("portd4"),4));
-  package->assign_pin(28, m_portd->addPin(new IO_bi_directional("portd5"),5));
-  package->assign_pin(29, m_portd->addPin(new IO_bi_directional("portd6"),6));
-  package->assign_pin(30, m_portd->addPin(new IO_bi_directional("portd7"),7));
-
-  package->assign_pin(31, 0);
-  package->assign_pin(32, 0);
-
-  package->assign_pin(33, m_portb->addPin(new IO_bi_directional_pu("portb0"),0));
-  package->assign_pin(34, m_portb->addPin(new IO_bi_directional_pu("portb1"),1));
-  package->assign_pin(35, m_portb->addPin(new IO_bi_directional_pu("portb2"),2));
-  package->assign_pin(36, m_portb->addPin(new IO_bi_directional_pu("portb3"),3));
-  package->assign_pin(37, m_portb->addPin(new IO_bi_directional_pu("portb4"),4));
-  package->assign_pin(38, m_portb->addPin(new IO_bi_directional_pu("portb5"),5));
-  package->assign_pin(39, m_portb->addPin(new IO_bi_directional_pu("portb6"),6));
-  package->assign_pin(40, m_portb->addPin(new IO_bi_directional_pu("portb7"),7));
-
-  if (hasSSP()) {
-    ssp.initialize(
-                get_pir_set(),    // PIR
-                &(*m_portc)[3],   // SCK
-                &(*m_porta)[5],   // SS
-                &(*m_portc)[5],   // SDO
-                &(*m_portc)[4],   // SDI
-                m_trisc,         // I2C port
-                SSP_TYPE_BSSP
-                   );
-  }
-  psp.initialize(get_pir_set(),    // PIR
-                m_portd,           // Parallel port
-                m_trisd,           // Parallel tris
-                m_trise,           // Control tris
-                &(*m_porte)[0],    // NOT RD
-                &(*m_porte)[1],    // NOT WR
-                &(*m_porte)[2]);   // NOT CS
-
-  tmr1l.setIOpin(&(*m_portc)[0]);
-}
 
 
 //---------------------------------------------------------
@@ -351,10 +188,99 @@ P16X6X_processor::~P16X6X_processor()
  *
  */
 
+void P16C61::create(void)
+{
+  create_iopin_map();
+
+  _14bit_processor::create();
+
+  add_file_registers(0x0c, 0x2f, 0x80);
+  Pic14Bit::create_sfr_map();
+}
+
+Processor * P16C61::construct(const char *name)
+{
+  P16C61 *p = new P16C61(name);
+
+  p->create();
+  p->create_invalid_registers ();
+
+  return p;
+}
+
+P16C61::P16C61(const char *_name, const char *desc)
+  : P16X8X(_name,desc)
+{
+    ram_top = 0x2f;
+}
+P16C61::~P16C61()
+{
+}
+
+//------------------------------------------------------------------------
+//
+void P16C62::create_iopin_map(void)
+{
+  package = new Package(28);
+  if(!package)
+    return;
+
+  package->assign_pin(1, 0);
+
+  package->assign_pin( 2, m_porta->addPin(new IO_bi_directional("porta0"),0));
+  package->assign_pin( 3, m_porta->addPin(new IO_bi_directional("porta1"),1));
+  package->assign_pin( 4, m_porta->addPin(new IO_bi_directional("porta2"),2));
+  package->assign_pin( 5, m_porta->addPin(new IO_bi_directional("porta3"),3));
+  package->assign_pin( 6, m_porta->addPin(new IO_open_collector("porta4"),4));
+  package->assign_pin( 7, m_porta->addPin(new IO_bi_directional("porta5"),5));
+
+
+  package->assign_pin(8, 0); //VSS
+  package->assign_pin(9, 0);  // OSC
+  package->assign_pin(10, 0); // OSC
+
+  package->assign_pin(11, m_portc->addPin(new IO_bi_directional("portc0"),0));
+  package->assign_pin(12, m_portc->addPin(new IO_bi_directional("portc1"),1));
+  package->assign_pin(13, m_portc->addPin(new IO_bi_directional("portc2"),2));
+  package->assign_pin(14, m_portc->addPin(new IO_bi_directional("portc3"),3));
+  package->assign_pin(15, m_portc->addPin(new IO_bi_directional("portc4"),4));
+  package->assign_pin(16, m_portc->addPin(new IO_bi_directional("portc5"),5));
+  package->assign_pin(17, m_portc->addPin(new IO_bi_directional("portc6"),6));
+  package->assign_pin(18, m_portc->addPin(new IO_bi_directional("portc7"),7));
+
+  package->assign_pin(19, 0); //VSS
+  package->assign_pin(20, 0); //VDD
+  package->assign_pin(21, m_portb->addPin(new IO_bi_directional_pu("portb0"),0));
+  package->assign_pin(22, m_portb->addPin(new IO_bi_directional_pu("portb1"),1));
+  package->assign_pin(23, m_portb->addPin(new IO_bi_directional_pu("portb2"),2));
+  package->assign_pin(24, m_portb->addPin(new IO_bi_directional_pu("portb3"),3));
+  package->assign_pin(25, m_portb->addPin(new IO_bi_directional_pu("portb4"),4));
+  package->assign_pin(26, m_portb->addPin(new IO_bi_directional_pu("portb5"),5));
+  package->assign_pin(27, m_portb->addPin(new IO_bi_directional_pu("portb6"),6));
+  package->assign_pin(28, m_portb->addPin(new IO_bi_directional_pu("portb7"),7));
+
+  if (hasSSP()) {
+    ssp.initialize(
+                get_pir_set(),    // PIR
+                &(*m_portc)[3],   // SCK
+                &(*m_porta)[5],   // SS
+                &(*m_portc)[5],   // SDO
+                &(*m_portc)[4],   // SDI
+                m_trisc,         // I2C port
+                SSP_TYPE_BSSP
+        );
+  }
+
+  tmr1l.setIOpin(&(*m_portc)[0]);
+}
+
 P16C62::P16C62(const char *_name, const char *desc)
   : P16X6X_processor(_name,desc)
 {
   set_hasSSP();
+}
+P16C62::~P16C62()
+{
 }
 
 void P16C62::create_sfr_map()
@@ -485,6 +411,107 @@ Processor * P16C63::construct(const char *name)
 
 //----------------------------------------------------------
 //
+P16C64::P16C64(const char *_name, const char *desc)
+  : P16X6X_processor(_name,desc)
+{
+  set_hasSSP();
+  pir1_2_reg = new PIR1v2(this,"pir1","Peripheral Interrupt Register",&intcon_reg,&pie1);
+  delete pir1;
+  pir1 = pir1_2_reg;
+
+
+  m_portd = new PicPSP_PortRegister(this,"portd","",8,0xff);
+  m_trisd = new PicTrisRegister(this,"trisd","",(PicPortRegister *)m_portd, false);
+
+  m_porte = new PicPortRegister(this,"porte","",8,0x07);
+  m_trise =  new PicPSP_TrisRegister(this,"trise","",m_porte, false);
+}
+P16C64::~P16C64()
+{
+  delete_sfr_register(m_portd);
+  delete_sfr_register(m_trisd);
+
+  delete_sfr_register(m_porte);
+  delete_sfr_register(m_trise);
+}
+
+void P16C64::create_iopin_map(void)
+{
+  package = new Package(40);
+  if(!package) return;
+
+  // Now Create the package and place the I/O pins
+  package->assign_pin(1, 0);
+
+  package->assign_pin( 2, m_porta->addPin(new IO_bi_directional("porta0"),0));
+  package->assign_pin( 3, m_porta->addPin(new IO_bi_directional("porta1"),1));
+  package->assign_pin( 4, m_porta->addPin(new IO_bi_directional("porta2"),2));
+  package->assign_pin( 5, m_porta->addPin(new IO_bi_directional("porta3"),3));
+  package->assign_pin( 6, m_porta->addPin(new IO_open_collector("porta4"),4));
+  package->assign_pin( 7, m_porta->addPin(new IO_bi_directional("porta5"),5));
+
+  package->assign_pin( 8, m_porte->addPin(new IO_bi_directional("porte0"),0));
+  package->assign_pin( 9, m_porte->addPin(new IO_bi_directional("porte1"),1));
+  package->assign_pin(10, m_porte->addPin(new IO_bi_directional("porte2"),2));
+
+  package->assign_pin(11, 0);
+  package->assign_pin(12, 0);
+  package->assign_pin(13, 0);
+  package->assign_pin(14, 0);
+
+  package->assign_pin(15, m_portc->addPin(new IO_bi_directional("portc0"),0));
+  package->assign_pin(16, m_portc->addPin(new IO_bi_directional("portc1"),1));
+  package->assign_pin(17, m_portc->addPin(new IO_bi_directional("portc2"),2));
+  package->assign_pin(18, m_portc->addPin(new IO_bi_directional("portc3"),3));
+  package->assign_pin(23, m_portc->addPin(new IO_bi_directional("portc4"),4));
+  package->assign_pin(24, m_portc->addPin(new IO_bi_directional("portc5"),5));
+  package->assign_pin(25, m_portc->addPin(new IO_bi_directional("portc6"),6));
+  package->assign_pin(26, m_portc->addPin(new IO_bi_directional("portc7"),7));
+
+
+  package->assign_pin(19, m_portd->addPin(new IO_bi_directional("portd0"),0));
+  package->assign_pin(20, m_portd->addPin(new IO_bi_directional("portd1"),1));
+  package->assign_pin(21, m_portd->addPin(new IO_bi_directional("portd2"),2));
+  package->assign_pin(22, m_portd->addPin(new IO_bi_directional("portd3"),3));
+  package->assign_pin(27, m_portd->addPin(new IO_bi_directional("portd4"),4));
+  package->assign_pin(28, m_portd->addPin(new IO_bi_directional("portd5"),5));
+  package->assign_pin(29, m_portd->addPin(new IO_bi_directional("portd6"),6));
+  package->assign_pin(30, m_portd->addPin(new IO_bi_directional("portd7"),7));
+
+  package->assign_pin(31, 0);
+  package->assign_pin(32, 0);
+
+  package->assign_pin(33, m_portb->addPin(new IO_bi_directional_pu("portb0"),0));
+  package->assign_pin(34, m_portb->addPin(new IO_bi_directional_pu("portb1"),1));
+  package->assign_pin(35, m_portb->addPin(new IO_bi_directional_pu("portb2"),2));
+  package->assign_pin(36, m_portb->addPin(new IO_bi_directional_pu("portb3"),3));
+  package->assign_pin(37, m_portb->addPin(new IO_bi_directional_pu("portb4"),4));
+  package->assign_pin(38, m_portb->addPin(new IO_bi_directional_pu("portb5"),5));
+  package->assign_pin(39, m_portb->addPin(new IO_bi_directional_pu("portb6"),6));
+  package->assign_pin(40, m_portb->addPin(new IO_bi_directional_pu("portb7"),7));
+
+  if (hasSSP()) {
+    ssp.initialize(
+                get_pir_set(),    // PIR
+                &(*m_portc)[3],   // SCK
+                &(*m_porta)[5],   // SS
+                &(*m_portc)[5],   // SDO
+                &(*m_portc)[4],   // SDI
+                m_trisc,         // I2C port
+                SSP_TYPE_BSSP
+                   );
+  }
+  psp.initialize(get_pir_set(),    // PIR
+                m_portd,           // Parallel port
+                m_trisd,           // Parallel tris
+                m_trise,           // Control tris
+                &(*m_porte)[0],    // NOT RD
+                &(*m_porte)[1],    // NOT WR
+                &(*m_porte)[2]);   // NOT CS
+
+  tmr1l.setIOpin(&(*m_portc)[0]);
+}
+
 void P16C64::create_sfr_map(void)
 {
   pir_set_2_def.set_pir1(pir1_2_reg);
@@ -526,29 +553,7 @@ Processor * P16C64::construct(const char *name)
   return p;
 }
 
-P16C64::P16C64(const char *_name, const char *desc)
-  : P16X6X_processor(_name,desc)
-{
-  set_hasSSP();
-  pir1_2_reg = new PIR1v2(this,"pir1","Peripheral Interrupt Register",&intcon_reg,&pie1);
-  delete pir1;
-  pir1 = pir1_2_reg;
 
-
-  m_portd = new PicPSP_PortRegister(this,"portd","",8,0xff);
-  m_trisd = new PicTrisRegister(this,"trisd","",(PicPortRegister *)m_portd, false);
-
-  m_porte = new PicPortRegister(this,"porte","",8,0x07);
-  m_trise =  new PicPSP_TrisRegister(this,"trise","",m_porte, false);
-}
-P16C64::~P16C64()
-{
-  delete_sfr_register(m_portd);
-  delete_sfr_register(m_trisd);
-
-  delete_sfr_register(m_porte);
-  delete_sfr_register(m_trise);
-}
 //------------------------------------------------------------------------
 //
 //

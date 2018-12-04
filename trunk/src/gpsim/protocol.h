@@ -18,10 +18,10 @@ License along with this library; if not, see
 <http://www.gnu.org/licenses/lgpl-2.1.html>.
 */
 
-//#include <glib.h>
-
 #ifndef __PROTCOL_H__
 #define __PROTCOL_H__
+
+typedef unsigned int uint;
 
 #ifdef putc
 #undef putc

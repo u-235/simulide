@@ -35,6 +35,8 @@ class MAINMODULE_EXPORT SwitchBase : public Component, public eElement
         void updateStep();
         
         void setButtonText( QString text );
+        
+        QPushButton* button() { return m_button; }
 
         virtual void initialize();
 

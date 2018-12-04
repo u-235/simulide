@@ -28,6 +28,7 @@ class MAINMODULE_EXPORT LedBar : public Component
 {
     Q_OBJECT
     Q_PROPERTY( LedBase::LedColor Color READ color WRITE setColor     DESIGNABLE true USER true )
+    Q_PROPERTY( int    Size       READ size     WRITE setSize    DESIGNABLE true USER true )
     Q_PROPERTY( double Threshold  READ threshold  WRITE setThreshold  DESIGNABLE true USER true )
     Q_PROPERTY( double MaxCurrent READ maxCurrent WRITE setMaxCurrent DESIGNABLE true USER true )
     Q_PROPERTY( double Resistance READ res        WRITE setRes        DESIGNABLE true USER true )
@@ -44,6 +45,9 @@ class MAINMODULE_EXPORT LedBar : public Component
         void setColor( LedBase::LedColor color );
         LedBase::LedColor color();
         
+        int  size();
+        void setSize( int size );
+        
         double threshold();
         void  setThreshold( double threshold );
 
@@ -56,6 +60,9 @@ class MAINMODULE_EXPORT LedBar : public Component
         bool grounded();
         void setGrounded( bool grounded );
         
+        void createLeds( int c );
+        void deleteLeds( int d );
+        
         virtual void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
         
     public slots:
@@ -63,6 +70,9 @@ class MAINMODULE_EXPORT LedBar : public Component
 
     private:
         std::vector<LedSmd*> m_led;
+        std::vector<Pin*> m_pin;
+        
+        int m_size;
 };
 
 #endif

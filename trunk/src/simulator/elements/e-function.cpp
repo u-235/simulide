@@ -46,16 +46,14 @@ void eFunction::setVChanged()
 {
     //qDebug() <<"\n" << m_functions;
     
-    QStringList functions = m_functions.split(",");
-    
     for( int i=0; i<m_numInputs; i++ )
         m_engine.globalObject().setProperty( "i"+QString::number(i), QScriptValue( eLogicDevice::getInputState( i )) );
 
     
     for( int i=0; i<m_numOutputs; i++ )
     {
-        if( i >= functions.size() ) break;
-        QString text = functions.at(i);
+        if( i >= m_numOutputs ) break;
+        QString text = m_funcList.at(i);
             
         bool out = m_engine.evaluate( text ).toBool();
         
@@ -74,6 +72,8 @@ QString eFunction::functions()
 
 void eFunction::setFunctions( QString f )
 {
+    //qDebug()<<"eFunction::setFunctions"<<f;
     if( f.isEmpty() ) return;
     m_functions = f;
+    m_funcList = f.split(",");
 }

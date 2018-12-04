@@ -107,6 +107,7 @@ INCLUDEPATH += ../src \
 
 TRANSLATIONS +=  \
     ../resources/translations/simulide.ts \
+    ../resources/translations/simulide_en.ts \
     ../resources/translations/simulide_es.ts \
     ../resources/translations/simulide_ru.ts 
 

@@ -55,21 +55,23 @@ QPainterPath XorGate::shape() const
     
     QVector<QPointF> points;
     
-    points << QPointF(-22,-18 )
+    int size = m_numInputs*8;
+    
+    points << QPointF(-22,-size+2 )
            << QPointF(-16,-8  )
            << QPointF(-16, 8  )
-           << QPointF(-22, 18 )
-           << QPointF(  0, 16 )
+           << QPointF(-22, size+2 )
+           << QPointF(  0, size )
            << QPointF( 16, 8  )
            << QPointF( 16,-8  )
-           << QPointF(  0,-16 );
+           << QPointF(  0,-size );
         
     path.addPolygon( QPolygonF(points) );
     path.closeSubpath();
     return path;
 }
 
-void XorGate::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
+void XorGate::paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
     int y_orig = m_area.y();
     int height = m_area.height();
@@ -87,11 +89,11 @@ void XorGate::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidge
     path.moveTo( -8, 0 );
     path.arcTo( -18, y_orig, 10, height, -90, 180 );
 
-    p->drawPath(path);
+    p->drawPath( path );
 
     // Draw curves
-    pen.setWidth(2);
-    p->setPen(pen);
+    pen.setWidth( 2 );
+    p->setPen( pen );
     
     p->setBrush( Qt::NoBrush );
 
