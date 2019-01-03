@@ -126,12 +126,12 @@ void ConnectorLine::moveSimple( QPointF delta )
 
 void ConnectorLine::move( QPointF delta )
 {
-    bool deltaH  = fabs( delta.x() )> 0;
-    bool deltaV  = fabs( delta.y() )> 0;
-    
-    if( !deltaH && !deltaV ) return;
-    
-    if( Circuit::self()->pasting() )
+    // If contiguous lines are also selected, just move line.
+    bool moveSimple = false;
+    /* !( ( m_prevLine && !(m_prevLine->isSelected()) )
+                       ||( m_nextLine && !(m_nextLine->isSelected()) ));*/
+                       
+    if( Circuit::self()->pasting() || moveSimple )
     {
         prepareGeometryChange();
         m_p1Y = m_p1Y + delta.y();
@@ -142,14 +142,14 @@ void ConnectorLine::move( QPointF delta )
 
         return;
     }
-   int myindex = m_pConnector->lineList()->indexOf( this );
-   if( ( myindex == 0 ) || ( myindex == m_pConnector->lineList()->size()-1 ) )
-       return;    //avoid moving first or last line
+    int myindex = m_pConnector->lineList()->indexOf( this );
+    if( ( myindex == 0 ) || ( myindex == m_pConnector->lineList()->size()-1 ) )
+        return;    //avoid moving first or last line
 
-   moveLine( delta.toPoint() );
-   updatePos();
-   updateLines();
-   m_pConnector->refreshPointList();
+    moveLine( delta.toPoint() );
+    updatePos();
+    updateLines();
+    m_pConnector->refreshPointList();
 }
 
 void ConnectorLine::moveLine( QPoint delta )
@@ -218,14 +218,15 @@ void ConnectorLine::mousePressEvent( QGraphicsSceneMouseEvent* event )
 
     if( event->button() == Qt::LeftButton )
     {
-       if( (event->modifiers() == Qt::ControlModifier) || dragging )      // Move Line
-       {
-           event->accept();
-           if  ( dy() == 0 )   CircuitView::self()->viewport()->setCursor( Qt::SplitVCursor );
-           else                CircuitView::self()->viewport()->setCursor( Qt::SplitHCursor );
-       }
-       else                                    // Connecting a wire here
-       {   
+        if( event->modifiers() == Qt::ControlModifier ) setSelected( !isSelected() );
+        else if( dragging )      // Move Line
+        {
+            event->accept();
+            if  ( dy() == 0 )   CircuitView::self()->viewport()->setCursor( Qt::SplitVCursor );
+            else                CircuitView::self()->viewport()->setCursor( Qt::SplitHCursor );
+        }
+        else                                    // Connecting a wire here
+        {   
            if( Circuit::self()->is_constarted() )       
            {
                Connector* con = Circuit::self()->getNewConnector();

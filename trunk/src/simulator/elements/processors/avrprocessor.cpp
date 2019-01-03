@@ -171,6 +171,7 @@ bool AvrProcessor::loadFirmware( QString fileN )
 
         qDebug() << "\nAvrProcessor::loadFirmware Avr Init: "<< name << (started==0);
     }
+    
     /// TODO: Catch possible abort signal here, otherwise application will crash on the invalid firmware load
     /// Done: Modified simavr to not call abort(), instead it returns error code.
     if( avr_load_firmware( m_avrProcessor, &f ) != 0 )
@@ -193,10 +194,11 @@ bool AvrProcessor::loadFirmware( QString fileN )
 void AvrProcessor::reset()
 {
     if( !m_loadStatus ) return;
+    
+    for( int i=0; i<m_avrProcessor->ramend; i++ ) m_avrProcessor->data[i] = 0;
 
     avr_reset( m_avrProcessor );
     m_avrProcessor->pc = 0;
-    for( int i=0; i<m_avrProcessor->ramend; i++ ) m_avrProcessor->data[i] = 0;
 }
 
 void AvrProcessor::step()
@@ -205,7 +207,12 @@ void AvrProcessor::step()
     
     while( m_avrProcessor->cycle < m_nextCycle )
     {
-        m_avrProcessor->run(m_avrProcessor);
+        if( m_avrProcessor->state == cpu_Crashed ) 
+        {
+            //qDebug() << "AvrProcessor::step() CRASHED!!!";
+            break;
+        }
+        else m_avrProcessor->run(m_avrProcessor);
     }
     m_nextCycle += m_mcuStepsPT;
 
@@ -228,7 +235,11 @@ void AvrProcessor::stepOne()
 
 void AvrProcessor::stepCpu()
 {
-    m_avrProcessor->run(m_avrProcessor);
+    if( m_avrProcessor->state == cpu_Crashed ) 
+    {
+        //qDebug() << "AvrProcessor::step() CRASHED!!!";
+    }
+    else m_avrProcessor->run(m_avrProcessor);
 }
 
 int AvrProcessor::pc()

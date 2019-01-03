@@ -20,6 +20,7 @@
 #include "mosfet.h"
 #include "connector.h"
 #include "simulator.h"
+#include "circuit.h"
 #include "itemlibrary.h"
 #include "e-source.h"
 #include "pin.h"
@@ -109,9 +110,8 @@ void Mosfet::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget
 {
     Component::paint( p, option, widget );
     
-    //if( m_gateV > 0 )  p->setBrush( Qt::yellow );
-    //else               
-    p->setBrush( Qt::white );
+    if( Circuit::self()->animate() && m_gateV > 0 )  p->setBrush( Qt::yellow );
+    else                                             p->setBrush( Qt::white );
 
     p->drawEllipse( m_area );
     

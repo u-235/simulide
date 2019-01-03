@@ -43,6 +43,14 @@ McuComponentPin::McuComponentPin( McuComponent *mcuComponent, QString id, QStrin
     eSource::setImp( high_imp );
     eSource::setVoltHigh( 5 );
     eSource::setOut( false );
+    
+    type = type.toLower();
+    if( type == "gnd" 
+     || type == "vdd" 
+     || type == "vcc" 
+     || type == "unused" 
+     || type == "nc" ) 
+     this->pin()->setUnused( true );
 }
 
 McuComponentPin::~McuComponentPin()

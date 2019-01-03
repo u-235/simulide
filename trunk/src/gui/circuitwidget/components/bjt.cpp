@@ -20,6 +20,7 @@
 #include "bjt.h"
 #include "itemlibrary.h"
 #include "connector.h"
+#include "circuit.h"
 #include "pin.h"
 
 static const char* BJT_properties[] = {
@@ -96,8 +97,8 @@ void BJT::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *w
 {
     Component::paint( p, option, widget );
     
-    if( m_baseCurr > 1e-4 )  p->setBrush( Qt::yellow );
-    else                     p->setBrush( Qt::white );
+    if( Circuit::self()->animate() && m_baseCurr > 1e-4 )  p->setBrush( Qt::yellow );
+    else                                                   p->setBrush( Qt::white );
 
     p->drawEllipse( m_area );
     

@@ -88,7 +88,7 @@
 #include "switch.h"
 #include "switchdip.h"
 #include "textcomponent.h"
-#include "toggleswitch.h"
+//#include "toggleswitch.h"
 #include "voltimeter.h"
 #include "volt_reg.h"
 #include "voltsource.h"
@@ -125,7 +125,7 @@ void ItemLibrary::loadItems()
     // Switches
     addItem( Push::libraryItem() );
     addItem( Switch::libraryItem() );
-    addItem( ToggleSwitch::libraryItem() );
+    //addItem( ToggleSwitch::libraryItem() );
     addItem( SwitchDip::libraryItem() );
     addItem( RelaySPST::libraryItem() );
     // Passive

@@ -30,17 +30,20 @@
     <pin side="left" pos="7" type="" id="D2" label="D2" /><!-- packagePin7 -->
     <pin side="left" pos="8" type="" id="D3" label="D3" /><!-- packagePin8 -->
     <pin side="left" pos="9" type="" id="Q3" label="Q3" /><!-- packagePin9 -->
-    <pin side="left" pos="10" type="" id="Gnd" label="Gnd" /><!-- packagePin10 -->
+    
+    <pin side="left" pos="10" type="unused" id="Gnd" label="Gnd" /><!-- packagePin10 -->
 
-	<pin side="right" pos="10" type="" id="CP" label="CP" /><!-- packagePin11 -->
-	<pin side="right" pos="9" type="" id="Q4" label="Q4" /><!-- packagePin12 -->
-	<pin side="right" pos="8" type="" id="D4" label="D4" /><!-- packagePin13 -->
-	<pin side="right" pos="7" type="" id="D5" label="D5" /><!-- packagePin14 -->
+    <pin side="right" pos="10" type="" id="CP" label="CP" /><!-- packagePin11 -->
+    <pin side="right" pos="9" type="" id="Q4" label="Q4" /><!-- packagePin12 -->
+    <pin side="right" pos="8" type="" id="D4" label="D4" /><!-- packagePin13 -->
+    <pin side="right" pos="7" type="" id="D5" label="D5" /><!-- packagePin14 -->
     <pin side="right" pos="6" type="" id="Q5" label="Q5" /><!-- packagePin15 -->
     <pin side="right" pos="5" type="" id="Q6" label="Q6" /><!-- packagePin16 -->
     <pin side="right" pos="4" type="" id="D6" label="D6" /><!-- packagePin17 -->
     <pin side="right" pos="3" type="" id="D7" label="D7" /><!-- packagePin18 -->
-	<pin side="right" pos="2" type="" id="Q7" label="Q7" /><!-- packagePin19 -->
-    <pin side="right" pos="1" type="" id="Vcc" label="Vcc" /><!-- packagePin20 -->
+    <pin side="right" pos="2" type="" id="Q7" label="Q7" /><!-- packagePin19 -->
+    
+    <pin side="right" pos="1" type="unused" id="Vcc" label="Vcc" /><!-- packagePin20 -->
+    
  </package>
 

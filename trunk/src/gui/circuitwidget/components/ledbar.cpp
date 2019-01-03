@@ -45,31 +45,6 @@ LedBar::LedBar( QObject* parent, QString type, QString id )
     m_size = 0;
     setSize( 8 );
     
-    /*m_led.resize( 8 );
-    m_pin.resize( 16 );
-    
-    // Create Leds
-    for( int i=0; i<8; i++ )
-    {
-        QString ledid = m_id;
-        ledid.append(QString("-led"+QString::number(i)));
-        m_led[i] = new LedSmd( this, "LEDSMD", ledid, QRectF(0, 0, 4, 4) );
-        m_led[i]->setParentItem(this);
-        m_led[i]->setPos( 0, -28+2+i*8 );
-        //m_led[i]->setEnabled( false );
-        m_led[i]->setFlag( QGraphicsItem::ItemIsSelectable, false );
-        m_led[i]->setAcceptedMouseButtons(0);
-        
-        QPoint nodpos = QPoint(-16,-32+8+i*8 );
-        Pin* pin = new Pin( 180, nodpos, ledid+"-pinP", 0, this);
-        m_led[i]->setEpin( 0, pin );
-        m_pin[i] = pin;
-        
-        nodpos = QPoint( 16,-32+8+i*8 );
-        pin = new Pin( 0, nodpos, ledid+"-pinN", 0, this);
-        m_led[i]->setEpin( 1, pin );
-        m_pin[8+i] = pin;
-    }*/
     setRes( 0.6 ); 
 }
 LedBar::~LedBar(){}
@@ -148,12 +123,17 @@ int LedBar::size()
 
 void LedBar::setSize( int size )
 {
+    bool pauseSim = Simulator::self()->isRunning();
+    if( pauseSim ) Simulator::self()->pauseSim();
+    
     if( size == 0 ) size = 8;
     
     if     ( size < m_size ) deleteLeds( m_size-size );
     else if( size > m_size ) createLeds( size-m_size );
     
-    m_area = QRect( -8, -28, 16, m_size*8 ); 
+    m_area = QRect( -8, -28, 16, m_size*8 );
+    
+    if( pauseSim ) Simulator::self()->runContinuous();
     Circuit::self()->update();
 }
 
@@ -164,7 +144,7 @@ double LedBar::threshold()
 
 void LedBar::setThreshold( double threshold ) 
 { 
-    for( int i=0; i<8; i++ ) m_led[i]->setThreshold( threshold );
+    for( int i=0; i<m_size; i++ ) m_led[i]->setThreshold( threshold );
 }
 
 double LedBar::maxCurrent()                   
@@ -173,7 +153,7 @@ double LedBar::maxCurrent()
 }
 void LedBar::setMaxCurrent( double current ) 
 { 
-    for( int i=0; i<8; i++ ) m_led[i]->setMaxCurrent( current ); 
+    for( int i=0; i<m_size; i++ ) m_led[i]->setMaxCurrent( current ); 
 }
 
 double LedBar::res() { return m_led[0]->res(); }
@@ -182,7 +162,7 @@ void LedBar::setRes( double resist )
 {
     if( resist == 0 ) resist = 1e-14;
 
-    for( int i=0; i<8; i++ ) m_led[i]->setRes( resist );
+    for( int i=0; i<m_size; i++ ) m_led[i]->setRes( resist );
 }
 
 bool LedBar::grounded()
@@ -192,13 +172,13 @@ bool LedBar::grounded()
 
 void LedBar::setGrounded( bool grounded )
 {
-    for( int i=0; i<8; i++ ) m_led[i]->setGrounded( grounded );
+    for( int i=0; i<m_size; i++ ) m_led[i]->setGrounded( grounded );
 }
 
 void LedBar::remove()
 {
-    for( int i=0; i<m_size; i++ )  Circuit::self()->removeComp( m_led[i] );
-    
+    for( int i=0; i<m_size; i++ ) Circuit::self()->removeComp( m_led[i] );
+
     Component::remove();
 }
 void LedBar::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )

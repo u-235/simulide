@@ -113,7 +113,7 @@ void Hd44780::resetState()
     m_imgWidth  = (m_cols*6-1)*2;
     m_imgHeight = (m_rows*9-1)*2;
     m_area = QRectF( 0, -(m_imgHeight+33), m_imgWidth+20, m_imgHeight+33 );
-    setTransformOriginPoint(m_area.center() );
+    setTransformOriginPoint( togrid( m_area.center() ));
     
     clearLcd();
 }

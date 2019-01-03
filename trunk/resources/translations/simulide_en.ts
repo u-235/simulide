@@ -1469,27 +1469,27 @@ Do you want to save your changes?
     <name>ItemLibrary</name>
     <message>
         <source>Gates</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Logic</source>
-        <translation type="unfinished">Logic</translation>
+        <translation>Logic</translation>
     </message>
     <message>
         <source>Arithmetic</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Memory</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Converters</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Other Logic</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1604,14 +1604,6 @@ Do you want to save your changes?
 </context>
 <context>
     <name>MainWindow</name>
-    <message>
-        <source>About Application</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Circuit simulationand IDE for mcu development</source>
-        <translation></translation>
-    </message>
     <message>
         <source>Components</source>
         <translation></translation>
@@ -2135,11 +2127,11 @@ to DomDocument</source>
 <context>
     <name>Switch</name>
     <message>
-        <source>Switch</source>
+        <source>Switches</source>
         <translation></translation>
     </message>
     <message>
-        <source>Switches</source>
+        <source>Switch (all)</source>
         <translation></translation>
     </message>
 </context>
@@ -2189,17 +2181,6 @@ to DomDocument</source>
     </message>
     <message>
         <source>Other</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
-    <name>ToggleSwitch</name>
-    <message>
-        <source>Toggle Switch</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Switches</source>
         <translation></translation>
     </message>
 </context>

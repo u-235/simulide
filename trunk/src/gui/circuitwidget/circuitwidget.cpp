@@ -97,11 +97,11 @@ void CircuitWidget::createActions()
     infoAct->setStatusTip(tr("Online Help"));
     connect( infoAct, SIGNAL( triggered()), this, SLOT(openInfo()));
     
-    aboutAct = new QAction( QIcon(":/help.png"),tr("About SimulIDE"), this);
+    aboutAct = new QAction( QIcon(":/about.png"),tr("About SimulIDE"), this);
     aboutAct->setStatusTip(tr("About SimulIDE"));
     connect( aboutAct, SIGNAL( triggered()), this, SLOT(about()));
     
-    aboutQtAct = new QAction( QIcon(":/help.png"),tr("About Qt"), this);
+    aboutQtAct = new QAction( QIcon(":/about.png"),tr("About Qt"), this);
     aboutQtAct->setStatusTip(tr("About Qt"));
     connect( aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()) );
 }
@@ -124,12 +124,14 @@ void CircuitWidget::createToolBars()
     m_circToolBar.addWidget(spacerWidget);
     
     infoMenu = new QMenu("I");
-    infoMenu->menuAction()->setIcon( QIcon(":/help.png") );
     infoMenu->addAction( infoAct );
     infoMenu->addAction( aboutAct );
     infoMenu->addAction( aboutQtAct );
-    //m_circToolBar.addWidget(infoMenu);
-    m_circToolBar.addAction(infoMenu->menuAction());
+    QToolButton* toolButton = new QToolButton();
+    toolButton->setMenu( infoMenu );
+    toolButton->setIcon( QIcon(":/help.png") );
+    toolButton->setPopupMode( QToolButton::InstantPopup );
+    m_circToolBar.addWidget( toolButton );
     
     m_circToolBar.addSeparator();//..........................
 }

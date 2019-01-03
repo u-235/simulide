@@ -28,7 +28,8 @@
     <pin side="left" pos="5"  type="" id="Y"   label="Y"  /><!-- packagePin5 -->
     <pin side="left" pos="6"  type="" id="!Y"  label="!Y" /><!-- packagePin6 -->
     <pin side="left" pos="7"  type="" id="E"   label="E"  /><!-- packagePin7 -->
-    <pin side="left" pos="8"  type="" id="Gnd" label="Gnd"/><!-- packagePin8 -->
+    
+    <pin side="left" pos="8"  type="unused" id="Gnd" label="Gnd"/><!-- packagePin8 -->
 
     <pin side="right" pos="8" type="" id="S2"  label="S2" /><!-- packagePin9 -->
     <pin side="right" pos="7" type="" id="S1"  label="S1" /><!-- packagePin10 -->
@@ -37,7 +38,8 @@
     <pin side="right" pos="4" type="" id="I6"  label="I6" /><!-- packagePin13 -->
     <pin side="right" pos="3" type="" id="I5"  label="I5" /><!-- packagePin14 -->
     <pin side="right" pos="2" type="" id="I4"  label="I4" /><!-- packagePin15 -->
-    <pin side="right" pos="1" type="" id="Vcc" label="Vcc"/><!-- packagePin16 -->
+    
+    <pin side="right" pos="1" type="unused" id="Vcc" label="Vcc"/><!-- packagePin16 -->
     
 </package>
 

@@ -45,8 +45,8 @@ ResistorDip::ResistorDip( QObject* parent, QString type, QString id )
     
     m_unit = "Ω";
     setResist( 100 );
-    setValLabelX( 7 );
-    setValLabelY(-20 );
+    setValLabelX( 5 );
+    setValLabelY(-28 );
     setValLabRot( 90 );
     setValLabelPos();
     //m_valLabel->setEnabled( false );
@@ -108,12 +108,17 @@ int ResistorDip::size()
 
 void ResistorDip::setSize( int size )
 {
+    bool pauseSim = Simulator::self()->isRunning();
+    if( pauseSim ) Simulator::self()->pauseSim();
+    
     if( size == 0 ) size = 8;
     
     if     ( size < m_size ) deleteResistors( m_size-size );
     else if( size > m_size ) createResistors( size-m_size );
     
     m_area = QRect( -8, -28, 16, m_size*8 ); 
+    
+    if( pauseSim ) Simulator::self()->runContinuous();
     Circuit::self()->update();
 }
 

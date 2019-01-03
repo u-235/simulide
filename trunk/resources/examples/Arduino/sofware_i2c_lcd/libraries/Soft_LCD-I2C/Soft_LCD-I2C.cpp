@@ -13,7 +13,15 @@
 
 #define printIIC(args)    i2c.write(args)
 
+/* !!!---
 inline size_t LiquidCrystal_I2C::write(uint8_t value) 
+{
+    send(value, Rs);
+    return 0;
+}
+*/ 
+
+inline size_t Soft_Lcd_I2C::write(uint8_t value)  //!!! Soft_Lcd_I2C - not LiquidCrystal_I2C !!!
 {
     send(value, Rs);
     return 0;
@@ -38,12 +46,14 @@ inline size_t LiquidCrystal_I2C::write(uint8_t value)
 // can't assume that its in that state when a sketch starts (and the
 // LiquidCrystal constructor is called).
 
-Soft_Lcd_I2C::Soft_Lcd_I2C( uint8_t lcd_Addr,uint8_t lcd_cols,uint8_t lcd_rows )
+Soft_Lcd_I2C::Soft_Lcd_I2C( uint8_t lcd_Addr,uint8_t lcd_cols,uint8_t lcd_rows, int Sda, int Scl )
 {
   _Addr = lcd_Addr;
   _cols = lcd_cols;
   _rows = lcd_rows;
   _backlightval = LCD_NOBACKLIGHT;
+  i2c.begin(Sda,Scl);  //!!!! add
+
 }
 
 void Soft_Lcd_I2C::init()
@@ -314,6 +324,32 @@ void Soft_Lcd_I2C::printstr(const char c[])
 {
     //This function is not identical to the function used for "real" I2C displays
     //it's here so the user sketch doesn't have to be changed 
-    print(c);
+	
+    //print((c);	 // WAS: print(c)  - Only ONE character printed .
+
+	  char *p = c;
+	  char *pn = p + strlen(c); 
+
+	  while( p < pn  )
+	  {
+		  print(*(p++));
+		  
+	  }
+
+    
+}
+
+void Soft_Lcd_I2C::printbytes(const char c[], uint16_t n_bytes)
+{
+
+	  char *p = c;
+	  char *pn = p + n_bytes; 
+
+	  while( p < pn  )
+	  {
+		  print(*(p++));
+		  
+	  }
+     
 }
 

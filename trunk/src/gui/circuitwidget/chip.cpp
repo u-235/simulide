@@ -83,7 +83,7 @@ void Chip::initChip()
     }
 
     m_area = QRect( 0, 0, 8*width, 8*height );
-    //setTransformOriginPoint( boundingRect().center() );
+    //setTransformOriginPoint( togrid( boundingRect().center()) );
     setLabelPos( m_area.x(), m_area.y()-20, 0);
     setShowId( true );
 
@@ -141,7 +141,10 @@ void Chip::addPin( QString id, QString type, QString label, int pos, int xpos, i
 {
     Pin* pin = new Pin( angle, QPoint(xpos, ypos), m_id+"-"+id, pos-1, this ); // pos in package starts at 1
     pin->setLabelText( label );
-    if( type == "inverted" ) pin->setInverted( true );
+    
+    if     ( type == "inverted" ) pin->setInverted( true );
+    else if( type == "unused" )   pin->setUnused( true );
+    
     if( !m_isChip ) pin->setLabelColor( QColor( 0, 0, 0 ) );
 
     m_ePin[pos-1] = pin;

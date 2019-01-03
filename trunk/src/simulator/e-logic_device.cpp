@@ -438,6 +438,12 @@ bool eLogicDevice::getInputState( int input )
     
     return state;
 }
+
+bool eLogicDevice::getOutputState( int output )
+{
+    return m_output[output]->out();
+}
+
 /*ePin* eLogicDevice::getEpin( int pin )  // First InPuts, then OutPuts
 {
     //qDebug() << "eLogicDevice::getEpin " << pin;

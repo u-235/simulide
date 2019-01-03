@@ -10,7 +10,7 @@
     <pin side="left" pos="6"  type="" id="DD"  label="DD" /><!-- packagePin6 -->
     <pin side="left" pos="7"  type="" id="ENP" label="ENP"/><!-- packagePin7 -->
     
-<pin side="left" pos="8"  type="" id="GND" label="GND"/><!-- packagePin8 -->
+    <pin side="left" pos="8"  type="unused" id="GND" label="GND"/><!-- packagePin8 -->
 
     <pin side="right" pos="8" type="" id="!LD" label="!LD"/><!-- packagePin9 -->
     <pin side="right" pos="7" type="" id="ENT" label="ENT"/><!-- packagePin10 -->
@@ -20,6 +20,6 @@
     <pin side="right" pos="3" type="" id="QA"  label="QA" /><!-- packagePin14 -->
     <pin side="right" pos="2" type="" id="RCO" label="RCO"/><!-- packagePin15 -->
     
-<pin side="right" pos="1" type="" id="Vcc" label="Vcc"/><!-- packagePin16 -->
+    <pin side="right" pos="1" type="unused" id="Vcc" label="Vcc"/><!-- packagePin16 -->
 
 </package>

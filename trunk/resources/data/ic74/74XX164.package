@@ -27,9 +27,11 @@
     <pin side="left" pos="4"  type="" id="Q1"  label="Q1"/><!-- packagePin4 -->
     <pin side="left" pos="5"  type="" id="Q2"  label="Q2"/><!-- packagePin5 -->
     <pin side="left" pos="6"  type="" id="Q3"  label="Q3"/><!-- packagePin6 -->
-    <pin side="left" pos="7"  type="" id="Gnd" label="V-"/><!-- packagePin7 -->
+    
+    <pin side="left" pos="7"  type="unused" id="Gnd" label="V-"/><!-- packagePin7 -->
 
-    <pin side="right" pos="1" type="" id="Vcc" label="V+"/><!-- packagePin8 -->
+    <pin side="right" pos="1" type="unused" id="Vcc" label="V+"/><!-- packagePin8 -->
+    
     <pin side="right" pos="2" type="" id="Q7"  label="Q7"/><!-- packagePin9 -->
     <pin side="right" pos="3" type="" id="Q6"  label="Q6"/><!-- packagePin10 -->
     <pin side="right" pos="4" type="" id="Q5"  label="Q5"/><!-- packagePin11 -->

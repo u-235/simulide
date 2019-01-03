@@ -24,6 +24,8 @@
 #include "node.h"
 #include "utils.h"
 
+#include "switch.h" // Delete in later versions (0.3.10)
+
 static const char* Circuit_properties[] = {
     QT_TRANSLATE_NOOP("App::Property","Speed"),
     QT_TRANSLATE_NOOP("App::Property","ReactStep"),
@@ -227,6 +229,7 @@ bool Circuit::animate()
 void Circuit::setAnimate( bool an )
 {
     m_animate = an;
+    update();
 }
 
 void Circuit::drawBackground ( QPainter*  painter, const QRectF & rect )
@@ -476,6 +479,7 @@ void Circuit::loadDomDoc( QDomDocument* doc )
                 {
                     if( !startpin ) qDebug() << "\n   ERROR!!  Circuit::loadCircuit:  null startpin in " << id << startpinid;
                     if( !endpin )   qDebug() << "\n   ERROR!!  Circuit::loadCircuit:  null endpin in " << id << endpinid;
+                    m_error = 1;
                 }
             }
             else if( type == "Node")
@@ -501,7 +505,11 @@ void Circuit::loadDomDoc( QDomDocument* doc )
             {
                 idMap[objNam] = id;                              // Map simu id to new id
                 
-                Component* item = createItem( type, id );
+                Component* item = 0l;
+                
+                if( type == "ToggleSwitch" ) item = createItem( "Switch", id );
+                else                         item = createItem( type, id );
+                
                 if( item )
                 {
                     loadProperties( element, item );
@@ -513,6 +521,12 @@ void Circuit::loadDomDoc( QDomDocument* doc )
                     QApplication::restoreOverrideCursor();
                     m_error = 1;
                     return;
+                }
+                
+                if( type == "ToggleSwitch" )
+                {
+                    Switch* sw = static_cast<Switch*>( item );
+                    sw->setDt( true );
                 }
             }
         }

@@ -100,9 +100,8 @@ void Simulator::timerEvent( QTimerEvent* e )  //update at m_timerTick rate (50 m
         m_lastStep    = m_step;
         m_lastRefTime = refTime;
     }
-    foreach( eElement* el, m_updateList ) el->updateStep();
-    TerminalWidget::self()->step();
-    if( Circuit::self()->animate() ) Circuit::self()->update();
+    runGraphicStep();
+    
     // Run Circuit in parallel thread
     m_CircuitFuture = QtConcurrent::run( this, &Simulator::runCircuit ); // Run Circuit in a parallel thread
 }
@@ -112,6 +111,14 @@ void Simulator::runCircuit()
     for( int i=0; i<m_circuitRate; i++ )
     {
         if( !m_isrunning ) return;
+        
+        // Run Graphic Elements
+        if( ++m_updtCounter >= m_circuitRate )
+        {
+            m_updtCounter = 0;
+            
+            PlotterWidget::self()->step();
+        }
         runCircuitStep();
     }
 }
@@ -119,14 +126,6 @@ void Simulator::runCircuit()
 void Simulator::runCircuitStep()
 {
     m_step ++;
-    
-    // Run Graphic Elements
-    if( ++m_updtCounter >= m_circuitRate )
-    {
-        m_updtCounter = 0;
-        
-        PlotterWidget::self()->step();
-    }
 
     // Run Reactive Elements
     if( ++m_reacCounter >= m_stepsPrea )
@@ -174,6 +173,8 @@ void Simulator::runCircuitStep()
 void Simulator::runGraphicStep()
 {
     foreach( eElement* el, m_updateList ) el->updateStep();
+    TerminalWidget::self()->step();
+    if( Circuit::self()->animate() ) Circuit::self()->update();
 }
  
 void Simulator::runExtraStep()

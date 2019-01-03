@@ -32,6 +32,7 @@ Pin::Pin( int angle, const QPoint &pos, QString id, int index, Component* parent
     
     m_blocked = false;
     m_isBus   = false;
+    m_unused  = false;
     
     my_connector = 0l;
     m_conPin     = 0l;
@@ -72,6 +73,12 @@ void Pin::reset()
     ePin::reset();
     //qDebug() << "ePin::reset new:" << m_numConections;
     m_component->inStateChanged( 1 );          // Used by node to remove
+}
+
+void Pin::setUnused( bool unused )
+{
+    m_unused = unused;
+    if( unused ) setCursor( Qt::ArrowCursor );
 }
 
 void Pin::findConnectedPins()     // Called by node,  for connected pins
@@ -127,6 +134,8 @@ void Pin::isMoved()
 
 void Pin::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    if( m_unused ) return;
+    
     if( event->button() == Qt::LeftButton )
     {
         if( my_connector==0l )
@@ -244,6 +253,7 @@ void Pin::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
     //painter->setBrush( Qt::red );
     //painter->drawRect( boundingRect() );
     
+    if( m_unused )     pen.setColor( QColor( 75, 120, 170 ));
     if( isSelected() ) pen.setColor( Qt::darkGray);
 
     painter->setPen(pen);

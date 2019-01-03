@@ -28,7 +28,8 @@
     <pin side="left" pos="5"  type="" id="CIn" label="CIn"/><!-- packagePin5 -->
     <pin side="left" pos="6"  type="" id="Q1"  label="Q1" /><!-- packagePin6 -->
     <pin side="left" pos="7"  type="" id="COu"label="COu" /><!-- packagePin7 -->
-    <pin side="left" pos="8"  type="" id="Vss" label="Vss"/><!-- packagePin8 -->
+    
+    <pin side="left" pos="8"  type="unused" id="Vss" label="Vss"/><!-- packagePin8 -->
 
     <pin side="right" pos="8" type="" id="Rst" label="Rst"/><!-- packagePin9 -->
     <pin side="right" pos="7" type="" id="U/D" label="U/D"/><!-- packagePin10 -->
@@ -37,7 +38,8 @@
     <pin side="right" pos="4" type="" id="P3"  label="P3" /><!-- packagePin13 -->
     <pin side="right" pos="3" type="" id="Q3"  label="Q3" /><!-- packagePin14 -->
     <pin side="right" pos="2" type="" id="Clk" label="Clk"/><!-- packagePin15 -->
-    <pin side="right" pos="1" type="" id="Vdd" label="Vdd"/><!-- packagePin16 -->
+    
+    <pin side="right" pos="1" type="unused" id="Vdd" label="Vdd"/><!-- packagePin16 -->
     
 </package>
 

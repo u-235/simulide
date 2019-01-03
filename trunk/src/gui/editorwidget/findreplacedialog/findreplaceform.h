@@ -150,13 +150,13 @@ protected slots:
     void regexpSelected(bool sel);
 
 protected:
-    Ui::FindReplaceFORM *ui;
+    Ui::FindReplaceFORM* ui;
 
     /// for searching into the text
-    QTextCursor textCursor;
+    QTextCursor m_textCursor;
 
     /// the text editor (possibly) associated with this form
-    CodeEditor *textEdit;
+    CodeEditor* m_textEdit;
 };
 
 #endif // FINDREPLACEFORM_H
