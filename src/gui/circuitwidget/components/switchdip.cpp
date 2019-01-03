@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by santiago González                               *
+ *   Copyright (C) 2018 by santiago González                               *
  *   santigoro@gmail.com                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -104,7 +104,7 @@ void SwitchDip::onbuttonclicked()
     {
         if( button->isChecked()  ) 
         {
-            button->setIcon(QIcon(":/breakpoint.png"));
+            button->setIcon(QIcon(":/switchbut.png"));
             m_state |= 1<<i;
         }
         else
@@ -135,7 +135,7 @@ void SwitchDip::setState( int state )
         
         button->setChecked( switchState );
         
-        if( switchState  ) button->setIcon(QIcon(":/breakpoint.png"));
+        if( switchState  ) button->setIcon(QIcon(":/switchbut.png"));
         else               button->setIcon(QIcon(":/stop.png"));
         
         i++;
@@ -162,6 +162,8 @@ void SwitchDip::createSwitches( int c )
         //button->setText( "O");
         button->setIcon(QIcon(":/stop.png"));
         button->setCheckable( true );
+        button->setChecked( true );
+        button->setIcon(QIcon(":/switchbut.png"));
         m_buttons.append( button );
         
         QGraphicsProxyWidget* proxy = Circuit::self()->addWidget( button );
@@ -177,6 +179,8 @@ void SwitchDip::createSwitches( int c )
         pinpos = QPoint( 16,-32+8+i*8 );
         pin = new Pin( 0, pinpos, butId+"-pinN", 0, this);
         m_pin[index+1] = pin;
+        
+        m_state |= 1<<i;                          // default state = on;
     }
     //update();
 }
@@ -215,17 +219,24 @@ int SwitchDip::size()
 
 void SwitchDip::setSize( int size )
 {
+    bool pauseSim = Simulator::self()->isRunning();
+    if( pauseSim ) Simulator::self()->pauseSim();
+    
     if( size == 0 ) size = 8;
     
     if     ( size < m_size ) deleteSwitches( m_size-size );
     else if( size > m_size ) createSwitches( size-m_size );
     
-    m_area = QRect( -1, -26, 10, m_size*8-4 ); 
+    m_area = QRect( -1, -26, 10, m_size*8-4 );
+    
+    if( pauseSim ) Simulator::self()->runContinuous();
     Circuit::self()->update();
 }
 
 void SwitchDip::remove()
 {
+    Simulator::self()->remFromUpdateList( this );
+    
     deleteSwitches( m_size );
 
     Component::remove();

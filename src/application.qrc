@@ -9,6 +9,7 @@
         <file alias="savecirc.png">../src/icons/mainwindow/save.png</file>
         <file alias="savecircas.png">../src/icons/mainwindow/saveas.png</file>
         <file alias="help.png">../src/icons/mainwindow/help.png</file>
+        <file alias="about.png">../src/icons/mainwindow/about.png</file>
         
         <file alias="new.png">../src/icons/mainwindow/new.png</file>
         <file alias="open.png">../src/icons/mainwindow/open.png</file>
@@ -34,7 +35,6 @@
         <file alias="pause.png">../src/icons/mainwindow/pause.png</file>
         <file alias="reset.png">../src/icons/mainwindow/reset.png</file>
         <file alias="stop.png">../src/icons/mainwindow/stop.png</file>
-        <file alias="finish.png">../src/icons/mainwindow/finish.png</file>
         
         <file alias="poweroff.png">../src/icons/mainwindow/poweroff.png</file>
         <file alias="poweron.png">../src/icons/mainwindow/poweron.png</file>
@@ -118,6 +118,8 @@
         <file alias="mux.png">../src/icons/components/mux.png</file>
         <file alias="demux.png">../src/icons/components/demux.png</file>
         <file alias="gates.png">../src/icons/components/gates.png</file>
+        
+        <file alias="switchbut.png">../src/icons/mainwindow/switchbut.png</file>
         
         <file alias="arduinoUnoIcon.png">../src/icons/components/arduinoUnoIcon.png</file>
         <file alias="arduinoUno.png">../src/icons/components/arduinoUno.png</file>

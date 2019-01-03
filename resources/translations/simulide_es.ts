@@ -1409,11 +1409,11 @@ Quiere guardar los cambios?</translation>
     </message>
     <message>
         <source>Set Function</source>
-        <translation type="unfinished"></translation>
+        <translation>Establecer Funcion</translation>
     </message>
     <message>
         <source> Function:</source>
-        <translation type="unfinished"></translation>
+        <translation> Funcion:</translation>
     </message>
 </context>
 <context>
@@ -1657,14 +1657,6 @@ Quiere guardar los cambios?</translation>
     <message>
         <source>Plugin Error:</source>
         <translation>Error en Plugin:</translation>
-    </message>
-    <message>
-        <source>About Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Circuit simulationand IDE for mcu development</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>RamTable</source>
@@ -2172,8 +2164,19 @@ a DomDocument</translation>
 <context>
     <name>Switch</name>
     <message>
-        <source>Switch</source>
-        <translation>Interruptor</translation>
+        <source>Switches</source>
+        <translation>Interruptores</translation>
+    </message>
+    <message>
+        <source>Switch (all)</source>
+        <translation>Interuptor (todos)</translation>
+    </message>
+</context>
+<context>
+    <name>SwitchDip</name>
+    <message>
+        <source>Switch Dip</source>
+        <translation>InterruptorDip</translation>
     </message>
     <message>
         <source>Switches</source>
@@ -2181,41 +2184,30 @@ a DomDocument</translation>
     </message>
 </context>
 <context>
-    <name>SwitchDip</name>
-    <message>
-        <source>Switch Dip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Switches</source>
-        <translation type="unfinished">Interruptores</translation>
-    </message>
-</context>
-<context>
     <name>TerminalWidget</name>
     <message>
         <source>Send Text:</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar Texto:</translation>
     </message>
     <message>
         <source>    Send Value:</source>
-        <translation type="unfinished"></translation>
+        <translation>    Enviar Valor:</translation>
     </message>
     <message>
         <source>    Print:</source>
-        <translation type="unfinished"></translation>
+        <translation>....Imprimir:</translation>
     </message>
     <message>
         <source> Value </source>
-        <translation type="unfinished"></translation>
+        <translation> Valor </translation>
     </message>
     <message>
         <source>Received From Micro:</source>
-        <translation type="unfinished"></translation>
+        <translation>Recivido Desde Micro:</translation>
     </message>
     <message>
         <source>Sent to Micro:</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviado a Micro:</translation>
     </message>
 </context>
 <context>
@@ -2227,17 +2219,6 @@ a DomDocument</translation>
     <message>
         <source>Other</source>
         <translation>Otros</translation>
-    </message>
-</context>
-<context>
-    <name>ToggleSwitch</name>
-    <message>
-        <source>Toggle Switch</source>
-        <translation>Conmutador</translation>
-    </message>
-    <message>
-        <source>Switches</source>
-        <translation>Interruptores</translation>
     </message>
 </context>
 <context>

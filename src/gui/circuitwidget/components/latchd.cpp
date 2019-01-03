@@ -57,25 +57,23 @@ LatchD::LatchD( QObject* parent, QString type, QString id )
     eLogicDevice::createInEnablePin( m_inputEnPin );     // Input Enable
     eLogicDevice::createOutEnablePin( m_outEnPin );     // Output Enable
 
+    m_channels = 0;
     setChannels( 8 );
 }
 LatchD::~LatchD(){}
 
-void LatchD::setChannels( int channels )
+void LatchD::createLatches( int n )
 {
-    if( channels == m_channels ) return;
-    if( channels < 1 ) return;
-    m_channels = channels;
-
-    m_height = channels+2;
+    int chans = m_channels + n;
+    
     int origY = -(m_height/2)*8;
-
-    LogicComponent::setNumOuts( channels );
-    LogicComponent::setNumInps( channels );
-    eLogicDevice::deleteOutputs( m_numOutputs );
-    eLogicDevice::deleteInputs( m_numInputs );
-
-    for( int i=0; i<channels; i++ )
+    
+    m_outPin.resize( chans );
+    m_numOutPins = chans;
+    m_inPin.resize( chans );
+    m_numInPins = chans;
+    
+    for( int i=m_channels; i<chans; i++ )
     {
         QString number = QString::number(i);
 
@@ -89,12 +87,53 @@ void LatchD::setChannels( int channels )
         m_outPin[i]->setLabelColor( QColor( 0, 0, 0 ) );
         eLogicDevice::createOutput( m_outPin[i] );
     }
+}
+
+void LatchD::deleteLatches( int n )
+{
+    eLogicDevice::deleteOutputs( n );
+    eLogicDevice::deleteInputs( n );
+    LogicComponent::deleteOutputs( n );
+    LogicComponent::deleteInputs( n );
+}
+
+void LatchD::setChannels( int channels )
+{
+    if( channels == m_channels ) return;
+    if( channels < 1 ) return;
+    
+    bool pauseSim = Simulator::self()->isRunning();
+    if( pauseSim ) Simulator::self()->pauseSim();
+    
+    m_height = channels+2;
+    int origY = -(m_height/2)*8;
+
+    if     ( channels < m_channels ) deleteLatches( m_channels-channels );
+    else if( channels > m_channels ) createLatches( channels-m_channels );
+    
+    for( int i=0; i<channels; i++ )
+    {
+        m_inPin[i]->setPos( QPoint(-24,origY+8+i*8 ) );
+        m_inPin[i]->setLabelPos();
+        m_inPin[i]->isMoved();
+        m_outPin[i]->setPos( QPoint(24,origY+8+i*8 ) ); 
+        m_outPin[i]->setLabelPos();
+        m_outPin[i]->isMoved();
+    }
+    
     m_inputEnPin->setPos( QPoint(-24,origY+8+channels*8 ) );
+    m_inputEnPin->isMoved();
     m_inputEnPin->setLabelPos();
+    
     m_outEnPin->setPos( QPoint(24,origY+8+channels*8) );
+    m_outEnPin->isMoved();
     m_outEnPin->setLabelPos();
+    
+    m_channels = channels;
 
     m_area   = QRect( -(m_width/2)*8, origY, m_width*8, m_height*8 );
+    
+    if( pauseSim ) Simulator::self()->runContinuous();
     Circuit::self()->update();
 }
 

@@ -1605,14 +1605,6 @@ Do you want to save your changes?
 <context>
     <name>MainWindow</name>
     <message>
-        <source>About Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Circuit simulationand IDE for mcu development</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Components</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2135,11 +2127,11 @@ to DomDocument</source>
 <context>
     <name>Switch</name>
     <message>
-        <source>Switch</source>
+        <source>Switches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Switches</source>
+        <source>Switch (all)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2189,17 +2181,6 @@ to DomDocument</source>
     </message>
     <message>
         <source>Other</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ToggleSwitch</name>
-    <message>
-        <source>Toggle Switch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Switches</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

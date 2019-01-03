@@ -107,6 +107,7 @@ class MAINMODULE_EXPORT eLogicDevice : public eElement
         void setOut( int num, bool out );
         
         bool getInputState( int input );
+        bool getOutputState( int output );
 
         double m_inputHighV;
         double m_inputLowV;

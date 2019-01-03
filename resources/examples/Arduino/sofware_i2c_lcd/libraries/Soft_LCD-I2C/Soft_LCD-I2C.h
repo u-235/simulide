@@ -2,7 +2,7 @@
 #ifndef Soft_Lcd_I2C_h
 #define Soft_Lcd_I2C_h
 
-#include "SoftI2C.h"
+#include "softI2C.h"
 #include <inttypes.h>
 #include "Print.h" 
 //#include <Wire.h>
@@ -55,7 +55,8 @@
 
 class Soft_Lcd_I2C : public Print {
 public:
-  Soft_Lcd_I2C(uint8_t lcd_Addr,uint8_t lcd_cols,uint8_t lcd_rows);
+  Soft_Lcd_I2C(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows, int Sda, int Scl);
+  //Soft_Lcd_I2C(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows, int Sda, int Scl);
   void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS );
   void clear();
   void home();
@@ -95,6 +96,10 @@ void cursor_off();      					// alias for noCursor()
 void setBacklight(uint8_t new_val);				// alias for backlight() and nobacklight()
 void load_custom_character(uint8_t char_num, uint8_t *rows);	// alias for createChar()
 void printstr(const char[]);
+
+//!! addd
+void printbytes(const char c[], uint16_t n_bytes);
+
 
 ////Unsupported API functions (not implemented in this library)
 uint8_t status();

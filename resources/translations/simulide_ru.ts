@@ -1414,7 +1414,7 @@ Do you want to save your changes?
     </message>
     <message>
         <source> Function:</source>
-        <translation type="unfinished"></translation>
+        <translation> методика:</translation>
     </message>
 </context>
 <context>
@@ -1631,14 +1631,6 @@ Do you want to save your changes?
 </context>
 <context>
     <name>MainWindow</name>
-    <message>
-        <source>About Application</source>
-        <translation>О программе</translation>
-    </message>
-    <message>
-        <source>Circuit simulationand IDE for mcu development</source>
-        <translation>Среда симуляции для разработки микроконтроллерных схем</translation>
-    </message>
     <message>
         <source>Components</source>
         <translation>Компоненты</translation>
@@ -2173,12 +2165,12 @@ to DomDocument</source>
 <context>
     <name>Switch</name>
     <message>
-        <source>Switch</source>
-        <translation>Переключатель</translation>
-    </message>
-    <message>
         <source>Switches</source>
         <translation>Переключатели</translation>
+    </message>
+    <message>
+        <source>Switch (all)</source>
+        <translation>Переключатели (все)</translation>
     </message>
 </context>
 <context>
@@ -2196,11 +2188,11 @@ to DomDocument</source>
     <name>TerminalWidget</name>
     <message>
         <source>Send Text:</source>
-        <translation type="unfinished"></translation>
+        <translation>Текст:</translation>
     </message>
     <message>
         <source>    Send Value:</source>
-        <translation type="unfinished"></translation>
+        <translation>    Значение:</translation>
     </message>
     <message>
         <source>    Print:</source>
@@ -2208,7 +2200,7 @@ to DomDocument</source>
     </message>
     <message>
         <source> Value </source>
-        <translation type="unfinished">Значение</translation>
+        <translation>Значение</translation>
     </message>
     <message>
         <source>Received From Micro:</source>
@@ -2228,17 +2220,6 @@ to DomDocument</source>
     <message>
         <source>Other</source>
         <translation>Другое</translation>
-    </message>
-</context>
-<context>
-    <name>ToggleSwitch</name>
-    <message>
-        <source>Toggle Switch</source>
-        <translation>Тумблер</translation>
-    </message>
-    <message>
-        <source>Switches</source>
-        <translation>Переключатели</translation>
     </message>
 </context>
 <context>

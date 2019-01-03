@@ -39,6 +39,8 @@ class MAINMODULE_EXPORT Pin : public QObject, public QGraphicsItem, public ePin
         int type() const { return Type; }
 
         QString itemID();
+        
+        void setUnused( bool unused );
 
         void setLength( int length );
 
@@ -81,6 +83,7 @@ class MAINMODULE_EXPORT Pin : public QObject, public QGraphicsItem, public ePin
 
         bool m_blocked;
         bool m_isBus;
+        bool m_unused;
 
         QString m_id;
 

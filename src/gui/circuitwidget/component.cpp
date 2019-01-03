@@ -95,19 +95,22 @@ void Component::mousePressEvent( QGraphicsSceneMouseEvent* event )
     if( event->button() == Qt::LeftButton )
     {
         event->accept();
-
-        if( !isSelected() )     // Deselecciona los demas
+        if( event->modifiers() == Qt::ControlModifier ) setSelected( !isSelected() );
+        else
         {
-            QList<QGraphicsItem*> itemlist = Circuit::self()->selectedItems();
+            if( !isSelected() )     // Deselecciona los demas
+            {
+                QList<QGraphicsItem*> itemlist = Circuit::self()->selectedItems();
 
-            foreach( QGraphicsItem* item, itemlist ) item->setSelected( false );
+                foreach( QGraphicsItem* item, itemlist ) item->setSelected( false );
 
-            setSelected( true );
+                setSelected( true );
+            }
+            QPropertyEditorWidget::self()->setObject( this );
+            //PropertiesWidget::self()->setHelpText( m_help );
+            
+            setCursor( Qt::ClosedHandCursor );
         }
-        QPropertyEditorWidget::self()->setObject( this );
-        //PropertiesWidget::self()->setHelpText( m_help );
-        
-        setCursor( Qt::ClosedHandCursor );
     }
 }
 
@@ -134,7 +137,7 @@ void Component::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 
     QList<QGraphicsItem*> itemlist = Circuit::self()->selectedItems();
     if( !itemlist.isEmpty() )
-    {//qDebug() << "\n\nComponent::mouseMoveEvent Lines";
+    {
         if( !m_moving )
         {
             Circuit::self()->saveState();
@@ -143,10 +146,12 @@ void Component::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
         foreach( QGraphicsItem* item, itemlist )
         {
             ConnectorLine* line =  qgraphicsitem_cast<ConnectorLine* >( item );
-            if( line->objectName() == "" )  
+            if( line->objectName() == "" ) 
             {
-                line->moveSimple( delta ); //qDebug () <<line->objectName();
+                //line->move( delta );
+                line->moveSimple( delta );
             }
+
         }
         foreach( QGraphicsItem* item, itemlist )
         {

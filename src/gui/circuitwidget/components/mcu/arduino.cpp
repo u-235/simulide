@@ -77,7 +77,7 @@ Arduino::Arduino( QObject* parent, QString type, QString id )
     {
         qDebug() <<"     ..."<<m_id<<"Error!!!\n";
     }
-    setTransformOriginPoint( boundingRect().center() );
+    setTransformOriginPoint( togrid( boundingRect().center()) );
 }
 Arduino::~Arduino() 
 {

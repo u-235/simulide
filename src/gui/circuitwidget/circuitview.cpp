@@ -171,6 +171,7 @@ void CircuitView::mouseReleaseEvent( QMouseEvent* event )
         QGraphicsView::mouseReleaseEvent( event );
         //viewport()->setCursor( Qt::ArrowCursor );
     }
+    viewport()->setCursor( Qt::ArrowCursor );
     setDragMode( QGraphicsView::RubberBandDrag );
 }
 

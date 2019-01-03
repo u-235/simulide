@@ -49,15 +49,35 @@ void eFunction::setVChanged()
     for( int i=0; i<m_numInputs; i++ )
         m_engine.globalObject().setProperty( "i"+QString::number(i), QScriptValue( eLogicDevice::getInputState( i )) );
 
-    
+    for( int i=0; i<m_numOutputs; i++ )
+        m_engine.globalObject().setProperty( "o"+QString::number(i), QScriptValue( eLogicDevice::getOutputState( i )) );
+        
+    for( int i=0; i<m_numInputs; i++ )
+        m_engine.globalObject().setProperty( "vi"+QString::number(i), QScriptValue( m_input[i]->getEpin()->getVolt()) );
+
+    for( int i=0; i<m_numOutputs; i++ )
+        m_engine.globalObject().setProperty( "vo"+QString::number(i), QScriptValue( m_output[i]->getEpin()->getVolt()) );
+        
     for( int i=0; i<m_numOutputs; i++ )
     {
         if( i >= m_numOutputs ) break;
-        QString text = m_funcList.at(i);
-            
-        bool out = m_engine.evaluate( text ).toBool();
+        QString text = m_funcList.at(i).toLower();
         
-        eLogicDevice::setOut( i, out );
+        //qDebug() << "eFunction::setVChanged()"<<text<<m_engine.evaluate( text ).toString();
+            
+        if( text.startsWith( "vo" ) )
+        {
+            float out = m_engine.evaluate( text ).toNumber();
+            m_output[i]->setVoltHigh( out );
+            eLogicDevice::setOut( i, true );
+            
+        }
+        else
+        {
+            bool out = m_engine.evaluate( text ).toBool();
+            
+            eLogicDevice::setOut( i, out );
+        }
 
         //qDebug()<<"Func:"<< i << text; //textLabel->setText(text);
         //qDebug() << ":" << out;

@@ -55,6 +55,7 @@ Lm555::Lm555( QObject* parent, QString type, QString id )
     newId.append(QString("-ePin0"));
     m_pin[0] = new Pin( 180, QPoint(-8, 8*1), newId, 0, this );
     m_pin[0]->setLabelText( "Gnd" );
+    m_pin[0]->setUnused( true );
     m_ePin[0] = m_pin[0];
     
     newId = id;
@@ -108,6 +109,7 @@ Lm555::Lm555( QObject* parent, QString type, QString id )
     newId.append(QString("ePin7"));
     m_pin[7] = new Pin( 0, QPoint(4*8+8, 8*1), newId, 7, this );
     m_pin[7]->setLabelText( "Vcc" );
+    m_pin[7]->setUnused( true );
     m_ePin[7] = m_pin[7];
     
 }
