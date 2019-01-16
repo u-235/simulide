@@ -309,6 +309,13 @@ void Circuit::loadCircuit( QString &fileName )
         foreach( Component* comp, m_compList ) removeComp( comp ); // Clean Nodes
     }
     else m_graphicView->centerOn( QPointF( 1200+itemsBoundingRect().center().x(), 950+itemsBoundingRect().center().y() ) );
+    
+    foreach( Component* comp, *(conList()) )
+    {
+        Connector* con = static_cast<Connector*>( comp );
+        con->startPin()->isMoved();
+        con->endPin()->isMoved();
+    }
 }
 
 QString Circuit::getCompId( QString name )
@@ -507,7 +514,10 @@ void Circuit::loadDomDoc( QDomDocument* doc )
                 
                 Component* item = 0l;
                 
+                if( (type == "InBus")||( type == "OutBus") ) type = "Bus";
+                
                 if( type == "ToggleSwitch" ) item = createItem( "Switch", id );
+                
                 else                         item = createItem( type, id );
                 
                 if( item )
@@ -1122,6 +1132,11 @@ void Circuit::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
     if( m_con_started )
     {
         event->accept();
+        
+        if(event->modifiers() & Qt::ShiftModifier)
+        {
+            new_connector->m_freeLine = true;
+        }
         new_connector->updateConRoute( 0l, event->scenePos() );
     }
     QGraphicsScene::mouseMoveEvent(event);

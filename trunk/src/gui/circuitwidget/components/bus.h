@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by santiago González                               *
+ *   Copyright (C) 2018 by santiago González                               *
  *   santigoro@gmail.com                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,52 +17,33 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef EMOSFET_H
-#define EMOSFET_H
+#ifndef BUS_H
+#define BUS_H
 
-#include "e-resistor.h"
+#include "itemlibrary.h"
+#include "logiccomponent.h"
+#include "e-bus.h"
 
-class eSource;
-
-class MAINMODULE_EXPORT eMosfet : public eResistor
+class MAINMODULE_EXPORT Bus : public LogicComponent, public eBus
 {
+    Q_OBJECT
+    //Q_PROPERTY( double Input_High_V READ inputHighV WRITE setInputHighV DESIGNABLE true USER true )
+    //Q_PROPERTY( double Input_Low_V  READ inputLowV  WRITE setInputLowV  DESIGNABLE true USER true )
+    //Q_PROPERTY( double Input_Imped  READ inputImp   WRITE setInputImp   DESIGNABLE true USER true )
+    Q_PROPERTY( int    Num_Bits     READ numInps    WRITE setNumInps    DESIGNABLE true USER true )
+
     public:
+        Bus( QObject* parent, QString type, QString id );
+        ~Bus();
 
-        eMosfet( std::string id );
-        ~eMosfet();
+        static Component* construct( QObject* parent, QString type, QString id );
+        static LibraryItem *libraryItem();
+        
+        virtual void setNumInps( int inputs );
 
-        void initialize();
-        virtual void setVChanged();
-        
-        virtual bool pChannel();
-        virtual void setPchannel( bool pc );
-        
-        virtual bool depletion();
-        virtual void setDepletion( bool dep );
-        
-        virtual double RDSon();
-        virtual void  setRDSon( double rdson );
-        
-        virtual double threshold();
-        virtual void  setThreshold( double th );
-        
-        virtual ePin* getEpin( QString pinName );
-        virtual void initEpins();
+        virtual void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
         
     protected:
-        double m_accuracy;
-        double m_lastCurrent;
-        double m_threshold;
-        double m_kRDSon;
-        double m_RDSon;
-        double m_gateV;
-        double m_Gth;
-        double m_Vs;
-
-        bool m_Pchannel;
-        bool m_depletion;
-        bool m_Sfollow;
-        bool m_converged;
 };
 
 #endif

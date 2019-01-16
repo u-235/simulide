@@ -73,7 +73,7 @@ void ADC::setNumOuts( int outs )
 
     for( int i=0; i<outs; i++ )
     {
-        QString num = QString::number(i);
+        QString num = QString::number(outs-i-1);
         m_outPin[i] = new Pin( 0, QPoint(24,-8*outs+i*8+8 ), m_id+"-out"+num, i, this );
 
         m_outPin[i]->setLabelText( "D"+num+" " );

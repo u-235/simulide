@@ -70,3 +70,4 @@ class MAINMODULE_EXPORT eSource : public eElement
         eNode* m_scrEnode;
 };
 #endif
+

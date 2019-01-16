@@ -22,7 +22,8 @@
 #include "e-source.h"
 #include "simulator.h"
 
-eSource::eSource( std::string id, ePin* epin ) : eElement( id )
+eSource::eSource( std::string id, ePin* epin )
+       : eElement( id )
 {
     m_ePin.resize(1);
     m_ePin[0] = epin;
@@ -97,6 +98,8 @@ void eSource::setOut( bool out )           // Set Output to Hight or Low
 
     if( m_out ) m_voltOut = m_voltHigh;
     else        m_voltOut = m_voltLow;
+    
+    //qDebug() << "eSource::setOut"<<QString::fromStdString(m_elmId)<<m_voltOut;
 }
 bool  eSource::out() { return m_out; }
 
@@ -106,7 +109,12 @@ void eSource::setInverted( bool inverted )
 
     m_inverted = inverted;
     m_ePin[0]->setInverted( inverted );
-    setOut( m_out );
+    
+    m_out = !m_out;
+    if( m_out ) m_voltOut = m_voltHigh;
+    else        m_voltOut = m_voltLow;
+    
+    stampOutput();
 }
 bool eSource::isInverted() { return m_inverted; }
 
@@ -132,5 +140,8 @@ ePin* eSource::getEpin( QString pinName )
 
 double eSource::getVolt()
 {
-    return m_ePin[0]->getVolt();
+    //qDebug() << "eSource::getVolt()"<<QString::fromStdString(m_elmId)<< m_ePin[0]->isConnected() <<m_voltOut;
+    
+    if( m_ePin[0]->isConnected() ) return m_ePin[0]->getVolt();
+    else                           return m_voltOut;
 }

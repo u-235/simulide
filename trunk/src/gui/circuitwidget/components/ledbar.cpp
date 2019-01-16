@@ -51,11 +51,12 @@ LedBar::~LedBar(){}
 
 void LedBar::createLeds( int c )
 {
+    bool initialized = m_size > 0;
     int start = m_size;
     m_size = m_size+c;
     m_led.resize( m_size );
     m_pin.resize( m_size*2 );
-
+    
     for( int i=start; i<m_size; i++ )
     {
         int index = i*2;
@@ -82,6 +83,15 @@ void LedBar::createLeds( int c )
         pin = new Pin( 0, pinpos, ledid+"-pinN", 0, this);
         m_led[i]->setEpin( 1, pin );
         m_pin[index+1] = pin;
+        
+        if( initialized ) 
+        {
+            m_led[i]->setGrounded( grounded() );
+            m_led[i]->setRes( res() );
+            m_led[i]->setMaxCurrent( maxCurrent() ); 
+            m_led[i]->setThreshold( threshold() );
+            m_led[i]->setColor( color() ); 
+        }
     }
     //update();
 }
@@ -90,6 +100,11 @@ void LedBar::deleteLeds( int d )
 {
     if( d > m_size ) d = m_size;
     int start = m_size-d;
+    
+    if( grounded() )
+    {
+        for( int i=start; i<m_size; i++ ) m_led[i]->setGrounded( false );
+    }
 
     for( int i=start*2; i<m_size*2; i++ )
     {
@@ -167,6 +182,7 @@ void LedBar::setRes( double resist )
 
 bool LedBar::grounded()
 {
+    if( m_size == 0 ) return false;
     return m_led[0]->grounded();
 }
 

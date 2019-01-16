@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by santiago González                               *
+ *   Copyright (C) 2018 by santiago González                               *
  *   santigoro@gmail.com                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,52 +17,34 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef EMOSFET_H
-#define EMOSFET_H
+#ifndef EBUS_H
+#define EBUS_H
 
-#include "e-resistor.h"
+#include "e-logic_device.h"
 
-class eSource;
-
-class MAINMODULE_EXPORT eMosfet : public eResistor
+class MAINMODULE_EXPORT eBus : public eLogicDevice
 {
     public:
 
-        eMosfet( std::string id );
-        ~eMosfet();
+        eBus( std::string id  );
+        ~eBus();
 
-        void initialize();
+        double maxVolt()               { return m_maxVolt; }
+        void setMaxVolt( double volt ) { m_maxVolt = volt; }
+
+        double maxAddr()               { return m_maxAddr; }
+        void setMaxAddr( double volt ) { m_maxAddr = volt; }
+
+        virtual void initialize();
         virtual void setVChanged();
-        
-        virtual bool pChannel();
-        virtual void setPchannel( bool pc );
-        
-        virtual bool depletion();
-        virtual void setDepletion( bool dep );
-        
-        virtual double RDSon();
-        virtual void  setRDSon( double rdson );
-        
-        virtual double threshold();
-        virtual void  setThreshold( double th );
-        
-        virtual ePin* getEpin( QString pinName );
-        virtual void initEpins();
-        
+                             
     protected:
-        double m_accuracy;
-        double m_lastCurrent;
+        double m_maxVolt;
+        double m_maxAddr;
         double m_threshold;
-        double m_kRDSon;
-        double m_RDSon;
-        double m_gateV;
-        double m_Gth;
-        double m_Vs;
-
-        bool m_Pchannel;
-        bool m_depletion;
-        bool m_Sfollow;
-        bool m_converged;
+        
+        bool m_driving;
 };
+
 
 #endif

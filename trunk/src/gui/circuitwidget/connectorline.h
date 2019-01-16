@@ -28,67 +28,73 @@ class MAINMODULE_EXPORT ConnectorLine : public QGraphicsObject
 {
     Q_OBJECT
 
-public:
-    ConnectorLine( int x1, int y1, int x2, int y2, Connector*  connector );
-    ~ConnectorLine();
+    public:
+        ConnectorLine( int x1, int y1, int x2, int y2, Connector*  connector );
+        ~ConnectorLine();
 
-    virtual QRectF boundingRect() const;
+        virtual QRectF boundingRect() const;
 
-    void setConnector( Connector* con );
-    Connector* connector();
-    
-    void setPrevLine( ConnectorLine* prevLine );
-    void setNextLine( ConnectorLine* nextLine );
+        void setConnector( Connector* con );
+        Connector* connector();
+        
+        void setPrevLine( ConnectorLine* prevLine );
+        void setNextLine( ConnectorLine* nextLine );
 
-    void setP1( QPoint );
-    void setP2( QPoint );
+        void setP1( QPoint );
+        void setP2( QPoint );
 
-    QPoint p1();
-    QPoint p2();
+        QPoint p1();
+        QPoint p2();
 
-    int dx();
-    int dy();
+        int dx();
+        int dy();
+        
+        bool isDiagonal();
 
-    void move( QPointF delta );
-    void moveLine( QPoint delta );
-    void moveSimple( QPointF delta );
+        void move( QPointF delta );
+        void moveLine( QPoint delta );
+        void moveSimple( QPointF delta );
 
-    void updatePos();
-    void updateLines();
-    void updatePrev();
-    void updateNext();
-    
-    void setIsBus( bool bus );
+        void updatePos();
+        void updateLines();
+        void updatePrev();
+        void updateNext();
+        
+        void setIsBus( bool bus );
 
-    void mousePressEvent( QGraphicsSceneMouseEvent* event );
-    void mouseMoveEvent( QGraphicsSceneMouseEvent* event );
-    void mouseReleaseEvent( QGraphicsSceneMouseEvent* event );
+        void mousePressEvent( QGraphicsSceneMouseEvent* event );
+        void mouseMoveEvent( QGraphicsSceneMouseEvent* event );
+        void mouseReleaseEvent( QGraphicsSceneMouseEvent* event );
 
-    void contextMenuEvent( QGraphicsSceneContextMenuEvent* event );
-    virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget );
+        void contextMenuEvent( QGraphicsSceneContextMenuEvent* event );
+        
+        virtual QPainterPath shape() const;
+        virtual void paint( QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* widget );
 
-signals:
-    //void moved();
-    //void yourP1changed( QPoint );
-    //void yourP2changed( QPoint );
+    signals:
+        //void moved();
+        //void yourP1changed( QPoint );
+        //void yourP2changed( QPoint );
 
-public slots:
-    void sSetP1( QPoint );
-    void sSetP2( QPoint );
-    void remove();
+    public slots:
+        void sSetP1( QPoint );
+        void sSetP2( QPoint );
+        void remove();
 
-private:
-    int myIndex();
-    int m_p1X;
-    int m_p1Y;
-    int m_p2X;
-    int m_p2Y;
-    
-    bool m_isBus;
+    private:
+        int myIndex();
+        int m_p1X;
+        int m_p1Y;
+        int m_p2X;
+        int m_p2Y;
+        
+        bool m_isBus;
+        bool m_moveP1;
+        bool m_moveP2;
 
-    Connector* m_pConnector;
-    ConnectorLine* m_prevLine;
-    ConnectorLine* m_nextLine;
+        Connector* m_pConnector;
+        ConnectorLine* m_prevLine;
+        ConnectorLine* m_nextLine;
 };
 
 #endif

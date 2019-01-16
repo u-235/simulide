@@ -20,20 +20,15 @@
 <!-- *************************************************************************** -->
 
 <itemlib>
-    <tag>QT_TRANSLATE_NOOP("xmlfile","Logic")</tag>
     
-    <itemset category="Logic" type="">
-        <item name="IC CD"  package=""  subcircuit=""  icon="ic2.png" ></item>
+    <itemset category="Logic" type="Subcircuit">
+        <item name="Keys"  package=""  subcircuit=""  icon="ic2.png" ></item>
     </itemset>
     
-    <itemset category="Logic/IC CD" type="Subcircuit">
+    <itemset category="Logic/Keys" type="Subcircuit">
 
-    <item name="CD4510"  package="icCD/CD4510.package"  subcircuit="icCD/CD4510.subcircuit" ></item>
-    <item name="CD4511"  package="icCD/CD4511.package"  subcircuit="icCD/CD4511.subcircuit" ></item>
-    <item name="CD4555"  package="icCD/CD4555.package"  subcircuit="icCD/CD4555.subcircuit" ></item>
-    <item name="CD4556"  package="icCD/CD4556.package"  subcircuit="icCD/CD4556.subcircuit" ></item>
-
+    <item name="8Nchkey"  package="keys/8Nchkey.package"  subcircuit="keys/8Nchkey.subcircuit" ></item>
+    
     </itemset>
 
 </itemlib>
-

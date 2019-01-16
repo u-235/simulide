@@ -97,6 +97,8 @@ class MAINMODULE_EXPORT Simulator : public QObject
         void remFromMcuList( BaseProcessor* proc );
 
         void timerEvent( QTimerEvent* e );
+        
+        uint64_t stepsPerSec;
 
     signals:
         void pauseDebug();

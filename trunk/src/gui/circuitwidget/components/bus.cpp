@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by santiago González                               *
+ *   Copyright (C) 2018 by santiago González                               *
  *   santigoro@gmail.com                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,66 +17,102 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "dac.h"
+#include "connector.h"
+#include "circuit.h"
+#include "bus.h"
 
-Component* DAC::construct( QObject* parent, QString type, QString id )
+Component* Bus::construct( QObject* parent, QString type, QString id )
 {
-        return new DAC( parent, type, id );
+        return new Bus( parent, type, id );
 }
 
-LibraryItem* DAC::libraryItem()
+LibraryItem* Bus::libraryItem()
 {
     return new LibraryItem(
-        tr( "DAC" ),
+        tr( "Bus" ),
         tr( "Logic/Other Logic" ),
-        "3to1.png",
-        "DAC",
-        DAC::construct );
+        "outbus.png",
+        "Bus",
+        Bus::construct );
 }
 
-DAC::DAC( QObject* parent, QString type, QString id )
+Bus::Bus( QObject* parent, QString type, QString id )
    : LogicComponent( parent, type, id )
-   , eOutBus( id.toStdString() )
+   , eBus( id.toStdString() )
 {    
-    m_width  = 4;
-    m_height = 9;
+    m_width  = 1;
+    m_height = 8;
 
     setNumInps( 8 );                           // Create Input Pins
-    setMaxVolt( 5 );
 
     LogicComponent::setNumOuts( 1 );
     
-    m_outPin[0] = new Pin( 0, QPoint( 24, -8 ), m_id+"-out", 1, this );
-    m_outPin[0] ->setLabelText( "Out " );
-    m_outPin[0] ->setLabelColor( QColor( 0, 0, 0 ) );
+    m_outPin[0] = new Pin( 0, QPoint( 8, 0 ), m_id+"-out", 1, this );
                           
     eLogicDevice::createOutput( m_outPin[0] );
+    
+    m_outPin[0]->setIsBus( true );
 }
-DAC::~DAC(){
+Bus::~Bus(){
 }
 
-void DAC::setNumInps( int inputs )
+void Bus::setNumInps( int inputs )
 {
     if( inputs == m_numInputs ) return;
     if( inputs < 1 ) return;
 
-    LogicComponent::setNumInps( inputs );
     eLogicDevice::deleteInputs( m_numInputs );
-
+    LogicComponent::setNumInps( inputs );
+    
     for( int i=0; i<inputs; i++ )
     {
-        QString num = QString::number( inputs-i-1 );
-        m_inPin[i] = new Pin( 180, QPoint(-24,-8*inputs+i*8+8 ), m_id+"-in"+num, i, this );
+        m_inPin[i] = new Pin( 180, QPoint(-8,-8*inputs+i*8+8 )
+                               , m_id+"-in"+QString::number(i), i, this );
 
-        m_inPin[i]->setLabelText( "D"+num+" " );
-        m_inPin[i]->setLabelColor( QColor( 0, 0, 0 ) );
+        //m_inPin[i]->setLength( 2 );
+        //m_inPin[i]->setFlag( QGraphicsItem::ItemStacksBehindParent, false );
 
         eLogicDevice::createInput( m_inPin[i] );
     }
     m_maxAddr = pow( 2, m_numInputs )-1;
+    m_maxVolt = m_maxAddr;
 
-    m_height = inputs+1;
-    m_area = QRect( -(m_width/2)*8, -m_height*8+8, m_width*8, m_height*8 );
+    m_height = inputs-1;
+    m_area = QRect( -2, -m_height*8-4, 4, m_height*8+8 );
 }
 
-#include "moc_dac.cpp"
+void Bus::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )
+{
+    Component::paint( p, option, widget );
+
+    
+    if( Circuit::self()->animate() )
+    {
+        QPen pen = p->pen();
+
+        if( m_driving )
+        {
+            pen.setColor( QColor( 200, 50, 50 ) );
+            p->setPen(pen);
+            p->drawLine( 7, 0, 3, 3 );
+            p->drawLine( 7, 0, 3,-3 );
+        }
+        else
+        {
+            pen.setColor( QColor( 50, 50, 200 ) );
+            p->setPen(pen);
+            p->drawLine( 1, 0, 5, 3 );
+            p->drawLine( 1, 0, 5,-3 );
+        }
+        pen.setColor( Qt::black );
+        p->setPen(pen);
+    }
+
+    QPen pen = p->pen();
+    pen.setWidth(3);
+    p->setPen(pen);
+
+    p->drawRect( QRect( 0, -m_height*8, 0, m_height*8 ) );
+}
+
+#include "moc_bus.cpp"

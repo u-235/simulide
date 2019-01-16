@@ -96,8 +96,8 @@ void Chip::initChip()
         QDomElement element = node.toElement();
         if( element.tagName() == "pin" )
         {
-            QString label = element.attribute( "label" );
             QString type  = element.attribute( "type" );
+            QString label = element.attribute( "label" );
             QString id    = element.attribute( "id" );
             QString side  = element.attribute( "side" );
             int     pos   = element.attribute( "pos" ).toInt();
@@ -144,6 +144,11 @@ void Chip::addPin( QString id, QString type, QString label, int pos, int xpos, i
     
     if     ( type == "inverted" ) pin->setInverted( true );
     else if( type == "unused" )   pin->setUnused( true );
+    else if( type == "null" )
+    {
+        pin->setVisible( false );
+        pin->setLabelText( "" );
+    }
     
     if( !m_isChip ) pin->setLabelColor( QColor( 0, 0, 0 ) );
 
