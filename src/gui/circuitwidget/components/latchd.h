@@ -35,6 +35,7 @@ class MAINMODULE_EXPORT LatchD : public LogicComponent, public eLatchD
     Q_PROPERTY( double Out_Imped    READ outImp     WRITE setOutImp     DESIGNABLE true USER true )
     Q_PROPERTY( int    Channels     READ channels   WRITE setChannels   DESIGNABLE true USER true )
     Q_PROPERTY( bool   Tristate     READ tristate   WRITE setTristate   DESIGNABLE true USER true )
+    Q_PROPERTY( bool   Inverted     READ inverted   WRITE setInverted   DESIGNABLE true USER true )
 
     public:
         LatchD( QObject* parent, QString type, QString id );

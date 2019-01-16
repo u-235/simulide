@@ -88,11 +88,14 @@ void eGate::setVChanged()
     if( m_openCol ) 
     {
         double imp = m_outImp;
-        if( out ) imp = high_imp;
+        bool oOut = out;
+        if( m_output[0]->isInverted() ) oOut = !out;
+        if( oOut || !eLogicDevice::outputEnabled() ) imp = high_imp;
         
         m_output[0]->setImp( imp );
     }
-    else eLogicDevice::setOut( 0, out );// In each gate type
+    
+    eLogicDevice::setOut( 0, out );// In each gate type
 }
 
 bool eGate::calcOutput( int inputs ) 

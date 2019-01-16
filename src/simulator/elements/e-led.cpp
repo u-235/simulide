@@ -83,7 +83,7 @@ void eLed::updateBright()
     }
     updateVI();
     
-    if( m_lastUpdatePeriod > Simulator::self()->simuRate()/50 )
+    if( m_lastUpdatePeriod > Simulator::self()->stepsPerSec/50 )
     {
         m_disp_brightness = m_avg_brightness/m_lastUpdatePeriod;
         

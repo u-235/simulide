@@ -95,7 +95,7 @@ void Simulator::timerEvent( QTimerEvent* e )  //update at m_timerTick rate (50 m
 
     if( deltaRefTime >= 1e9 )          // We want steps per Sec = 1e9 ns
     {
-        uint64_t stepsPerSec = (m_step-m_lastStep)*1e9/deltaRefTime;
+        stepsPerSec = (m_step-m_lastStep)*1e9/deltaRefTime;
         CircuitWidget::self()->setRate( (stepsPerSec*100)/m_simuRate );
         m_lastStep    = m_step;
         m_lastRefTime = refTime;

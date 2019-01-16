@@ -43,6 +43,7 @@ LedMatrix::LedMatrix( QObject* parent, QString type, QString id )
     m_rows = 8;
     m_cols = 8;
     m_color = QColor(0,0,0);
+    m_verticalPins = false;
     createMatrix();
 }
 LedMatrix::~LedMatrix(){}
@@ -81,7 +82,8 @@ void LedMatrix::setupMatrix( int rows, int cols )
 
 void LedMatrix::createMatrix()
 {
-    m_area = QRect( -8, -8, m_cols*8+8, m_rows*8+8 );
+    if( m_verticalPins ) m_area = QRect( -4, -8, m_cols*8, m_rows*8+8 );
+    else                 m_area = QRect( -8, -8, m_cols*8+8, m_rows*8+8 );
     
     m_led.resize( m_rows, std::vector<LedSmd*>(m_cols) );
     m_rowPin.resize( m_rows );
@@ -91,8 +93,20 @@ void LedMatrix::createMatrix()
     {
         QString pinId = m_id;
         pinId.append( QString("-pinRow"+QString::number(row)));
-        QPoint nodpos = QPoint(-16, row*8 );
-        m_rowPin[row] = new Pin( 180, nodpos, pinId, 0, this);
+        QPoint nodpos;
+        int angle;
+        if( m_verticalPins ) 
+        {
+            nodpos = QPoint( row*8, -16 );
+            angle = 90;
+        }
+        else 
+        {
+            nodpos = QPoint(-16, row*8 );
+            angle = 180;
+        }
+
+        m_rowPin[row] = new Pin( angle, nodpos, pinId, 0, this);
         
         for( int col=0; col<m_cols; col++ )
         {
@@ -176,6 +190,40 @@ void LedMatrix::setCols( int cols )
 {
     if( cols == m_cols ) return;
     setupMatrix( m_rows, cols );
+}
+
+bool LedMatrix::verticalPins()
+{
+    return m_verticalPins;
+}
+
+void LedMatrix::setVerticalPins( bool v )
+{
+    if( v == m_verticalPins ) return;
+    m_verticalPins = v;
+    
+    if( v )
+    {
+        for( int i=0; i<m_rows; i++ ) 
+        {
+            m_rowPin[i]->setPos( i*8, -16 );
+            m_rowPin[i]->setRotation( 90 );
+        }
+    }
+    else
+    {
+        for( int i=0; i<m_rows; i++ )
+        {
+            m_rowPin[i]->setPos( -16, i*8 );
+            m_rowPin[i]->setRotation( 0 );
+        }
+    }
+    for( int i=0; i<m_rows; i++ ) m_rowPin[i]->isMoved();
+    
+    if( m_verticalPins ) m_area = QRect( -4, -8, m_cols*8, m_rows*8+8 );
+    else                 m_area = QRect( -8, -8, m_cols*8+8, m_rows*8+8 );
+    
+    update();
 }
 
 double LedMatrix::threshold()                     

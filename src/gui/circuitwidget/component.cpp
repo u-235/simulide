@@ -173,7 +173,7 @@ void Component::mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 void Component::move( QPointF delta )
 {
     setPos( pos() + delta );
-    emit moved();
+    //emit moved();
 }
 
 void Component::mouseReleaseEvent( QGraphicsSceneMouseEvent* event )

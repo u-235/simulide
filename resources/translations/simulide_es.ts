@@ -622,6 +622,17 @@
     </message>
 </context>
 <context>
+    <name>Bus</name>
+    <message>
+        <source>Bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logic/Other Logic</source>
+        <translation type="unfinished">Logica/Otros (Logica)</translation>
+    </message>
+</context>
+<context>
     <name>Capacitor</name>
     <message>
         <source>Capacitor</source>

@@ -32,6 +32,7 @@
 #include "bincounter.h"
 #include "bjt.h"
 #include "buffer.h"
+#include "bus.h"
 #include "capacitor.h"
 #include "clock.h"
 #include "currsource.h"
@@ -52,7 +53,7 @@
 #include "hd44780.h"
 #include "i2cram.h"
 #include "i2ctoparallel.h"
-#include "inbus.h"
+//#include "inbus.h"
 #include "inductor.h"
 #include "keypad.h"
 #include "ks0108.h"
@@ -67,7 +68,7 @@
 #include "mux.h"
 #include "op_amp.h"
 #include "oscope.h"
-#include "outbus.h"
+//#include "outbus.h"
 #include "piccomponent.h"
 #include "pcd8544.h"
 #include "probe.h"
@@ -182,8 +183,9 @@ void ItemLibrary::loadItems()
     addItem( BcdTo7S::libraryItem() );
     addItem( ADC::libraryItem() );
     addItem( DAC::libraryItem() );
-    addItem( OutBus::libraryItem() );
-    addItem( InBus::libraryItem() );
+    addItem( Bus::libraryItem() );
+//    addItem( OutBus::libraryItem() );
+//    addItem( InBus::libraryItem() );
     addItem( Ram8bit::libraryItem() );
     addItem( I2CRam::libraryItem() );
     addItem( I2CToParallel::libraryItem() );

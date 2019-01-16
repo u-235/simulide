@@ -31,6 +31,7 @@ class MAINMODULE_EXPORT LedMatrix : public Component, public eElement
     Q_PROPERTY( LedBase::LedColor Color READ color WRITE setColor     DESIGNABLE true USER true )
     Q_PROPERTY( int    Rows       READ rows       WRITE setRows       DESIGNABLE true USER true )
     Q_PROPERTY( int    Cols       READ cols       WRITE setCols       DESIGNABLE true USER true )
+    Q_PROPERTY( bool Vertical_Pins READ verticalPins    WRITE setVerticalPins DESIGNABLE true USER true )
     Q_PROPERTY( double Threshold  READ threshold  WRITE setThreshold  DESIGNABLE true USER true )
     Q_PROPERTY( double MaxCurrent READ maxCurrent WRITE setMaxCurrent DESIGNABLE true USER true )
     Q_PROPERTY( double Resistance READ res        WRITE setRes        DESIGNABLE true USER true )
@@ -50,6 +51,9 @@ class MAINMODULE_EXPORT LedMatrix : public Component, public eElement
         
         int  cols();
         void setCols( int cols );
+        
+        bool verticalPins();
+        void setVerticalPins( bool v );
         
         double threshold();
         void   setThreshold( double threshold );
@@ -75,6 +79,8 @@ class MAINMODULE_EXPORT LedMatrix : public Component, public eElement
         std::vector<std::vector<LedSmd*>> m_led;
         std::vector<Pin*>    m_rowPin;
         std::vector<Pin*>    m_colPin;
+        
+        bool m_verticalPins;
         
         int m_rows;
         int m_cols;

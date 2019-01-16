@@ -35,6 +35,7 @@
 #include "e-capacitor.h"
 #include "e-dectobcd.h"
 #include "e-demux.h"
+#include "e-diode.h"
 #include "e-flipflopd.h"
 #include "e-flipflopjk.h"
 #include "e-fulladder.h"
@@ -213,7 +214,15 @@ void SubCircuit::initSubcircuit()
 
             if     ( type == "eResistor" )  ecomponent = new eResistor( id.toStdString() );
             else if( type == "eCapacitor" ) ecomponent = new eCapacitor( id.toStdString() );
-            else if( type == "eDiode" )     ecomponent = new eDiode( id.toStdString() );
+            else if( type == "eDiode" )     
+            {
+                eDiode* ediode = new eDiode( id.toStdString() );
+                if( element.hasAttribute("threshold") )
+                {
+                    ediode->setThreshold( element.attribute( "threshold" ).toDouble() );
+                }
+                ecomponent = ediode;
+            }
             else if( type == "eAndGate" )
             {
                 int numInputs = 2;
@@ -266,7 +275,7 @@ void SubCircuit::initSubcircuit()
                 if( element.hasAttribute("channels") ) channels = element.attribute( "channels" ).toInt();
                 eLatchD* elatchd = new eLatchD( id.toStdString() );
                 elatchd->setNumChannels( channels );
-                elatchd->createInEnablePin();
+                //elatchd->createInEnablePin();
                 ecomponent = elatchd;
             }
             else if( type == "eBinCounter" )
@@ -397,7 +406,7 @@ void SubCircuit::initSubcircuit()
                 emosfet->setRDSon( rDSon );
                 if( element.hasAttribute("pChannel") )
                 {
-                    if( element.attribute( "pChannel" ) == "true" ) emosfet->setPchannel( true );
+                    if( element.attribute( "pChannel" ) == "true" ) emosfet->setPchannel( true ); 
                 }
                 if( element.hasAttribute("Depletion") )
                 {
@@ -416,7 +425,7 @@ void SubCircuit::initSubcircuit()
                 ebjt->setGain( gain );
                 if( element.hasAttribute("pNP") )
                 {
-                    if( element.attribute( "pNP" ) == "true" ) ebjt->setPnp( true );
+                    if( element.attribute( "pNP" ) == "true" ) { ebjt->setPnp( true ); }
                 }
                 ecomponent = ebjt;
             }
@@ -462,11 +471,6 @@ void SubCircuit::initSubcircuit()
                 {
                     eLed* eled = static_cast<eLed*>(ecomponent);
                     eled->setMaxCurrent( element.attribute( "maxcurrent" ).toDouble() );
-                }
-                if( element.hasAttribute("threshold") )
-                {
-                    eDiode* ediode = static_cast<eDiode*>(ecomponent);
-                    ediode->setThreshold( element.attribute( "threshold" ).toDouble() );
                 }
                 if( element.hasAttribute("capacitance") )
                 {
