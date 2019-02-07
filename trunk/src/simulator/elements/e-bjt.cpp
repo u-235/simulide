@@ -105,7 +105,7 @@ void eBJT::setVChanged()
     double voltC = m_ePin[0]->getVolt();
     double voltE = m_ePin[1]->getVolt();
     double voltB = m_ePin[2]->getVolt();
-    
+    //qDebug()<<voltC<<voltE<<voltB;
     if( m_PNP )
     {
         voltCE = voltE-voltC;
@@ -187,6 +187,20 @@ void eBJT::setVChanged()
 }
 
 double eBJT::BEthr() {return m_BEthr;}
+
+void eBJT::initEpins()
+{
+    setNumEpins(3); 
+}
+
+ePin* eBJT::getEpin( QString pinName )
+{
+    ePin* pin = 0l;
+    if     ( pinName == "collector") pin = m_ePin[0];
+    else if( pinName == "emiter")    pin = m_ePin[1];
+    else if( pinName == "base")      pin = m_ePin[2];
+    return pin;
+}
 
 void eBJT::setBEthr( double thr )
 {

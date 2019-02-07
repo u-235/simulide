@@ -42,15 +42,18 @@ class MAINMODULE_EXPORT eBJT : public eResistor
         virtual double pnp()              {return m_PNP;}
         virtual void setPnp( double pnp ) {m_PNP = pnp;}
         
+        virtual ePin* getEpin( QString pinName );
+        virtual void initEpins();
+        
     protected:
         double m_accuracy;
         double m_lastOut;
         double m_baseCurr;
         double m_voltE;
         double m_BEthr;
-        bool m_Efollow;
         
         int m_gain;
+        bool m_Efollow;
         
         bool m_PNP;
         

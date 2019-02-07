@@ -271,6 +271,7 @@ void SevenSegment::deleteDisplay( int dispNumber )
 {
     Pin* pin = static_cast<Pin*>(m_commonPin[dispNumber]);
     if( pin->isConnected() ) pin->connector()->remove();
+    pin->reset();
     delete pin;
 
     for( int i=0; i<8; i++ ) Circuit::self()->removeComp( m_segment[dispNumber*8+i] );

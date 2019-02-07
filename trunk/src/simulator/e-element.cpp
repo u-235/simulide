@@ -27,6 +27,7 @@ eElement::eElement( std::string id )
     m_elmId = id;
 
     Simulator::self()->addToElementList( this );
+    //qDebug() << "eElement::eElement" << QString::fromStdString( m_elmId );
 }
 eElement::~eElement()
 {

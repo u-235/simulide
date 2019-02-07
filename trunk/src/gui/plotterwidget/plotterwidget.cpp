@@ -19,6 +19,7 @@
 
 #include "plotterwidget.h"
 #include "renderarea.h"
+#include "mainwindow.h"
 
 PlotterWidget* PlotterWidget::m_pSelf = 0l;
 
@@ -225,7 +226,7 @@ void PlotterWidget::setupWidget()
     m_verticalLayout->setObjectName( "verticalLayout");
 
     QFont font;
-    font.setPixelSize(14);
+    font.setPixelSize( 14*MainWindow::self()->fontScale() );
 
     for( int i=0; i<4; i++ )    // Create volt Labels
     {

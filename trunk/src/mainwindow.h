@@ -47,6 +47,9 @@ class MAINMODULE_EXPORT MainWindow : public QMainWindow
         
         void setTitle( QString title );
         
+        double fontScale() { return m_fontScale; }
+        void setFontScale( double scale ) { m_fontScale = scale; }
+        
         QTabWidget*  m_sidepanel;
         QWidget*     m_ramTabWidget;
         QGridLayout* m_ramTabWidgetLayout;
@@ -70,6 +73,8 @@ class MAINMODULE_EXPORT MainWindow : public QMainWindow
         void createToolBars();
         void writeSettings();
         void applyStile();
+        
+        float m_fontScale;
         
         QSettings m_settings;
         

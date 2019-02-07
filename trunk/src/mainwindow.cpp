@@ -48,6 +48,12 @@ MainWindow::MainWindow()
 
     if( !pluginsDir.exists() ) pluginsDir.mkpath( userAddonPath );
 
+    m_fontScale = 1.0;
+    if( m_settings.contains( "fontScale" ) ) 
+    {
+        m_fontScale = m_settings.value( "fontScale" ).toFloat();
+        if( m_fontScale == 0 ) m_fontScale = 1;
+    }
     createWidgets();
     readSettings();
     
@@ -74,6 +80,7 @@ void MainWindow::readSettings()
 
 void MainWindow::writeSettings()
 {
+    m_settings.setValue( "fontScale", m_fontScale );
     m_settings.setValue( "geometry", saveGeometry() );
     m_settings.setValue( "windowState", saveState() );
     m_settings.setValue( "Centralsplitter/geometry", m_Centralsplitter->saveState() );

@@ -202,7 +202,7 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
         catItem = new QTreeWidgetItem(0);
         catItem->setFlags( QFlag(32) );
         QFont font = catItem->font(0);
-        font.setPixelSize(13);
+        font.setPixelSize( 13*MainWindow::self()->fontScale() );
         font.setWeight(75);
 
         if( isRootCat )                              // Is Main Category
@@ -245,8 +245,9 @@ void ComponentSelector::addItem( const QString &name, const QString &_category, 
 
     QTreeWidgetItem* item =  new QTreeWidgetItem(0);
     QFont font = item->font(0);
-    if( type == "" ) font.setPixelSize( 13 );
-    else             font.setPixelSize(11);
+    
+    if( type == "" ) font.setPixelSize( 13*MainWindow::self()->fontScale() );
+    else             font.setPixelSize( 11*MainWindow::self()->fontScale() );
     font.setWeight( QFont::Bold );
     
     item->setFont( 0, font );

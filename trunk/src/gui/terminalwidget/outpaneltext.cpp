@@ -20,6 +20,7 @@
 #include <QtGui>
 
 #include "outpaneltext.h"
+#include "mainwindow.h"
 
 
 OutPanelText::OutPanelText( QWidget *parent ) 
@@ -38,7 +39,7 @@ OutPanelText::OutPanelText( QWidget *parent )
     QFont font;
     font.setFamily("Monospace");
     font.setFixedPitch(true);
-    font.setPixelSize(12);
+    font.setPixelSize( 12*MainWindow::self()->fontScale() );
     setFont(font);
 }
 OutPanelText::~OutPanelText(){}

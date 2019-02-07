@@ -275,7 +275,13 @@ void SubCircuit::initSubcircuit()
                 if( element.hasAttribute("channels") ) channels = element.attribute( "channels" ).toInt();
                 eLatchD* elatchd = new eLatchD( id.toStdString() );
                 elatchd->setNumChannels( channels );
-                //elatchd->createInEnablePin();
+                
+                if( element.hasAttribute("trigger") )
+                {
+                    int t = element.attribute( "trigger" ).toInt();
+                    if     ( t == 1 ) elatchd->createClockPin();
+                    else if( t == 2 ) elatchd->createInEnablePin();
+                }
                 ecomponent = elatchd;
             }
             else if( type == "eBinCounter" )
@@ -492,15 +498,15 @@ void SubCircuit::initSubcircuit()
                     eLogicDevice* elogicdevice = static_cast<eLogicDevice*>(ecomponent);
                     elogicdevice->setOutLowV( element.attribute( "outLowV" ).toDouble() );
                 }
-                if( element.hasAttribute("inputImp") )
+                if( element.hasAttribute("inputImped") )
                 {
                     eLogicDevice* elogicdevice = static_cast<eLogicDevice*>(ecomponent);
-                    elogicdevice->setInputImp( element.attribute( "inputImp" ).toDouble() );
+                    elogicdevice->setInputImp( element.attribute( "inputImped" ).toDouble() );
                 }
-                if( element.hasAttribute("outImp") )
+                if( element.hasAttribute("outImped") )
                 {
                     eLogicDevice* elogicdevice = static_cast<eLogicDevice*>(ecomponent);
-                    elogicdevice->setOutImp( element.attribute( "outImp" ).toDouble() );
+                    elogicdevice->setOutImp( element.attribute( "outImped" ).toDouble() );
                 }
                 if( element.hasAttribute("tristate") )
                 {
@@ -510,9 +516,9 @@ void SubCircuit::initSubcircuit()
                         elogicdevice->createOutEnablePin();
                     }
                 }
-                if( element.hasAttribute("open_Collector") )
+                if( element.hasAttribute("openCollector") )
                 {
-                    if( element.attribute( "open_Collector" ) == "true" )
+                    if( element.attribute( "openCollector" ) == "true" )
                     {
                         eGate* egate = static_cast<eGate*>(ecomponent);
                         egate->setOpenCol( true );
@@ -583,7 +589,7 @@ void SubCircuit::initSubcircuit()
                     if( epin ) connectEpin( epin, pins.last() );   // Connect points (ePin to Pin or eNode)
                     else 
                     {
-                        qDebug() << "SubCircuit::initSubcircuit Error connecting:" << pin << pins.last();
+                        qDebug() << "SubCircuit::initSubcircuit Pin Doesn't Exist:" << pin;
                         m_error = 31;
                         return;
                     }
@@ -606,7 +612,7 @@ void SubCircuit::connectEpin( ePin* epin, QString connetTo )
     {
         int eNodeNum = connetTo.remove("eNode").toInt();
         epin->setEnode( m_internal_eNode.at(eNodeNum) );
-        //qDebug() << "SubCircuit::connectEpin to eNode " << connetTo << eNodeNum;
+        //qDebug() << "SubCircuit::connectEpin to eNode "<< QString::fromStdString( epin->getId() ) << connetTo << eNodeNum;
     }
     else if( connetTo.startsWith("packagePin") )
     {
@@ -638,7 +644,12 @@ void SubCircuit::initialize()
                 }
             }
         }
-        foreach( ePin* epin, m_pinConections[i] ) epin->setEnode(enod);
+        //qDebug() << "\nSubCircuit::initialize() Pin"<< i;//<< QString::fromStdString( m_ePin[i]->getId() );
+        foreach( ePin* epin, m_pinConections[i] ) 
+        {
+            //qDebug() << "SubCircuit::initialize()"<< QString::fromStdString( epin->getId() )<<enod;
+            epin->setEnode(enod);
+        }
     }
 }
 

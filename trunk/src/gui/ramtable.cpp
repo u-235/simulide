@@ -19,6 +19,7 @@
 
 #include "ramtable.h"
 #include "baseprocessor.h"
+#include "mainwindow.h"
 #include "utils.h"
 
 RamTable::RamTable( BaseProcessor *processor )
@@ -48,7 +49,7 @@ RamTable::RamTable( BaseProcessor *processor )
         }
         QFont font = item( 0, 0 )->font();
         font.setBold(true);
-        font.setPixelSize(12);
+        font.setPixelSize( 12*MainWindow::self()->fontScale() );
         for( int col=0; col<3; col++ ) item( row, col )->setFont( font );
         
         item( row, 1 )->setText("---");
