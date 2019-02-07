@@ -17,6 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <sstream>
+
 #include "latchd.h"
 #include "circuit.h"
 #include "pin.h"
@@ -45,17 +47,24 @@ LatchD::LatchD( QObject* parent, QString type, QString id )
     m_height = 10;
     
     m_tristate = true;
-
+    
     m_inputEnPin = new Pin( 180, QPoint( 0,0 ), m_id+"-Pin-inputEnable", 0, this );
     m_inputEnPin->setLabelText( " IE" );
     m_inputEnPin->setLabelColor( QColor( 0, 0, 0 ) );
+    
+    std::stringstream ssesource;
+    ssesource << m_elmId << "-eSource-inputEnable";
+    m_inEnSource = new eSource( ssesource.str(), m_inputEnPin );
+    m_inEnSource->setImp( m_inputImp );
     
     m_outEnPin   = new Pin(   0, QPoint( 0,0 ), m_id+"-Pin-outEnable"  , 0, this );
     m_outEnPin->setLabelText( "OE " );
     m_outEnPin->setLabelColor( QColor( 0, 0, 0 ) );
 
-    eLogicDevice::createInEnablePin( m_inputEnPin );     // Input Enable
+    //eLogicDevice::createInEnablePin( m_inputEnPin );     // Input Enable
     eLogicDevice::createOutEnablePin( m_outEnPin );     // Output Enable
+    
+    setTrigger( InEnable );
 
     m_channels = 0;
     setChannels( 8 );
@@ -149,6 +158,60 @@ void LatchD::setTristate( bool t )
     m_outEnPin->setVisible( t );
     m_tristate = t;
     eLogicDevice::updateOutEnabled();
+}
+
+void LatchD::setTrigger( Trigger trigger )
+{
+    if( trigger == m_trigger ) return;
+    
+    bool pauseSim = Simulator::self()->isRunning();
+    if( pauseSim ) Simulator::self()->pauseSim();
+    
+    m_trigger = trigger;
+    
+    if( trigger == None )
+    {
+        if( m_inputEnPin->isConnected() )m_inputEnPin->connector()->remove();
+        m_inputEnPin->reset();
+        m_inputEnPin->setLabelText( "" );
+        m_inputEnPin->setVisible( false );
+        
+        eLogicDevice::m_clockPin = 0l;
+        eLogicDevice::m_inEnablePin = 0l;
+        
+        eLogicDevice::m_inEnable = false;
+        eLogicDevice::m_clock = false;
+    }
+    else if( trigger == Clock )
+    {
+        std::stringstream sspin;
+        sspin << m_elmId << "-ePin-clock";
+        m_inputEnPin->setId( sspin.str() );
+        m_inputEnPin->setLabelText( ">" );
+        m_inputEnPin->setVisible( true );
+        
+        eLogicDevice::m_inEnablePin = 0l;
+        eLogicDevice::m_clockPin = m_inEnSource;
+        
+        eLogicDevice::m_inEnable = false;
+        eLogicDevice::m_clock = false;
+    }
+    else if( trigger == InEnable )
+    {
+        std::stringstream sspin;
+        sspin << m_elmId << "-ePin-inputEnable";
+        m_inputEnPin->setId( sspin.str() );
+        m_inputEnPin->setLabelText( " IE" );
+        m_inputEnPin->setVisible( true );
+        
+        eLogicDevice::m_clockPin = 0l;
+        eLogicDevice::m_inEnablePin = m_inEnSource;
+        qDebug() << eLogicDevice::m_inEnablePin;
+        eLogicDevice::m_inEnable = false;
+        eLogicDevice::m_clock = false;
+    }
+    if( pauseSim ) Simulator::self()->runContinuous();
+    Circuit::self()->update();
 }
 
 void LatchD::remove()

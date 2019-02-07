@@ -36,10 +36,18 @@ class MAINMODULE_EXPORT LatchD : public LogicComponent, public eLatchD
     Q_PROPERTY( int    Channels     READ channels   WRITE setChannels   DESIGNABLE true USER true )
     Q_PROPERTY( bool   Tristate     READ tristate   WRITE setTristate   DESIGNABLE true USER true )
     Q_PROPERTY( bool   Inverted     READ inverted   WRITE setInverted   DESIGNABLE true USER true )
+    Q_PROPERTY( Trigger Trigger     READ trigger    WRITE setTrigger    DESIGNABLE true USER true )
+    Q_ENUMS( Trigger )
 
     public:
         LatchD( QObject* parent, QString type, QString id );
         ~LatchD();
+        
+        enum Trigger {
+            None = 0,
+            Clock,
+            InEnable
+        };
 
         static Component* construct( QObject* parent, QString type, QString id );
         static LibraryItem *libraryItem();
@@ -50,6 +58,9 @@ class MAINMODULE_EXPORT LatchD : public LogicComponent, public eLatchD
         bool tristate() { return m_tristate; }
         void setTristate( bool t );
         
+        Trigger trigger() { return m_trigger; }
+        void setTrigger( Trigger trigger );
+        
     public slots:
         virtual void remove();
         
@@ -57,12 +68,16 @@ class MAINMODULE_EXPORT LatchD : public LogicComponent, public eLatchD
         void createLatches( int n );
         void deleteLatches( int n );
         
+        eSource* m_inEnSource;
+        
         Pin* m_inputEnPin;
         Pin* m_outEnPin;
         
         int m_channels;
         
         bool m_tristate;
+        
+        Trigger m_trigger;
 };
 
 #endif

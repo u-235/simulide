@@ -405,6 +405,8 @@ void Component::setUnit( QString un )
     m_valLabel->setPlainText( QString::number(m_value)+m_mult+m_unit );
 }
 
+double Component::getmultValue() { return m_value*m_unitMult; }
+
 bool Component::showId()               { return m_showId; }
 void Component::setShowId( bool show ) 
 { 

@@ -40,6 +40,7 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
     Q_PROPERTY( bool Draw_Grid        READ drawGrid   WRITE setDrawGrid   DESIGNABLE true USER true )
     Q_PROPERTY( bool Show_ScrollBars  READ showScroll WRITE setShowScroll DESIGNABLE true USER true )
     Q_PROPERTY( bool Animate          READ animate    WRITE setAnimate    DESIGNABLE true USER true )
+    Q_PROPERTY( double Font_Scale     READ fontScale  WRITE setFontScale  DESIGNABLE true USER true )
 
     public:
         Circuit( qreal x, qreal y, qreal width, qreal height, QGraphicsView*  parent );
@@ -67,6 +68,9 @@ class MAINMODULE_EXPORT Circuit : public QGraphicsScene
         
         bool animate();
         void setAnimate( bool an );
+        
+        double fontScale();
+        void   setFontScale( double scale );
         
         void removeItems();
         void removeComp( Component* comp );

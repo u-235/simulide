@@ -103,6 +103,8 @@ class MAINMODULE_EXPORT Component : public QObject, public QGraphicsItem
         
         void updateLabel( Label* label, QString txt );
         
+        double getmultValue();
+        
         //QString getHelp( QString file );
         
         void setPrintable( bool p );

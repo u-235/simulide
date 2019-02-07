@@ -232,6 +232,16 @@ void Circuit::setAnimate( bool an )
     update();
 }
 
+double Circuit::fontScale() 
+{ 
+    return MainWindow::self()->fontScale(); 
+}
+
+void Circuit::setFontScale( double scale )
+{ 
+    MainWindow::self()->setFontScale( scale ); 
+}
+
 void Circuit::drawBackground ( QPainter*  painter, const QRectF & rect )
 {
     Q_UNUSED( rect );
@@ -484,8 +494,8 @@ void Circuit::loadDomDoc( QDomDocument* doc )
                 }
                 else // Start or End pin not found
                 {
-                    if( !startpin ) qDebug() << "\n   ERROR!!  Circuit::loadCircuit:  null startpin in " << id << startpinid;
-                    if( !endpin )   qDebug() << "\n   ERROR!!  Circuit::loadCircuit:  null endpin in " << id << endpinid;
+                    if( !startpin ) qDebug() << "\n   ERROR!!  Circuit::loadCircuit:  null startpin in " << itemId << startpinid;
+                    if( !endpin )   qDebug() << "\n   ERROR!!  Circuit::loadCircuit:  null endpin in "   << itemId << endpinid;
                     m_error = 1;
                 }
             }
@@ -907,12 +917,24 @@ void Circuit::createSubcircuit()
             {
                 QString name = property.name();
                 
-                if( !name.contains( "Show" ) )
+                if( !name.contains( "Show" ) 
+                 && !name.contains( "Unit" ) )
                 {
-                    const char* charname = property.name();
+                    QString propName = property.name();
+                    QString valString = "";
+                    
+                    if( propName == "Resistance" )
+                    {
+                        valString = QString::number( component->getmultValue() );
+                    }
+                    else
+                    {
+                        const char* charname = property.name();
 
-                    QVariant value = component->property(charname);
-                    QString valString = value.toString();
+                        QVariant value = component->property( charname );
+                        valString = value.toString();
+                    }
+                    
                     if( name == "Functions" ) valString = valString.replace("&", "&amp;");
                     if( name == "id") compId = valString;
                     else
