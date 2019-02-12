@@ -36,6 +36,7 @@ PushBase::~PushBase()
 void PushBase::onbuttonPressed()
 {
     m_closed = true;
+    if( m_nClose ) m_closed = !m_closed;
     m_changed = true;
     update();
 }
@@ -43,6 +44,7 @@ void PushBase::onbuttonPressed()
 void PushBase::onbuttonReleased()
 {
     m_closed = false;
+    if( m_nClose ) m_closed = !m_closed;
     m_button->setChecked(false);
     m_changed = true;
     update();

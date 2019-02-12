@@ -40,6 +40,8 @@ class RamTable : public QTableWidget
 
     public slots:
         void updateValues();
+        void clearSelected();
+        void clearTable();
         void loadVarSet();
         void saveVarSet();
 

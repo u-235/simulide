@@ -27,6 +27,7 @@ class LibraryItem;
 class MAINMODULE_EXPORT Push : public PushBase
 {
     Q_OBJECT
+    Q_PROPERTY( bool Norm_Close READ nClose WRITE setNClose  DESIGNABLE true USER true )
     
     public:
     

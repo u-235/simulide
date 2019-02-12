@@ -38,7 +38,7 @@ MainWindow::MainWindow()
     setWindowIcon( QIcon(":/simulide.png") );
     m_pSelf   = this;
     m_circuit = 0l;
-    m_version = "SimulIDE-"+QString(APP_VERSION);
+    m_version = "SimulIDE-"+QString( APP_VERSION );
     
     this->setWindowTitle(m_version);
 
@@ -54,6 +54,12 @@ MainWindow::MainWindow()
         m_fontScale = m_settings.value( "fontScale" ).toFloat();
         if( m_fontScale == 0 ) m_fontScale = 1;
     }
+    else
+    {
+        double dpiX = qApp->desktop()->logicalDpiX();
+        m_fontScale = dpiX/96.0;
+    }
+    //qDebug()<<dpiX;
     createWidgets();
     readSettings();
     
@@ -123,6 +129,9 @@ void MainWindow::createWidgets()
     m_sidepanel = new QTabWidget( this );
     m_sidepanel->setObjectName("sidepanel");
     m_sidepanel->setTabPosition( QTabWidget::West );
+    //QString fontSize = QString::number( int(12*m_fontScale) );
+    //qDebug()<<fontSize;
+    //m_sidepanel->setStyleSheet("QTabBar::tab { font-size:"+fontSize+"px; }");
     m_Centralsplitter->addWidget( m_sidepanel );
 
     m_components = new ComponentSelector( m_sidepanel );

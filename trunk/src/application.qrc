@@ -28,6 +28,7 @@
         <file alias="compile.png">../src/icons/mainwindow/verify.png</file>
         <file alias="setroot.png">../src/icons/mainwindow/verify.png</file>
         
+        <file alias="finish.png">../src/icons/mainwindow/finish.png</file>
         <file alias="step.png">../src/icons/mainwindow/step.png</file>
         <file alias="stepover.png">../src/icons/mainwindow/stepover.png</file>
         <file alias="play.png">../src/icons/mainwindow/play.png</file>

@@ -40,7 +40,7 @@ void Chip::initChip()
     if( !file.open(QFile::ReadOnly | QFile::Text) )
     {
         MessageBoxNB( "Chip::initChip",
-                  tr("Cannot read file:\n%1:\n%2.").arg(m_dataFile).arg(file.errorString()) );
+                  tr( "Cannot read file:\n%1:\n%2." ).arg(m_dataFile).arg(file.errorString()) );
           m_error = 1;
           return;
     }
@@ -49,7 +49,7 @@ void Chip::initChip()
     if( !domDoc.setContent(&file) )
     {
          MessageBoxNB( "Chip::initChip",
-                   tr("Cannot set file:\n%1\nto DomDocument") .arg(m_dataFile));
+                   tr( "Cannot set file:\n%1\nto DomDocument" ) .arg(m_dataFile));
          file.close();
          m_error = 2;
          return;
@@ -61,7 +61,7 @@ void Chip::initChip()
     if( root.tagName()!="package" )
     {
         MessageBoxNB( "Chip::initChip",
-                  tr("Error reading Chip file:\n%1\nNo valid Chip") .arg(m_dataFile));
+                  tr( "Error reading Chip file:\n%1\nNo valid Chip" ) .arg(m_dataFile));
         m_error = 3;
         return;
     }
