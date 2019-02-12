@@ -123,9 +123,11 @@ void BaseProcessor::updateRamValue( QString name )
     QByteArray ba;
     ba.resize(4);
     int address = getRegAddress( name );
+    int bits = 8;
     
     if( type.contains( "32" ) )    // 4 bytes
     {
+        bits = 32;
         ba[0] = getRamValue( address );
         ba[1] = getRamValue( address+1 );
         ba[2] = getRamValue( address+2 );
@@ -133,6 +135,7 @@ void BaseProcessor::updateRamValue( QString name )
     }
     else if( type.contains( "16" ) )  // 2 bytes
     {
+        bits = 16;
         ba[0] = getRamValue( address );
         ba[1] = getRamValue( address+1 );
         ba[2] = 0;
@@ -161,7 +164,30 @@ void BaseProcessor::updateRamValue( QString name )
             memcpy(&val, ba, 4);
             value = val;
         }
-        else memcpy(&value, ba, 4);
+        else 
+        {
+            if( bits == 32 )
+            {
+                int32_t val = 0;
+                memcpy(&val, ba, 4);
+                
+                value = val;
+            }
+            if( bits == 16 )
+            {
+                int16_t val = 0;
+                memcpy(&val, ba, 2);
+                
+                value = val;
+            }
+            else
+            {
+                int8_t val = 0;
+                memcpy(&val, ba, 1);
+                
+                value = val;
+            }
+        }
 
         m_ramTable->setItemValue( 1, value  );
         

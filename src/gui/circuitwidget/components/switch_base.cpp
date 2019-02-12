@@ -30,6 +30,7 @@ SwitchBase::SwitchBase( QObject* parent, QString type, QString id )
 
     m_changed = true;
     m_closed = false;
+    m_nClose = false;
 
     m_idLabel->setPos(-12,-24);
 
@@ -78,6 +79,28 @@ void SwitchBase::updateStep()
 
         //update();
     }
+}
+
+void SwitchBase::onbuttonclicked()
+{
+    m_closed = false;
+    if( m_button->isChecked() ) m_closed = true;
+    if( m_nClose )              m_closed = !m_closed;
+    m_changed = true;
+    
+    update();
+}
+
+bool SwitchBase::nClose() const
+{
+    return m_nClose;
+}
+
+void SwitchBase::setNClose( bool nc )
+{
+    m_nClose = nc;
+    onbuttonclicked();
+    //setSwitch( m_nClose );
 }
 
 void SwitchBase::setButtonText( QString text )

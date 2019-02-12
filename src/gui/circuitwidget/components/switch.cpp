@@ -19,9 +19,9 @@
 
 #include "switch.h"
 #include "itemlibrary.h"
-#include "pin.h"
+#include "simulator.h"
 #include "e-node.h"
-
+#include "pin.h"
 
 Component* Switch::construct( QObject* parent, QString type, QString id )
 { return new Switch( parent, type, id ); }
@@ -57,8 +57,6 @@ Switch::Switch( QObject* parent, QString type, QString id )
     
     m_numthrows = 0;
     m_numPoles = 0;
-    m_nClose = false;
-    m_closed = false;
     
     SetupSwitches( 1, 1 );
     
@@ -68,16 +66,6 @@ Switch::Switch( QObject* parent, QString type, QString id )
              this,     SLOT  ( onbuttonclicked() ));
 }
 Switch::~Switch(){}
-
-void Switch::onbuttonclicked()
-{
-    m_closed = false;
-    if( m_button->isChecked() ) m_closed = true;
-    if( m_nClose )              m_closed = !m_closed;
-    m_changed = true;
-    
-    update();
-}
 
 void Switch::initialize()
 {//qDebug() << "Switch::initialize:"<<m_numPoles<<;
@@ -134,6 +122,9 @@ void Switch::setSwitch( bool closed )
 
 void Switch::SetupSwitches( int poles, int throws )
 {
+    bool pauseSim = Simulator::self()->isRunning();
+    if( pauseSim )  Simulator::self()->pauseSim();
+    
     m_area = QRectF( -13,-16*poles, 26, 16*poles );
 
     for( uint i=0; i<m_switches.size(); i++ )
@@ -216,6 +207,8 @@ void Switch::SetupSwitches( int poles, int throws )
 
     //foreach( Pin* pin, m_pin )
     //    pin->setFlag( QGraphicsItem::ItemStacksBehindParent, false ); // draw Pins on top
+    
+    if( pauseSim ) Simulator::self()->runContinuous();
 }
 
 int Switch::poles() const
@@ -239,18 +232,6 @@ void Switch::setDt( bool dt )
 
     if( throws != m_numthrows )
         SetupSwitches( m_numPoles, throws );
-}
-
-bool Switch::nClose() const
-{
-    return m_nClose;
-}
-
-void Switch::setNClose( bool nc )
-{
-    m_nClose = nc;
-    onbuttonclicked();
-    //setSwitch( m_nClose );
 }
 
 void Switch::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget )

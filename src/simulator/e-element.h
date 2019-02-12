@@ -21,8 +21,11 @@
 #define EELEMENT_H
 
 #include <string>
-#include "e-pin.h"
+#include <math.h>
 #include <QPointer>
+
+#include "e-pin.h"
+
 
 // The following provides compatibility with gcc compiler v5 and up
 // (i.e. c++11 standard complience)

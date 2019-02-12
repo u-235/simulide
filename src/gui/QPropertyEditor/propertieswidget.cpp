@@ -22,8 +22,8 @@
 
 PropertiesWidget* PropertiesWidget::m_pSelf = 0l;
 
-PropertiesWidget::PropertiesWidget( QWidget *parent ) :
-    QWidget( parent )
+PropertiesWidget::PropertiesWidget( QWidget *parent ) 
+                :QWidget( parent )
 {
     m_pSelf   = this;
     

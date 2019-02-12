@@ -76,7 +76,11 @@ AudioOut::AudioOut( QObject* parent, QString type, QString id )
     int sampleRate    = 40000; // samples/S
     
     m_deviceinfo = QAudioDeviceInfo::defaultOutputDevice(); 
-
+    if( m_deviceinfo.isNull() ) 
+    {
+        qDebug() <<"No defaulf Audio Output Device Found" ;
+        return;
+    }
     m_format.setSampleRate( sampleRate );  
     m_format.setChannelCount(1);
     m_format.setSampleSize(8);
@@ -111,6 +115,8 @@ AudioOut::~AudioOut(){
 
 void AudioOut::initialize()
 {
+    if( m_deviceinfo.isNull() ) return;
+    
     if( m_ePin[0]->isConnected() && m_ePin[1]->isConnected() )
         Simulator::self()->addToSimuClockList( this );
     
@@ -197,6 +203,12 @@ void AudioOut::paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidg
         };
 
     p->drawPolygon(points, 7);
+    
+    if( m_deviceinfo.isNull() )
+    {
+        p->drawLine(0,-8, 7, 0 );
+        p->drawLine( 7,-8,0, 0 );
+    }
 }
 
 #include "moc_audio_out.cpp"

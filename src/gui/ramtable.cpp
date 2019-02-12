@@ -23,7 +23,7 @@
 #include "utils.h"
 
 RamTable::RamTable( BaseProcessor *processor )
-    : QTableWidget( 40, 3 )
+        : QTableWidget( 40, 3 )
 {
     m_processor = processor;
     m_numRegs = 40;
@@ -70,15 +70,23 @@ RamTable::RamTable( BaseProcessor *processor )
     it->setText( tr("Binary") );
     setHorizontalHeaderItem( 2, it );
     
+    QAction *clearSelected = new QAction( QIcon(":/remove.png"),tr("Clear Selected"), this);
+    connect( clearSelected, SIGNAL(triggered()), this, SLOT(clearSelected()) );
+    
+    QAction *clearTable = new QAction( QIcon(":/remove.png"),tr("Clear Table"), this);
+    connect( clearTable, SIGNAL(triggered()), this, SLOT(clearTable()) );
+    
     QAction *loadVarSet = new QAction( QIcon(":/open.png"),tr("Load VarSet"), this);
     connect( loadVarSet, SIGNAL(triggered()), this, SLOT(loadVarSet()) );
     
     QAction *saveVarSet = new QAction( QIcon(":/save.png"),tr("Save VarSet"), this);
     connect( saveVarSet, SIGNAL(triggered()), this, SLOT(saveVarSet()) );
     
+    horizontalHeader()->addAction( clearSelected );
+    horizontalHeader()->addAction( clearTable );
     horizontalHeader()->addAction( loadVarSet );
     horizontalHeader()->addAction( saveVarSet );
-    horizontalHeader()->setContextMenuPolicy(Qt::ActionsContextMenu);
+    horizontalHeader()->setContextMenuPolicy( Qt::ActionsContextMenu );
 
     m_ramTimer = new QTimer(this);
     connect( m_ramTimer, SIGNAL(timeout()), 
@@ -92,6 +100,16 @@ RamTable::RamTable( BaseProcessor *processor )
     show();
 }
 RamTable::~RamTable(){}
+
+void RamTable::clearSelected()
+{
+    foreach( QTableWidgetItem* item, selectedItems() ) item->setData( 0, "");
+}
+
+void RamTable::clearTable()
+{
+    foreach( QTableWidgetItem* item, findItems( "*", Qt::MatchWildcard)  ) item->setData( 0, "");
+}
 
 void RamTable::loadVarSet()
 {

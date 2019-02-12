@@ -46,26 +46,17 @@ class MAINMODULE_EXPORT Switch : public SwitchBase
         bool dt() const;
         void setDt( bool dt );
         
-        bool nClose() const;
-        void setNClose( bool nc );
-        
         virtual void initialize();
         
         void updateStep();
 
         virtual void paint( QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *widget );
-
-    public slots:
-        void onbuttonclicked();
         
     protected:
         virtual void setSwitch( bool on );
         void  SetupSwitches( int poles, int throws );
         
         std::vector<eResistor*> m_switches;
-
-        bool m_closed;
-        bool m_nClose;
 
         int m_numPoles;
         int m_numthrows;
